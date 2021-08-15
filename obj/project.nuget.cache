@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0KqeejBGu83c4y53w4q3RSh6j9bdSMjvMK3GwACu/WZ2+tOmFmN1m/2fA+7N8sMjhDmCOStwxr0jfA8fvizoKA==",
+  "dgSpecHash": "T1xofUtmjc6HX02oVuDtGguzN0JKzQB0Sh5oGT/XXJAXd/M0o5CDT6wS7352XY6dSRiLW4yaqOp15YWlqATrWA==",
   "success": true,
-  "projectFilePath": "E:\\Users\\Federico\\Desktop\\safety\\Foha.csproj",
+  "projectFilePath": "E:\\Users\\Federico\\Desktop\\foh\\foha\\Foha.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\feder\\.nuget\\packages\\automapper\\7.0.1\\automapper.7.0.1.nupkg.sha512",
     "C:\\Users\\feder\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\5.0.1\\automapper.extensions.microsoft.dependencyinjection.5.0.1.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Users\\Federico\\Desktop\\safety\\Foha.csproj": {}
+    "E:\\Users\\Federico\\Desktop\\foh\\foha\\Foha.csproj": {}
   },
   "projects": {
-    "E:\\Users\\Federico\\Desktop\\safety\\Foha.csproj": {
+    "E:\\Users\\Federico\\Desktop\\foh\\foha\\Foha.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Users\\Federico\\Desktop\\safety\\Foha.csproj",
+        "projectUniqueName": "E:\\Users\\Federico\\Desktop\\foh\\foha\\Foha.csproj",
         "projectName": "Foha",
-        "projectPath": "E:\\Users\\Federico\\Desktop\\safety\\Foha.csproj",
+        "projectPath": "E:\\Users\\Federico\\Desktop\\foh\\foha\\Foha.csproj",
         "packagesPath": "C:\\Users\\feder\\.nuget\\packages\\",
-        "outputPath": "E:\\Users\\Federico\\Desktop\\safety\\obj\\",
+        "outputPath": "E:\\Users\\Federico\\Desktop\\foh\\foha\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
