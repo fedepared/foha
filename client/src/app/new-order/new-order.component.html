@@ -1,0 +1,107 @@
+<mat-card class="titulo" style="margin-bottom:30px;">
+    <mat-card-header>
+        <mat-card-title style="line-height:60px;">Orden de prioridades</mat-card-title>
+    </mat-card-header>
+    <br>
+</mat-card>
+
+<mat-card class="checkbox-container">
+  <!-- <mat-checkbox aria-label="Select All" 
+  [checked]="isChecked()" [indeterminate]="isIndeterminate()" (change)="$event ? toggleAll($event) : null">
+   Seleccionar todos
+ </mat-checkbox> -->
+<!-- </div> -->
+  <mat-card-content *ngFor="let item of mesesTrafo" >
+    <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? toggle(item, $event) : null"
+                    [checked]="exists(item)">
+          <div [ngSwitch]="item.slice(13,15)" style="display:inline;">
+            <p *ngSwitchCase="'1'" style="display:inline;">Ene</p>
+            <p *ngSwitchCase="'2'" style="display:inline;">Feb</p>
+            <p *ngSwitchCase="'3'" style="display:inline;">Mar</p>
+            <p *ngSwitchCase="'4'" style="display:inline;">Abr</p>
+            <p *ngSwitchCase="'5'" style="display:inline;">May</p>
+            <p *ngSwitchCase="'6'" style="display:inline;">Jun</p>
+            <p *ngSwitchCase="'7'" style="display:inline;">Jul</p>
+            <p *ngSwitchCase="'8'" style="display:inline;">Ago</p>
+            <p *ngSwitchCase="'9'" style="display:inline;">Sep</p>
+            <p *ngSwitchCase="'10'" style="display:inline;">Oct</p>
+            <p *ngSwitchCase="'11'" style="display:inline;">Nov</p>
+            <p *ngSwitchCase="'12'" style="display:inline;">Dic</p>
+            <P *ngSwitchCase="'13'" style="display:inline;">Stock</P>
+        </div>
+        &nbsp;  
+        <span style="display:inline;text-align:left">{{item | slice:4:8}}</span>
+    </mat-checkbox>
+  </mat-card-content>
+  <br>
+  <mat-card-actions>
+    <button mat-raised-button style="background-color:cadetblue;color:whitesmoke;" (click)="filter()" matToolTip="filtrar listas">{{isfiltered ? 'Quitar filtros' : 'filtrar'}}</button>
+  </mat-card-actions>
+</mat-card>
+
+
+<div cdkDropListGroup style="display: grid;  grid-template-columns: repeat(4, 1fr);">
+    <div *ngFor="let d of transfoInter; let i=index" style="flex:1 1 auto;margin:20px;">
+        <h3 style="width:40%;display:inline;">
+            <div [ngSwitch]="d.id.slice(13,15)" style="display:inline;">
+              <p *ngSwitchCase="'1'" style="display:inline;">Ene</p>
+              <p *ngSwitchCase="'2'" style="display:inline;">Feb</p>
+              <p *ngSwitchCase="'3'" style="display:inline;">Mar</p>
+              <p *ngSwitchCase="'4'" style="display:inline;">Abr</p>
+              <p *ngSwitchCase="'5'" style="display:inline;">May</p>
+              <p *ngSwitchCase="'6'" style="display:inline;">Jun</p>
+              <p *ngSwitchCase="'7'" style="display:inline;">Jul</p>
+              <p *ngSwitchCase="'8'" style="display:inline;">Ago</p>
+              <p *ngSwitchCase="'9'" style="display:inline;">Sep</p>
+              <p *ngSwitchCase="'10'" style="display:inline;">Oct</p>
+              <p *ngSwitchCase="'11'" style="display:inline;">Nov</p>
+              <p *ngSwitchCase="'12'" style="display:inline;">Dic</p>
+              <P *ngSwitchCase="'13'" style="display:inline;">Stock</P>
+            </div>
+            &nbsp;
+            <span style="display:inline;text-align:left">{{d.id | slice:4:8}}</span>
+          </h3>
+          <span style="text-align: right;">
+            Tot: {{d.lista.length}}
+          </span>
+          <div style="margin:20px">
+            <span style="color:steelblue">OP</span> 
+            &nbsp;<span style="color:tomato">OT</span>
+            &nbsp;<span style="color:brown">Rango</span>
+            &nbsp;<span style="color:teal">Fecha Según OT </span>
+          </div>
+        
+          <app-order-reloaded
+          [items]="d.lista"
+          (itemsRemoved)="itemsRemoved($event, d.id)"
+          (itemsAdded)="itemsAdded($event, d.id)"
+          (itemsUpdated)="itemsUpdated($event, d.id)"
+          (selectionChanged)="selectionChanged($event, transfoInter)"
+          style="display: inline;">
+          <ng-template let-item style="display: inline;">
+            <!-- <span style="color:black;"><strong>{{item.prioridad}}</strong></span> -->
+            <!-- &nbsp;&nbsp;&nbsp;  -->
+            <span style="color:steelblue">{{item.oPe}}</span> 
+             &nbsp;<span style="color:tomato">{{ item.oTe }}</span>
+             &nbsp;<span style="color:brown">{{item.rangoInicio}}</span>
+             &nbsp;<span style="color:teal">{{item.fechaPactada | date:'dd/MM/yyyy'}} </span>
+          </ng-template>
+          </app-order-reloaded>
+        <br/>
+    </div>
+</div>
+<br/>
+
+<div class="float" style="bottom:70px;">
+    <button mat-fab color="primary" (click)="save()" matTooltip="Guardar orden">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+  <div class="float">
+    <button mat-fab color="primary" (click)="addAnioMes()" matTooltip="Agregar período">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  

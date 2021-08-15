@@ -1,0 +1,16 @@
+.example-full-width {
+    width: 60%;
+  }
+
+  table{
+    width:80%;
+  }
+  
+  
+  .titulo{
+    background:darkcyan;
+    box-shadow: inset 1px 4px 7px 0px rgba(59, 58, 58, 0.75);
+    color:whitesmoke;
+    height:60px;
+    padding: 10px;
+  };

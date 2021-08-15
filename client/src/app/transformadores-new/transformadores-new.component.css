@@ -1,0 +1,158 @@
+.search__form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+  .search__form_field {
+    width: 150px;
+    margin: 0 8px 16px 8px;
+  }
+  .search__table {
+    margin: 0 18px 18px 18px;
+  }
+  
+  .error-message{
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    width:70%;
+  }
+  
+  .cdk-program-focused { display: none; }
+  
+  /* table {
+      
+    
+  } */
+
+ 
+  .example-container {
+    height: 70vh;
+    width: 100vw;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  .float{
+      position: fixed;
+      bottom:4vh;
+      right:1px;
+      -webkit-transition: all 2s ease-in-out;
+      transition: all 2s ease-in-out;
+      z-index: 5;
+  }
+  
+  .float button{
+      margin-bottom:3px;
+      background-color:teal;
+      -webkit-box-shadow: 4px 6px 10px -2px rgba(0,0,0,0.75);
+      -moz-box-shadow: 4px 6px 10px -2px rgba(0,0,0,0.75);
+      box-shadow: 4px 6px 10px -2px rgba(0,0,0,0.75);
+  }
+  
+   
+  
+  .mat-flat-button {
+      margin: 5px;
+  }
+  
+  /* button{
+      margin: 10px 2px;
+      
+  } */
+  
+  .editBorr{
+    margin:0;
+    height:30px;
+    width:30px;
+    line-height: 30px;
+  }
+  
+  
+    
+    
+   
+    #filtro{
+      width:100%;
+      display:flex;
+  }
+  
+  
+  .mat-form-field {
+    font-size: 14px;
+    /* width: 3000px; */
+  }
+  
+  
+  
+   
+  .titulo{
+    background:darkcyan;
+    box-shadow: inset 1px 4px 7px 0px rgba(59, 58, 58, 0.75);
+    color:whitesmoke;
+    height:60px;
+    padding: 10px;
+  };
+  
+  .mat-column-select{
+    min-width:30px!important;
+  }
+
+  .mat-column-Accion{
+    min-width:60px;
+  }
+
+  .mat-column-oTe{
+    min-width:50px;
+  }
+  
+ .mat-column-nucleos{
+   /* left:128px!important; */
+   min-width:50px;
+ }
+
+ .mat-column-radPan{
+  /* left:168px!important; */
+  min-width:50px;
+ }
+
+ .mat-column-oPe{
+  /* left:208px!important; */
+  min-width:50px;
+
+ }
+
+ .mat-column-rangoInicio{
+  /* left:248px!important; */
+  min-width:50px;
+}
+
+.mat-column-lote{
+  /* left:288px!important; */
+  min-width:40px;
+}
+
+.mat-column-potencia{
+  /* left:328px!important; */
+  min-width:55px;
+}
+  
+.mat-column-fechaPactada{
+  /* left:368px!important; */
+  min-width:90px;
+}
+
+.mat-column-nombreCli{
+  /* left:408px!important; */
+  min-width:70px;
+}
+
+.mat-column-fechaProd{
+  /* left:448px!important; */
+  min-width:90px;
+}
+
+.mat-column-observaciones{
+  /* left:488px!important; */
+  min-width:70px;
+}

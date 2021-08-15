@@ -1,0 +1,109 @@
+<div class="example-container mat-elevation-z8">
+    
+    <br>
+    <br>
+    <div>
+        <button mat-mini-fab color="warn" (click)="destroy()"><mat-icon>highlight_off</mat-icon></button>
+    </div>
+    <div style="text-align:center;">
+        <mat-form-field id="nuevoEmpleado" appearance="outline" style="width:50%;">
+            <mat-label>Elija el proceso</mat-label>
+                <mat-select (selectionChange)="comboChange()" [formControl]="process">
+                    <mat-option *ngFor="let g of tipoEtapas" [value]="g">
+                        {{encabezadosEtapas(g.idTipoEtapa)}}
+                    </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div *ngIf="trafoProcessList.length!==0" style="text-align:center;">
+        <h3 id="encabezado">Transformadores elegidos:</h3>
+    </div>
+    <div style="display:grid;grid-template-columns: repeat(2, 1fr);grid-gap: 10px;" >
+        <div *ngFor="let trafoSelected of trafoProcessList">
+            <mat-card>
+                <div>
+                    <button mat-button [ngStyle]="{'background-color': trafoSelected.etapa[0].idColorNavigation!=null  ? trafoSelected.etapa[0].idColorNavigation.codigoColor : 'steelblue'  }" [matTooltip]="trafoSelected.etapa[0].idColorNavigation != null ? trafoSelected.etapa[0].idColorNavigation.leyenda : ' ' ">OT:{{trafoSelected.oTe}}</button>
+                    <button mat-button [ngStyle]="{'background-color': trafoSelected.etapa[0].idColorNavigation!=null  ? trafoSelected.etapa[0].idColorNavigation.codigoColor : 'steelblue'  }" [matTooltip]="trafoSelected.etapa[0].idColorNavigation != null ? trafoSelected.etapa[0].idColorNavigation.leyenda : ' ' ">OP:{{trafoSelected.oPe}}</button>
+                    <button mat-button [ngStyle]="{'background-color': trafoSelected.etapa[0].idColorNavigation!=null  ? trafoSelected.etapa[0].idColorNavigation.codigoColor : 'steelblue'  }" [matTooltip]="trafoSelected.etapa[0].idColorNavigation != null ? trafoSelected.etapa[0].idColorNavigation.leyenda : ' ' ">Rango: {{trafoSelected.rangoInicio}}</button>
+                </div>
+                <div>
+                </div>
+                <br>
+                <br>
+                <mat-card-content>
+                    <div *ngIf="trafoProcessList.length!==0" style="display:grid;grid-template-columns: repeat(3, 1fr);grid-gap: 10px;">
+                            <h4 id="encabezado">Nº de referencia:</h4>
+                            <span *ngIf="trafoSelected.etapa[0].numEtapa!=null">
+                                <button mat-raised-button style="background-color:steelblue;color:white">
+                                    {{trafoSelected.etapa[0].numEtapa}}
+                                </button>
+                            </span>
+                            <span *ngIf="trafoSelected.etapa[0].numEtapa==0 || trafoSelected.etapa[0].numEtapa==null">
+                                <button mat-raised-button color="warn">
+                                    Sin nº de referencia
+                                </button>
+                            </span>
+                            <mat-form-field id="ref" appearance="outline">
+                                <mat-label>Nº de proceso</mat-label>
+                                <input matInput placeholder="Referencia" [(ngModel)]="trafoSelected.etapa[0].numEtapa" type="number">
+                            </mat-form-field>
+                        </div>
+                        <span appearance="outline" style="display: grid; grid-template-columns: repeat(3, 1fr);" *ngIf="trafoSelected.etapa[0].etapaEmpleado.length>0 && trafoSelected.etapa[0].etapaEmpleado[0].idEmpleadoNavigation">
+                            <h4 id="encabezado" style="grid-column: 1;">Ultimos empleados:</h4>
+                            <mat-chip-list style="grid-column: 2/4;">
+                                <mat-chip style="background-color:teal;color:white;height:fit-content;width:fit-content" *ngFor="let x of trafoSelected.etapa[0].etapaEmpleado">
+                                    {{(x.idEmpleadoNavigation!=undefined) ? x.idEmpleadoNavigation.nombreEmp : ''}}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <br>
+    <div style="text-align:center;">
+        <h4 id="encabezado">Elija Empleados:</h4>
+        <br>
+        <br>
+        <mat-form-field appearance="outline" style="width:50%;">
+            <mat-label>Empleados</mat-label>
+                <mat-select [formControl]="employersList" multiple>
+                    <mat-option *ngFor="let employers of dataEmpleados" [value]="employers">
+                        {{employers.nombreEmp}}
+                    </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    
+    <div style="text-align: center;">
+        <h4 id="encabezado">Empleados elegidos:</h4>
+        <br>
+        <br>
+        <mat-chip-list>
+            <mat-chip style="background-color:teal;color:white;height:fit-content;width:fit-content" *ngFor="let f of employersList.value">
+                {{f.nombreEmp}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+    <br>
+    <div *ngIf="(trafoProcessList.length!==0) && (employersList.value && employersList.value.length>0)" style="display:flex;justify-content: center;">
+        <button mat-raised-button  *ngIf="!showButtons" [disabled]="play==false || trafoProcessList[0].etapa[0].idColor==1030" [ngClass]="{'disabledButton': (play==false || trafoProcessList[0].etapa[0].idColor==1030)}" style="background-color:teal;color:white;" id="start" (click)="start()" >
+            Inicio
+        </button>
+        <button mat-raised-button  *ngIf="!showButtons" id="pause" style="background-color:yellow;" [disabled]="class==false || trafoProcessList[0].etapa[0].idColor==9" [ngClass]="{'disabledButton': (class==false || trafoProcessList[0].etapa[0].idColor==9)}" (click)="pause()" >
+            Pausa
+        </button>
+        <button mat-raised-button *ngIf="!showButtons" id="stop" color="warn" [disabled]="isStop==false" [ngClass]="{'disabledButton': isStop==false}" (click)="stop()" >
+            Fin
+        </button>
+        <button mat-raised-button *ngIf="showButtons" id="finalizar" style="background-color:teal;color:white" (click)="finalizar()" >
+            Finalizar 
+        </button>
+    </div>
+    <br>
+    
+</div>
+
+ 
+
+ 

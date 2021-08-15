@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{titulo}}</h1>
+<br>
+<div mat-dialog-content *ngIf="labelButton=='borrar'">
+    {{referencia.leyenda}}
+</div>
+<div mat-dialog-content *ngIf="labelButton=='editar'">
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Referencia</mat-label>
+        <input matInput="number" [(ngModel)]="referencia.leyenda"  type="text">
+    </mat-form-field>
+    <br>
+    <input [(colorPicker)]="referencia.codigoColor" [style.background]="referencia.codigoColor" style="border-radius:8px;"/>
+</div>
+<br>
+<button mat-raised-button color="basic" (click)="onNoClick()">Cancelar</button>
+<button mat-raised-button color="warn" (click)="save()">{{labelButton}}</button>

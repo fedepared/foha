@@ -1,0 +1,158 @@
+<mat-dialog-content style="margin-right:auto;margin-left: auto;padding:0;height:100%;width:100%;">
+
+
+    <mat-card class="titulo">
+        <mat-card-header>
+            <mat-card-title style="line-height:60px;">
+                Edición múltiple de transformadores
+            </mat-card-title>
+        </mat-card-header>
+        <br>
+    </mat-card>
+    <br>
+    <br>
+    <mat-card> 
+        <mat-card-title style="text-align:center;">Transformadores elegidos:
+        </mat-card-title>   
+        <mat-grid-list cols="1" rowHeight="30px">
+            <mat-grid-tile *ngFor="let trafos of trafosToModify">
+                <span style="color:cadetblue">OT:{{trafos.oTe}} </span>
+                &nbsp; 
+                <span style="color:coral">OP:{{trafos.oPe}} </span> 
+                &nbsp;
+                <span style="color:cornflowerblue">Potencia: {{trafos.potencia}} </span> 
+                &nbsp;
+                <span style="color:chocolate">Cliente: {{trafos.nombreCli}} </span> 
+                &nbsp;
+                <span style="color:slategray">Fecha según OT: {{trafos.fechaPactada | date:'dd/MM/yyyy'}} </span> 
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+    <br>
+    <div style="text-align:center">
+        <mat-form-field  appearance="outline" style="margin-right:auto;margin-left:auto;">
+            <mat-label>Elija la edición deseada</mat-label>
+            <mat-select [(ngModel)]="selectedValue">
+                <mat-option *ngFor="let option of options" [value]="option.value">
+                    {{option.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div *ngIf="selectedValue=='0'">
+        <form [formGroup]="form" style="width:100%;display: grid;">
+            <mat-form-field appearance="outline">
+                <mat-label>oP</mat-label>
+                <input matInput
+                        placeholder="op"
+                        formControlName="oPe" [errorStateMatcher]="matcher" type="text">
+                <mat-error *ngIf="!form.hasError('required')">
+                El op es<strong>requerido</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>oT</mat-label>
+                <input matInput
+                        placeholder="ot"
+                        formControlName="oTe" [errorStateMatcher]="matcher" type="number">
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+            <mat-label>potencia</mat-label>
+    
+            <input matInput
+                    placeholder="potencia"
+                    formControlName="potencia" [errorStateMatcher]="matcher" type="number">
+            <mat-error *ngIf="!form.hasError('required')">
+                La potencia es <strong>requerida</strong>
+            </mat-error>
+            </mat-form-field>
+        
+        
+        <mat-form-field appearance="outline">
+            <mat-label>nucleo</mat-label>
+            <input matInput
+                    placeholder="nucleo"
+                    formControlName="nucleos" [errorStateMatcher]="matcher" type="text">
+            <mat-error *ngIf="!form.hasError('required')">El nucleo es<strong>requerido</strong>
+            </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de Transformador</mat-label>
+            <mat-select #idTipoTransfo  formControlName="idTipoTransfo">
+            <mat-option *ngFor="let valueTransfo of dataTipoTransfo" [value]="valueTransfo.id" >
+                {{valueTransfo.value}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+        <mat-label>Elegir cliente</mat-label>
+        <input type="text" matInput formControlName="f" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let f of filteredOptions | async" [value]="f">
+            {{f.value}}
+            </mat-option>
+        </mat-autocomplete>
+        </mat-form-field>
+    
+        
+        <mat-form-field appearance="outline">
+            <mat-label>R/P</mat-label>
+            <input matInput
+                    placeholder="R/P"
+                    formControlName="radPan" [errorStateMatcher]="matcher" type="text">
+        </mat-form-field>
+        
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha de producción</mat-label>
+            <input matInput [matDatepicker]="fechaProd" formControlName="fechaProd" (dateChange)="changeDate($event)">
+            <mat-datepicker-toggle matSuffix [for]="fechaProd"></mat-datepicker-toggle>
+            <mat-datepicker #fechaProd disabled="false"></mat-datepicker>
+        </mat-form-field>
+        
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha Pactada</mat-label>
+            <input matInput [matDatepicker]="fechaPactada" formControlName="fechaPactada">
+            <mat-datepicker-toggle matSuffix [for]="fechaPactada"></mat-datepicker-toggle>
+            <mat-datepicker #fechaPactada disabled="false"></mat-datepicker>
+    
+        </mat-form-field>
+        
+        
+        <mat-form-field appearance="outline">
+            <mat-label>observaciones</mat-label>
+            <input matInput
+                    placeholder="observaciones"
+                    formControlName="observaciones" [errorStateMatcher]="matcher" type="text">
+        </mat-form-field>
+        </form>
+    </div>
+    <mat-grid-list *ngIf="selectedValue=='1'" cols="3" rowHeight="90px">
+        <mat-grid-tile>
+            <mat-form-field appearance="outline">
+                <mat-label>Elija la referencia a agregar</mat-label>
+                <mat-select [(ngModel)]="colorSelected">
+                    <mat-option></mat-option>
+                    <mat-option [value]="color.idColor" *ngFor="let color of colores" [ngStyle]="{'background-color': color.codigoColor}">{{ color.leyenda }}</mat-option>
+                </mat-select>
+            </mat-form-field>   
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2">
+            <mat-form-field appearance="outline" *ngIf="colorSelected" style="width:100%;">
+                <mat-label>Elija los procesos a marcar</mat-label>
+                <mat-select [formControl]="tipoEtapa" multiple>
+                  <mat-option></mat-option>
+                  <mat-option *ngFor="let tipoEtapa of tipoEtapas" [value]="tipoEtapa.idTipoEtapa">{{ tipoEtapa.nombreEtapa }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button style="background-color:teal;color:white;" (click)="save()"  cdkFocusInitial>Guardar</button>
+</mat-dialog-actions>

@@ -1,0 +1,53 @@
+
+<div class="example-container mat-elevation-z8" style="margin:auto;">
+    <!-- <div class="example-loading-shade"
+    *ngIf="isLoadingResults"> -->
+    <!-- <mat-spinner *ngIf="isLoadingResults"></mat-spinner> -->
+  <!-- </div> -->
+  <div style="text-align:center;">
+    <img id="logo" src="assets/logofohama.svg">
+  </div>
+
+  <mat-card class="example-card">
+    <form [formGroup]="resetForm" (ngSubmit)="onFormSubmit(resetForm.value)">
+        <mat-form-field class="example-full-width" appeareance="outline">
+          <mat-label>Usuarios</mat-label>
+          <mat-select formControlName="nombreUs">
+            <mat-option *ngFor="let user of userNames" value="{{user}}">{{user}}</mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!resetForm.get('nombreUs').valid && resetForm.get('nombreUs').touched">Ingrese su usuario</span>
+          </mat-error>
+        </mat-form-field>
+          <!-- <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput type="usuario" placeholder="Ingrese el usuario" formControlName="nombreUs"
+                   [errorStateMatcher]="matcher" >
+            <mat-error>
+              <span *ngIf="!resetForm.get('nombreUs').valid && resetForm.get('nombreUs').touched">Ingrese su usuario</span>
+            </mat-error>
+          </mat-form-field> -->
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput type="password" placeholder="Password" formControlName="pass"
+                   [errorStateMatcher]="matcher">
+            <mat-error>
+              <span *ngIf="!resetForm.get('pass').valid && resetForm.get('pass').touched">Ingrese su nueva contraseña</span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput type="password" placeholder="Repita su password" formControlName="ConfirmPass"
+                   [errorStateMatcher]="matcher">
+            <mat-error>
+              <span *ngIf="!resetForm.get('ConfirmPass').valid && resetForm.get('ConfirmPass').touched">Repita su nueva contraseña</span>
+            </mat-error>
+          </mat-form-field>
+            <br>
+            <mat-error>
+              <span style="padding:0 10%" *ngIf="resetForm.errors?.invalid">Las contraseñas deben coincidir</span>
+            </mat-error>
+            <br>
+          <div style="margin-left:35%;">
+            <button type="submit" [disabled]="!resetForm.valid" mat-flat-button color="primary">Resetear password</button>
+          </div>
+        </form>
+      </mat-card>
+    </div>
