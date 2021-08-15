@@ -1,0 +1,2 @@
+angular: ng build --prod --aot --build-optimizer --base-href=/sap/
+.net core: dotnet publish --configuration Release
