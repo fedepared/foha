@@ -181,8 +181,8 @@ export class RelojMultipleComponent implements OnInit {
 
   getEmpleados(): void {
     this.empleadoService.getEmpleados()
-    .subscribe(empleados => {
-      this.dataEmpleados = empleados;
+    .subscribe(res => {
+      this.dataEmpleados = res.data;
       if(this.sector!=10)
       {
         if(this.sector == 22 || this.sector == 23 || this.sector == 24 || this.sector == 25)
