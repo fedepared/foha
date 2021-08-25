@@ -658,12 +658,20 @@ namespace Foha.Controllers
         {
             var preEtapa = _mapper.Map<Etapa>(etapa);
             _repoEtapa.Add(preEtapa);
-            var saveEtapa = await _repoEtapa.SaveAsync(preEtapa);
-            var etapaResponse = _mapper.Map<EtapaResponseDto>(saveEtapa);
+            // var saveEtapa = await _repoEtapa.SaveAsync(preEtapa);
+            // var etapaResponse = _mapper.Map<EtapaResponseDto>(saveEtapa);
 
         }
 
-        return Ok();
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+             return BadRequest(ex);
+        }
 
     }
 
