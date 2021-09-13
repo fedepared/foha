@@ -71,7 +71,6 @@
     </form>
 
 </div>  
-
 <div>
     <div class="example-loading-shade"
          *ngIf="isLoadingResults">
@@ -123,7 +122,16 @@
         <mat-icon *ngIf="selectColumn">visibility_off</mat-icon>
       </button>
     </div>
-    <button mat-mini-fab style="background-color: teal;color:whitesmoke;right:0;" matTooltip="ir al inicio" (click)="moveUp()"><mat-icon>keyboard_arrow_up</mat-icon></button>
+    <div>
+      <button mat-mini-fab matTooltip="Recargar tabla" style="background-color: teal;color:whitesmoke" (click)="getTrafos()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+    <div>
+      <button mat-mini-fab style="background-color: teal;color:whitesmoke;right:0;" matTooltip="ir al inicio" (click)="moveUp()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
 

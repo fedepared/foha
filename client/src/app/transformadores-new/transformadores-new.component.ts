@@ -689,6 +689,10 @@ export class TransformadoresNewComponent implements OnInit {
     }
 
     showOrHide(){
+      if(this.selection.selected.length>0 && this.selectColumn==true)
+      {
+        this.selection.clear();
+      }
       this.selectColumn=!this.selectColumn;
       
     }
