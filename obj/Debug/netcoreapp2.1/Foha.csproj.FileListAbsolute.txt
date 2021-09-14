@@ -164,3 +164,17 @@ E:\Users\Federico\Desktop\foh\foha\obj\Debug\netcoreapp2.1\Foha.RazorTargetAssem
 E:\Users\Federico\Desktop\foh\foha\obj\Debug\netcoreapp2.1\Foha.dll
 E:\Users\Federico\Desktop\foh\foha\obj\Debug\netcoreapp2.1\Foha.pdb
 E:\Users\Federico\Desktop\foh\foha\obj\Debug\netcoreapp2.1\Foha.genruntimeconfig.cache
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\bin\Debug\netcoreapp2.1\Foha.deps.json
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\bin\Debug\netcoreapp2.1\Foha.runtimeconfig.json
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\bin\Debug\netcoreapp2.1\Foha.runtimeconfig.dev.json
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\bin\Debug\netcoreapp2.1\Foha.dll
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\bin\Debug\netcoreapp2.1\Foha.pdb
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.csprojAssemblyReference.cache
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.AssemblyInfoInputs.cache
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.AssemblyInfo.cs
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.csproj.CoreCompileInputs.cache
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.RazorAssemblyInfo.cache
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.RazorAssemblyInfo.cs
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.RazorTargetAssemblyInfo.cache
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.dll
+C:\Users\ChRiSo\Desktop\FOHAMA\foha\obj\Debug\netcoreapp2.1\Foha.pdb

@@ -4,3 +4,4 @@
 .vscode/launch.json
 .vscode/tasks.json
 node_modules/
+appsettings.json
