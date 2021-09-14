@@ -118,6 +118,10 @@
           <button *ngIf="selectColumn && selection.selected.length>0" mat-mini-fab color="primary" (click)="dialogEditAllTransfo()">
             <mat-icon>mode</mat-icon>
           </button>
+          <br *ngIf="selectColumn && selection.selected.length>0">
+          <button *ngIf="selectColumn && selection.selected.length>0" mat-mini-fab color="primary" (click)="dialogDeleteAllTransfo()">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
         <div >
           <button mat-mini-fab color="primary" (click)="showOrHide()">

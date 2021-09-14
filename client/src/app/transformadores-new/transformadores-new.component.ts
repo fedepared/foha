@@ -834,6 +834,18 @@ export class TransformadoresNewComponent implements OnInit {
         })
       }
 
+      dialogDeleteAllTransfo():void{
+        console.log(this.selection.selected);
+        let data={
+          titulo:"Borrar Transformadores",
+          labelButton:"Borrar",
+          trafosToDelete:this.selection.selected
+        }
+        const dialogRef3 = this.dialog.open(DeleteAllTransfoDialog, { 
+          data:data
+        });
+      }
+
       export(){
         console.log(this.dataGetTrafos.data);
         
@@ -1798,6 +1810,24 @@ interface ComboClientes{
   }
   
   }
+
+  @Component({
+    selector: "delete-all-transfo",
+    templateUrl: "delete-all-transfo.html",
+    styleUrls:["transformadores-new.component.css"]
+  })
+  export class DeleteAllTransfoDialog{
+    titulo="";
+    labelButton="";
+    constructor(
+    private dialogRef: MatDialogRef<DeleteAllTransfoDialog>,public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) data1
+  ) {
+      this.titulo=data1.titulo;
+      this.labelButton=data1.labelButton;
+    }
+  }
+
 
   
   export class MyErrorStateMatcher implements ErrorStateMatcher {
