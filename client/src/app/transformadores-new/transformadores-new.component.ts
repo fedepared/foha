@@ -1819,12 +1819,20 @@ interface ComboClientes{
   export class DeleteAllTransfoDialog{
     titulo="";
     labelButton="";
-    constructor(
+    transfoArray:[]=[];
+    constructor(private transformadoresService:TransformadoresService,
     private dialogRef: MatDialogRef<DeleteAllTransfoDialog>,public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data1
   ) {
+      console.log(data1);
       this.titulo=data1.titulo;
       this.labelButton=data1.labelButton;
+      this.transfoArray=data1.trafosToDelete;
+    }
+
+    deleteTrafos()
+    {
+      this.transformadoresService.deleteAllTrafos(this.transfoArray);
     }
   }
 

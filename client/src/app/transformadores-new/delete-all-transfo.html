@@ -1,6 +1,15 @@
 <h1 mat-dialog-title>{{titulo}}</h1>
-<div mat-dialog-content>This dialog showcases the title, close, content and actions elements.</div>
+<div mat-dialog-content>
+  <h3>
+    ¿Desea Borrar los siguientes transformadores?
+  </h3>
+  <div *ngFor="let transfo of transfoArray">
+    <span style="color:cadetblue">OP:{{transfo.oPe}}</span>&nbsp;
+    <span style="color:coral">OT:{{transfo.oTe}}</span>&nbsp;
+    <span style="color:cornflowerblue">Rango:{{transfo.rangoInicio}}</span>
+  </div>
+</div>
 <div mat-dialog-actions align="end">
   <button class="mat-raised-button" mat-dialog-close>Cancelar</button>
-  <button class="mat-raised-button mat-primary" style="background-color: teal;" color="primary">{{labelButton}}</button>
+  <button class="mat-raised-button mat-primary" style="background-color: teal;">{{labelButton}}</button>
 </div>

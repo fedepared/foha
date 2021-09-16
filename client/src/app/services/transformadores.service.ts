@@ -9,6 +9,7 @@ import { TipoEtapa } from '../models/tipoEtapa';
 import { Etapa } from '../models/etapa';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material';
+import { IResponse } from '../models/iresponse';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -204,6 +205,14 @@ export class TransformadoresService {
       tap(_ => this.openSnackBar(`Transformador Borrado`,"Exito!")),
       catchError(this.handleError<Transformadores>('delete Transformadores'))
     );
+  }
+
+  deleteAllTrafos(arrayTrafos:number[]):Observable<IResponse<any> | any>{
+    const url = `${apiUrl}`
+    return this.http.delete<IResponse<any>>(url,httpOptions).pipe(
+      tap(_ => this.openSnackBar(`Transformador Borrado`,"Exito!")),
+      catchError(this.handleError<Transformadores>('delete Transformadores'))
+    )
   }
 
   
