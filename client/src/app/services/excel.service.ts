@@ -325,7 +325,13 @@ export class ExcelService {
     return new Date(date.split('T')[0]);
   }
 
-  tiempoParcToDate(date:string):Date{
-    return new Date(date.split(" ")[0]);
+  tiempoParcToDate(date:string):Date | any{
+    if(date!=null)
+    {
+      return new Date(date.split(" ")[0]);
+    }
+    else{
+      return "SIN DATOS"
+    }
   }
 }
