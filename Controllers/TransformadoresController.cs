@@ -247,11 +247,10 @@ namespace Foha.Controllers
             var resultado2=_context.Transformadores
             .Include(x=>x.IdClienteNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
-            // .Where(trafo=>trafo.Etapa.All(etapa => etapa.IsEnded != true))
-            // .OrderByDescending(x=>x.Anio).ThenBy(x=>x.Mes).Take(pageQuantity).ToList();
             .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
 
-            
+            //A preguntar, condición de filtrado de los procesos terminados (en esta línea filtra los procesos que tienen una de las últimas dos etapas finalizadas)
+            // resultado2 = resultado2.Where(x=>x.Etapa.ElementAt(30).IsEnded!=true && x.Etapa.ElementAt(31).IsEnded!=true).ToList();
 
             var resultado=resultado2.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
             { 
@@ -280,8 +279,6 @@ namespace Foha.Controllers
             .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
 
             
-            //To Proove
-            // var resultado2=resultado
             var resultado2=resultado.Select(x=>new {x.Anio,x.Mes,x.Etapa,x.OTe,x.OPe,x.RangoInicio,x.Potencia,x.Prioridad,x.IdTransfo})
             
 

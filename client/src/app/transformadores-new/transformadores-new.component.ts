@@ -236,6 +236,7 @@ export class AssignColorComponent2{
       this.data.paginator.firstPage();
     }
   }
+
 }
 
 @Component({
@@ -395,8 +396,7 @@ export class TransformadoresNewComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable, { static: false }) matTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, private clientesService: ClienteService, public dialog: MatDialog,
-    private route: ActivatedRoute,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private tipoTransfoService: TipoTransfoService, private excelService: ExcelService,private coloresService:ColoresService) { 
+  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService) { 
       
     }
 
@@ -1006,6 +1006,7 @@ export class TransformadoresNewComponent implements OnInit {
         this.form.reset();
         this.getTrafos();
       }
+
 
     
     
