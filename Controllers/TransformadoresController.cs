@@ -850,7 +850,7 @@ namespace Foha.Controllers
                 {
                     r.Message = r.Message + " - " + t.OPe + "/" + t.OTe + "/" + t.RangoInicio; 
                 }
-                r.Status = 500;
+                r.Status = 409;
             }            
         }
         //Si el status quedo en 200 significa que no hay ningun trafo con etapas iniciadas, asique borro todo a la goma.
@@ -871,11 +871,11 @@ namespace Foha.Controllers
             //Si pincha devuelvo mensaje de error.
             catch(Exception e){
                 r.Message = e.Message;
-                r.Status = 500;
-                return Ok(r);
+                r.Status = 409;
+                return Conflict(r);
             }
         }
-        return Ok(r);
+        return Conflict(r);
     }
 
     [HttpPost("DeleteMasivoTrafosNoCheck")]
@@ -908,8 +908,8 @@ namespace Foha.Controllers
         }
         catch(Exception e){//Si pincha devuelvo mensaje de error
             r.Message = e.Message;
-            r.Status = 500;
-            return Ok(r);
+            r.Status = 409;
+            return Conflict(r);
         }
     }
 
