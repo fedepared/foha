@@ -5,3 +5,5 @@
 .vscode/tasks.json
 node_modules/
 appsettings.json
+obj/
+obj/Debug/netcoreapp2.1/Foha.csproj.AssemblyReference.cache
