@@ -4,4 +4,8 @@
 .vscode/launch.json
 .vscode/tasks.json
 node_modules/
-/obj
+obj
+obj/Debug/netcoreapp2.1/Foha.csproj.AssemblyReference.cache
+obj/Debug/netcoreapp2.1/Foha.dll
+obj/Debug/netcoreapp2.1/Foha.pdb
+obj/Debug/netcoreapp2.1/Foha.assets.cache
