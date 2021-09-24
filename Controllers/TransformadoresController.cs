@@ -24,9 +24,7 @@ using AutoMapper;
 using System.Data.SqlClient;
 using Foha.Controllers;
 using Newtonsoft.Json.Linq;
-
-
-
+using Foha.DTOs;
 
 namespace Foha.Controllers
 {
@@ -767,6 +765,8 @@ namespace Foha.Controllers
     
     }
 
+    
+
     // DELETE: api/Transformadores/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTransformadores([FromRoute] int id)
@@ -816,6 +816,100 @@ namespace Foha.Controllers
         return Ok(transformadores);
     }
 
+    [HttpPost("DeleteMasivoTrafos")]
+    public async Task<IActionResult> DeleteMasivoTrafos([FromBody] int[] trafosParaBorrar){
+
+        var trafos = await _context.Transformadores.Where(x => trafosParaBorrar.Contains(x.IdTransfo)).ToArrayAsync();
+        Response<int[]> r = new Response<int[]>();
+        r.Message = "";
+        r.Data = trafosParaBorrar;
+        r.Status = 200;
+        //Chequeo si tienen etapas iniciadas.
+        foreach(Transformadores t in trafos)
+        {
+            bool trafoEmpezado = false;
+            var etapas = await _context.Etapa.Where(x => x.IdTransfo == t.IdTransfo).ToArrayAsync();
+            foreach(Etapa e in etapas)
+            {
+                if(e.DateIni != null)
+                {
+                    trafoEmpezado = true;
+                }
+            }
+            //Si tiene alguna etapa iniciada agrego los datos al string para devolver
+            if(trafoEmpezado)
+            {
+                if(r.Message == "")
+                {
+                    r.Message = "Los siguientes tranformadores tienen etapas empezadas: " + t.OPe + "/" + t.OTe + "/" + t.RangoInicio;
+                }
+                else 
+                {
+                    r.Message = r.Message + " - " + t.OPe + "/" + t.OTe + "/" + t.RangoInicio; 
+                }
+                r.Status = 409;
+            }            
+        }
+        //Si el status quedo en 200 significa que no hay ningun trafo con etapas iniciadas, asique borro todo a la goma.
+        if(r.Status == 200)
+        {
+            try{
+                //Por cada trafo busco las etapas y las borro, y despues borro el trafo en si. Cuando termina devuelvo mensaje que salio todo josha.
+                foreach(Transformadores t in trafos)
+                {
+                    var etapas = await _context.Etapa.Where(x => x.IdTransfo == t.IdTransfo).ToListAsync();
+                    _context.Etapa.RemoveRange(etapas);
+                    _context.Transformadores.Remove(t);
+                }
+                await _context.SaveChangesAsync();//Guardo todo
+                r.Message = "Se borraron los transformadores exitosamente.";
+                return Ok(r);
+            }
+            //Si pincha devuelvo mensaje de error.
+            catch(Exception e){
+                r.Message = e.Message;
+                r.Status = 409;
+                return Conflict(r);
+            }
+        }
+        return Conflict(r);
+    }
+
+    [HttpPost("DeleteMasivoTrafosNoCheck")]
+    public async Task<IActionResult> DeleteMasivoTrafosNoCheck([FromBody] int[] trafosParaBorrar){
+
+        var trafos = await _context.Transformadores.Where(x => trafosParaBorrar.Contains(x.IdTransfo)).ToArrayAsync();
+        Response<int[]> r = new Response<int[]>();
+        r.Message = "";
+        r.Data = trafosParaBorrar;
+        r.Status = 200;
+        //Borro trafos, etapas y si estan iniciadas tambien borro los datos de Etapa-Empleado.
+        try{
+            foreach(Transformadores t in trafos)
+            {
+                var etapas = await _context.Etapa.Where(x => x.IdTransfo == t.IdTransfo).ToArrayAsync();
+                foreach(Etapa e in etapas)
+                {
+                    if(e.DateIni != null)//Si tiene DateIni busco en la tabla EtapaEmpleado el registro y lo borro.
+                    {
+                        var etapaEmp = await _context.EtapaEmpleado.Where(x => x.IdEtapa == e.IdEtapa).FirstOrDefaultAsync();
+                        _context.Remove(etapaEmp);
+                    }
+                    _context.Remove(e);//Despues de chequear y borrar de ser necesario el registro en la trabla intermedia, borro la etapa en si.
+                }
+                _context.Remove(t);//Despues de borrar las etapas y EtapaEmpleado si habia, borro el trafo.
+            }
+            await _context.SaveChangesAsync();//Guardo todo.
+            r.Message = "Se borraron los transformadores exitosamente.";
+            return Ok(r);
+        }
+        catch(Exception e){//Si pincha devuelvo mensaje de error
+            r.Message = e.Message;
+            r.Status = 409;
+            return Conflict(r);
+        }
+    }
+
     private bool TransformadoresExists(int id)
     {
         return _context.Transformadores.Any(e => e.IdTransfo == id);
@@ -854,5 +948,6 @@ namespace Foha.Controllers
                 return "";
         }
     }
+    
 }
 }
