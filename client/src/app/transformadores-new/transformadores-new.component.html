@@ -174,7 +174,6 @@
             {{column}}
         </th>
         <td mat-cell *matCellDef="let element">
-          {{element.etapa.idTipoEtapa}}
           <etapa-column-component3 [etapa]="getEtapa(element, column)" (actualizado)="actualizar($event)">
             
           </etapa-column-component3>
