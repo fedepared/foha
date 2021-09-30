@@ -13,3 +13,6 @@ obj/Debug/netcoreapp2.1/Foha.assets.cache
 appsettings.json
 obj/
 obj/Debug/netcoreapp2.1/Foha.csproj.AssemblyReference.cache
+obj/Debug/netcoreapp2.1/Foha.dll
+obj/Debug/netcoreapp2.1/Foha.pdb
+/obj

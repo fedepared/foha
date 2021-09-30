@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{titulo}}</h1>
 <div mat-dialog-content>
   <h3>
-    ¿Desea Borrar los siguientes transformadores?
+    {{header}}
   </h3>
   <div *ngFor="let transfo of transfoArray">
     <span style="color:cadetblue">OP:{{transfo.oPe}}</span>&nbsp;
@@ -11,5 +11,6 @@
 </div>
 <div mat-dialog-actions align="end">
   <button class="mat-raised-button" mat-dialog-close>Cancelar</button>
-  <button class="mat-raised-button mat-primary" style="background-color: teal;">{{labelButton}}</button>
-</div>
+  <button *ngIf="labelButton=='Borrar'" class="mat-raised-button mat-primary" style="background-color: teal;" (click)="deleteTrafos()">{{labelButton}}</button>
+  <button *ngIf="labelButton=='Confirmar'" class="mat-raised-button mat-primary" style="background-color: teal;" (click)="confirmDeleteTrafos()">{{labelButton}}</button>
+</div> 

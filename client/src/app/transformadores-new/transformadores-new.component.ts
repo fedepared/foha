@@ -39,9 +39,10 @@ import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { SelectionModel } from '@angular/cdk/collections';
 import moment from 'moment';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { IResponse } from '../models/iresponse';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
-        "DOC":1,    
+        "DOC":1,
         "BT1":2,
         "BT2":3,
         "BT3":4,
@@ -49,7 +50,7 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "AT2":6,
         "AT3":7,
         "RG1":8,
-        "RG2":9,      
+        "RG2":9,
         "RG3":10,
         "RF1":11,
         "RF2":12,
@@ -80,7 +81,7 @@ interface Mes {
   value: number;
   viewValue: string;
 }
-  
+
 
 @Component({
   selector: 'etapa-column-component3',
@@ -94,7 +95,7 @@ interface Mes {
     </div>
   </ng-container>
   `,
-  
+
   styleUrls: ['./transformadores-new.component.css']
 })
 export class EtapaColumnComponent3{
@@ -103,11 +104,11 @@ export class EtapaColumnComponent3{
 
   @Input() etapa:Etapa; actualizar:Boolean;
   @Output() actualizado=new EventEmitter<Boolean>();
-  
-  
-  
+
+
+
   constructor(private coloresService:ColoresService,public dialog: MatDialog){}
-  
+
   getColores(): void{
     this.coloresService.getColores()
     .subscribe(colores=>{
@@ -117,10 +118,10 @@ export class EtapaColumnComponent3{
     })
   }
   asignarRef(row){
-    
+
     this.etapaSelected=row;
     const dialogConfig = new MatDialogConfig();
-    
+
 
     dialogConfig.data = {
         etapaSelected:this.etapaSelected,
@@ -138,8 +139,8 @@ export class EtapaColumnComponent3{
       }
     })
   }
-  
-  
+
+
 }
 
 @Component({
@@ -160,7 +161,7 @@ export class AssignColorComponent2{
       this.etapaSelected=data1.etapaSelected
   }
 
-  
+
 
   ngOnInit(){
     this.getColores();
@@ -203,7 +204,7 @@ export class AssignColorComponent2{
         {
           if(data.idColor==999999)
           {
-            this.etapaSelected.idColor=null; 
+            this.etapaSelected.idColor=null;
             this.etapaSelected.idColorNavigation=null;
           }
           else{
@@ -217,7 +218,7 @@ export class AssignColorComponent2{
           })
         }
         else{
-          
+
           this.etapaService.updateReanudarEtapa(this.etapaSelected.idEtapa,this.etapaSelected)
           .subscribe(res=>{
               this.dialogRef.close(res);
@@ -230,7 +231,7 @@ export class AssignColorComponent2{
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;      
+    const filterValue = (event.target as HTMLInputElement).value;
     this.data.filter = filterValue.trim().toLowerCase();
     if (this.data.paginator) {
       this.data.paginator.firstPage();
@@ -255,7 +256,7 @@ export class ConfirmAssignDialog{
       this.colorSelected=data1.colorSelected
       this.titulo=data1.titulo
 
-    } 
+    }
 
     save(){
       this.dialogRef.close(this.colorSelected);
@@ -301,12 +302,12 @@ export class TransformadoresNewComponent implements OnInit {
 
   selection = new SelectionModel<any>(true, []);
 
-  
+
   dataTipoTransfo:ComboTipoTransfo[]=[];
   data8TipoTransfo:TipoTransfo[]=[];
   pageNumber:number=1;
-  
-  
+
+
   colores:Colores[]=[];
   displayedColumns1:string[]=['select','Accion']
   displayedColumns2:string[]=[
@@ -328,18 +329,18 @@ export class TransformadoresNewComponent implements OnInit {
 
   // TODAS las columnas
   allColumns: string[]= this.displayedColumns1.concat(this.displayedColumns2).concat(this.etapasColumns);
-  
+
   etapasActualizadas:boolean;
 
   //Filtro
   form=new FormGroup(
     {
-      oTe:new FormControl(),	
+      oTe:new FormControl(),
       nucleos:new FormControl(),
       oPe	:new FormControl(),
       rangoInicio	:new FormControl(),
-      rangoFin:new FormControl(),	
-      observaciones:new FormControl(),	
+      rangoFin:new FormControl(),
+      observaciones:new FormControl(),
       potencia	:new FormControl(),
       nombreCli	:new FormControl(),
       fechaPactada:new FormControl(),
@@ -347,10 +348,10 @@ export class TransformadoresNewComponent implements OnInit {
       month:new FormControl()
     }
   )
-  
-  
 
-  
+
+
+
     oTe= '';
     nucleos='';
     oPe= '';
@@ -387,17 +388,17 @@ export class TransformadoresNewComponent implements OnInit {
 
   //variable para los meses
   months=null;
-  
-  
 
 
-  
+
+
+
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable, { static: false }) matTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService) { 
-      
+  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService) {
+
     }
 
 
@@ -405,14 +406,14 @@ export class TransformadoresNewComponent implements OnInit {
   ngOnInit(): void {
     this.dataGetTrafos=new MatTableDataSource();
     this.getTrafos();
-    this.getMonthYear();    
+    this.getMonthYear();
   }
 
-  
+
   encabezadosTrafo(trafo:string){
     switch(trafo)
     {
-      case "oTe": 
+      case "oTe":
           trafo="OT"
           break;
       case'oPe':
@@ -444,7 +445,7 @@ export class TransformadoresNewComponent implements OnInit {
           break;
       case 'fechaProd':
           trafo="FPR"
-          break;    
+          break;
     }
     return trafo;
   }
@@ -462,7 +463,7 @@ export class TransformadoresNewComponent implements OnInit {
   tooltipTrafo(trafo:string){
     switch(trafo)
     {
-      case "oTe": 
+      case "oTe":
           trafo="OT"
           break;
       case'oPe':
@@ -491,7 +492,7 @@ export class TransformadoresNewComponent implements OnInit {
           break;
       case 'fechaProd':
           trafo="Fecha Producción"
-          break;    
+          break;
     }
     return trafo;
   }
@@ -600,13 +601,13 @@ export class TransformadoresNewComponent implements OnInit {
     return etapa;
   }
 
-  
-  
+
+
 
   //Obtiene la etapa de un transformador en base al nombre de la etapa
   getEtapa(t:Transformadores, nombreEtapa: string): any {
     let matchEtapa = t.etapa.filter(etapa => etapa.idTipoEtapa == MAP_NOMBRE_ETAPA[nombreEtapa]);
-    
+
     if(matchEtapa.length!=0)
     {
       return matchEtapa[0];
@@ -651,7 +652,7 @@ export class TransformadoresNewComponent implements OnInit {
           this.isLoadingResults = true;
           this.dataGetTrafos.paginator = this.paginator;
           let transfoArray=[];
-          
+
           for (let a of transfo)
           {
             let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
@@ -663,7 +664,7 @@ export class TransformadoresNewComponent implements OnInit {
             console.log(transfoArray)
             this.dataGetTrafos.data=transfoArray;
           }
-          
+
         }, err => {
             this.isLoadingResults = false;
           },
@@ -683,7 +684,7 @@ export class TransformadoresNewComponent implements OnInit {
         this.months=res;
       })
     }
-    
+
     isGroup(index, item): boolean{
       return item.group;
     }
@@ -694,7 +695,7 @@ export class TransformadoresNewComponent implements OnInit {
         this.selection.clear();
       }
       this.selectColumn=!this.selectColumn;
-      
+
     }
     openSnackBar(mensaje1,mensaje2) {
       this._snackBar.open(mensaje1,mensaje2, {
@@ -707,14 +708,14 @@ export class TransformadoresNewComponent implements OnInit {
         dialogConfig.data = {
           titulo: "Agregar Transformador",
           labelButton:"Agregar",
-          
+
         };
         const dialogRef = this.dialog.open(AddTransfoComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(data => {
           if(data){
             this.getTrafos();
-          }  
-        }) 
+          }
+        })
       }
 
       dialogEditTransfo(obj): void {
@@ -742,8 +743,8 @@ export class TransformadoresNewComponent implements OnInit {
           habilitar:true,
           cancelado:false
         }
-  
-        const dialogRef3 = this.dialog.open(EditAllTrafosNewComponent, { 
+
+        const dialogRef3 = this.dialog.open(EditAllTrafosNewComponent, {
           width:'60vw',
           data:data
         });
@@ -752,12 +753,12 @@ export class TransformadoresNewComponent implements OnInit {
           {
             let idTrafos=[];
             let arrayOfProccess=[];
-  
+
             //Modificar etapas
             if(res.hasOwnProperty('ArrayTrafo'))
             {
               this.modifyProcesses(res);
-                
+
             }
             //Modificar datos de cabecera
             else{
@@ -777,13 +778,13 @@ export class TransformadoresNewComponent implements OnInit {
                 a.mes = (res.mes  != null) ? res.mes : a.mes;
                 a.anio = (res.anio  != null) ? res.anio : a.anio;
               }
-  
+
               this.onUpdateAllTrafos(this.selection.selected);
             }
           }
-  
+
           this.selection = new SelectionModel<any>(true, []);
-          
+
         })
 
       }
@@ -796,27 +797,27 @@ export class TransformadoresNewComponent implements OnInit {
           this.isLoadingResults = false;
         },
         ()=>{
-          this.getTrafos(); 
+          this.getTrafos();
         }
         );
       }
-  
+
 
       onUpdateAllTrafos(trafos){
         this.isLoadingResults = true;
         if(this.idTransfo!==null){
           this.transformadoresService.updateAllTrafos(trafos).subscribe(
             () => {
-              
+
               this.isLoadingResults = false;
-              
+
             },
             err => {
               this.isLoadingResults = false;
             },
             ()=>{
               this.getTrafos();
-              
+
             }
             );
           }
@@ -839,18 +840,25 @@ export class TransformadoresNewComponent implements OnInit {
         let data={
           titulo:"Borrar Transformadores",
           labelButton:"Borrar",
+          header:"¿Desea Borrar los siguientes transformadores?",
           trafosToDelete:this.selection.selected
         }
-        const dialogRef3 = this.dialog.open(DeleteAllTransfoDialog, { 
+        const dialogDAT = this.dialog.open(DeleteAllTransfoDialog, {
           data:data
         });
+
+        dialogDAT.afterClosed().subscribe(()=>{
+          this.selection.clear();
+          this.getTrafos();
+        })
+
       }
 
       export(){
         console.log(this.dataGetTrafos.data);
-        
+
         this.excelService.generateExcel(this.dataGetTrafos.data);
-        
+
       }
 
 
@@ -860,7 +868,7 @@ export class TransformadoresNewComponent implements OnInit {
           tap(tipoEtapa => this.data6 = tipoEtapa)
         )
       }
-    
+
       getEtapasporTransfo(id:number): Observable<Etapa[]> {
         return this.etapaService.getEtapasPorIdTransfo(id).pipe(
           tap(etapa => this.data5 = etapa)
@@ -870,37 +878,37 @@ export class TransformadoresNewComponent implements OnInit {
       asignarEtapaTransfo(){
         this.data7=[];
         this.data5.forEach((e,i)=>{
-          let obj = new EtapaTransfo;     
+          let obj = new EtapaTransfo;
           this.data6.forEach((e,j)=>{
               if(this.data5[i].idTipoEtapa==this.data6[j].idTipoEtapa)
               {
-                
+
                 obj.nombreEtapa=this.data6[j].nombreEtapa;
-                
+
               }
             })
           obj.dateIni=this.data5[i].dateIni;
           obj.dateFin=this.data5[i].dateFin;
           obj.tiempoParc=this.data5[i].tiempoParc;
-          obj.tiempoFin=this.data5[i].tiempoFin;   
+          obj.tiempoFin=this.data5[i].tiempoFin;
           this.data7.push(obj);
           })
-        }
+      }
 
-        openDialogEtapaTransfo(obj):void{
-          
+      openDialogEtapaTransfo(obj):void{
+
           const dialogRef5 = this.dialog.open(ShowInfoNewComponent,{
             width:'100%',
             position: {
               left: `100px`,
-              
+
             },
             data:obj,
           })
           dialogRef5.afterClosed().subscribe(result => {
-            
+
           })
-        }
+      }
 
       onRowClicked(row) {
         this.data2 = row;
@@ -910,7 +918,7 @@ export class TransformadoresNewComponent implements OnInit {
         ]).subscribe(() => {
           this.asignarEtapaTransfo();
           this.openDialogEtapaTransfo(this.data7);
-        });    
+        });
       }
 
       compareObjects(o1: any, o2: any): boolean {
@@ -948,9 +956,9 @@ export class TransformadoresNewComponent implements OnInit {
                 yearArray.push(a.anio)
               }
             }
-            
 
-        
+
+
             this.oTe = ot === null ? ' ' : ot;
             this.nucleos = nucl === null ? ' ' : nucl;
             this.oPe = op === null ? ' ' : op;
@@ -972,7 +980,7 @@ export class TransformadoresNewComponent implements OnInit {
             }
             this.openSnackBar("aplicando los filtros seleccionados","buscando")
             this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{
-              
+
               if(res && res.length>0)
               {
                 this.isLoadingResults=true;
@@ -1008,8 +1016,8 @@ export class TransformadoresNewComponent implements OnInit {
       }
 
 
-    
-    
+
+
 }
 
 
@@ -1018,25 +1026,25 @@ interface ComboClientes{
     value:string;
     viewValue:string;
   }
-  
+
   interface ComboTipoTransfo{
     id:number;
     value:string;
     viewValue:string;
   }
-  
-  
+
+
   @Component({
     selector: "alta-transformadores-new",
     templateUrl: "alta-transformadores-new.html",
     styleUrls: ['./transformadores-new.component.css']
 
   })
-  
+
   export class AddTransfoComponent{
-  
-  
-  
+
+
+
     form: FormGroup;
     potencia:number;
     oPe:string;
@@ -1074,7 +1082,7 @@ interface ComboClientes{
 
     checkedDate=false;
     hide=false;
-    
+
     constructor(
       private _snackBar:MatSnackBar,
       private clienteService:ClienteService,
@@ -1089,7 +1097,7 @@ interface ComboClientes{
         this.titulo=data1.titulo;
         this.labelButton=data1.labelButton;
     }
-  
+
     ngOnInit() {
       this.form = this.fb.group({
         potencia:[null,[Validators.required]],
@@ -1113,14 +1121,14 @@ interface ComboClientes{
         prioridad:null,
         fechaCreacion:this.fechaCreacion,
         lote:null,
-      },);  
+      },);
       this.getClientes();
       this.getTipoTransfo();
 
      //filtro
     //  this.filter();
     }
-    
+
     filter()
     {
       this.filteredOptions = this.form.controls['f'].valueChanges
@@ -1133,10 +1141,10 @@ interface ComboClientes{
     displayFn(comboCli: ComboClientes): string {
       return comboCli && comboCli.viewValue ? comboCli.viewValue : '';
     }
-  
+
     private _filter(name: string): ComboClientes[] {
       const filterValue = name.toLowerCase();
-  
+
       return this.comboClientes.filter(option => option.viewValue.toLowerCase().indexOf(filterValue) === 0);
     }
 
@@ -1144,8 +1152,8 @@ interface ComboClientes{
       let cantidad=parseInt(this.form.get('cantidad').value);
       let rango=parseInt(this.form.get('rangoInicio').value);
       let op=parseInt(this.form.get('oPe').value)
-      
-      this.transformadoresService.getRange(cantidad,op,rango).subscribe(res => 
+
+      this.transformadoresService.getRange(cantidad,op,rango).subscribe(res =>
         {
           if(res!=null)
           {
@@ -1156,9 +1164,9 @@ interface ComboClientes{
           }
         }
       );
-      
+
     }
-    
+
     selectedClient(event)
     {
       if(event.source.value.id==9999)
@@ -1171,15 +1179,15 @@ interface ComboClientes{
       }
       console.log(this.form);
     }
-  
+
     changeClient(value) {
       return value.id;
-    } 
-  
+    }
+
     changeTipoTransfo(valueTransfo){
       return valueTransfo.id;
     }
-  
+
     saveTrafo() {
       console.log(this.form.value);
       let cliente=this.form.controls['f'].value;
@@ -1210,7 +1218,7 @@ interface ComboClientes{
         this.form.controls['lote'].setValue[1];
         this.transformadoresService.addTransformador(this.form.value).subscribe(
           (res) => {
-            this.openSnackBar("Transformador agregado", "Exito!");   
+            this.openSnackBar("Transformador agregado", "Exito!");
           },
           err => {
             this.openSnackBar("No se ha agregado ningún transformador","Error!");
@@ -1219,7 +1227,7 @@ interface ComboClientes{
         )}
     }
 
-  
+
     getTipoTransfo():void{
         this.tipoTransfoService.getTipoTransfo()
         .subscribe(tipoTransfo => {
@@ -1227,7 +1235,7 @@ interface ComboClientes{
         });
       }
 
-  
+
     close() {
       this.dialogRefCli.close();
     }
@@ -1277,12 +1285,12 @@ interface ComboClientes{
       this.clienteService.addCliente(form).subscribe(
         (res) => {
           console.log(res);
-          
+
           this.openSnackBar("Cliente agregado","Exito!")
           //this.isLoadingResults = false;
-          
+
           //this.getClientes();
-          
+
         },
         err => {
           console.log(err);
@@ -1297,8 +1305,8 @@ interface ComboClientes{
           duration: 2 * 1000,
          });
     }
-  
-  
+
+
   }
 
   @Component({
@@ -1307,9 +1315,9 @@ interface ComboClientes{
     styleUrls:["transformadores-new.component.css"]
   })
   export class EditDeleteTransfoComponent{
-  
-  
-  
+
+
+
     form: FormGroup;
     potencia:number;
     oPe:string;
@@ -1344,10 +1352,10 @@ interface ComboClientes{
     radPan:string;
     foundedValue='';
     enabled=true;
-    
-    @Output() 
+
+    @Output()
     dateChange:EventEmitter<MatDatepickerInputEvent<any>>;
-    
+
     constructor(
       private fb: FormBuilder,
       private clienteService:ClienteService,
@@ -1382,7 +1390,7 @@ interface ComboClientes{
 
 
 
-      
+
     ngOnInit() {
       this.form = this.fb.group({
         idTransfo:[this.idTransfo],
@@ -1405,19 +1413,19 @@ interface ComboClientes{
         prioridad:[this.prioridad],
         lote:[this.lote],
         radPan:[this.radPan]
-      }); 
+      });
 
-      
+
 
       this.getClientes();
       this.getTipoTransfo();
 
 
-      
-     
-      
+
+
+
       //this.form.controls['f'].setValue({id:this.f.idCliente,value:this.f.nombreCli,viewValue:this.f.nombreCli})
-      
+
       this.disabling();
     }
 
@@ -1439,15 +1447,15 @@ interface ComboClientes{
         this.form.disable();
       }
     }
-    
+
     displayFn(comboCli: ComboClientes): string {
-          
+
           return comboCli && comboCli.viewValue ? comboCli.viewValue : '';
       }
-      
+
     private _filter(name: string): ComboClientes[] {
       const filterValue = name.toLowerCase();
-  
+
       return this.comboClientes.filter(option => option.viewValue.toLowerCase().indexOf(filterValue) === 0);
     }
 
@@ -1462,8 +1470,8 @@ interface ComboClientes{
       let idTransfo=parseInt(this.form.get('idTransfo').value);
       let rango=parseInt(this.form.get('rangoInicio').value);
       let op=parseInt(this.form.get('oPe').value)
-      
-      this.transformadoresService.getRangeOnPut(idTransfo,op,rango).subscribe(res => 
+
+      this.transformadoresService.getRangeOnPut(idTransfo,op,rango).subscribe(res =>
         {
           if(res!=null)
           {
@@ -1476,7 +1484,7 @@ interface ComboClientes{
           }
         }
       );
-      
+
     }
 
     getClientes(){
@@ -1493,15 +1501,15 @@ interface ComboClientes{
         )
       }
 
-      
+
 
     changeDate(event){
       this.form.controls['mes'].setValue((event.value.month())+1);
       this.form.controls['anio'].setValue(event.value.year());
     }
-  
+
     save() {
-      
+
       if(this.labelButton=="Borrar")
       {
         this.transformadoresService.deleteTransformador(this.form.controls['idTransfo'].value).subscribe(res => console.log(res))
@@ -1515,15 +1523,15 @@ interface ComboClientes{
         }
         this.transformadoresService.updateTransformador(this.form.controls['idTransfo'].value,this.form.value).subscribe(res=>console.log(res));
       }
-      
-      
-      
+
+
+
     }
-  
+
     close() {
       this.dialogRef.close();
     }
-  
+
   }
 
   @Component({
@@ -1552,26 +1560,26 @@ interface ComboClientes{
       'observaciones'
     ]
 
-  
+
     constructor(private dialogRef: MatDialogRef<ShowInfoNewComponent>,
       @Inject(MAT_DIALOG_DATA) data1)
       {
-  
-        
+
+
           this.dataEtapaPorTransfo=data1;
       }
-  
+
       ngOnInit(){
         this.dataEtapaPorTransfo;
       }
-  
+
       onNoClick(): void {
         this.dialogRef.close();
       }
-    
-      
-  
-  
+
+
+
+
   }
 
   @Component({
@@ -1580,9 +1588,9 @@ interface ComboClientes{
     styleUrls:['transformadores-new.component.css']
   })
   export class EditAllTrafosNewComponent{
-  
-  
-  
+
+
+
     form: FormGroup;
     potencia:number;
     oPe:string;
@@ -1629,11 +1637,11 @@ interface ComboClientes{
       {value: '1', viewValue: 'editar datos de procesos'}
     ];
 
-    @Output() 
+    @Output()
     dateChange:EventEmitter< MatDatepickerInputEvent<any>>;
-    
 
-    
+
+
     constructor(
       private tipoEtapaService:TipoEtapaService,
       private coloresService:ColoresService,
@@ -1649,13 +1657,13 @@ interface ComboClientes{
         this.trafosToModify=data1.trafosToModify;
         this.dataTipoTransfo=data1.dataTipoTransfo;
         this.colores=data1.colores;
-        
-        
+
+
     }
 
 
 
-      
+
     ngOnInit() {
       this.form = this.fb.group({
         oPe:[this.oPe],
@@ -1671,7 +1679,7 @@ interface ComboClientes{
         fechaProd:[this.fechaProd],
         anio:[this.anio],
         mes:[this.mes]
-        
+
       })
       this.getclientes();
       this.getColores();
@@ -1718,18 +1726,18 @@ interface ComboClientes{
     displayFn(comboCli: Cliente): string {
       return comboCli && comboCli.nombreCli ? comboCli.nombreCli : '';
     }
-  
+
     private _filter(name: string): Cliente[] {
       const filterValue = name.toLowerCase();
-  
+
       return this.diego2.filter(option => option.nombreCli.toLowerCase().indexOf(filterValue) === 0);
     }
-    
+
     changeDate(event){
-      
+
       this.form.controls['mes'].setValue((event.value.month())+1);
       this.form.controls['anio'].setValue(event.value.year());
-      
+
     }
 
     onFormSubmit(form: NgForm){
@@ -1738,12 +1746,12 @@ interface ComboClientes{
       this.clientesService.addCliente(form).subscribe(
         (res) => {
           console.log(res);
-          
+
           this.openSnackBar("Cliente agregado","Exito!")
           //this.isLoadingResults = false;
-          
+
           //this.getClientes();
-          
+
         },
         err => {
           console.log(err);
@@ -1778,7 +1786,7 @@ interface ComboClientes{
     });
     //dialogRef.close();
   }
-  
+
     save() {
       if(this.selectedValue=='0'){
         console.log(this.form.value)
@@ -1799,7 +1807,7 @@ interface ComboClientes{
         this.dialogRef.close(obj)
       }
     }
-  
+
     onNoClick(): void {
       this.dialogRef.close();
     }
@@ -1809,7 +1817,7 @@ interface ComboClientes{
         duration: 2 * 1000,
        });
   }
-  
+
   }
 
   @Component({
@@ -1820,7 +1828,9 @@ interface ComboClientes{
   export class DeleteAllTransfoDialog{
     titulo="";
     labelButton="";
-    transfoArray:[]=[];
+    header="";
+    transfoArray=[];
+    idTransfoArray=[];
     constructor(private transformadoresService:TransformadoresService,
     private dialogRef: MatDialogRef<DeleteAllTransfoDialog>,public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data1
@@ -1829,16 +1839,53 @@ interface ComboClientes{
       this.titulo=data1.titulo;
       this.labelButton=data1.labelButton;
       this.transfoArray=data1.trafosToDelete;
+      this.header=data1.header;
+      for(let trafo of this.transfoArray)
+      {
+        this.idTransfoArray.push(trafo.idTransfo);
+      }
     }
 
     deleteTrafos()
     {
-      this.transformadoresService.deleteAllTrafos(this.transfoArray);
+      this.transformadoresService.deleteAllTrafos(this.idTransfoArray).subscribe(res=>
+        {
+          if(res.status==409){
+            let data={
+              titulo:"Confirmar borrado",
+              labelButton:"Confirmar",
+              header:`${res.message} ¿Desea continuar de todos modos?`,
+              trafosToDelete:this.transfoArray
+            }
+            // this.dialog.open(DeleteAllTransfoDialog,{
+            //   data:data}
+            // )
+            const dialogRef3 = this.dialog.open(DeleteAllTransfoDialog, {
+              data:data
+            });
+
+          }
+          if(res.status==200)
+          {
+            this.dialog.closeAll();
+          }
+        }
+      );
+    }
+
+    confirmDeleteTrafos(){
+      this.transformadoresService.confirmDeleteAllTrafos(this.idTransfoArray).subscribe(res=>{
+        console.log(res);
+        if(res.status==200)
+        {
+          this.dialog.closeAll();
+        }
+      })
     }
   }
 
 
-  
+
   export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(
       control: FormControl | null,

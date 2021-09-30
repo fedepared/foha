@@ -208,10 +208,18 @@ export class TransformadoresService {
   }
 
   deleteAllTrafos(arrayTrafos:number[]):Observable<IResponse<any> | any>{
-    const url = `${apiUrl}`
-    return this.http.delete<IResponse<any>>(url,httpOptions).pipe(
-      tap(_ => this.openSnackBar(`Transformador Borrado`,"Exito!")),
-      catchError(this.handleError<Transformadores>('delete Transformadores'))
+    const url = `${apiUrl}/DeleteMasivoTrafos`
+    return this.http.post<IResponse<any>>(url,arrayTrafos,httpOptions,).pipe(
+      tap(_ => this.openSnackBar(`${_.message}`,"!")),
+      catchError(this.handleError<IResponse<any>>('delete many Transformadores',))
+    )
+  }
+
+  confirmDeleteAllTrafos(arrayTrafos:number[]):Observable<IResponse<any> | any>{
+    const url = `${apiUrl}/DeleteMasivoTrafosNoCheck`
+    return this.http.post<IResponse<any>>(url,arrayTrafos,httpOptions).pipe(
+      tap(_ => this.openSnackBar(`${_.message}`,"Exito!")),
+      catchError(this.handleError<IResponse<any>>('confirm delete many Transformadores',))
     )
   }
 
@@ -225,16 +233,17 @@ export class TransformadoresService {
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
-    return (error: HttpErrorResponse): Observable<T> => {
+    return (error:HttpErrorResponse): Observable<T> => {
       
         // TODO: send the error to remote logging infrastructure
-        this.openSnackBar(`${error.error}`,`${error.status}`) // log to console instead
+        this.openSnackBar(`${error.error.message}`,`${error.error.status}`) // log to console instead
   
         // TODO: better job of transforming error for user consumption
-        this.log(`${operation} failed: ${error.message}`);
+        this.log(`${operation} failed: ${error.error.message}`);
   
         // Let the app keep running by returning an empty result.
-        return of(result as T);
+        return of(error.error as T);
+        
     };
   }
 

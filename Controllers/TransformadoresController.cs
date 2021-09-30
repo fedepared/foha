@@ -841,7 +841,7 @@ namespace Foha.Controllers
             {
                 if(r.Message == "")
                 {
-                    r.Message = "Los siguientes tranformadores tienen etapas empezadas: " + t.OPe + "/" + t.OTe + "/" + t.RangoInicio;
+                    r.Message = "Los siguientes tranformadores tienen etapas empezadas:"+ "\n OP:" + t.OPe + ", OT:" + t.OTe + ", rango:" + t.RangoInicio;
                 }
                 else 
                 {
@@ -892,8 +892,11 @@ namespace Foha.Controllers
                 {
                     if(e.DateIni != null)//Si tiene DateIni busco en la tabla EtapaEmpleado el registro y lo borro.
                     {
-                        var etapaEmp = await _context.EtapaEmpleado.Where(x => x.IdEtapa == e.IdEtapa).FirstOrDefaultAsync();
-                        _context.Remove(etapaEmp);
+                        var etapaEmp = _context.EtapaEmpleado.Where(x => x.IdEtapa == e.IdEtapa);
+                        if(etapaEmp!=null)
+                        {
+                            _context.RemoveRange(etapaEmp);
+                        }
                     }
                     _context.Remove(e);//Despues de chequear y borrar de ser necesario el registro en la trabla intermedia, borro la etapa en si.
                 }
