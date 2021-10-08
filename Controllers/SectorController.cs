@@ -9,7 +9,7 @@ using Foha.Models;
 using Foha.Dtos;
 using Foha.Repositories;
 using AutoMapper;
-
+using Foha.DTOs;
 
 namespace Foha.Controllers
 {
@@ -33,6 +33,25 @@ namespace Foha.Controllers
         public IEnumerable<Sectores> GetSectores()
         {
             return _context.Sectores;
+        }
+
+        [HttpGet("getSectoresReport")]
+        public async Task<IActionResult> GetSectoresReport()
+        {
+            Response<Sectores[]> res= new Response<Sectores[]>();
+            try
+            {
+                res.Data=await _context.Sectores.Where(x=>x.IdSector!=10 && x.IdSector!=11).ToArrayAsync();
+                res.Status = 200;
+                res.Message = "Ok";
+                return Ok(res);
+            }
+            catch(Exception ex)
+            {
+                res.Status=400;
+                res.Message= ex.Message;
+                return BadRequest(res);
+            }
         }
 
         // GET: api/Sector/5

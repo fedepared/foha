@@ -4,6 +4,7 @@ import {catchError, tap } from 'rxjs/operators';
 import { Observable, of} from 'rxjs';
 import {Sectores } from '../models/sectores';
 import { environment } from 'src/environments/environment';
+import { IResponse } from '../models/iresponse';
 
 const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -26,6 +27,14 @@ const httpOptions = {
             catchError(this.handleError('getSectores', []))
         );
     }
+
+    getSectoresReport(): Observable<IResponse<Sectores[]>|any> {
+      return this.http.get<IResponse<Sectores[]>>(`${this.apiUrl}/getSectoresReport`)
+      .pipe(
+          tap(_ => this.log('fetched Sectores')),
+          catchError(this.handleError('getSectores', []))
+      );
+  }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {

@@ -60,9 +60,9 @@ export class EmployerReportComponent implements OnInit {
 
   getEmpleados(): void {
     this.empleadoService.getEmpleados().subscribe(
-      empleados => {
+      res => {
         
-        this.dataEmpleados = empleados;
+        this.dataEmpleados = res.data;
       },
       err => {
         console.log(err);

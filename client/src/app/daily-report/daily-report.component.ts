@@ -10,6 +10,10 @@ import * as _moment from 'moment';
 
 import {default as _rollupMoment} from 'moment';
 import { InterpolationConfig } from '@angular/compiler';
+import { Sectores } from '../models/sectores';
+import { SectoresService } from '../services/sectores.service';
+import { Empleado } from '../models/empleado';
+import { EmpleadoService } from '../services/empleado.service';
 
 
 
@@ -50,8 +54,13 @@ export class DailyReportComponent implements OnInit {
   form: FormGroup;
   noResult:boolean=false;
   dateRangeDisp;
-  
-  constructor(private etapaService:EtapaService,fb: FormBuilder) {
+  selectedSector:Sectores;
+  sectors:Sectores[];
+  selectedEmpleado:Empleado;
+  empleados:Empleado[];
+
+
+  constructor(private etapaService:EtapaService,fb: FormBuilder,private sectoresService:SectoresService,private empleadoService:EmpleadoService) {
     this.form = fb.group({
       date: [{begin: this.startDate, end: this.endDate}]
     });
@@ -60,6 +69,7 @@ export class DailyReportComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.getSectores();
     this.getEtapasFinalizadas();
     
   }
@@ -80,8 +90,43 @@ export class DailyReportComponent implements OnInit {
       })
   }
 
+  getSectores(){
+    this.sectoresService.getSectoresReport().subscribe(res=>{
+        this.sectors=res.data;
+        for(let sector of this.sectors)
+        {
+          switch(sector.idSector)
+          {
+            case 7: 
+              sector.nombreSector="encubado (Operario)";
+              break;
+            case 9:
+              sector.nombreSector="terminación y despacho (Operario)";
+              break;
+            case 12:
+              sector.nombreSector="encubado (Encargado)";
+              break;
+            case 21:
+              sector.nombreSector="caldereria (Encargado)";
+              break;
+          }
+        }
+    })
+  }
+
+  changeSector(selectedSector:Sectores)
+  {
+    console.log(selectedSector);
+    // this.empleadoService.getEmpleadosByIdSector(selectedSector.idSector).subscribe(res=>{
+    //   this.empleados=res.data;
+    // })
+  }
+
   search2(){
+    let comienzo = this.dateRangeDisp.begin.getTime();
+    let fin = this.dateRangeDisp.end.getTime();
     
+
     this.resultado = this.dataEtapas.filter((item: any) => {
       return (item.dateFin.getTime() >= this.dateRangeDisp.begin.getTime()) &&
       (item.dateFin.getTime() <= this.dateRangeDisp.end.getTime());

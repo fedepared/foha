@@ -214,7 +214,7 @@ export class EtapaService {
   }
 
   getEtapasFinalizadas(): Observable<Etapa[]> {
-    const url=`${apiUrl}/etapasFinalizadas`
+    const url=`${apiUrl}/etapasFinalizadas/`
     return this.http.get<Etapa[]>(url).pipe(
       tap(_ => this.log("fetched Etapa")),
       catchError(this.handleError("getEtapas", []))

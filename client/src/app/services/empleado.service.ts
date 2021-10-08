@@ -36,6 +36,14 @@ export class EmpleadoService {
     )
   }
 
+  getEmpleadosByIdSector(idSector:number):Observable<IResponse<Empleado>|any>{
+    return this.http.get<IResponse<Empleado[]>>(`${apiUrl}/getEmpleadosByIdSector`)
+    .pipe(
+      tap(_ => this.log('fetched Empleados')),
+      catchError(this.handleError<Empleado[]>(`getEmpleados By idSector`))
+    )
+  }
+
   addEmpleado (empleado: any): Observable<IResponse<Empleado> | any> {
     return this.http.post<IResponse<Empleado>>(apiUrl, empleado, httpOptions).pipe(
       tap(_ => this.openSnackBar(`empleado agregado con el legajo:${_.data.legajo}`,"Exito!")),

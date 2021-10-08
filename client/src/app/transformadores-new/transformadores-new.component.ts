@@ -863,8 +863,6 @@ export class TransformadoresNewComponent implements OnInit {
       }
 
       export(){
-        console.log(this.dataGetTrafos.data);
-
         this.excelService.generateExcel(this.dataGetTrafos.data);
 
       }

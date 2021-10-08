@@ -51,8 +51,6 @@ export class ExcelService {
 //private datePipe: DatePipe
   generateExcel(data){
     
-    console.log(data)
-    
     const title = 'AVANCE DE LA PRODUCCION';    
     //Create workbook and worksheet
     let workbook = new Workbook();
@@ -159,38 +157,38 @@ export class ExcelService {
       {key:'cliente',width:11},
       {key:'fpr',width:11},
       {key:'observaciones',width:11},
-      {key:'documentacion',width:11},
-      {key:'bobinaBT1',width:11},
-      {key:'bobinaBT2',width:11},
-      {key:'bobinaBT3',width:11},
-      {key:'bobinaAT1',width:11},
-      {key:'bobinaAT2',width:11},
-      {key:'bobinaAT3',width:11},
-      {key:'bobinaRG1',width:11},
-      {key:'bobinaRG2',width:11},
-      {key:'bobinaRG3',width:11},
-      {key:'bobinaRF1',width:11},
-      {key:'bobinaRF2',width:11},
-      {key:'bobinaRF3',width:11},
-      {key:'ensamblajeBobinas',width:11},
-      {key:'corteYPlegadoPYS',width:11},
-      {key:'soldaduraPYS',width:11},
-      {key:'envioPYS',width:11},
-      {key:'nucleo',width:11},
-      {key:'montaje',width:11},
-      {key:'horno',width:11},
-      {key:'cYPTapaCuba',width:11},
-      {key:'tapa',width:11},
-      {key:'radiadoresOPaneles',width:11},
-      {key:'cuba',width:11},
-      {key:'tintasPenetrantes',width:11},
-      {key:'granallado',width:11},
-      {key:'pintura',width:11},
-      {key:'encubado',width:11},
-      {key:'ensayosRef',width:11},
-      {key:'terminacion',width:11},
-      {key:'envioADeposito',width:11},
-      {key:'envioACliente',width:11}
+      {key:'documentacion',width:11.5},
+      {key:'bobinaBT1',width:11.5},
+      {key:'bobinaBT2',width:11.5},
+      {key:'bobinaBT3',width:11.5},
+      {key:'bobinaAT1',width:11.5},
+      {key:'bobinaAT2',width:11.5},
+      {key:'bobinaAT3',width:11.5},
+      {key:'bobinaRG1',width:11.5},
+      {key:'bobinaRG2',width:11.5},
+      {key:'bobinaRG3',width:11.5},
+      {key:'bobinaRF1',width:11.5},
+      {key:'bobinaRF2',width:11.5},
+      {key:'bobinaRF3',width:11.5},
+      {key:'ensamblajeBobinas',width:11.5},
+      {key:'corteYPlegadoPYS',width:11.5},
+      {key:'soldaduraPYS',width:11.5},
+      {key:'envioPYS',width:11.5},
+      {key:'nucleo',width:11.5},
+      {key:'montaje',width:11.5},
+      {key:'horno',width:11.5},
+      {key:'cYPTapaCuba',width:11.5},
+      {key:'tapa',width:11.5},
+      {key:'radiadoresOPaneles',width:11.5},
+      {key:'cuba',width:11.5},
+      {key:'tintasPenetrantes',width:11.5},
+      {key:'granallado',width:11.5},
+      {key:'pintura',width:11.5},
+      {key:'encubado',width:11.5},
+      {key:'ensayosRef',width:11.5},
+      {key:'terminacion',width:11.5},
+      {key:'envioADeposito',width:11.5},
+      {key:'envioACliente',width:11.5}
       ]
     
     
@@ -316,7 +314,7 @@ export class ExcelService {
   }
 
   stringToDate(fot) : Date{
-    return new Date(fot);
+    return new Date(fot.split('T')[0]);
   }
 
 
