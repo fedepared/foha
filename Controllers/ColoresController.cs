@@ -83,13 +83,19 @@ namespace Foha.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            addColorDto.IdColor = _context.Colores.Count() > 0 ? _context.Colores.Max(x => x.IdColor) + 1 : 1;
             var preColor = _mapper.Map<Colores>(addColorDto);
             _repo.Add(preColor);
-            var saveColor = await _repo.SaveAsync(preColor);
-            var ColorResponse = _mapper.Map<ColorResponseDto>(saveColor);
+            try{
+                var saveColor = await _repo.SaveAsync(preColor);
+                var ColorResponse = _mapper.Map<ColorResponseDto>(saveColor);
 
-            return StatusCode(201, new { ColorResponse });
+                return StatusCode(201, new { ColorResponse });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.InnerException);
+            }
 
             
         }

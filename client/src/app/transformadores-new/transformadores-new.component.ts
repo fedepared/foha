@@ -90,7 +90,7 @@ interface Mes {
     <div style="height:47px;line-height:47px;"  [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '2.5px solid rgb(56,56,56)': '0')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
       <span style="display:inline;margin:0;width:24px;height:24px;">
-        <button mat-icon-button *ngIf="etapa.dateIni==null || etapa.dateFin!==null" (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>done</mat-icon></button>
+        <button mat-icon-button *ngIf="idTipoUs!='4' && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>done</mat-icon></button>
       </span>
     </div>
   </ng-container>
@@ -101,6 +101,7 @@ interface Mes {
 export class EtapaColumnComponent3{
   coloresArr:Colores[]=[];
   etapaSelected:Etapa;
+  idTipoUs=null;
 
   @Input() etapa:Etapa; actualizar:Boolean;
   @Output() actualizado=new EventEmitter<Boolean>();
@@ -108,6 +109,10 @@ export class EtapaColumnComponent3{
 
 
   constructor(private coloresService:ColoresService,public dialog: MatDialog){}
+
+  ngOnInit(){
+    this.idTipoUs=localStorage.getItem("idTipoUs");
+  }
 
   getColores(): void{
     this.coloresService.getColores()
@@ -389,7 +394,8 @@ export class TransformadoresNewComponent implements OnInit {
   //variable para los meses
   months=null;
 
-
+  //variable para el tipo de usuario
+  idTipoUs=null;
 
 
 
@@ -404,6 +410,8 @@ export class TransformadoresNewComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.idTipoUs=localStorage.getItem("idTipoUs");
+    console.log(this.idTipoUs);
     this.dataGetTrafos=new MatTableDataSource();
     this.getTrafos();
     this.getMonthYear();
@@ -1359,6 +1367,8 @@ interface ComboClientes{
     constructor(
       private fb: FormBuilder,
       private clienteService:ClienteService,
+      public _snackBar:MatSnackBar,
+      public dialog:MatDialog,
       private tipoTransfoService:TipoTransfoService,
       private transformadoresService:TransformadoresService,
       private dialogRef: MatDialogRef<EditDeleteTransfoComponent>,
@@ -1445,6 +1455,7 @@ interface ComboClientes{
     disabling(){
       if(this.labelButton=="Borrar"){
         this.form.disable();
+        
       }
     }
 
@@ -1501,12 +1512,65 @@ interface ComboClientes{
         )
       }
 
-
+      onFormSubmit(form: NgForm){
+        console.log(form);
+        //this.isLoadingResults = true;
+        this.clienteService.addCliente(form).subscribe(
+          (res) => {
+            console.log(res);
+  
+            this.openSnackBar("Cliente agregado","Exito!")
+            //this.isLoadingResults = false;
+  
+            //this.getClientes();
+  
+          },
+          err => {
+            console.log(err);
+            this.openSnackBar(`${err}`,"Eror!")
+            //this.isLoadingResults = false;
+          }
+        );
+      }
+  
+    
 
     changeDate(event){
       this.form.controls['mes'].setValue((event.value.month())+1);
       this.form.controls['anio'].setValue(event.value.year());
     }
+
+    addCliente(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = {
+      id: 1,
+      titulo: "Agregar Cliente",
+      labelButton:"Agregar"
+    };
+    // dialogConfig.width= '300px';
+    const dialogRef = this.dialog.open(CourseDialog3Component, dialogConfig);
+
+    dialogRef.afterClosed()
+    .subscribe(data => {
+      console.log(data)
+      if (data != undefined) {
+        this.onFormSubmit(data);
+        setTimeout(()=>{
+          this.getClientes();
+          this.filter();
+        },1000);
+      } else {
+        //this.getClientes();
+      }
+    });
+    //dialogRef.close();
+  }
+
+  openSnackBar(mensaje1,mensaje2){
+    this._snackBar.open(mensaje1,mensaje2, {
+      duration: 2 * 1000,
+     });
+}
 
     save() {
 

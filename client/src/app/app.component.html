@@ -14,8 +14,8 @@
         
             <!-- <a mat-list-item *ngIf="isOp==false" (click)="sidenav.toggle()" routerLink="/trafos">
                 <mat-icon svgIcon="fohama"></mat-icon> <span class="nav-caption">&nbsp;  Transformadores</span>
-            </a> -->
-            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='3'" (click)="sidenav.toggle()" routerLink="/trafos">
+            </a> --> 
+            <a mat-list-item *ngIf="idTipoUs!=='2'" (click)="sidenav.toggle()" routerLink="/trafos">
                 <img src="assets/logofohamaicoJPG.jpg"><span class="nav-caption">&nbsp;  Transformadores</span>
             </a>
             <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/empleados">
@@ -35,6 +35,12 @@
             </a>
             <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/referencias">
                 <mat-icon>add_comment</mat-icon> <span class="nav-caption">&nbsp;  Referencias</span>   
+            </a>
+            <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reportes">
+                <mat-icon>insert_chart_outlined</mat-icon> <span class="nav-caption">&nbsp;  Reportes</span>   
+            </a>
+            <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reporteEmpleados">
+                <mat-icon>supervised_user_circle</mat-icon> <span class="nav-caption">&nbsp;  Reportes Empleados</span>   
             </a>
             <a mat-list-item *ngIf="idTipoUs=='1'">
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">

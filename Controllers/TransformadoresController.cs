@@ -795,25 +795,28 @@ namespace Foha.Controllers
         // }
 
         var listaEtapa = _context.Etapa.Where(x=>x.IdTransfo==id).ToList();
-        foreach (var l in listaEtapa){
-            try{
-                _context.Etapa.Remove(l);
-             
-            }
-            catch(DbUpdateException err){
-                throw err;
-            }
-        }
-
         try{
-            _context.Transformadores.Remove(transformadores);
+            foreach(Etapa e in listaEtapa)
+            {
+                if(e.DateIni != null)//Si tiene DateIni busco en la tabla EtapaEmpleado el registro y lo borro.
+                {
+                    var etapaEmp = _context.EtapaEmpleado.Where(x => x.IdEtapa == e.IdEtapa);
+                    if(etapaEmp!=null)
+                    {
+                        _context.RemoveRange(etapaEmp);
+                    }
+                }
+                _context.Remove(e);//Despues de chequear y borrar de ser necesario el registro en la trabla intermedia, borro la etapa en si.
+            }
+            _context.Remove(transformadores);//Despues de borrar las etapas y EtapaEmpleado si habia, borro el trafo.
+            
+            await _context.SaveChangesAsync();//Guardo todo.
+            return Ok("Se borraron los transformadores exitosamente.");
         }
-        catch(DbUpdateException err){
-            throw err;
+        catch(Exception e){//Si pincha devuelvo mensaje de error
+            
+            return Conflict(e.Message);
         }
-        await _context.SaveChangesAsync();
-
-        return Ok(transformadores);
     }
 
     [HttpPost("DeleteMasivoTrafos")]

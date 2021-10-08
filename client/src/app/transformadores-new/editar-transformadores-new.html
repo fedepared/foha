@@ -58,15 +58,18 @@
       </mat-select>
     </mat-form-field>
     
-    <mat-form-field appearance="outline">
-      <mat-label>Elegir cliente</mat-label>
-      <input type="text" matInput formControlName="f" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let f of filteredOptions | async" [value]="f">
-          {{f.value}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Elegir cliente</mat-label>
+        <input type="text" matInput formControlName="f" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let f of filteredOptions | async" [value]="f">
+            {{f.value}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button [disabled]="this.form.controls['f'].disabled" mat-mini-fab style="background-color:teal;float:right;" matTooltip="agregar clientes" (click)="addCliente()"><mat-icon>add</mat-icon></button>
+    </div>
     
     <mat-form-field appearance="outline">
       <mat-label>R/P</mat-label>
@@ -77,16 +80,16 @@
     
     <mat-form-field appearance="outline">
       <mat-label>Fecha de producción</mat-label>
-      <input matInput [matDatepicker]="fechaProd" formControlName="fechaProd" (dateChange)="changeDate($event)" disabled>
+      <input matInput [matDatepicker]="fechaProd" formControlName="fechaProd" (dateChange)="changeDate($event)">
       <mat-datepicker-toggle matSuffix [for]="fechaProd"></mat-datepicker-toggle>
-      <mat-datepicker #fechaProd disabled="false"></mat-datepicker>
+      <mat-datepicker #fechaProd [disabled]="this.form.controls['f'].disabled"></mat-datepicker>
     </mat-form-field>
     
     <mat-form-field appearance="outline">
       <mat-label>Fecha Pactada</mat-label>
-      <input matInput [matDatepicker]="fechaPactada" formControlName="fechaPactada" disabled>
+      <input matInput [matDatepicker]="fechaPactada" formControlName="fechaPactada">
       <mat-datepicker-toggle matSuffix [for]="fechaPactada"></mat-datepicker-toggle>
-      <mat-datepicker #fechaPactada disabled="false"></mat-datepicker>
+      <mat-datepicker #fechaPactada [disabled]="this.form.controls['f'].disabled"></mat-datepicker>
     </mat-form-field>
     
     <mat-form-field appearance="outline">
@@ -100,5 +103,5 @@
 
 <mat-dialog-actions style="float:right;">
     <button class="mat-raised-button" (click)="close()">Cancelar</button>
-    <button class="mat-raised-button mat-primary" style="background-color: teal;" *ngIf="enabled" [mat-dialog-close]="true" (click)="save()">{{labelButton}}</button>
+    <button class="mat-raised-button mat-primary" [style.background-color]="this.form.controls['f'].disabled ? 'red' : 'teal'" *ngIf="enabled" [mat-dialog-close]="true" (click)="save()">{{labelButton}}</button>
 </mat-dialog-actions>

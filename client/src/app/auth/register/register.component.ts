@@ -45,7 +45,8 @@ export class RegisterComponent implements OnInit {
   idTipoUs: TipoUs[] = [
     {value: 1, viewValue: 'Admin'},
     {value: 2, viewValue: 'Operario'},
-    {value: 3, viewValue: 'Encargado'}
+    {value: 3, viewValue: 'Encargado'},
+    {value: 4, viewValue: 'Vista'}
   ];
 
 
@@ -85,7 +86,7 @@ export class RegisterComponent implements OnInit {
 
   onFormSubmit(form: any) {
     console.log(form.idTipoUs);
-    if(form.idTipoUs==1)
+    if(form.idTipoUs==1 || form.idTipoUs==4)
     {
       form.idSector=10;
     }
