@@ -11,5 +11,6 @@ namespace Foha.Dtos
         public long HastaMili {get;set;}
         public int IdSect {get;set;}
         public String idEmp {get;set;}
+        public int idColor { get; set; }
     }
 }
