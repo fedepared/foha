@@ -1209,13 +1209,13 @@ namespace Foha.Controllers
         }
 
         [HttpPost("EtapasPorSector")]
-        public async Task<ActionResult> EtapasPorSector([FromBody] int DesdeMili, [FromBody] int HastaMili, [FromBody] int IdSect, [FromBody] String idEmp )
+        public async Task<ActionResult> EtapasPorSector([FromBody] EtapaPorSectorDto etapaPorSectorDto)
         {
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
             List<Etapa> etapas = new List<Etapa>();
-            DateTime desde = DateTimeOffset.FromUnixTimeMilliseconds(DesdeMili).UtcDateTime;
-            DateTime hasta = DateTimeOffset.FromUnixTimeMilliseconds(HastaMili).UtcDateTime;
+            DateTime desde = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.DesdeMili).UtcDateTime;
+            DateTime hasta = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.HastaMili).UtcDateTime;
             int?[] Sector1 = new int?[] { 1 };
             int?[] Sector2 = new int?[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
             int?[] Sector3 = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27 };
@@ -1234,8 +1234,8 @@ namespace Foha.Controllers
             int?[] Sector25 = new int?[] { 22,27 };
 
             try{
-                if(idEmp != "-1"){//Si el empleado es distinto de -1 busco solo ese empleado con el resto de los datos, como en la db es String tengo que compararlo asi.
-                    List<EtapaEmpleado> EtapasEmp = await _context.EtapaEmpleado.Where(x => x.IsEnded == true && (x.IdEtapaNavigation.DateIni >= desde && x.IdEtapaNavigation.DateFin <= hasta) && x.IdEmpleadoNavigation.Legajo == idEmp)
+                if(etapaPorSectorDto.idEmp != "-1"){//Si el empleado es distinto de -1 busco solo ese empleado con el resto de los datos, como en la db es String tengo que compararlo asi.
+                    List<EtapaEmpleado> EtapasEmp = await _context.EtapaEmpleado.Where(x => x.IsEnded == true && (x.IdEtapaNavigation.DateIni >= desde && x.IdEtapaNavigation.DateFin <= hasta) && x.IdEmpleadoNavigation.Legajo == etapaPorSectorDto.idEmp)
                                                         .Include(x => x.IdEmpleadoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTipoEtapaNavigation)
@@ -1267,7 +1267,7 @@ namespace Foha.Controllers
                         EtapasResponse.Add(reporte);//Agrego el DTO a la lista
                     }
                 }
-                else if (IdSect < 0 || IdSect == 10){//Si no entro en el anterior significa que quiere todos los empleados, entonces arranco a filtrar por sectores, en este caso negativo o admin son todos los sectores.
+                else if (etapaPorSectorDto.IdSect < 0 || etapaPorSectorDto.IdSect == 10){//Si no entro en el anterior significa que quiere todos los empleados, entonces arranco a filtrar por sectores, en este caso negativo o admin son todos los sectores.
                     etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta))
                                         .Include(x => x.IdTipoEtapaNavigation)
                                         .Include(x => x.IdTransfoNavigation)
@@ -1276,7 +1276,7 @@ namespace Foha.Controllers
                                         .ToListAsync();                    
                 }
                 else{
-                    switch(IdSect){//Si tampoco entro en el anterior significa que quiere un sector especifico con todos los empleados, asique empiezo a filtrar por idSector.
+                    switch(etapaPorSectorDto.IdSect){//Si tampoco entro en el anterior significa que quiere un sector especifico con todos los empleados, asique empiezo a filtrar por idSector.
                         case 1:
                             etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector1.Contains(x.IdTipoEtapa))
                                         .Include(x => x.IdTipoEtapaNavigation)
