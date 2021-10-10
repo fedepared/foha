@@ -61,6 +61,40 @@ namespace Foha.Controllers
             return Ok(empleado);
         }
 
+        // GET: api/EmpleadosPorSector/5
+        [HttpGet("getEmpleadosPorSector/{id}")]
+        public async Task<IActionResult> GetEmpleadosPorSector([FromRoute] int id)
+        {
+            Response<List<Empleado>> r = new Response<List<Empleado>>();
+            List<Empleado> empleados = new List<Empleado>();
+            r.Status = 200;
+            r.Message = "Se realizo la consulta con exito.";
+
+            try{
+                if(id < 0)//Si el numero es negativo devuelvo todos menos sector 11.
+                {
+                    empleados = await _context.Empleado.Where(x => x.IdSector != 11).ToListAsync();
+                }
+                else//Si no es negativo devuelvo solo ese sector.
+                {
+                    empleados = await _context.Empleado.Where(x => x.IdSector == id).ToListAsync();
+                }
+            }catch(Exception e){//Si pincha devuelvo mensaje de error
+                r.Message = e.Message;
+                r.Status = 409;
+                return Conflict(r);
+            }
+
+            if (empleados.Count() == 0)//Si la lista esta vacia aviso
+            {
+                r.Message = "No se encontraron empleados para ese sector";
+                r.Status = 404;
+                return NotFound(r);
+            }
+
+            return Ok(r);//Si salio todo bien devuelvo la lista.
+        }
+
         
         // PUT: api/Empleado/5
         [HttpPut("{id}")]

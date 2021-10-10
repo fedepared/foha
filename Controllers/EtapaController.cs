@@ -14,6 +14,7 @@ using AutoMapper;
 using Foha.Repositories;
 using Foha.Dtos;
 using System.Text;
+using Foha.DTOs;
 
 namespace Foha.Controllers
 {
@@ -1205,6 +1206,227 @@ namespace Foha.Controllers
             TimeSpan spanEmpleadoAhora = new TimeSpan(tiempoEmpleadoAhora[0],tiempoEmpleadoAhora[1],tiempoEmpleadoAhora[2],tiempoEmpleadoAhora[3]);
             TimeSpan spanEmpleadoSuma = spanEmpleadoAhora.Add(spanEmpleadoAntes);
             return spanEmpleadoSuma.ToString(@"dd\:hh\:mm\:ss");
+        }
+
+        [HttpPost("EtapasPorSector")]
+        public async Task<ActionResult> EtapasPorSector([FromBody] int DesdeMili, [FromBody] int HastaMili, [FromBody] int IdSect, [FromBody] String idEmp )
+        {
+            Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
+            List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
+            List<Etapa> etapas = new List<Etapa>();
+            DateTime desde = DateTimeOffset.FromUnixTimeMilliseconds(DesdeMili).UtcDateTime;
+            DateTime hasta = DateTimeOffset.FromUnixTimeMilliseconds(HastaMili).UtcDateTime;
+            int?[] Sector1 = new int?[] { 1 };
+            int?[] Sector2 = new int?[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+            int?[] Sector3 = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27 };
+            int?[] Sector4 = new int?[] { 18 };
+            int?[] Sector5 = new int?[] { 19, 20 };
+            int?[] Sector6 = new int?[] { 20 };
+            int?[] Sector7 = new int?[] { 20, 28 };
+            int?[] Sector8 = new int?[] { 29 };
+            int?[] Sector9 = new int?[] { 30, 31, 32 };
+            int?[] Sector10 = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
+            int?[] Sector12 = new int?[] { 20, 28, 32 };
+            int?[] Sector13 = new int?[] { 1 };
+            int?[] Sector22 = new int?[] { 15, 21 };
+            int?[] Sector23 = new int?[] { 16, 22, 24 };
+            int?[] Sector24 = new int?[] { 25, 26 };
+            int?[] Sector25 = new int?[] { 22,27 };
+
+            try{
+                if(idEmp != "-1"){//Si el empleado es distinto de -1 busco solo ese empleado con el resto de los datos, como en la db es String tengo que compararlo asi.
+                    List<EtapaEmpleado> EtapasEmp = await _context.EtapaEmpleado.Where(x => x.IsEnded == true && (x.IdEtapaNavigation.DateIni >= desde && x.IdEtapaNavigation.DateFin <= hasta) && x.IdEmpleadoNavigation.Legajo == idEmp)
+                                                        .Include(x => x.IdEmpleadoNavigation)
+                                                        .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation)
+                                                        .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTipoEtapaNavigation)
+                                                        .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.EtapaEmpleado).ThenInclude(x => x.IdEmpleadoNavigation)
+                                                        .ToListAsync();
+                    
+                    foreach(EtapaEmpleado e in EtapasEmp)//Despues de agarrar las etapas, segun el sector que corresponda, armo lo que voy a devolver en una lista de ReportesDTO
+                    {
+                        ReportesDTO reporte = new ReportesDTO();//Creo un ReportesDTO para ir cargandole los datos. La lista esta inicializada al principio del metodo.
+                        reporte.OPE = e.IdEtapaNavigation.IdTransfoNavigation.OPe;
+                        reporte.OTE = e.IdEtapaNavigation.IdTransfoNavigation.OTe;
+                        reporte.Rango = e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio;
+                        reporte.Proceso = e.IdEtapaNavigation.IdTipoEtapaNavigation.NombreEtapa;
+                        reporte.RefProceso = e.IdEtapaNavigation.NumEtapa;
+                        reporte.FechaIni = e.DateIni;
+                        reporte.FechaFin = e.DateFin;
+                        reporte.TiempoParc = e.TiempoParc;
+                        reporte.Operarios = "";
+                        foreach(EtapaEmpleado etapaEmp in e.IdEtapaNavigation.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
+                        {
+                            if(reporte.Operarios == "")
+                            {
+                                reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                            }
+                            else{
+                                reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                            }
+                        }
+                        EtapasResponse.Add(reporte);//Agrego el DTO a la lista
+                    }
+                }
+                else if (IdSect < 0 || IdSect == 10){//Si no entro en el anterior significa que quiere todos los empleados, entonces arranco a filtrar por sectores, en este caso negativo o admin son todos los sectores.
+                    etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();                    
+                }
+                else{
+                    switch(IdSect){//Si tampoco entro en el anterior significa que quiere un sector especifico con todos los empleados, asique empiezo a filtrar por idSector.
+                        case 1:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector1.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 2:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector2.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 3:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector3.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 4:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector4.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 5:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector5.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 6:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector6.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 7:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector7.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 8:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector8.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 9:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector9.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 12:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector12.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 22:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector22.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 23:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector23.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 24:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector24.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                        case 25:
+                            etapas = await _context.Etapa.Where(x => x.IsEnded == true && (x.DateIni >= desde && x.DateFin <= hasta) && Sector25.Contains(x.IdTipoEtapa))
+                                        .Include(x => x.IdTipoEtapaNavigation)
+                                        .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.EtapaEmpleado)
+                                        .ThenInclude(x => x.IdEmpleadoNavigation)
+                                        .ToListAsync();
+                            break;
+                    }
+                }
+
+                foreach(Etapa e in etapas)//Despues de agarrar las etapas, segun el sector que corresponda, armo lo que voy a devolver en una lista de ReportesDTO
+                {
+                    ReportesDTO reporte = new ReportesDTO();//Creo un ReportesDTO para ir cargandole los datos. La lista esta inicializada al principio del metodo.
+                    reporte.OPE = e.IdTransfoNavigation.OPe;
+                    reporte.OTE = e.IdTransfoNavigation.OTe;
+                    reporte.Rango = e.IdTransfoNavigation.RangoInicio;
+                    reporte.Proceso = e.IdTipoEtapaNavigation.NombreEtapa;
+                    reporte.RefProceso = e.NumEtapa;
+                    reporte.FechaIni = e.DateIni;
+                    reporte.FechaFin = e.DateFin;
+                    reporte.TiempoParc = e.TiempoParc;
+                    reporte.Operarios = "";
+                    foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
+                    {
+                        if(reporte.Operarios == "")
+                        {
+                            reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                        }
+                        else{
+                            reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                        }
+                    }
+                    EtapasResponse.Add(reporte);//Agrego el DTO a la lista
+                }
+
+                r.Status = 200;
+                r.Message = "Se realizo la consulta con exito.";
+                r.Data = EtapasResponse;//Agrego la lista al data del response. El response en si esta inicializado al principio del metodo.
+                
+                return Ok(r);//Devuelvo que salio todo josha junto con el response (r).
+            }catch(Exception e){//Si pincha devuelvo mensaje de error
+                r.Message = e.Message;
+                r.Status = 409;
+                return Conflict(r);
+            }
         }
     }
 }
