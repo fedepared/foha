@@ -15,6 +15,8 @@ import { SectoresService } from '../services/sectores.service';
 import { Empleado } from '../models/empleado';
 import { EmpleadoService } from '../services/empleado.service';
 import { EtapaPorSector } from '../models/etapaPorSector';
+import { Reporte } from '../models/reporte';
+import { ExcelDailyReportService } from '../services/excel-daily-report.service';
 
 
 
@@ -45,11 +47,11 @@ export class DailyReportComponent implements OnInit {
   date = new FormControl(moment("06/10/2020"));
   dataEtapas:Etapa[]=[];
   events: string[] = [];
-  resultado:Etapa[]=[];
+  resultado:Reporte[]=[];
   selectedDate:Date;
   dataEtapasNullTimes:Etapa[]=[];
   isSelected:Boolean=false;
-  displayedColumns=["numEtapa","tipoProceso","dateIni","dateFin","tiempoFin","Transformador"]
+  displayedColumns=["Transformador","tipoProceso","numEtapa","dateIni","dateFin","tiempoFin","empleados"]
   startDate = new Date();
   endDate = new Date();
   form: FormGroup;
@@ -59,9 +61,10 @@ export class DailyReportComponent implements OnInit {
   sectors:Sectores[];
   selectedEmpleado:Empleado={idEmpleado:"-99",nombreEmp:'None',legajo:"-99"};
   empleados:Empleado[];
+  etapaPorSector:EtapaPorSector;
 
 
-  constructor(private etapaService:EtapaService,fb: FormBuilder,private sectoresService:SectoresService,private empleadoService:EmpleadoService) {
+  constructor(private etapaService:EtapaService,fb: FormBuilder,private sectoresService:SectoresService,private empleadoService:EmpleadoService,private excelDailyReportService:ExcelDailyReportService) {
     this.form = fb.group({
       date: [{begin: this.startDate, end: this.endDate}]
     });
@@ -71,30 +74,13 @@ export class DailyReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSectores();
-    //this.getEtapasFinalizadas();
-    
   }
 
-  getEtapasFinalizadas(): void {
-    this.etapaService.getEtapasFinalizadas()
-      .subscribe(etapas => {
-        this.dataEtapas = etapas;
-        for (var a of this.dataEtapas)
-        {
-          a.dateFin=new Date(a.dateFin);
-        }
-        console.log(this.dataEtapas);
-        
-      }, err => {
-        console.log(err);
-        
-      })
-  }
 
   getSectores(){
     this.sectoresService.getSectoresReport().subscribe(res=>{
         this.sectors=res.data;
-        this.sectors.unshift({idSector:-1,nombreSector:'Todos'});
+        this.sectors.unshift({idSector:-1,nombreSector:'Todos los sectores'});
         for(let sector of this.sectors)
         {
           switch(sector.idSector)
@@ -124,7 +110,7 @@ export class DailyReportComponent implements OnInit {
     this.empleadoService.getEmpleadosByIdSector(selectedSector.idSector).subscribe(res=>{
       console.log(this.empleados);
       this.empleados=res.data;
-      this.empleados.unshift({idEmpleado:"-1",nombreEmp:"Todos",legajo:"-1"})
+      this.empleados.unshift({idEmpleado:"-1",nombreEmp:"Todos los empleados",legajo:"-1"})
     })
   }
 
@@ -133,34 +119,45 @@ export class DailyReportComponent implements OnInit {
     this.selectedEmpleado=selectedEmpleado;
   }
 
-  search2(){
+  search2(booleano:boolean){
+    console.log(booleano);
+
     let comienzo = this.dateRangeDisp.begin.getTime();
     let fin = this.dateRangeDisp.end.getTime();
     
     if(this.selectedSector.idSector==-1){
       this.selectedEmpleado.legajo='-1';
+      this.selectedEmpleado.nombreEmp="Todos los empleados";
+      this.selectedEmpleado.idEmpleado='-1';
     }
 
-    let etapaPorSector:EtapaPorSector={
+
+    this.etapaPorSector={
       desdeMili:this.dateRangeDisp.begin.getTime(),
       hastaMili:this.dateRangeDisp.end.getTime(),
       idSect:this.selectedSector.idSector,
-      idEmp:this.selectedEmpleado.legajo
+      idEmp:this.selectedEmpleado.idEmpleado,
+      idColor: booleano ? 1030 : 10
     }
 
-    this.etapaService.postEtapasFinalizadas(etapaPorSector).subscribe(res => {
-      console.log(res)
-    })
     
-    if(this.resultado.length<1)
-    {
-      this.noResult=true;
-      this.isSelected=false;
-    }
-    else{
-      this.noResult=false;
-      this.isSelected=true;
-    }
+
+    this.etapaService.postEtapasFinalizadas(this.etapaPorSector).subscribe(res => {
+      this.resultado=res.data;
+      if(this.resultado.length<1)
+      {
+        this.noResult=true;
+        this.isSelected=false;
+      }
+      else{
+        this.noResult=false;
+        this.isSelected=true;
+      }
+    })
+  }
+
+  export(){
+    this.excelDailyReportService.generateDailyReport(this.selectedSector,this.selectedEmpleado,this.dateRangeDisp.begin,this.dateRangeDisp.end,this.etapaPorSector.idColor,this.resultado)
   }
 
   saveDate(event: any) {

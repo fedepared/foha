@@ -533,6 +533,37 @@ namespace Foha.Controllers
         return Ok(mY);
     }
 
+    [HttpPost("orderTrafo")]
+    public async Task<IActionResult> GetOrderTrafo([FromBody] MonthYearDto[] monthYear)
+    {
+        List<OrderTrafoDto> orderTrafo = new List<OrderTrafoDto>();
+        Response<List<OrderTrafoDto>> r = new Response<List<OrderTrafoDto>>();
+        r.Message="Ok";
+        r.Status=200;
+        try
+        {
+            foreach (var mY in monthYear)
+            {
+                OrderTrafoDto addOrder=new OrderTrafoDto();
+                var trafos=await _context.Transformadores.Where(x=>x.Anio==mY.Year && x.Mes==mY.Month).ToListAsync();
+                addOrder.Id = "Año:"+mY.Year+" "+"Mes:"+(mY.Month);
+                addOrder.Lista.AddRange(trafos);
+                orderTrafo.Add(addOrder);
+            }
+            r.Data=orderTrafo;
+            return Ok(r);
+
+        }
+        catch (System.Exception ex)
+        {
+             r.Message = ex.Message;
+             r.Status=400;
+             return BadRequest(r);
+        }
+
+        
+    }
+
     // POST: api/Transformadores
     [HttpPost]
     public async Task<IActionResult> PostTransformadores([FromBody] AddTransformadoresDto addTransformadoresDto)

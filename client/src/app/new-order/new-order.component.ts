@@ -61,60 +61,65 @@ export class NewOrderComponent implements OnInit {
   constructor(private transformadoresService:TransformadoresService,private _snackBar: MatSnackBar,public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getOrden();
+    // this.getOrden();
+    this.getMonthYear()
     
   }
 
-  getOrden(){
-    this.transformadoresService.getOrden()
-    .subscribe(transfoOrden=>{
-      this.data=transfoOrden;
-      console.log(this.data);
-      let anterior=null;
-      var transfo:OrderTransfo={id:'',lista:[]};
+//   getOrden(){
+//     this.transformadoresService.getOrden()
+//     .subscribe(transfoOrden=>{
+//       this.data=transfoOrden;
+//       console.log(this.data);
+//       let anterior=null;
+//       var transfo:OrderTransfo={id:'',lista:[]};
       
-      this.data.forEach((e,i )=> {
-        e.forEach((f,j) => {     
-          transfo.id=`Año:${f.anio} Mes:${f.mes}`;
-          transfo.lista.push(f);
-          if((`Año:${f.anio} Mes:${f.mes}`)!=anterior)
-          {
-            this.connectedTo.push(`Año:${f.anio} Mes:${f.mes}`);
-          }
-          anterior=`Año:${f.anio} Mes:${f.mes}`;
-        });
-        this.transfoInter.push(transfo);
-        this.mesesTrafo.push(transfo.id);
-        transfo={id:'',lista:[]};
-      })
+//       this.data.forEach((e,i )=> {
+//         e.forEach((f,j) => {     
+//           transfo.id=`Año:${f.anio} Mes:${f.mes}`;
+//           transfo.lista.push(f);
+//           if((`Año:${f.anio} Mes:${f.mes}`)!=anterior)
+//           {
+//             this.connectedTo.push(`Año:${f.anio} Mes:${f.mes}`);
+//           }
+//           anterior=`Año:${f.anio} Mes:${f.mes}`;
+//         });
+//         this.transfoInter.push(transfo);
+//         this.mesesTrafo.push(transfo.id);
+//         transfo={id:'',lista:[]};
+//       })
         
 
-      console.log("Transfo Inter",this.transfoInter);
-      console.log(this.connectedTo);
-      let transfoList={id:'',lista:[]};
-      this.connectedTo.forEach((e)=>{
-        transfoList={
-          id:e,
-          lista:[],
-        }
-        this.orderFin.push(transfoList);
-      })
+//       console.log("Transfo Inter",this.transfoInter);
+//       console.log(this.connectedTo);
+//       let transfoList={id:'',lista:[]};
+//       this.connectedTo.forEach((e)=>{
+//         transfoList={
+//           id:e,
+//           lista:[],
+//         }
+//         this.orderFin.push(transfoList);
+//       })
       
       
-      this.transfoInter.forEach((e)=>{
-        var l = this.orderFin.findIndex(o => o.id === e.id);
-        if (this.orderFin[l]) { this.orderFin[l] = e } else { this.orderFin.push(e) };
+//       this.transfoInter.forEach((e)=>{
+//         var l = this.orderFin.findIndex(o => o.id === e.id);
+//         if (this.orderFin[l]) { this.orderFin[l] = e } else { this.orderFin.push(e) };
 
-      })
-      console.log(this.orderFin);
+//       })
+//       console.log(this.orderFin);
       
-    },err=>{
-//      this.isLoadingResults=false;
+//     },err=>{
+// //      this.isLoadingResults=false;
+//     })
+//     console.log(this.transfoInter);
+//   }
+
+  getMonthYear(){
+    this.transformadoresService.getMonthYear().subscribe(res=>{
+      this.mesesTrafo=res;
     })
-    console.log(this.transfoInter);
-  }
-
-  
+  }  
 
   toggle(item,event: MatCheckboxChange) {
     if (event.checked) {
