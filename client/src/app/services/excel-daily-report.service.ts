@@ -89,7 +89,7 @@ export class ExcelDailyReportService {
       'Nº Ref Proceso',
       'Fecha de inicio',
       'Fecha de fin',
-      'Tiempo Neto',
+      'Tiempo Proceso',
       'Empleados asignados'
     ]
 
@@ -137,7 +137,15 @@ export class ExcelDailyReportService {
       fs.saveAs(blob, 'Reporte.xlsx');
     })
   }
-  stringToDate(fot) : Date{
-    return new Date(fot.split('T')[0]);
+  stringToDate(fot) : Date|any{
+    if(fot!=null)
+    {
+      return new Date(fot.split('T')[0]);
+    }
+    else{
+      return "No Finalizado";
+    }
   }
+
+
 }

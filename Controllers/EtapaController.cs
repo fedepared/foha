@@ -1235,7 +1235,7 @@ namespace Foha.Controllers
 
             try{
                 if(etapaPorSectorDto.idEmp != "-1"){//Si el empleado es distinto de -1 busco solo ese empleado con el resto de los datos, como en la db es String tengo que compararlo asi.
-                    List<EtapaEmpleado> EtapasEmp = await _context.EtapaEmpleado.Where(x => x.IdEtapaNavigation.IdColor == etapaPorSectorDto.idColor && (x.IdEtapaNavigation.DateIni >= desde && x.IdEtapaNavigation.DateFin <= hasta) && x.IdEmpleadoNavigation.Legajo == etapaPorSectorDto.idEmp)
+                    List<EtapaEmpleado> EtapasEmp = await _context.EtapaEmpleado.Where(x => x.IdEtapaNavigation.IdColor == etapaPorSectorDto.idColor && (x.IdEtapaNavigation.DateIni >= desde && x.IdEtapaNavigation.DateIni <= hasta) && x.IdEmpleadoNavigation.IdEmpleado == etapaPorSectorDto.idEmp)
                                                         .Include(x => x.IdEmpleadoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTipoEtapaNavigation)
@@ -1252,7 +1252,7 @@ namespace Foha.Controllers
                         reporte.RefProceso = e.IdEtapaNavigation.NumEtapa;
                         reporte.FechaIni = e.DateIni;
                         reporte.FechaFin = e.DateFin;
-                        reporte.TiempoParc = e.TiempoParc;
+                        reporte.TiempoParc = (e.IdEtapaNavigation.IdColor ==9) ? e.IdEtapaNavigation.TiempoParc : (e.IdEtapaNavigation.IdColor==1030 ) ? "Iniciado" : e.IdEtapaNavigation.TiempoFin;
                         reporte.Operarios = "";
                         foreach(EtapaEmpleado etapaEmp in e.IdEtapaNavigation.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
                         {
@@ -1268,7 +1268,7 @@ namespace Foha.Controllers
                     }
                 }
                 else if (etapaPorSectorDto.IdSect < 0 || etapaPorSectorDto.IdSect == 10){//Si no entro en el anterior significa que quiere todos los empleados, entonces arranco a filtrar por sectores, en este caso negativo o admin son todos los sectores.
-                    etapas = await _context.Etapa.Where(x => x.IdColor == etapaPorSectorDto.idColor && (x.DateIni >= desde && (x.DateFin <= hasta || etapaPorSectorDto.idColor==1030)))
+                    etapas = await _context.Etapa.Where(x => x.IdColor == etapaPorSectorDto.idColor && (x.DateIni >= desde && (x.DateIni <= hasta || etapaPorSectorDto.idColor==1030)))
                                         .Include(x => x.IdTipoEtapaNavigation)
                                         .Include(x => x.IdTransfoNavigation)
                                         .Include(x => x.EtapaEmpleado)
@@ -1402,7 +1402,7 @@ namespace Foha.Controllers
                     reporte.RefProceso = e.NumEtapa;
                     reporte.FechaIni = e.DateIni;
                     reporte.FechaFin = e.DateFin;
-                    reporte.TiempoParc = e.TiempoParc;
+                    reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : e.TiempoFin;
                     reporte.Operarios = "";
                     foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
                     {

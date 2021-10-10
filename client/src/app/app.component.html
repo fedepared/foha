@@ -39,9 +39,9 @@
             <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reportes">
                 <mat-icon>insert_chart_outlined</mat-icon> <span class="nav-caption">&nbsp;  Reportes</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reporteEmpleados">
+            <!-- <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reporteEmpleados">
                 <mat-icon>supervised_user_circle</mat-icon> <span class="nav-caption">&nbsp;  Reportes Empleados</span>   
-            </a>
+            </a> -->
             <a mat-list-item *ngIf="idTipoUs=='1'">
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>supervised_user_circle</mat-icon>Administración
@@ -50,9 +50,10 @@
                     <button mat-menu-item  (click)="sidenav.toggle()" routerLink="/reportes">
                         <mat-icon>insert_chart_outlined</mat-icon> <span class="nav-caption">&nbsp;  Reportes</span>   
                     </button>
+                    <!-- 
                     <button mat-menu-item  (click)="sidenav.toggle()" routerLink="/reporteEmpleados">
                         <mat-icon>supervised_user_circle</mat-icon> <span class="nav-caption">&nbsp;  Reportes Empleados</span>   
-                    </button>
+                    </button> -->
                     <button mat-menu-item  (click)="sidenav.toggle()" routerLink="/register">
                         <mat-icon>person_add</mat-icon> <span class="nav-caption">&nbsp;  Registro de usuarios</span>   
                     </button>

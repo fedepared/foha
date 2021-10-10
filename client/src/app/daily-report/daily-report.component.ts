@@ -136,7 +136,7 @@ export class DailyReportComponent implements OnInit {
       desdeMili:this.dateRangeDisp.begin.getTime(),
       hastaMili:this.dateRangeDisp.end.getTime(),
       idSect:this.selectedSector.idSector,
-      idEmp:this.selectedEmpleado.legajo,
+      idEmp:this.selectedEmpleado.idEmpleado,
       idColor: booleano ? 1030 : 10
     }
 

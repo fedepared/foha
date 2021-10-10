@@ -10,6 +10,8 @@ import { Etapa } from '../models/etapa';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material';
 import { IResponse } from '../models/iresponse';
+import { OrderTrafo } from '../models/orderTrafo';
+import { MonthYear } from '../models/monthYear';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -58,10 +60,13 @@ export class TransformadoresService {
       .pipe(data=>(data));
   }
 
-  // getOrden():Observable<Transformadores[]>{
-  //   return this.http.get<Transformadores[]>(`${this.apiUrl}/orden`)
-  //     .pipe(data=>(data));
-  // }
+  getOrderTrafo(monthYear:MonthYear):Observable<IResponse<OrderTrafo[]> | any>{
+    return this.http.post<IResponse<OrderTrafo[]> | any>(`${this.apiUrl}/orderTrafo`,monthYear)
+    .pipe(
+      tap((transformadorRes) => console.log(`order trafo`)),
+      catchError(this.handleError<Transformadores>('order Trafo'))
+    )
+  }
 
   addTransformador(transformador: any): Observable<Transformadores> {
     return this.http.post<Transformadores>(this.apiUrl, transformador, httpOptions).pipe(
