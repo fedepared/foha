@@ -187,20 +187,24 @@ export class NewOrderComponent implements OnInit {
   }
 
   itemsRemoved(ev, list) {
+    console.log(ev)
     this.events.push({text: `itemsRemoved from ${list}`, ev: JSON.stringify(ev)});
     
   }
 
   itemsAdded(ev, list) {
+    console.log(ev)
     this.events.push({text: `itemsAdded to ${list} `, ev: JSON.stringify(ev)});
   }
 
   itemsUpdated(ev, list) {
+    console.log(ev)
     this.events.push({text: `itemsUpdated in ${list}`, ev: JSON.stringify(ev)});
     
   }
 
   selectionChanged(ev, list) {
+    console.log(ev)
     this.events.push({text: `selectionChanged in ${list}`, ev: JSON.stringify(ev)});
     this.orderDefinitivo=list;
     console.log(this.orderDefinitivo);
