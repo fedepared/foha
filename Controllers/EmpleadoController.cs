@@ -74,10 +74,12 @@ namespace Foha.Controllers
                 if(id < 0)//Si el numero es negativo devuelvo todos menos sector 11.
                 {
                     empleados = await _context.Empleado.Where(x => x.IdSector != 11).ToListAsync();
+                    r.Data=empleados;
                 }
                 else//Si no es negativo devuelvo solo ese sector.
                 {
                     empleados = await _context.Empleado.Where(x => x.IdSector == id).ToListAsync();
+                    r.Data=empleados;
                 }
             }catch(Exception e){//Si pincha devuelvo mensaje de error
                 r.Message = e.Message;

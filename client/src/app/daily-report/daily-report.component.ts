@@ -14,6 +14,7 @@ import { Sectores } from '../models/sectores';
 import { SectoresService } from '../services/sectores.service';
 import { Empleado } from '../models/empleado';
 import { EmpleadoService } from '../services/empleado.service';
+import { EtapaPorSector } from '../models/etapaPorSector';
 
 
 
@@ -50,13 +51,13 @@ export class DailyReportComponent implements OnInit {
   isSelected:Boolean=false;
   displayedColumns=["numEtapa","tipoProceso","dateIni","dateFin","tiempoFin","Transformador"]
   startDate = new Date();
-  endDate = new Date(2019, 1, 20);
+  endDate = new Date();
   form: FormGroup;
   noResult:boolean=false;
   dateRangeDisp;
-  selectedSector:Sectores;
+  selectedSector:Sectores={idSector:-99,nombreSector:"None"};
   sectors:Sectores[];
-  selectedEmpleado:Empleado;
+  selectedEmpleado:Empleado={idEmpleado:"-99",nombreEmp:'None',legajo:"-99"};
   empleados:Empleado[];
 
 
@@ -70,7 +71,7 @@ export class DailyReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSectores();
-    this.getEtapasFinalizadas();
+    //this.getEtapasFinalizadas();
     
   }
 
@@ -93,6 +94,7 @@ export class DailyReportComponent implements OnInit {
   getSectores(){
     this.sectoresService.getSectoresReport().subscribe(res=>{
         this.sectors=res.data;
+        this.sectors.unshift({idSector:-1,nombreSector:'Todos'});
         for(let sector of this.sectors)
         {
           switch(sector.idSector)
@@ -116,22 +118,40 @@ export class DailyReportComponent implements OnInit {
 
   changeSector(selectedSector:Sectores)
   {
-    console.log(selectedSector);
-    // this.empleadoService.getEmpleadosByIdSector(selectedSector.idSector).subscribe(res=>{
-    //   this.empleados=res.data;
-    // })
+    if(this.selectedSector.idSector==-1){
+      this.selectedEmpleado={idEmpleado:"-99",nombreEmp:'None',legajo:"-99"};
+    }
+    this.empleadoService.getEmpleadosByIdSector(selectedSector.idSector).subscribe(res=>{
+      console.log(this.empleados);
+      this.empleados=res.data;
+      this.empleados.unshift({idEmpleado:"-1",nombreEmp:"Todos",legajo:"-1"})
+    })
+  }
+
+  changeEmpleado(selectedEmpleado:Empleado)
+  {
+    this.selectedEmpleado=selectedEmpleado;
   }
 
   search2(){
     let comienzo = this.dateRangeDisp.begin.getTime();
     let fin = this.dateRangeDisp.end.getTime();
     
+    if(this.selectedSector.idSector==-1){
+      this.selectedEmpleado.legajo='-1';
+    }
 
-    this.resultado = this.dataEtapas.filter((item: any) => {
-      return (item.dateFin.getTime() >= this.dateRangeDisp.begin.getTime()) &&
-      (item.dateFin.getTime() <= this.dateRangeDisp.end.getTime());
-    });
-    console.log(this.resultado);
+    let etapaPorSector:EtapaPorSector={
+      desdeMili:this.dateRangeDisp.begin.getTime(),
+      hastaMili:this.dateRangeDisp.end.getTime(),
+      idSect:this.selectedSector.idSector,
+      idEmp:this.selectedEmpleado.legajo
+    }
+
+    this.etapaService.postEtapasFinalizadas(etapaPorSector).subscribe(res => {
+      console.log(res)
+    })
+    
     if(this.resultado.length<1)
     {
       this.noResult=true;

@@ -10,15 +10,14 @@
     <mat-form-field appearance="outline">
         <mat-label>Elija el sector</mat-label>
         <mat-select [(value)]="selectedSector" (selectionChange)="changeSector(selectedSector)">
-          <mat-option [value]="sector" *ngFor="let sector of sectors">{{sector.nombreSector}}</mat-option>
+        <mat-option [value]="sector" *ngFor="let sector of sectors">{{sector.nombreSector}}</mat-option>
         </mat-select>
     </mat-form-field>
     &nbsp;
-    <mat-form-field appearance="outline" *ngIf="selectedSector">
+    <mat-form-field appearance="outline" *ngIf="selectedSector.idSector!=-1">
         <mat-label>Elija el empleado</mat-label>
-        <mat-select [(value)]="selectedEmpleado">
-          <mat-option [value]="{idEmpleado:-1,nombreEmpleado:'fede'}">Todos</mat-option>
-          <mat-option [value]="selectedEmpleado" *ngFor="let empleado of empleados">{{empleado.nombreEmpleado}}</mat-option>
+        <mat-select [(value)]="selectedEmpleado" (selectionChange)="changeEmpleado(selectedEmpleado)">
+          <mat-option [value]="empleado" *ngFor="let empleado of empleados">{{empleado.nombreEmp}}</mat-option>
         </mat-select>
     </mat-form-field>
     <br>
@@ -42,7 +41,7 @@
             </sat-datepicker>
             </mat-form-field>
     </form>
-    <button mat-raised-button style="background-color: teal;color:white;display:inline;" (click)="search2()" >
+    <button [disabled]="selectedSector.idSector==-99 && selectedEmpleado.legajo=='-99' && selectedSector.idSector!=-1" mat-raised-button style="background-color: teal;color:white;display:inline;" (click)="search2()" >
         Buscar
     </button>
 </mat-card>

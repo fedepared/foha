@@ -6,6 +6,9 @@ import { Observable, of } from "rxjs";
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from "@angular/material";
 import { Transformadores } from "../models/transformadores";
+import { EtapaPorSector } from "../models/etapaPorSector";
+import { Reporte } from "../models/reporte";
+import { IResponse } from "../models/iresponse";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -221,6 +224,14 @@ export class EtapaService {
     );
   }
 
+  postEtapasFinalizadas(etapaPorSector:EtapaPorSector):Observable<IResponse<Reporte[]>|any>{
+    const url=`${apiUrl}/etapasPorSector`
+    return this.http.post(url,etapaPorSector)
+    .pipe(
+      tap(_=>this.log('fetched postEtapasFinalizadas')),
+      catchError(this.handleError("Post Etapas Finalizadas",[]))
+    )
+  }
 
   deleteEtapa(id: number): Observable<Etapa> {
     const url = `${apiUrl}/${id}`;

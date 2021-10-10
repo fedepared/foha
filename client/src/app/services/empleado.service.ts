@@ -37,7 +37,7 @@ export class EmpleadoService {
   }
 
   getEmpleadosByIdSector(idSector:number):Observable<IResponse<Empleado>|any>{
-    return this.http.get<IResponse<Empleado[]>>(`${apiUrl}/getEmpleadosByIdSector`)
+    return this.http.get<IResponse<Empleado[]>>(`${apiUrl}/getEmpleadosPorSector/${idSector}`)
     .pipe(
       tap(_ => this.log('fetched Empleados')),
       catchError(this.handleError<Empleado[]>(`getEmpleados By idSector`))
