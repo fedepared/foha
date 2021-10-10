@@ -1,11 +1,11 @@
 export interface Reporte{
-    oPe:number 
-    oTe:number
+    ope:number 
+    ote:number
     rango:number 
     proceso:string 
     refProceso:number
-    FechaIni:Date
-    FechaFin:Date
-    TiempoParc:string 
-    Operarios:string 
+    fechaIni:Date
+    fechaFin:Date
+    tiempoParc:string 
+    operarios:string 
 }

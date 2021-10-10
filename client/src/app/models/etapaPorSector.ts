@@ -3,4 +3,5 @@ export interface EtapaPorSector{
     hastaMili:number
     idSect:number
     idEmp:String
+    idColor:number
 }
