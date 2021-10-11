@@ -924,13 +924,10 @@ namespace Foha.Controllers
                 var etapas = await _context.Etapa.Where(x => x.IdTransfo == t.IdTransfo).ToArrayAsync();
                 foreach(Etapa e in etapas)
                 {
-                    if(e.DateIni != null)//Si tiene DateIni busco en la tabla EtapaEmpleado el registro y lo borro.
+                    List<EtapaEmpleado> etapaEmp = await _context.EtapaEmpleado.Where(x => x.IdEtapa == e.IdEtapa).ToListAsync();
+                    if(etapaEmp.Count() > 0)
                     {
-                        var etapaEmp = _context.EtapaEmpleado.Where(x => x.IdEtapa == e.IdEtapa);
-                        if(etapaEmp!=null)
-                        {
-                            _context.RemoveRange(etapaEmp);
-                        }
+                        _context.RemoveRange(etapaEmp);
                     }
                     _context.Remove(e);//Despues de chequear y borrar de ser necesario el registro en la trabla intermedia, borro la etapa en si.
                 }
