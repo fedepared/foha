@@ -60,7 +60,7 @@ export class TransformadoresService {
       .pipe(data=>(data));
   }
 
-  getOrderTrafo(monthYear:MonthYear):Observable<IResponse<OrderTrafo[]> | any>{
+  getOrderTrafo(monthYear:MonthYear[]):Observable<IResponse<OrderTrafo[]> | any>{
     return this.http.post<IResponse<OrderTrafo[]> | any>(`${this.apiUrl}/orderTrafo`,monthYear)
     .pipe(
       tap((transformadorRes) => console.log(`order trafo`)),

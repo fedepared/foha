@@ -547,7 +547,7 @@ namespace Foha.Controllers
                 OrderTrafoDto addOrder=new OrderTrafoDto();
                 var trafos=await _context.Transformadores.Where(x=>x.Anio==mY.Year && x.Mes==mY.Month).ToListAsync();
                 addOrder.Id = "Año:"+mY.Year+" "+"Mes:"+(mY.Month);
-                addOrder.Lista.AddRange(trafos);
+                addOrder.Lista=trafos;
                 orderTrafo.Add(addOrder);
             }
             r.Data=orderTrafo;

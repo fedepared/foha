@@ -4,6 +4,7 @@ import { TransformadoresService } from '../services/transformadores.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material';
+import { MonthYear } from '../models/monthYear';
 
 
 export interface OrderTransfo{
@@ -167,6 +168,10 @@ export class NewOrderComponent implements OnInit {
 
 
   filter(){
+      console.log(this.meses);
+      let filterValue:MonthYear[]=this.meses.map(x=>{
+        return {month:x.idMes,year:x.anio}
+      });
       if(this.meses.length>0)
       {
         this.isfiltered=!this.isfiltered;
@@ -174,6 +179,10 @@ export class NewOrderComponent implements OnInit {
         {
           this.transfoInterKeep=this.transfoInter;
           this.transfoInter=this.transfoInter.filter((f)=> {return this.meses.includes(f.id)})
+          this.transformadoresService.getOrderTrafo(filterValue).subscribe(res=>{
+              this.transfoInter=res.data;
+          })
+
         }
         else{
           this.meses.length=0;

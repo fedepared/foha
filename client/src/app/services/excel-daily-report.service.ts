@@ -89,7 +89,7 @@ export class ExcelDailyReportService {
       'Nº Ref Proceso',
       'Fecha de inicio',
       'Fecha de fin',
-      'Tiempo Proceso',
+      'Tiempo',
       'Empleados asignados'
     ]
 
