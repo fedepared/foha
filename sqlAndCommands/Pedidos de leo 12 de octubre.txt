@@ -1,0 +1,21 @@
+Buscar: al elegir el mes que arranque en los meses mas futuros
+
+agregar el enter para la búsqueda 
+
+items por pagina: 300 mínimo
+
+
+ARIEL:
+agregar procesos: 
+
+Montaje, se va a separar en tres etapas (que lo vean solo ellos, y no la vista de transformadores)
+
+
+Ver porqué le aparece la fecha a los campos de octubre y noviembre de nucleos (y ver posibilidad de cargarlo cuando lo cambia a violeta) y agregar Letras "R" , "A", "E", "F"
+
+
+Error en vista de relojito en fecha de transformadores
+
+PEDIDO DE LIBIO:
+-tapa(timoteo) corte y plegado y patas(timoteo)
+-Agregar de qué maquina estoy hablando cuando abro el relojito
