@@ -673,6 +673,11 @@ export class TransformadoresNewComponent implements OnInit {
             this.dataGetTrafos.data=transfoArray;
           }
 
+          //Para trabajarlo
+          // this.dataGetTrafos.paginator=this.paginator;
+          // transfo.lista.unshift(transfo.id);
+          // this.dataGetTrafos.data=transfo.lista;
+
         }, err => {
             this.isLoadingResults = false;
           },
@@ -1075,8 +1080,8 @@ interface ComboClientes{
     matcher = new MyErrorStateMatcher();
     clientesService: ClienteService;
     selectedCliente: string;
-    fechaPactada:Date;
-    fechaProd:Date;
+    fechaPactada:Date=new Date();
+    fechaProd:Date=new Date();
     fechaCreacion:Date;
     nucleos:string;
     valueTransfo:TipoTransfo;
@@ -1175,11 +1180,9 @@ interface ComboClientes{
 
     selectedClient(event)
     {
+      //si elige cliente Stock
       if(event.source.value.id==9999)
       {
-        this.hide=true;
-        this.form.controls['fechaProd'].setValue(new Date());
-        this.form.controls['fechaPactada'].setValue(new Date());
         this.form.controls['anio'].setValue(new Date().getFullYear());
         this.form.controls['mes'].setValue(13);
       }
@@ -1200,12 +1203,30 @@ interface ComboClientes{
       this.form.controls['idCliente'].setValue(cliente.id);
       this.form.controls['nombreCli'].setValue(cliente.value);
       this.form.controls['fechaCreacion'].setValue(new Date());
-      if(!this.hide)
+      
+      //No elige fecha de producción/pactada
+      if(this.checkedDate==false)
       {
-        this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
-        this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
+        this.form.controls['fechaProd'].setValue(new Date());
+        this.form.controls['fechaPactada'].setValue(new Date());
+        // this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
+        // this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
       }
-      this.form.controls['prioridad'].setValue( 1);
+      //No es cliente Stock
+      if(cliente.id!=9999)
+      {
+        //No eligió fechas de producción
+        if(this.checkedDate==false)
+        {
+          this.form.controls['anio'].setValue(new Date().getFullYear());
+          this.form.controls['mes'].setValue(13);
+        }
+        else{
+          this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
+          this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
+        }
+      }
+      this.form.controls['prioridad'].setValue(1);
       let cantidad=parseInt(this.form.get('cantidad').value);
       if(cantidad > 1){
         var nTransfo = cantidad;

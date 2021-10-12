@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material';
 import { MonthYear } from '../models/monthYear';
+import { OrderTrafo } from '../models/orderTrafo';
 
 
 export interface OrderTransfo{
@@ -26,10 +27,10 @@ export class NewOrderComponent implements OnInit {
   isLoadingResults=true;
   events = [];
   data=[];
-  transfoInter:OrderTransfo[]=[];
+  transfoInter:OrderTrafo[]=[];
   connectedTo=[];
   orderFin:any[]=[];
-  orderDefinitivo:OrderTransfo[]=[];
+  orderDefinitivo:OrderTrafo[]=[];
   anio:number;
   mesActual:number;
   counter:number;
@@ -232,7 +233,7 @@ export class NewOrderComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        var nuevoPer:OrderTransfo={id:`Año:${result.anio} Mes:${result.mes}`,lista:[]};
+        var nuevoPer:OrderTrafo={id:`Año:${result.anio} Mes:${result.mes}`,anio:result.anio,mes:result.mes,lista:[]};
         this.connectedTo.push(`Año:${result.anio} Mes:${result.mes}`);
         this.transfoInter.push(nuevoPer);
         this.orderFin.push(nuevoPer);
@@ -242,16 +243,13 @@ export class NewOrderComponent implements OnInit {
 
   save(){
     console.log(this.orderDefinitivo);
-    this.orderDefinitivo.forEach((e)=>{
-      let anio:number=parseInt(e.id.slice(4,8))
-      let mes:number=parseInt(e.id.slice(13,15))
-      console.log(mes)
-      e.lista.forEach((a,i)=>{
-        
-        a.anio=anio;
-        a.mes=mes;
-        a.prioridad=i
-        this.transformadoresService.updateTransformador(a.idTransfo,a)
+    for(let oD of this.orderDefinitivo)
+    {
+      oD.lista.forEach((e,i)=>{
+        e.anio=oD.anio;
+        e.mes=oD.mes;
+        e.prioridad=i;
+        this.transformadoresService.updateTransformador(e.idTransfo,e)
         .subscribe(transfo => {
           this.isLoadingResults = false;
           }, err => {
@@ -260,8 +258,27 @@ export class NewOrderComponent implements OnInit {
             this.isLoadingResults = false;
           });
       })
+    }
+    // this.orderDefinitivo.forEach((e)=>{
+    //   let anio:number=parseInt(e.id.slice(4,8))
+    //   let mes:number=parseInt(e.id.slice(13,15))
+    //   console.log(mes)
+    //   e.lista.forEach((a,i)=>{
+        
+    //     a.anio=anio;
+    //     a.mes=mes;
+    //     a.prioridad=i
+    //     this.transformadoresService.updateTransformador(a.idTransfo,a)
+    //     .subscribe(transfo => {
+    //       this.isLoadingResults = false;
+    //       }, err => {
+    //         console.log(err);
+    //         this.openSnackBar("Error al guardar:",err)
+    //         this.isLoadingResults = false;
+    //       });
+    //   })
       
-    })
+    // })
     this.openSnackBar("Orden Guardado!","Ok")
   }
 

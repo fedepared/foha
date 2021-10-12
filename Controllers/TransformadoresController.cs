@@ -25,6 +25,7 @@ using System.Data.SqlClient;
 using Foha.Controllers;
 using Newtonsoft.Json.Linq;
 using Foha.DTOs;
+using System.Dynamic;
 
 namespace Foha.Controllers
 {
@@ -83,7 +84,7 @@ namespace Foha.Controllers
                         oPe = Z.OPe,
                         observaciones = Z.Observaciones != null ? Z.Observaciones : " ",
                         potencia = Z.Potencia,
-                        
+
                         rangoInicio = Z.RangoInicio,
                         rangoFin = Z.RangoFin,
                         nombreCli = Z.NombreCli !=  null ? Z.NombreCli : " ",
@@ -106,24 +107,24 @@ namespace Foha.Controllers
 
         // resultado de la base de datos
 		var trafosOrdenados = _context.Transformadores.OrderBy(z=>z.Anio).ThenBy(x=>x.Mes).ThenBy(y=>y.Prioridad).Include(x=>x.IdClienteNavigation).ToList();
-        
+
 		// lista que se le devuelve al frontend
 		List<List<Transformadores>> trafosSegmentados = new List<List<Transformadores>>();
 		// la papa
 		List<Transformadores> trafosPorMesAnio = new List<Transformadores>();
 		Transformadores ultimoTrafoAgregado = null;
-		
+
         foreach (Transformadores trafo in trafosOrdenados)
 		{
 			// si no es el primero y es de otro mes o año que el anterior entonces agrego la lista y empiezo una nueva
-        
+
 			if (ultimoTrafoAgregado != null && (ultimoTrafoAgregado.Anio != trafo.Anio || ultimoTrafoAgregado.Mes != trafo.Mes))
 			{
 				trafosSegmentados.Add(trafosPorMesAnio);
 				trafosPorMesAnio = new List<Transformadores>();
 			}
 
-            
+
 			trafosPorMesAnio.Add(trafo);
 			ultimoTrafoAgregado = trafo;
 		}
@@ -142,15 +143,15 @@ namespace Foha.Controllers
 		// }
 
         return trafosSegmentados;
-        
+
 
     }
 
     [HttpGet("getEtapasVacias/{id}")]
 
     public IEnumerable<TipoEtapa> GetEtapasVacias([FromRoute]int id){
-        
-        
+
+
         string cadena= " SELECT * from tipoEtapa Where idTipoEtapa IN (select idTipoEtapa from etapa where idTransfo=";
         string cadena2=$"{cadena}{id} and dateIni is null)";
         string cadena3="union select * from tipoEtapa where idTipoEtapa IN (select idTipoEtapa from Etapa where (tiempoParc is not null and tiempoParc!='Finalizada') and idTransfo=";
@@ -158,7 +159,7 @@ namespace Foha.Controllers
 
 
         var transfo=_context.Transformadores.Find(id);
-        
+
         List<TipoEtapa> resultadoAnterior = new List<TipoEtapa>();
         var i=0;
         int[] arrayEncapsulados = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,20,21,22,23,24,25,26,27,28};
@@ -170,7 +171,7 @@ namespace Foha.Controllers
             resultadoAnterior=resultado.Where(z=>z.IdTipoEtapa != arrayEncapsulados[i]).ToList();
             for(i=1;i<arrayEncapsulados.Length;i++){
                 resultadoAnterior=resultadoAnterior.Where(x=>x.IdTipoEtapa!=arrayEncapsulados[i]).ToList();
-        
+
             };
             i=0;
         }
@@ -178,7 +179,7 @@ namespace Foha.Controllers
             resultadoAnterior=resultado.Where(z=>z.IdTipoEtapa != arrayDistribucion[i]).ToList();
             for(i=1;i<arrayDistribucion.Length;i++){
                 resultadoAnterior=resultadoAnterior.Where(x=>x.IdTipoEtapa!=arrayDistribucion[i]).ToList();
-        
+
             };
             i=0;
         }
@@ -191,13 +192,13 @@ namespace Foha.Controllers
 
 
         return resultadoAnterior;
-        
+
     }
-    
+
     [HttpGet("getEtapasPausadas/{id}")]
 
     public IEnumerable<Etapa> GetEtapasPausadas([FromRoute]int id){
-        
+
         string cadena="select * from Etapa where tiempoParc!='Finalizada' and dateIni is not null and idTransfo=";
         string cadena2=$"{cadena}{id}";
         // string cadena3="union select * from tipoEtapa where idTipoEtapa IN (select idTipoEtapa from Etapa where (tiempoParc!='Finalizada')  and idTransfo=";
@@ -205,28 +206,28 @@ namespace Foha.Controllers
 
         var resultado = _context.Etapa.FromSql(cadena2);
         return resultado;
-        
+
     }
 
     [HttpGet("getTrafos")]
 
     public IEnumerable<object> GetTrafos(){
-        
+
       var resultado =_context.Transformadores
       .Include(z=>z.IdClienteNavigation)
       .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
       .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
-      .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-            { 
+      .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+            {
                 Anio = key.Anio,
                 Mes = key.Mes,
                 Trafos =group.OrderBy(x=>x.Prioridad).ToList()
             })
         .OrderByDescending(z=>z.Anio).ThenBy(z=>z.Mes);
-      
+
       List<Object> array = new List<Object>();
 
-      foreach (var result in resultado) {      
+      foreach (var result in resultado) {
           var mesEnLetras = this.AsignarMes(result.Mes);
           var obj = new {group = $"{mesEnLetras} de {result.Anio}. Tot:{result.Trafos.Count}"};
 
@@ -238,35 +239,42 @@ namespace Foha.Controllers
     }
 
     [HttpGet("getTrafosByPage/{pageNumber}")]
-    public async Task<IActionResult> GetTrafosByPage([FromRoute]int pageNumber)  
-    {  
+    public async Task<IActionResult> GetTrafosByPage([FromRoute]int pageNumber)
+    {
             var pageQuantity=pageNumber * 80;
             DateTime month = DateTime.Now;
             var resultado2=_context.Transformadores
             .Include(x=>x.IdClienteNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
-            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
+            // .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
+            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).OrderBy(x=>x.Prioridad).ToList();
 
             //A preguntar, condición de filtrado de los procesos terminados (en esta línea filtra los procesos que tienen una de las últimas dos etapas finalizadas)
             // resultado2 = resultado2.Where(x=>x.Etapa.ElementAt(30).IsEnded!=true && x.Etapa.ElementAt(31).IsEnded!=true).ToList();
 
             var resultado=resultado2.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
-            { 
+            {
                 Anio = key.Anio,
                 Mes = this.AsignarMes(key.Mes) ,
                 Trafos =group.ToList().OrderBy((x=>x.Prioridad))
             });
- 
             return Ok(resultado);
-  
+
+
+            //Para trabajarlo
+            // OrderTrafoDto order = new OrderTrafoDto();
+            // order.Id=this.AsignarMes(month.Month) + " de " + month.Year +". "+ "Tot: "+resultado2.Count();
+            // order.Lista=resultado2;
+
+            // return Ok(order);
     }
 
     [HttpGet("getTrafosByPageProcess/{pageNumber}")]
-    public async Task<IActionResult> GetTrafosByPageProcess([FromRoute]int pageNumber)  
-    {  
+    public async Task<IActionResult> GetTrafosByPageProcess([FromRoute]int pageNumber)
+    {
             var pageQuantity=pageNumber * 80;
             DateTime month = DateTime.Now;
-            
+
 
             var resultado= _context.Transformadores
             .Include(z=>z.IdClienteNavigation)
@@ -276,12 +284,19 @@ namespace Foha.Controllers
             // .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).Take(pageQuantity).ToList();
             .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
 
-            
-            var resultado2=resultado.Select(x=>new {x.Anio,x.Mes,x.Etapa,x.OTe,x.OPe,x.RangoInicio,x.Potencia,x.Prioridad,x.IdTransfo})
-            
+            // OrderTrafoDto order = new OrderTrafoDto();
+            // order.Id="Bla bla bla";
+            // order.Anio=month.Year;
+            // order.Mes=month.Month;
+            // order.Lista=resultado.OrderBy(x=>x.Prioridad).ToList();
 
-            .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-            { 
+            // return Ok(order);
+            var resultado2=resultado.Select(x=>new {x.Anio,x.Mes,x.Etapa,x.OTe,x.OPe,x.RangoInicio,x.Potencia,x.Prioridad,x.IdTransfo})
+
+
+
+            .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+            {
                 Anio = key.Anio,
                 Mes = this.AsignarMes(key.Mes) ,
                 Trafos =group.OrderBy(x=>x.Prioridad).ToList()
@@ -290,7 +305,7 @@ namespace Foha.Controllers
 
 
             return Ok(resultado2);
-  
+
     }
 
     [HttpGet("getFilteredValue")]
@@ -304,7 +319,7 @@ namespace Foha.Controllers
         [FromQuery (Name = "month")] int[] month,
         [FromQuery (Name = "year")] int[] year
         )
-    {   
+    {
         List<Transformadores> trafos = new List<Transformadores>();
         var results = _context.Transformadores.Include(z=>z.IdClienteNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
@@ -327,41 +342,41 @@ namespace Foha.Controllers
         // {
         //     if(month.Length>1)
         //     {
-                
+
         //         results=results.Where(x=> month.ToList().Contains(x.Mes.ToString())).ToList();
-                
+
         //     }
         //     if(month.Length==1)
         //     {
         //         results=results.Where(x=>x.Mes.ToString().Contains(month[0].ToString())).ToList();
         //     }
-            
+
         // }
         // if(year.Length>0)
         // {
         //     if(year.Length>1)
         //     {
-                
+
         //         results=results.Where(x=> year.ToList().Contains(x.Anio.ToString())).ToList();
-                
+
         //     }
         //     if(year.Length==1)
         //     {
         //         results=results.Where(x=>x.Anio.ToString().Contains(year[0].ToString())).ToList();
         //     }
-            
+
         // }
-        
+
         // if(results.Count()>0)
         // {
 
-        //     var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-        //     { 
+        //     var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+        //     {
         //         Anio = key.Anio,
         //         Mes = this.AsignarMes(key.Mes) ,
         //         Trafos =group.OrderBy(x=>x.Prioridad).ToList()
         //     });
-        //     return Ok(resultados);    
+        //     return Ok(resultados);
         // }
         // else{
         //     return Ok();
@@ -372,15 +387,15 @@ namespace Foha.Controllers
             {
                 trafos.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
             }
-            
+
         }
-       
-        
+
+
         if(trafos.Count()>0)
         {
 
-            var resultados=trafos.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-            { 
+            var resultados=trafos.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+            {
                 Anio = key.Anio,
                 Mes = this.AsignarMes(key.Mes) ,
                 Trafos =group.OrderBy(x=>x.Prioridad)
@@ -390,8 +405,8 @@ namespace Foha.Controllers
         else{
             if(results.Count()>0)
             {
-                var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-                { 
+                var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+                {
                     Anio = key.Anio,
                     Mes = this.AsignarMes(key.Mes) ,
                     Trafos =group.OrderBy(x=>x.Prioridad)
@@ -402,9 +417,9 @@ namespace Foha.Controllers
                 return Ok();
             }
         }
-        
+
     }
-    
+
     [HttpGet("GetFilteredValueProcess")]
     public IActionResult GetFilteredValueProcess(
         [FromQuery (Name = "oTe")] string oTe,
@@ -421,10 +436,10 @@ namespace Foha.Controllers
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
             .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
         List<Transformadores> trafo = new List<Transformadores>();
-        
-        
 
-        
+
+
+
 
         if(oTe !=null)
             results=results.Where(x=>x.OTe != null && x.OTe.ToString().Contains(oTe)).ToList();
@@ -442,15 +457,15 @@ namespace Foha.Controllers
             {
                 trafo.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
             }
-            
+
         }
-       
-        
+
+
         if(trafo.Count()>0)
         {
 
-            var resultados=trafo.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-            { 
+            var resultados=trafo.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+            {
                 Anio = key.Anio,
                 Mes = this.AsignarMes(key.Mes) ,
                 Trafos =group.OrderBy(x=>x.Prioridad)
@@ -460,8 +475,8 @@ namespace Foha.Controllers
         else{
             if(results.Count()>0)
             {
-                var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new 
-                { 
+                var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+                {
                     Anio = key.Anio,
                     Mes = this.AsignarMes(key.Mes) ,
                     Trafos =group.OrderBy(x=>x.Prioridad)
@@ -476,7 +491,7 @@ namespace Foha.Controllers
     }
 
     [HttpGet("trafosByValues/{oPe}/{oTe}/{potencia}")]
-  
+
     public async Task<IActionResult> getTransformadoresByValues([FromRoute] int oPe,[FromRoute]  int oTe,[FromRoute] int potencia)
     {
         return Ok(await _context.Transformadores.Where(x=>x.Potencia == potencia && x.OPe== oPe && x.OTe == oTe).ToArrayAsync());
@@ -501,7 +516,7 @@ namespace Foha.Controllers
         else{
             return Ok();
         }
-               
+
     }
 
     [HttpGet("getRangeOnPut/{idTransfo}/{oPe}/{rangoInicio}")]
@@ -515,14 +530,14 @@ namespace Foha.Controllers
         }
         else{
             return Ok();
-        }   
+        }
     }
 
     [HttpGet("getMonthYear")]
     public async Task<IActionResult> getMonthYear()
     {
         var mY = _context.Transformadores.OrderBy(x=>x.Anio).ThenBy(x=>x.Mes).ToList()
-        
+
         .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new{
             Anio=key.Anio,
             Mes = this.AsignarMes(key.Mes),
@@ -545,7 +560,9 @@ namespace Foha.Controllers
             foreach (var mY in monthYear)
             {
                 OrderTrafoDto addOrder=new OrderTrafoDto();
-                var trafos=await _context.Transformadores.Where(x=>x.Anio==mY.Year && x.Mes==mY.Month).ToListAsync();
+                var trafos=await _context.Transformadores.Where(x=>x.Anio==mY.Year && x.Mes==mY.Month).OrderBy(x=>x.Prioridad).ToListAsync();
+                addOrder.Anio = mY.Year;
+                addOrder.Mes = mY.Month;
                 addOrder.Id = "Año:"+mY.Year+" "+"Mes:"+(mY.Month);
                 addOrder.Lista=trafos;
                 orderTrafo.Add(addOrder);
@@ -561,7 +578,7 @@ namespace Foha.Controllers
              return BadRequest(r);
         }
 
-        
+
     }
 
     // POST: api/Transformadores
@@ -577,7 +594,7 @@ namespace Foha.Controllers
         if(_context.Transformadores.Any(x=>addTransformadoresDto.Mes == x.Mes && addTransformadoresDto.Anio==x.Anio)){
             addTransformadoresDto.Prioridad = _context.Transformadores.Where(x=>x.Mes == addTransformadoresDto.Mes && x.Anio==addTransformadoresDto.Anio).Max(z=>z.Prioridad)+1;
         }
-        
+
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
 
         if(_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).Count()>0){
@@ -590,12 +607,12 @@ namespace Foha.Controllers
                     var listIguales=_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).ToList();
                     foreach(var i in listIguales){
                         i.RangoFin=addTransformadoresDto.RangoInicio ?? default(int);
-                        
+
                     }
                     addTransformadoresDto.RangoFin=transfoIni+1;
                 }
                 else{
-                    
+
                     addTransformadoresDto.RangoFin=1;
                     addTransformadoresDto.RangoInicio=1;
                 }
@@ -611,11 +628,11 @@ namespace Foha.Controllers
                     // var trafos=_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).ToList().Max(x=>x.RangoInicio);
                     var listOfTrafos=_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).ToList();
                     foreach(var i in listOfTrafos){
-                        i.RangoFin=addTransformadoresDto.RangoInicio?? default(int);   
+                        i.RangoFin=addTransformadoresDto.RangoInicio?? default(int);
                     }
                     addTransformadoresDto.RangoFin=addTransformadoresDto.RangoInicio?? default(int);
 
-                }   
+                }
             }
         }
         else{
@@ -645,9 +662,9 @@ namespace Foha.Controllers
                 var etapa = new AddEtapaDto();
                 etapa.IdTipoEtapa = i.IdTipoEtapa;
                 etapa.IdTransfo = TransformadoresResponse.IdTransfo;
-                
+
                 int[] array=new int[5]{1,2,4,6,7};
-                
+
                 Array.Exists(array,x=> x==4);
 
                 if(TransformadoresResponse.IdTipoTransfo !=4)
@@ -674,12 +691,12 @@ namespace Foha.Controllers
                             break;
                     }
                 }
-                
-                
+
+
                 todasLasEtapas.Add(etapa);
             }
         }
-        
+
         foreach(var etapa in todasLasEtapas)
         {
             var preEtapa = _mapper.Map<Etapa>(etapa);
@@ -727,7 +744,7 @@ namespace Foha.Controllers
                 await PostTransformadores(item);
             }
         }
-       
+
         return Ok();
 
 
@@ -760,10 +777,10 @@ namespace Foha.Controllers
         }
 
         var trafos= _context.Transformadores.Where(x=>x.Lote == editTransformadoresDto.Lote && x.OPe == editTransformadoresDto.OPe && x.OTe == editTransformadoresDto.OTe).ToList();
-        
+
         foreach (var trafo in trafos)
         {
-            
+
         }
 
         var preTransformadores = _mapper.Map<Transformadores>(editTransformadoresDto);
@@ -793,10 +810,10 @@ namespace Foha.Controllers
         catch(DbUpdateException){
             throw;
         }
-    
+
     }
 
-    
+
 
     // DELETE: api/Transformadores/5
     [HttpDelete("{id}")]
@@ -816,7 +833,7 @@ namespace Foha.Controllers
         //Si hay transformadores de rango mayor
         // if(_context.Transformadores.Where((x=>x.OPe==transformadores.OPe && x.RangoInicio>transformadores.RangoInicio)).Count()>0){
         //     var lista = _context.Transformadores.Where((x=>x.OPe==transformadores.OPe && x.RangoInicio>transformadores.RangoInicio)).OrderBy(x=>x.RangoInicio).ToList();
-            
+
         //     foreach(var l in lista){
         //         if(l.RangoInicio>transformadores.RangoInicio){
         //             l.RangoInicio-=1;
@@ -840,12 +857,12 @@ namespace Foha.Controllers
                 _context.Remove(e);//Despues de chequear y borrar de ser necesario el registro en la trabla intermedia, borro la etapa en si.
             }
             _context.Remove(transformadores);//Despues de borrar las etapas y EtapaEmpleado si habia, borro el trafo.
-            
+
             await _context.SaveChangesAsync();//Guardo todo.
             return Ok("Se borraron los transformadores exitosamente.");
         }
         catch(Exception e){//Si pincha devuelvo mensaje de error
-            
+
             return Conflict(e.Message);
         }
     }
@@ -877,12 +894,12 @@ namespace Foha.Controllers
                 {
                     r.Message = "Los siguientes tranformadores tienen etapas empezadas:"+ "\n OP:" + t.OPe + ", OT:" + t.OTe + ", rango:" + t.RangoInicio;
                 }
-                else 
+                else
                 {
-                    r.Message = r.Message + " - " + t.OPe + "/" + t.OTe + "/" + t.RangoInicio; 
+                    r.Message = r.Message + " - " + t.OPe + "/" + t.OTe + "/" + t.RangoInicio;
                 }
                 r.Status = 409;
-            }            
+            }
         }
         //Si el status quedo en 200 significa que no hay ningun trafo con etapas iniciadas, asique borro todo a la goma.
         if(r.Status == 200)
@@ -982,6 +999,6 @@ namespace Foha.Controllers
                 return "";
         }
     }
-    
+
 }
 }
