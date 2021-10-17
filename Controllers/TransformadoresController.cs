@@ -536,7 +536,7 @@ namespace Foha.Controllers
     [HttpGet("getMonthYear")]
     public async Task<IActionResult> getMonthYear()
     {
-        var mY = _context.Transformadores.OrderBy(x=>x.Anio).ThenBy(x=>x.Mes).ToList()
+        var mY = _context.Transformadores.OrderByDescending(x=>x.Anio).ThenByDescending(x=>x.Mes).ToList()
 
         .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new{
             Anio=key.Anio,

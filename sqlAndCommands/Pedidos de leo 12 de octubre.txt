@@ -1,8 +1,10 @@
-Buscar: al elegir el mes que arranque en los meses mas futuros
+Buscar: al elegir el mes que arranque en los meses mas futuros (HECHO)
 
-agregar el enter para la búsqueda 
+agregar el enter para la búsqueda (HECHO, que prueben)
 
-items por pagina: 300 mínimo
+items por pagina: 300 mínimo 
+(SE RALENTIZA DEMASIADO)
+
 
 
 ARIEL:
@@ -25,14 +27,14 @@ PEDIDO DE LIBIO:
 - autocomplete de filtro de clientes.
 
 
-- ver tema de fpr y fot en la alta y modificacion, cambiar colores y que en la exportación a excel se vea fpr>fot un color 
+- ver tema de fpr y fot en la alta y modificacion, cambiar colores y que en la exportación a excel se vea fpr>fot un color (HECHO, que prueben)
 
 -cambiar tintas penetrantes por hermeticidad 
 
 
 - en excel del reporte diario:
-rango, ot, op en columnas separadas 
-y ver fecha inicial y fecha de fin al iniciar la vista
+rango, ot, op en columnas separadas (HECHO)
+y ver fecha inicial y fecha de fin al iniciar la vista (HECHO)
 
 
 

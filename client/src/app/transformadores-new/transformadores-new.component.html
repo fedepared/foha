@@ -13,16 +13,17 @@
           <mat-form-field class="search__form_field" appearance="outline">
             <mat-label>OT</mat-label>
             <input type="text"
-                  
                   matInput
                   formControlName="oTe"
-                  
+                  (keyup.enter)="function($event)"
+                  (keydown.enter)="function($event)"
             >
           </mat-form-field>
           <mat-form-field class="search__form_field" appearance="outline">
             <mat-label>Nucleos</mat-label>
             <input type="text"
-                  
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
                   matInput
                   formControlName="nucleos"
                   
@@ -31,7 +32,8 @@
           <mat-form-field class="search__form_field" appearance="outline">
             <mat-label>OP</mat-label>
             <input type="text"
-                  
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
                   matInput
                   formControlName="oPe"
                   
@@ -40,7 +42,8 @@
           <mat-form-field class="search__form_field" appearance="outline">
             <mat-label>Rango</mat-label>
             <input type="text"
-                  
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
                   matInput
                   formControlName="rangoInicio"
                   
@@ -50,7 +53,8 @@
           <mat-form-field class="search__form_field" appearance="outline">
             <mat-label>Potencia</mat-label>
             <input type="text"
-                  
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
                   matInput
                   formControlName="potencia"
                   
@@ -59,20 +63,13 @@
           <mat-form-field class="search__form_field" appearance="outline">
             <mat-label>Cliente</mat-label>
             <input type="text"
-                  
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
                   matInput
                   formControlName="nombreCli"
                 
             >
           </mat-form-field>
-          <!-- <mat-form-field appearance="outline">
-            <mat-label>Elija el mes</mat-label>
-              <mat-select formControlName="month" multiple>
-                <mat-option *ngFor="let m of mes" [(value)]="m.value">
-                  {{m.viewValue}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field> -->
             <mat-form-field appearance="outline">
               <mat-label>Elija el mes</mat-label>
                 <mat-select [compareWith]="compareObjects" formControlName="month" multiple>
@@ -81,10 +78,10 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-          <button mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
+          <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
             <mat-icon>backspace</mat-icon>
           </button>
-          <button mat-icon-button (click)="applyApiFilter()" color="primary" aria-label="Example icon button with a delete icon">
+          <button  mat-icon-button (click)="applyApiFilter()" color="primary" aria-label="Example icon button with a delete icon">
             <mat-icon>search</mat-icon>
           </button>
         </form>
@@ -180,7 +177,7 @@
           <th mat-header-cell *matHeaderCellDef style="text-align:center;border-bottom-color: black!important;border-bottom-width:2.5px!important;"  matTooltip={{tooltipTrafo(column)}} matTooltipPosition="above">
             {{encabezadosTrafo(column)}}
           </th>
-          <td mat-cell *matCellDef="let element" style="text-align:center;"  [matTooltip]="(column=='nombreCli') ? element[column] : ''"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yy') : ((column=='nombreCli') ? breakCli(element[column]):element[column])}} </td>
+          <td mat-cell *matCellDef="let element" style="text-align:center;" [ngClass]="(column=='fechaProd')? colorFOT(element):''"  [matTooltip]="(column=='nombreCli') ? element[column] : ''"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yy') : ((column=='nombreCli') ? breakCli(element[column]):element[column])}} </td>
       </ng-container>
     
       <ng-container *ngFor="let column of etapasColumns;" matColumnDef="{{column}}">
@@ -204,7 +201,7 @@
       <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"></tr>
     </table>
   </div>
-  <mat-paginator style="display:flex;" [pageSizeOptions]="[100,200,300]" showFirstLastButtons></mat-paginator>
+  <mat-paginator style="display:flex;" [pageSizeOptions]="[100,200,350,550]" showFirstLastButtons></mat-paginator>
   <!-- </div> -->
   
 </div>

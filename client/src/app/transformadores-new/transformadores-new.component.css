@@ -267,3 +267,8 @@
 .circular-menu.active .menu-item:nth-child(5) {
   transform: translate3d(-7em,1em,0);
 }
+
+.fot{
+  background-color: firebrick;
+  color:white;
+}

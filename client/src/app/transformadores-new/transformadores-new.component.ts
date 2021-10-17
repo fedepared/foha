@@ -417,6 +417,11 @@ export class TransformadoresNewComponent implements OnInit {
     this.getMonthYear();
   }
 
+  function(event){
+    event.preventDefault();
+    this.applyApiFilter();
+  }
+
 
   encabezadosTrafo(trafo:string){
     switch(trafo)
@@ -457,6 +462,16 @@ export class TransformadoresNewComponent implements OnInit {
     }
     return trafo;
   }
+
+  colorFOT(element)
+  {
+    if(element.fechaProd>element.fechaPactada)
+    {
+      return "fot";
+    }
+  }
+
+  
 
   breakCli(cli:string){
     if(cli!=null)
@@ -1093,6 +1108,7 @@ interface ComboClientes{
 
     checkedDate=false;
     hide=false;
+    fprOlderfot=false;
 
     constructor(
       private _snackBar:MatSnackBar,
@@ -1327,6 +1343,16 @@ interface ComboClientes{
       );
     }
 
+    changeDate() {
+      if(new Date(this.form.controls['fechaProd'].value) > new Date(this.form.controls['fechaPactada'].value))
+      {
+        this.fprOlderfot=true;
+      }
+      else{
+        this.fprOlderfot=false;
+      }
+    }
+
     openSnackBar(mensaje1,mensaje2){
         this._snackBar.open(mensaje1,mensaje2, {
           duration: 2 * 1000,
@@ -1379,6 +1405,8 @@ interface ComboClientes{
     radPan:string;
     foundedValue='';
     enabled=true;
+
+    fprOlderfot=false;
 
     @Output()
     dateChange:EventEmitter<MatDatepickerInputEvent<any>>;
@@ -1554,9 +1582,21 @@ interface ComboClientes{
   
     
 
-    changeDate(event){
-      this.form.controls['mes'].setValue((event.value.month())+1);
-      this.form.controls['anio'].setValue(event.value.year());
+    changeDate(event,bool){
+      if(bool==true)
+      {
+        this.form.controls['mes'].setValue((event.value.month())+1);
+        this.form.controls['anio'].setValue(event.value.year());
+        
+      }
+      if(new Date(this.form.controls['fechaProd'].value) > new Date(this.form.controls['fechaPactada'].value))
+      {
+        this.fprOlderfot=true;
+      }
+      else{
+        this.fprOlderfot=false;
+      }
+
     }
 
     addCliente(){
@@ -1610,6 +1650,7 @@ interface ComboClientes{
 
 
     }
+
 
     close() {
       this.dialogRef.close();

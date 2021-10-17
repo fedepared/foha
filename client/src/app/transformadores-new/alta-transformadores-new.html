@@ -101,15 +101,18 @@
     
     <mat-form-field appearance="outline" *ngIf="checkedDate">
       <mat-label>Fecha de producción</mat-label>
-      <input matInput [matDatepicker]="fechaProd" formControlName="fechaProd">
+      <input matInput [matDatepicker]="fechaProd" formControlName="fechaProd" (dateInput)="changeDate()" (dateChange)="changeDate()">
       <mat-datepicker-toggle matSuffix [for]="fechaProd"></mat-datepicker-toggle>
       <mat-datepicker #fechaProd disabled="false"></mat-datepicker>
     </mat-form-field>
+    <div *ngIf="fprOlderfot==true" style="width:91%" [ngClass]="fprOlderfot==true ? 'error-message' : 'none-error-message' ">Fecha de Producción mayor a Fecha según OT</div>
+
+
     
     
     <mat-form-field appearance="outline" *ngIf="checkedDate">
       <mat-label>Fecha Pactada</mat-label>
-      <input matInput [matDatepicker]="fechaPactada" formControlName="fechaPactada">
+      <input matInput [matDatepicker]="fechaPactada" formControlName="fechaPactada" (dateInput)="changeDate()" (dateChange)="changeDate()">
       <mat-datepicker-toggle matSuffix [for]="fechaPactada"></mat-datepicker-toggle>
       <mat-datepicker #fechaPactada disabled="false"></mat-datepicker>
     </mat-form-field>

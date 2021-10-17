@@ -56,7 +56,7 @@ export class DailyReportComponent implements OnInit {
   endDate = new Date();
   form: FormGroup;
   noResult:boolean=false;
-  dateRangeDisp;
+  dateRangeDisp= {'begin': new Date(), 'end': new Date()};;
   selectedSector:Sectores={idSector:-99,nombreSector:"None"};
   sectors:Sectores[];
   selectedEmpleado:Empleado={idEmpleado:"-99",nombreEmp:'None',legajo:"-99"};

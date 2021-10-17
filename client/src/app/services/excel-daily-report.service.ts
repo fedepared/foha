@@ -84,7 +84,9 @@ export class ExcelDailyReportService {
     startedOrEndedRow.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:(idColor==1030)?"1fa9e6":"92d050"},bgColor:{ argb:(idColor==1030)?"1fa9e6":"92d050"}};
 
     let columnas=worksheet.getRow(9).values= [
-      'Transformador',
+      'Rango',
+      'OT',
+      'OP',
       'Proceso',
       'Nº Ref Proceso',
       'Fecha de inicio',
@@ -108,7 +110,9 @@ export class ExcelDailyReportService {
     })
 
     worksheet.columns = [
-      {key:'Transformador',width:26},
+      {key:'Rango',width:12},
+      {key:'OT',width:12},
+      {key:'OP',width:12},
       {key:'Proceso',width:12},
       {key:'refProceso',width:12},
       {key:'fechaIni',width:12},
@@ -119,7 +123,9 @@ export class ExcelDailyReportService {
 
     reporte.forEach((e,j)=>{
       worksheet.addRow({
-        Transformador:`rango:${e.rango} OT: ${e.ote} OP:${e.ope}`,
+        Rango:e.rango,
+        OT: e.ote,
+        OP:e.ope,
         Proceso:e.proceso,
         refProceso:e.refProceso,
         fechaIni:this.stringToDate(e.fechaIni),
