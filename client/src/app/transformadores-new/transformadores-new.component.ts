@@ -418,6 +418,7 @@ export class TransformadoresNewComponent implements OnInit {
   }
 
   function(event){
+    console.log(event);
     event.preventDefault();
     this.applyApiFilter();
   }
@@ -805,6 +806,7 @@ export class TransformadoresNewComponent implements OnInit {
                 a.radPan = (res.radPan  != null) ? res.radPan : a.radPan;
                 a.mes = (res.mes  != null) ? res.mes : a.mes;
                 a.anio = (res.anio  != null) ? res.anio : a.anio;
+                a.lote = (res.lote  != null) ? res.lote : a.lote;
               }
 
               this.onUpdateAllTrafos(this.selection.selected);
@@ -960,7 +962,7 @@ export class TransformadoresNewComponent implements OnInit {
           (this.form.get('nucleos').value) ||
           (this.form.get('oPe').value && this.form.get('oPe').value.length>=3) ||
           (this.form.get('rangoInicio').value && this.form.get('rangoInicio').value.length>=2) ||
-          (this.form.get('potencia').value && this.form.get('potencia').value.length>=3) ||
+          (this.form.get('potencia').value) ||
           (this.form.get('nombreCli').value && this.form.get('nombreCli').value.length>=3) ||
           (this.form.get('month').value)
         )
@@ -1802,7 +1804,8 @@ interface ComboClientes{
         fechaPactada:[this.fechaPactada],
         fechaProd:[this.fechaProd],
         anio:[this.anio],
-        mes:[this.mes]
+        mes:[this.mes],
+        lote:[this.lote]
 
       })
       this.getclientes();

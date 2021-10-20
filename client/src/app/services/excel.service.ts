@@ -208,7 +208,9 @@ export class ExcelService {
       else{
         let cuenta=0;
         let cuentaCol=10;
-        
+        let fot:Date=this.fopToDate(e.fechaPactada);
+
+
         worksheet.addRow({
           oT:e.oTe,
           oP:`${(e.nucleos!=null ? e.nucleos : '')}${e.oPe}`,
@@ -255,6 +257,29 @@ export class ExcelService {
 
           let colorCortado;
           
+
+          if(colNumber==8){
+            if(cell!=null && fot!=null)
+            {
+              let fop:Date=this.fopToDate(cell);
+              // console.log(fot);
+              // console.log(fop)
+              if(fot<fop)
+              {
+                cell.fill={
+                  type: 'pattern',
+                  pattern: 'solid',
+                  fgColor: { argb: "b22222" },
+                  bgColor: { argb: "b22222"},
+
+                }
+                cell.font={
+                  color: {argb:'ffffff'}
+                }
+              }
+            }
+          }
+
           if(colNumber==cuentaCol)
           {
             cuentaCol++;
@@ -319,6 +344,10 @@ export class ExcelService {
 
   stringToDate(fot) : Date{
     return new Date(fot.split('T')[0]);
+  }
+
+  fopToDate(fop): Date{
+    return new Date(fop);
   }
 
 

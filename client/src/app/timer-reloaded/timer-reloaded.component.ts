@@ -470,7 +470,7 @@ export class TimerReloadedComponent implements OnInit {
       (this.form.get('oTe').value && this.form.get('oTe').value.length>3)||
       (this.form.get('oPe').value && this.form.get('oPe').value.length>3) ||
       (this.form.get('rangoInicio').value && this.form.get('rangoInicio').value.length>=2) ||
-      (this.form.get('potencia').value && this.form.get('potencia').value.length>=3) ||
+      (this.form.get('potencia').value) ||
       (this.form.get('month').value) ||
       (this.form.get('nProceso').value)
     )

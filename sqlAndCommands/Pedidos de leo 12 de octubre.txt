@@ -38,26 +38,35 @@ y ver fecha inicial y fecha de fin al iniciar la vista (HECHO)
 
 Hablado 19-10 con leo y ariel: 
 
--Poder editar nombre de clientes
--Arreglar filtro de potencia y que tome el valor numérico
--Agregar de qué maquina estoy hablando cuando abro el relojito
--Se borra la referencia de una etapa, le boleteamos los empleados que laburaron ahi
--Que los encargados puedan ver los reportes
--tema maquina 12629, metieron mano
--Priorizar trafos, quiere ver lein el cliente
--No mostrar los trafos enviados superiores a 60 días
--Vista de los historicos, con excel incluido
--Agregar al excel fecha de pausa 
-- A la derecha de cli el vendedor: hacer tabla de vendedores
-- autocomplete de filtro de clientes.
--cambiar tintas penetrantes por hermeticidad
+-Poder editar nombre de clientes (C)
+-Se borra la referencia de una etapa, le boleteamos los empleados que laburaron ahi (C Back)
+-No mostrar los trafos enviados superiores a 60 días (C, Vamos a posponerlo hasta que se optimice la consulta)
+-Limpiar filtros de los meses que están finalizados (Criso) 
+
+-Que los encargados puedan ver los reportes (F)
+-Priorizar trafos, quiere ver lein el cliente (F)
+-Vista de los historicos, con excel incluido (más adelante)
+-Agregar al excel fecha de pausa (F)
+-Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat (F)
+-Filtro de meses, elegir de todos los meses (F...Agregar, y optimizar consulta)
+- autocomplete de filtro de clientes. (F, pero no se hace)
+-cambiar tintas penetrantes por hermeticidad (F, no se cambia db, solo front vista)
+-Excel con tiempos (F)
+
+
+-Agregar de qué maquina estoy hablando cuando abro el relojito (F,C)
+- A la derecha de cli el vendedor: hacer tabla de vendedores ( F, C) 
 -ver tema color y fecha de nucleos con orden de compra(y ver posibilidad de cargarlo cuando lo cambia a violeta) y agregar Letras "R" , "A", "E", "F"
 	1)guardar color y fecha
 	2)poder editar fecha
 	3)Los caracteres
--Filtro de todos los meses
--Sacar soldadura de prensayugos y agregar el de patas (Nullear tadaaaaa)
--Modificar Lotes de los trafos individual y masivo
--Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat
--Agregar campo serie para la cabecera de los trafos. Al finalizar laboratorio, buscar el idTrafo, y actualizar el campo serie.
--Mail, ver posibilidad de enviar 
+(F,C) 
+-Sacar soldadura de prensayugos y agregar el de patas (Nullear tadaaaaa) (C cambia db y F busca donde demonios se usa)
+
+-Agregar campo serie para la cabecera de los trafos. Al finalizar laboratorio, buscar el idTrafo, y actualizar el campo serie. (F,C)
+-Mail, ver posibilidad de enviar (F,C)
+-Excel por operarios (F, C más adelante, optimizando la consulta)
+
+
+-Arreglar filtro de potencia (Anda) y que tome el valor numérico (Anda)
+-Modificar Lotes de los trafos individual y masivo (F, C...Hecho)

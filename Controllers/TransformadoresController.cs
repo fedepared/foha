@@ -335,7 +335,7 @@ namespace Foha.Controllers
         if(rangoInicio !=null)
             results=results.Where(x=>x.RangoInicio.ToString().Contains(rangoInicio)).ToList();
         if(potencia !=null)
-            results=results.Where(x=>x.Potencia.ToString().Contains(potencia)).ToList();
+            results=results.Where(x=>x.Potencia==(Int32.Parse(potencia))).ToList();
         if(nombreCli !=null)
             results=results.Where(x=>x.NombreCli!=null && x.NombreCli.Contains(nombreCli.ToUpper())).ToList();
         // if(month.Length>0)
@@ -448,7 +448,7 @@ namespace Foha.Controllers
         if(rangoInicio !=null)
             results=results.Where(x=>x.RangoInicio.ToString().Contains(rangoInicio)).ToList();
         if(potencia !=null)
-            results=results.Where(x=>x.Potencia.ToString().Contains(potencia)).ToList();
+            results=results.Where(x=>x.Potencia==(Int32.Parse(potencia))).ToList();
         if(nProceso != null)
             results=results.Where(x=>x.Etapa.Any(f=>f.NumEtapa != null && f.NumEtapa.ToString().Contains(nProceso))).ToList();
         if(month.Length>0)
