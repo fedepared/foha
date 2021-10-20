@@ -297,7 +297,7 @@ export class ExcelService {
         {
           return etapa.tiempoParc;
         }
-        if(etapa.idColor==1030)
+        else if(etapa.idColor==1030)
         {
           if(etapa.inicioProceso == null)
           {
@@ -307,6 +307,10 @@ export class ExcelService {
             return this.dateFormat(etapa.dateIni);
           }
         }
+        else{
+          return " "
+        }
+
     }
     else{
         return this.dateFormat(etapa.dateFin);
