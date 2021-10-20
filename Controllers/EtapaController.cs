@@ -1264,8 +1264,8 @@ namespace Foha.Controllers
                         reporte.Rango = e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio;
                         reporte.Proceso = e.IdEtapaNavigation.IdTipoEtapaNavigation.NombreEtapa;
                         reporte.RefProceso = e.IdEtapaNavigation.NumEtapa;
-                        reporte.FechaIni = e.DateIni;
-                        reporte.FechaFin = e.DateFin;
+                        reporte.FechaIni = e.IdEtapaNavigation.DateIni;
+                        reporte.FechaFin = e.IdEtapaNavigation.DateFin;
                         reporte.TiempoParc = e.TiempoParc;
                         reporte.Operarios = "";
                         foreach(EtapaEmpleado etapaEmp in e.IdEtapaNavigation.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
