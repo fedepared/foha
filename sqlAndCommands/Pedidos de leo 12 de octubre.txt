@@ -44,9 +44,9 @@ Hablado 19-10 con leo y ariel:
 -Limpiar filtros de los meses que están finalizados (Criso) 
 
 -Que los encargados puedan ver los reportes (F)
--Priorizar trafos, quiere ver lein el cliente (F)
+-Priorizar trafos, quiere ver lein el cliente (F) (Hecho)
 -Vista de los historicos, con excel incluido (más adelante)
--Agregar al excel fecha de pausa (F)
+-Agregar al excel fecha de pausa (F) (No se puede, agregar campo?)
 -Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat (F)
 -Filtro de meses, elegir de todos los meses (F...Agregar, y optimizar consulta)
 - autocomplete de filtro de clientes. (F, pero no se hace)

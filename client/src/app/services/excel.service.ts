@@ -320,7 +320,7 @@ export class ExcelService {
     {
         if(etapa.idColor==9)
         {
-          return etapa.tiempoParc;
+          return " ";
         }
         else if(etapa.idColor==1030)
         {
