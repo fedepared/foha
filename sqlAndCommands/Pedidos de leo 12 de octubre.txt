@@ -62,7 +62,6 @@ Hablado 19-10 con leo y ariel:
 	3)Los caracteres
 (F,C) 
 -Sacar soldadura de prensayugos y agregar el de patas (Nullear tadaaaaa) (C cambia db y F busca donde demonios se usa)
-
 -Agregar campo serie para la cabecera de los trafos. Al finalizar laboratorio, buscar el idTrafo, y actualizar el campo serie. (F,C)
 -Mail, ver posibilidad de enviar (F,C)
 -Excel por operarios (F, C más adelante, optimizando la consulta)
@@ -70,3 +69,17 @@ Hablado 19-10 con leo y ariel:
 
 -Arreglar filtro de potencia (Anda) y que tome el valor numérico (Anda)
 -Modificar Lotes de los trafos individual y masivo (F, C...Hecho)
+
+
+
+22/10:
+Agregar el campo fecha de ultima pausa
+Usuario tipo vista, hacer cuadricula
+Dividir excel en grupos según OT
+exportar con numero de prioridad 
+
+PATAS A DIFERENCIA DE PY NUNCA SE GRISA
+
+empezar a ver el agregado de las etapas
+Mas adelante, poder elegir fecha de algunos procesos
+

@@ -40,6 +40,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import moment from 'moment';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { IResponse } from '../models/iresponse';
+import { ExcelTimesService } from '../services/excel-times.service';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -403,7 +404,7 @@ export class TransformadoresNewComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable, { static: false }) matTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService) {
+  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService, private excelTimesService:ExcelTimesService) {
 
     }
 
@@ -886,7 +887,10 @@ export class TransformadoresNewComponent implements OnInit {
 
       export(){
         this.excelService.generateExcel(this.dataGetTrafos.data);
+      }
 
+      exportTimes(){
+        this.excelTimesService.generateExcel(this.dataGetTrafos.data);
       }
 
 
