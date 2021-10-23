@@ -302,9 +302,22 @@ namespace Foha.Controllers
             //     return BadRequest();
             // }
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
+            if(preEtapa.IdColor != null && preEtapa.IdColor == 10){
+                preEtapa.DateFin = DateTime.Now;
+                preEtapa.DateIni = DateTime.Now;
+                preEtapa.IsEnded = true;
+            }
+            else if(preEtapa.IdColor != null && preEtapa.IdColor == 1034){
+                preEtapa.IsEnded = true;
+            }
             _repo.Update(preEtapa);
-            await _repo.SaveAsync(preEtapa);
-            return StatusCode(201,preEtapa);
+            try{
+                await _repo.SaveAsync(preEtapa);
+                return StatusCode(201,preEtapa);
+            }catch(Exception e){
+                return Conflict(e.Message);
+            }
+            
         }
 
         [HttpPatch("{id}")]
@@ -380,6 +393,7 @@ namespace Foha.Controllers
         [HttpPut("modifyProcesses")]
         public async Task<IActionResult> ModifyProcesses([FromBody] EditAllTrafoEtapaDto edit)
         {
+            Response<string> r = new Response<string>();
             foreach (var trafo in edit.ArrayTrafo)
             {
                 foreach (var tipoEtapa in edit.IdTipoEtapa)
@@ -401,6 +415,8 @@ namespace Foha.Controllers
                         }
                     }
                     else{
+                        List<EtapaEmpleado> EtapasEmp = await _context.EtapaEmpleado.Where(x => x.IdEtapa == etapa.IdEtapa).ToListAsync();
+                        _context.RemoveRange(EtapasEmp);
                         etapa.DateFin=null;
                         etapa.DateIni=null;
                         etapa.EtapaEmpleado=null;
@@ -411,16 +427,22 @@ namespace Foha.Controllers
                         etapa.NumEtapa=null;
                         etapa.IsEnded=null;
                         etapa.InicioProceso=null;
+                        
                     }
                     _repo.Update(etapa);
                 }
             }
             try{
                 await _context.SaveChangesAsync();
-                return Ok();
+                r.Status = 200;
+                r.Message = "El pedido se realizo correctamente";
+                r.Data = null;
+                return Ok(r);
             }
-            catch(DbUpdateException){
-                throw;
+            catch(Exception e){
+                r.Message = e.Message;
+                r.Status = 409;
+                return Conflict(r);
             }
         }
 
@@ -1216,23 +1238,54 @@ namespace Foha.Controllers
             List<Etapa> etapas = new List<Etapa>();
             DateTime desde = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.DesdeMili).UtcDateTime;
             DateTime hasta = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.HastaMili).UtcDateTime;
-            int?[] Sector1 = new int?[] { 1 };
-            int?[] Sector2 = new int?[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
-            int?[] Sector3 = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27 };
-            int?[] Sector4 = new int?[] { 18 };
-            int?[] Sector5 = new int?[] { 19, 20 };
-            int?[] Sector6 = new int?[] { 20 };
-            int?[] Sector7 = new int?[] { 20, 28 };
-            int?[] Sector8 = new int?[] { 29 };
-            int?[] Sector9 = new int?[] { 30, 31, 32 };
-            int?[] Sector10 = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
-            int?[] Sector12 = new int?[] { 20, 28, 32 };
-            int?[] Sector13 = new int?[] { 1 };
-            int?[] Sector22 = new int?[] { 15, 21 };
-            int?[] Sector23 = new int?[] { 16, 22, 24 };
-            int?[] Sector24 = new int?[] { 25, 26 };
-            int?[] Sector25 = new int?[] { 22,27 };
-
+            int?[] Sector = new int?[] { 1 };
+            switch(etapaPorSectorDto.IdSect){
+                case 1:
+                    Sector = new int?[] { 1 };
+                    break;
+                case 2:
+                    Sector = new int?[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+                    break;
+                case 3:
+                    Sector = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27 };
+                    break;
+                case 4:
+                    Sector = new int?[] { 18 };
+                    break;
+                case 5:
+                    Sector = new int?[] { 19, 20 };
+                    break;
+                case 6:
+                    Sector = new int?[] { 20 };
+                    break;
+                case 7:
+                    Sector = new int?[] { 20, 28 };
+                    break;
+                case 8:
+                    Sector = new int?[] { 29 };
+                    break;
+                case 9:
+                    Sector = new int?[] { 30, 31, 32 };
+                    break;
+                case 10:
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
+                    break;
+                case 12:
+                    Sector = new int?[] { 20, 28, 32 };
+                    break;
+                case 22:
+                    Sector = new int?[] { 15, 21 };
+                    break;
+                case 23:
+                    Sector = new int?[] { 16, 22, 24 };
+                    break;
+                case 24:
+                    Sector = new int?[] { 25, 26 };
+                    break;
+                case 25:
+                    Sector = new int?[] { 22,27 };
+                    break;
+            }
             try{
                 if(etapaPorSectorDto.idEmp != "-1"){//Si el empleado es distinto de -1 busco solo ese empleado con el resto de los datos, como en la db es String tengo que compararlo asi.
                     List<EtapaEmpleado> EtapasEmp = new List<EtapaEmpleado>();
@@ -1262,7 +1315,7 @@ namespace Foha.Controllers
                         reporte.OPE = e.IdEtapaNavigation.IdTransfoNavigation.OPe;
                         reporte.OTE = e.IdEtapaNavigation.IdTransfoNavigation.OTe;
                         reporte.Rango = e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio;
-                        reporte.Proceso = e.IdEtapaNavigation.IdTipoEtapaNavigation.NombreEtapa;
+                        reporte.Proceso = AsignarEtapa(e.IdEtapaNavigation.IdTipoEtapa);
                         reporte.RefProceso = e.IdEtapaNavigation.NumEtapa;
                         reporte.FechaIni = e.IdEtapaNavigation.DateIni;
                         reporte.FechaFin = e.IdEtapaNavigation.DateFin;
@@ -1301,261 +1354,23 @@ namespace Foha.Controllers
                     }
                     
                 }
-                else{
-                    switch(etapaPorSectorDto.IdSect){//Si tampoco entro en el anterior significa que quiere un sector especifico con todos los empleados, asique empiezo a filtrar por idSector.
-                        case 1:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector1.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector1.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 2:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector2.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector2.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 3:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector3.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector3.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 4:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector4.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector4.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 5:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector5.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector5.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 6:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector6.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector6.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 7:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector7.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector7.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 8:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector8.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector8.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 9:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector9.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector9.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 12:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector12.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector12.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 22:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector22.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector22.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 23:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector23.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector23.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 24:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector24.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector24.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
-                        case 25:
-                            if(etapaPorSectorDto.idColor == 10){
-                                etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector25.Contains(x.IdTipoEtapa))
-                                            .Include(x => x.IdTipoEtapaNavigation)
-                                            .Include(x => x.IdTransfoNavigation)
-                                            .Include(x => x.EtapaEmpleado)
-                                            .ThenInclude(x => x.IdEmpleadoNavigation)
-                                            .ToListAsync();
-                            }
-                            else{
-                                etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector25.Contains(x.IdTipoEtapa))
-                                        .Include(x => x.IdTipoEtapaNavigation)
-                                        .Include(x => x.IdTransfoNavigation)
-                                        .Include(x => x.EtapaEmpleado)
-                                        .ThenInclude(x => x.IdEmpleadoNavigation)
-                                        .ToListAsync();
-                            }
-                            break;
+                else{//Si tampoco entro en el anterior significa que quiere un sector especifico con todos los empleados, asique empiezo a filtrar por idSector.
+                    if(etapaPorSectorDto.idColor == 10){
+                        etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector.Contains(x.IdTipoEtapa))
+                                    .Include(x => x.IdTipoEtapaNavigation)
+                                    .Include(x => x.IdTransfoNavigation)
+                                    .Include(x => x.EtapaEmpleado)
+                                    .ThenInclude(x => x.IdEmpleadoNavigation)
+                                    .ToListAsync();
                     }
+                    else{
+                        etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector.Contains(x.IdTipoEtapa))
+                                .Include(x => x.IdTipoEtapaNavigation)
+                                .Include(x => x.IdTransfoNavigation)
+                                .Include(x => x.EtapaEmpleado)
+                                .ThenInclude(x => x.IdEmpleadoNavigation)
+                                .ToListAsync();
+                    }                     
                 }
 
                 foreach(Etapa e in etapas)//Despues de agarrar las etapas, segun el sector que corresponda, armo lo que voy a devolver en una lista de ReportesDTO
@@ -1564,7 +1379,7 @@ namespace Foha.Controllers
                     reporte.OPE = e.IdTransfoNavigation.OPe;
                     reporte.OTE = e.IdTransfoNavigation.OTe;
                     reporte.Rango = e.IdTransfoNavigation.RangoInicio;
-                    reporte.Proceso = e.IdTipoEtapaNavigation.NombreEtapa;
+                    reporte.Proceso = AsignarEtapa(e.IdTipoEtapa);
                     reporte.RefProceso = e.NumEtapa;
                     reporte.FechaIni = e.DateIni;
                     reporte.FechaFin = e.DateFin;
@@ -1592,6 +1407,126 @@ namespace Foha.Controllers
                 r.Message = e.Message;
                 r.Status = 409;
                 return Conflict(r);
+            }
+        }
+            
+        [HttpGet("getEtapasTrafoIndividual/{idTransfo}")]
+        public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int trafo){
+            Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
+            List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
+            try{
+                List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == trafo)//Busco las etapas del trafo que me pide.
+                                    .Include(x => x.IdTipoEtapaNavigation)
+                                    .Include(x => x.IdTransfoNavigation)
+                                    .Include(x => x.IdColorNavigation)
+                                    .Include(x => x.EtapaEmpleado)
+                                    .ThenInclude(x => x.IdEmpleadoNavigation)
+                                    .ToListAsync();
+                foreach(Etapa e in etapas)//Recorro las etapas y voy armando los ReportesDTO para devolver.
+                {
+                    ReportesDTO reporte = new ReportesDTO();
+                    reporte.OPE = e.IdTransfoNavigation.OPe;
+                    reporte.OTE = e.IdTransfoNavigation.OTe;
+                    reporte.Rango = e.IdTransfoNavigation.RangoInicio;
+                    reporte.Proceso = AsignarEtapa(e.IdTipoEtapa);
+                    reporte.RefProceso = e.NumEtapa;
+                    reporte.FechaIni = e.DateIni;
+                    reporte.FechaFin = e.DateFin;
+                    reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : e.IdColorNavigation.Leyenda;
+                    reporte.Operarios = "";
+                    foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
+                    {
+                        if(reporte.Operarios == "")
+                        {
+                            reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                        }
+                        else{
+                            reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                        }
+                    }
+                    EtapasResponse.Add(reporte);//Agrego el DTO a la lista
+                }
+                r.Status = 200;
+                r.Message = "Se realizo la consulta con exito.";
+                r.Data = EtapasResponse;
+                
+                return Ok(r);//Devuelvo el mensaje con la lista de ReportesDTO.
+            }catch(Exception e){//Si pincha devuelvo mensaje de error
+                r.Message = e.Message;
+                r.Status = 409;
+                return Conflict(r);
+            }
+
+        }
+        private string AsignarEtapa(int? etapa)
+        {
+            switch(etapa){
+                case 1:
+                    return "DOC";
+                case 2:
+                    return "BT1";
+                case 3:
+                    return "BT2";
+                case 4:
+                    return "BT3";
+                case 5:
+                    return "AT1";
+                case 6:
+                    return "AT2";
+                case 7:
+                    return "AT3";
+                case 8:
+                    return "RG1";
+                case 9:
+                    return "RG2";
+                case 10:
+                    return "RG3";
+                case 11:
+                    return "RF1";
+                case 12:
+                    return "RF2";
+                case 13:
+                    return "RF3";
+                case 14:
+                    return "ENS";
+                case 15:
+                    return "PY CYP";
+                case 16:
+                    return "PY SOL";
+                case 17:
+                    return "PY ENV";
+                case 18:
+                    return "NUC";
+                case 19:
+                    return "MON";
+                case 20:
+                    return "HOR";
+                case 21:
+                    return "CUBA CYP";
+                case 22:
+                    return "TAPA";
+                case 23:
+                    return "RAD/PAN";
+                case 24:
+                    return "CUBA";
+                case 25:
+                    return "HERM";
+                case 26:
+                    return "GRAN";
+                case 27:
+                    return "PINT";
+                case 28:
+                    return "ENC";
+                case 29:
+                    return "LAB";
+                case 30:
+                    return "TERM";
+                case 31:
+                    return "DEP";
+                case 32:
+                    return "ENV";
+                default:
+                    return "";
             }
         }
     }
