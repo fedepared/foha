@@ -536,16 +536,26 @@ namespace Foha.Controllers
     [HttpGet("getMonthYear")]
     public async Task<IActionResult> getMonthYear()
     {
-        var mY = _context.Transformadores.OrderByDescending(x=>x.Anio).ThenByDescending(x=>x.Mes).ToList()
-
-        .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new{
-            Anio=key.Anio,
-            Mes = this.AsignarMes(key.Mes),
-            idMes = key.Mes,
-            Count=group.Count()
-        });
-
-        return Ok(mY);
+        Response<dynamic> res = new Response<dynamic>();
+        try{
+            var mY = _context.Transformadores.Where(x => x.Etapa.Any(z => z.IsEnded == null || z.IsEnded == false))
+                .Include(x => x.Etapa)
+                .OrderByDescending(x=>x.Anio).ThenByDescending(x=>x.Mes).ToList()
+                .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new{
+                    Anio=key.Anio,
+                    Mes = this.AsignarMes(key.Mes),
+                    idMes = key.Mes,
+                    Count=group.Count()
+                });
+            res.Message = "Se realizo la consulta satisfactoriamente";
+            res.Data = mY;
+            res.Status = 200;
+            return Ok(mY);
+        }catch(Exception e){
+            res.Message = "Se realizo la consulta satisfactoriamente";
+            res.Status = 400;
+            return Conflict(e.Message);
+        }
     }
 
     [HttpPost("orderTrafo")]
@@ -675,18 +685,21 @@ namespace Foha.Controllers
                             if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32)
                             {
                                 etapa.IdColor=1034;
+                                etapa.IsEnded = true;
                             }
                             break;
                         case 3:
                             if((i.IdTipoEtapa>=8) && (i.IdTipoEtapa<=14))
                             {
                                 etapa.IdColor=1034;
+                                etapa.IsEnded = true;
                             }
                             break;
                         case 5:
                             if(i.IdTipoEtapa==14)
                             {
                                 etapa.IdColor=1034;
+                                etapa.IsEnded = true;
                             }
                             break;
                     }
@@ -758,13 +771,18 @@ namespace Foha.Controllers
             return BadRequest(ModelState);
         }
 
-
+        Transformadores trafoOriginal = _context.Transformadores.AsNoTracking().FirstOrDefault(x => x.IdTransfo == editTransformadoresDto.IdTransfo);
         var preTransformadores = _mapper.Map<Transformadores>(editTransformadoresDto);
-        _repo.Update(preTransformadores);
-        return StatusCode(201,await _repo.SaveAsync(preTransformadores));
-
-
-
+        if(trafoOriginal.FechaProd != editTransformadoresDto.FechaProd){
+            preTransformadores.Prioridad = _context.Transformadores.Where(x=>x.Mes == editTransformadoresDto.Mes && x.Anio== editTransformadoresDto.Anio).Max(z=>z.Prioridad) + 1;
+        }
+        
+        try{
+            _repo.Update(preTransformadores);
+            return StatusCode(201,await _repo.SaveAsync(preTransformadores));
+        }catch(Exception e){
+            return Conflict(e.Message);
+        }
 
     }
 
@@ -795,10 +813,16 @@ namespace Foha.Controllers
     [HttpPut("updateAllTrafos")]
     public async Task<IActionResult> UpdateAllTransfo([FromBody] EditTransformadoresDto[] trafos)
     {
+        int prioSumada = 1;
         List<Transformadores> listaTrafos = new List<Transformadores>();
         foreach(var trafo in trafos)
         {
+            Transformadores trafoOriginal = _context.Transformadores.Where(x => x.IdTransfo == trafo.IdTransfo).AsNoTracking().FirstOrDefault();
             var preTransformadores = _mapper.Map<Transformadores>(trafo);
+            if(trafoOriginal.FechaProd != trafo.FechaProd){
+                preTransformadores.Prioridad = _context.Transformadores.Where(x=>x.Mes == trafo.Mes && x.Anio== trafo.Anio).Max(z=>z.Prioridad) + prioSumada;
+                prioSumada ++;
+            }
             listaTrafos.Add(preTransformadores);
         }
 
@@ -965,6 +989,8 @@ namespace Foha.Controllers
     {
         return _context.Transformadores.Any(e => e.IdTransfo == id);
     }
+
+    
 
     private string AsignarMes(int? mes){
         switch(mes)
