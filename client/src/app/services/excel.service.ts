@@ -85,6 +85,7 @@ export class ExcelService {
     worksheet.mergeCells(`A${actualizado.number}:F${actualizado.number}`);
 
     let columnas=worksheet.getRow(6).values = [
+      'PRI',
       'OT',
       'OP',
       'RNG',
@@ -148,6 +149,7 @@ export class ExcelService {
     worksheet.pageSetup={fitToPage:true};
 
     worksheet.columns = [
+      {key:'prioridad',width:6},
       {key:'oT',width:6},
       {key:'oP',width:6},
       {key:'rango',width:6},
@@ -195,6 +197,9 @@ export class ExcelService {
     worksheet.views=[{state: 'frozen', xSplit: 9, ySplit: 0}]
       
     worksheet.addRow([" "]);
+    let iguales=false;
+    let otAnterior=0;
+    let row=9;
     data.forEach((e,i)=>{
       if((e.hasOwnProperty("group")))
       {
@@ -207,11 +212,21 @@ export class ExcelService {
       }
       else{
         let cuenta=0;
-        let cuentaCol=10;
+        let cuentaCol=11;
         let fot:Date=this.fopToDate(e.fechaPactada);
-
+        let oTe=e.oTe
+        
+        //son del mismo grupo
+        if(oTe==otAnterior){
+          iguales=true;
+        }
+        else{
+          iguales=false;
+          otAnterior=oTe;
+        }
 
         worksheet.addRow({
+          prioridad:e.prioridad,
           oT:e.oTe,
           oP:`${(e.nucleos!=null ? e.nucleos : '')}${e.oPe}`,
           rango:e.rangoInicio,
@@ -258,7 +273,7 @@ export class ExcelService {
           let colorCortado;
           
 
-          if(colNumber==8){
+          if(colNumber==9){
             if(cell!=null && fot!=null)
             {
               let fop:Date=this.fopToDate(cell);
@@ -300,7 +315,14 @@ export class ExcelService {
           
           
         })
+        if(iguales==true){
+          worksheet.getRow(row).outlineLevel=1;
+        }
+        else{
+          worksheet.getRow(row).outlineLevel=0;
+        }
       }
+      row++;
     })
 
     

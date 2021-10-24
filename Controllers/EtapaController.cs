@@ -1411,11 +1411,11 @@ namespace Foha.Controllers
         }
             
         [HttpGet("getEtapasTrafoIndividual/{idTransfo}")]
-        public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int trafo){
+        public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int idTransfo){
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
             try{
-                List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == trafo)//Busco las etapas del trafo que me pide.
+                List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == idTransfo)//Busco las etapas del trafo que me pide.
                                     .Include(x => x.IdTipoEtapaNavigation)
                                     .Include(x => x.IdTransfoNavigation)
                                     .Include(x => x.IdColorNavigation)
@@ -1432,7 +1432,7 @@ namespace Foha.Controllers
                     reporte.RefProceso = e.NumEtapa;
                     reporte.FechaIni = e.DateIni;
                     reporte.FechaFin = e.DateFin;
-                    reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : e.IdColorNavigation.Leyenda;
+                    reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : (e.IdColor==null) ? "Sin Iniciar" :e.IdColorNavigation.Leyenda;
                     reporte.Operarios = "";
                     foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
                     {

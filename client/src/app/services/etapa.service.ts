@@ -9,6 +9,7 @@ import { Transformadores } from "../models/transformadores";
 import { EtapaPorSector } from "../models/etapaPorSector";
 import { Reporte } from "../models/reporte";
 import { IResponse } from "../models/iresponse";
+import { runInThisContext } from "vm";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -61,6 +62,15 @@ export class EtapaService {
     return this.http.get<Transformadores>(url).pipe(
       tap(_=> console.log(`fetched Trafo by IdTrafo`)),
       catchError(this.handleError<Transformadores>(`getTrafo`))
+    )
+  }
+
+  getEtapasTrafoIndividual(idTransfo:number):Observable<IResponse<any[]>>{
+    const url = `${apiUrl}/getEtapasTrafoIndividual/${idTransfo}`;
+    return this.http.get<IResponse<any[]>>(url)
+    .pipe(
+      tap(_=>console.log('fetched Etapas')),
+      catchError(this.handleError<IResponse<any[]>>('get Etapas por trafo'))
     )
   }
 

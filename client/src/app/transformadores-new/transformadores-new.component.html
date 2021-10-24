@@ -170,7 +170,7 @@
             <button *ngIf="idTipoUs!='4'" mat-icon-button class="editBorr" color="primary"  (click)="dialogEditTransfo(row)">
               <mat-icon>edit</mat-icon>
             </button>   
-             <button mat-icon-button style="color:teal;" class="editBorr" (click)="onRowClicked(row)" matTooltip="Procesos">
+             <button mat-icon-button style="color:teal;" class="editBorr" (click)="onRowClicked(row.idTransfo)" matTooltip="Procesos">
               <mat-icon>av_timer</mat-icon>
             </button>
             <button *ngIf="idTipoUs!='4'" mat-icon-button color="warn" class="editBorr" (click)="dialogDeleteTransfo(row)" >

@@ -942,15 +942,22 @@ export class TransformadoresNewComponent implements OnInit {
           })
       }
 
-      onRowClicked(row) {
-        this.data2 = row;
-        forkJoin([
-          this.getEtapasporTransfo(this.data2.idTransfo),
-          this.getTipoEtapas()
-        ]).subscribe(() => {
-          this.asignarEtapaTransfo();
-          this.openDialogEtapaTransfo(this.data7);
-        });
+      // onRowClicked(row) {
+      //   this.data2 = row;
+      //   forkJoin([
+      //     this.getEtapasporTransfo(this.data2.idTransfo),
+      //     this.getTipoEtapas()
+      //   ]).subscribe(() => {
+      //     this.asignarEtapaTransfo();
+      //     this.openDialogEtapaTransfo(this.data7);
+      //   });
+      // }
+
+      onRowClicked(idTransfo){
+        console.log(idTransfo);
+        this.etapaService.getEtapasTrafoIndividual(idTransfo).subscribe(res=>{
+          this.openDialogEtapaTransfo(res.data)
+        })
       }
 
       compareObjects(o1: any, o2: any): boolean {
@@ -1669,7 +1676,7 @@ interface ComboClientes{
     templateUrl: "info-etapa-transformadores-new.html"
   })
   export class ShowInfoNewComponent{
-    displayedColumns: string[] = ['Nombre de Etapa', 'Fecha Inicio', 'Fecha Fin','Tiempo Parcial', 'Tiempo Fin'];
+    displayedColumns: string[] = ['proceso','refProceso','fechaIni','fechaFin','tiempo','Empleados'];
     dataEtapaPorTransfo:EtapaTransfo[]=[];
     nombreEtapa:string;
     dateIni:Date;
@@ -1695,7 +1702,7 @@ interface ComboClientes{
       @Inject(MAT_DIALOG_DATA) data1)
       {
 
-
+          console.log(data1);
           this.dataEtapaPorTransfo=data1;
       }
 

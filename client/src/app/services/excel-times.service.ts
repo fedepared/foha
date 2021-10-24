@@ -193,7 +193,7 @@ export class ExcelTimesService {
       ]
     
     
-    worksheet.views=[{state: 'frozen', xSplit: 9, ySplit: 0}]
+    worksheet.views=[{state: 'frozen', xSplit: 10, ySplit: 0}]
       
     worksheet.addRow([" "]);
     let iguales=false;

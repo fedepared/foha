@@ -261,14 +261,14 @@
 }
 
 .circular-menu.active .menu-item:nth-child(4) {
-  transform: translate3d(-2.5em,2em,0);
+  transform: translate3d(-2.5em,2.5em,0);
 }
 
 .circular-menu.active .menu-item:nth-child(5) {
-  transform: translate3d(0em,4em,0);
+  transform: translate3d(0em,3.5em,0);
 }
 .circular-menu.active .menu-item:nth-child(6) {
-  transform: translate3d(2.5em,3em,0);
+  transform: translate3d(2.5em,2.5em,0);
 }
 
 .fot{

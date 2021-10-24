@@ -38,23 +38,32 @@ y ver fecha inicial y fecha de fin al iniciar la vista (HECHO)
 
 Hablado 19-10 con leo y ariel: 
 
--Poder editar nombre de clientes (C)
--Se borra la referencia de una etapa, le boleteamos los empleados que laburaron ahi (C Back)
+-Limpiar filtros de los meses que están finalizados (Criso) (HECHO)
+-Se borra la referencia de una etapa, le boleteamos los empleados que laburaron ahi (C Back) (HECHO)
+-Priorizar trafos, quiere ver lein el cliente (F) (Hecho)
+-Excel con tiempos (F) (Hecho)
+-Agregar de qué maquina estoy hablando cuando abro el relojito (F,C) (HECHO)
+-Arreglar filtro de potencia (Anda) y que tome el valor numérico (Anda)
+-Modificar Lotes de los trafos individual y masivo (F, C...Hecho)
+
+
+FALTA POR HACER:
+
+-Poder editar nombre de clientes (C) 
 -No mostrar los trafos enviados superiores a 60 días (C, Vamos a posponerlo hasta que se optimice la consulta)
--Limpiar filtros de los meses que están finalizados (Criso) 
+
 
 -Que los encargados puedan ver los reportes (F)
--Priorizar trafos, quiere ver lein el cliente (F) (Hecho)
 -Vista de los historicos, con excel incluido (más adelante)
 -Agregar al excel fecha de pausa (F) (No se puede, agregar campo?)
 -Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat (F)
 -Filtro de meses, elegir de todos los meses (F...Agregar, y optimizar consulta)
 - autocomplete de filtro de clientes. (F, pero no se hace)
 -cambiar tintas penetrantes por hermeticidad (F, no se cambia db, solo front vista)
--Excel con tiempos (F)
 
 
--Agregar de qué maquina estoy hablando cuando abro el relojito (F,C)
+
+
 - A la derecha de cli el vendedor: hacer tabla de vendedores ( F, C) 
 -ver tema color y fecha de nucleos con orden de compra(y ver posibilidad de cargarlo cuando lo cambia a violeta) y agregar Letras "R" , "A", "E", "F"
 	1)guardar color y fecha
@@ -67,19 +76,18 @@ Hablado 19-10 con leo y ariel:
 -Excel por operarios (F, C más adelante, optimizando la consulta)
 
 
--Arreglar filtro de potencia (Anda) y que tome el valor numérico (Anda)
--Modificar Lotes de los trafos individual y masivo (F, C...Hecho)
+
 
 
 
 22/10:
+Dividir excel en grupos según OT (HECHO)
+exportar con numero de prioridad (HECHO)
+
+FALTA POR HACER:
 Agregar el campo fecha de ultima pausa
-Usuario tipo vista, hacer cuadricula
-Dividir excel en grupos según OT
-exportar con numero de prioridad 
-
+Usuario tipo vista, hacer cuadricula (F)
 PATAS A DIFERENCIA DE PY NUNCA SE GRISA
-
 empezar a ver el agregado de las etapas
 Mas adelante, poder elegir fecha de algunos procesos
 
