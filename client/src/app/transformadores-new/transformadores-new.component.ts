@@ -2,7 +2,7 @@ import { Component, OnInit, Inject,ViewChild, Input, Output,EventEmitter, NgZone
 import { Transformadores } from '../models/transformadores';
 import { TransformadoresService } from '../services/transformadores.service';
 import { ActivatedRoute } from '@angular/router';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, MatOption } from '@angular/material/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import {
   MatDialog,
@@ -67,7 +67,7 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "TAPA":22,
         "RAD/PAN":23,
         "CUBA":24,
-        "TINT":25,
+        "HERM":25,
         "GRAN":26,
         "PINT":27,
         "ENC":28,
@@ -88,7 +88,7 @@ interface Mes {
   selector: 'etapa-column-component3',
   template: `
   <ng-container *ngIf="etapa">
-    <div style="height:47px;line-height:47px;"  [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '2.5px solid rgb(56,56,56)': '0')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
+    <div style="height:47px;line-height:47px;"  [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2.5px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '3px solid rgb(56,56,56)': '1px solid rgb(56,56,56)')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
       <span style="display:inline;margin:0;width:24px;height:24px;">
         <button mat-icon-button *ngIf="idTipoUs!='4' && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>done</mat-icon></button>
@@ -404,6 +404,8 @@ export class TransformadoresNewComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable, { static: false }) matTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @ViewChild('allSelected') private allSelected: MatOption;
   constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService, private excelTimesService:ExcelTimesService) {
 
     }
@@ -598,8 +600,8 @@ export class TransformadoresNewComponent implements OnInit {
       case "CUBA":
         etapa="Cuba";
         break;
-      case "TINT":
-        etapa="Tintas penetrantes";
+      case "HERM":
+        etapa="Hermeticidad";
         break;
       case "GRAN":
         etapa="Granallado";
@@ -651,7 +653,14 @@ export class TransformadoresNewComponent implements OnInit {
   }
 
 
-
+  // toggleAllSelection() {
+  //   if (this.allSelected.selected) {
+  //     this.form.controls['month'].setValue(this.months)
+        
+  //   } else {
+  //     this.form.controls.month.patchValue([]);
+  //   }
+  // }
 
 
     mostrar(){
@@ -1677,7 +1686,7 @@ interface ComboClientes{
   })
   export class ShowInfoNewComponent{
     displayedColumns: string[] = ['proceso','refProceso','fechaIni','fechaFin','tiempo','Empleados'];
-    dataEtapaPorTransfo:EtapaTransfo[]=[];
+    dataEtapaPorTransfo:any[]=[];
     nombreEtapa:string;
     dateIni:Date;
     dateFin:Date;

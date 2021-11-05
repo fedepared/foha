@@ -76,6 +76,7 @@
                   <mat-option *ngFor="let m of months"  [value]="m">
                     {{m.mes}} de {{m.anio}}
                   </mat-option>
+                  <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
                 </mat-select>
               </mat-form-field>
           <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
@@ -183,7 +184,7 @@
           <th mat-header-cell *matHeaderCellDef style="text-align:center;border-bottom-color: black!important;border-bottom-width:2.5px!important;"  matTooltip={{tooltipTrafo(column)}} matTooltipPosition="above">
             {{encabezadosTrafo(column)}}
           </th>
-          <td mat-cell *matCellDef="let element" style="text-align:center;" [ngClass]="(column=='fechaProd')? colorFOT(element):''"  [matTooltip]="(column=='nombreCli') ? element[column] : ''"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yy') : ((column=='nombreCli') ? breakCli(element[column]):element[column])}} </td>
+          <td mat-cell *matCellDef="let element" style="text-align:center;" [ngClass]="(column=='fechaProd')? colorFOT(element):''"  [matTooltip]="(column=='nombreCli' || column=='observaciones') ? element[column] : ''"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yy') : ((column=='nombreCli' || column=='observaciones') ? breakCli(element[column]):element[column])}} </td>
       </ng-container>
     
       <ng-container *ngFor="let column of etapasColumns;" matColumnDef="{{column}}">

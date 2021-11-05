@@ -66,7 +66,7 @@ export class EtapaService {
   }
 
   getEtapasTrafoIndividual(idTransfo:number):Observable<IResponse<any[]>>{
-    const url = `${apiUrl}/getEtapasTrafoIndividual/${idTransfo}`;
+    const url = `${apiUrl}/GetEtapasTrafoIndividual/${idTransfo}`;
     return this.http.get<IResponse<any[]>>(url)
     .pipe(
       tap(_=>console.log('fetched Etapas')),

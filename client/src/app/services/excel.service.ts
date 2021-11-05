@@ -194,7 +194,7 @@ export class ExcelService {
       ]
     
     
-    worksheet.views=[{state: 'frozen', xSplit: 9, ySplit: 0}]
+    worksheet.views=[{state: 'frozen', xSplit: 17, ySplit: 0}]
       
     worksheet.addRow([" "]);
     let iguales=false;

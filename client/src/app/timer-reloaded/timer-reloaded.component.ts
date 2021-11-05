@@ -290,8 +290,8 @@ export class TimerReloadedComponent implements OnInit {
       case "CUBA":
         etapa="Cuba";
         break;
-      case "TINT":
-        etapa="Tintas penetrantes";
+      case "HERM":
+        etapa="Hermeticidad";
         break;
       case "GRAN":
         etapa="Granallado";
@@ -541,6 +541,12 @@ export class TimerReloadedComponent implements OnInit {
 
       }
 
+  }
+
+  function(event){
+    console.log(event);
+    event.preventDefault();
+    this.applyApiFilter();
   }
 
   clean(){

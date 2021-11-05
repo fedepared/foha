@@ -173,7 +173,7 @@ export class RelojComponent implements OnInit{
         this.tipoEtapaNombre="Cuba";
         break;
       case "tintasPenetrantes":
-        this.tipoEtapaNombre="Tintas penetrantes";
+        this.tipoEtapaNombre="Hermeticidad";
         break;
       case "granallado":
         this.tipoEtapaNombre="Granallado";

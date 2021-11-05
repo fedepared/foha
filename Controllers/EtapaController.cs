@@ -110,7 +110,7 @@ namespace Foha.Controllers
                     // etapasPorSector.Add("RF1",11);
                     // etapasPorSector.Add("RF2",12);
                     // etapasPorSector.Add("RF3",13);
-                    // etapasPorSector.Add("ENS",14);  
+                    // etapasPorSector.Add("ENS",14);    
                     break;
               case 3:
                     etapa = await _context.Etapa
@@ -1116,7 +1116,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("TAPA",22);
                     etapasPorSector.Add("RAD/PAN",23);
                     etapasPorSector.Add("CUBA",24);
-                    etapasPorSector.Add("TINT",25);
+                    etapasPorSector.Add("HERM",25);
                     etapasPorSector.Add("GRAN",26);
                     etapasPorSector.Add("PINT",27);
                     break;
@@ -1164,7 +1164,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("TAPA",22);
                     etapasPorSector.Add("RAD/PAN",23);
                     etapasPorSector.Add("CUBA",24);
-                    etapasPorSector.Add("TINT",25);
+                    etapasPorSector.Add("HERM",25);
                     etapasPorSector.Add("GRAN",26);
                     etapasPorSector.Add("PINT",27);
                     etapasPorSector.Add("NUC",18);
@@ -1199,7 +1199,7 @@ namespace Foha.Controllers
                     break;
                 //granallado
                 case 24:
-                    etapasPorSector.Add("TINT",25);
+                    etapasPorSector.Add("HERM",25);
                     etapasPorSector.Add("GRAN",26);
                     break;
                 //pintura
@@ -1410,7 +1410,7 @@ namespace Foha.Controllers
             }
         }
             
-        [HttpGet("getEtapasTrafoIndividual/{idTransfo}")]
+        [HttpGet("GetEtapasTrafoIndividual/{idTransfo}")]
         public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int idTransfo){
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();

@@ -12,23 +12,13 @@ agregar procesos:
 Montaje, se va a separar en tres etapas (que lo vean solo ellos, y no la vista de transformadores) (Desestimar por ahora)
 
 
-
-
-
-Error en vista de relojito en fecha de transformadores y que los nombres coincidan con lo de la vista. y colocar el trafo que es
-
 PEDIDO DE LIBIO:
 -tapa(timoteo) corte y plegado y patas(timoteo) (Desestimar por ahora)
-
-
-
-
 
 
 -ver tema de fpr y fot en la alta y modificacion, cambiar colores y que en la exportación a excel se vea fpr>fot un color (HECHO, que prueben)
 
  
-
 
 - en excel del reporte diario:
 rango, ot, op en columnas separadas (HECHO)
@@ -49,32 +39,44 @@ Hablado 19-10 con leo y ariel:
 
 FALTA POR HACER:
 
--Poder editar nombre de clientes (C) 
--No mostrar los trafos enviados superiores a 60 días (C, Vamos a posponerlo hasta que se optimice la consulta)
 
-
--Que los encargados puedan ver los reportes (F)
+-No mostrar los trafos enviados superiores a 60 días (Criso, Vamos a posponerlo hasta que se optimice la consulta)
 -Vista de los historicos, con excel incluido (más adelante)
--Agregar al excel fecha de pausa (F) (No se puede, agregar campo?)
--Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat (F)
 -Filtro de meses, elegir de todos los meses (F...Agregar, y optimizar consulta)
-- autocomplete de filtro de clientes. (F, pero no se hace)
--cambiar tintas penetrantes por hermeticidad (F, no se cambia db, solo front vista)
+-Excel por operarios (F, C más adelante, optimizando la consulta)
 
+-Que los encargados puedan ver los reportes (F) 
+-Poder editar nombre de clientes (Criso) 
+-Agregar al excel fecha de pausa (F) (No se puede, agregar campo?)
+-Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat (Fede...DESCARTADO)
 
+- autocomplete de filtro de clientes. (F, reevaluar)
+-cambiar tintas penetrantes por hermeticidad (F, no se cambia db, solo front vista) (HECHO)
+- A la derecha de cli el vendedor: hacer tabla de vendedores ( Fede, Criso): 
+	*Inicialmente, cuando un vendedor mire el listado de producción, pueda ver el trafo que le corresponda. Con legajo, nombre, mail, sigla
+	*Flasheando, cuando un trafo tiene fecha vencida, el sistema envía un mail
 
-
-- A la derecha de cli el vendedor: hacer tabla de vendedores ( F, C) 
 -ver tema color y fecha de nucleos con orden de compra(y ver posibilidad de cargarlo cuando lo cambia a violeta) y agregar Letras "R" , "A", "E", "F"
 	1)guardar color y fecha
 	2)poder editar fecha
 	3)Los caracteres
-(F,C) 
+(F,C) (PRIORIDAD 2)
 -Sacar soldadura de prensayugos y agregar el de patas (Nullear tadaaaaa) (C cambia db y F busca donde demonios se usa)
 -Agregar campo serie para la cabecera de los trafos. Al finalizar laboratorio, buscar el idTrafo, y actualizar el campo serie. (F,C)
 -Mail, ver posibilidad de enviar (F,C)
--Excel por operarios (F, C más adelante, optimizando la consulta)
 
+Agregar el campo fecha de ultima pausa
+Usuario tipo vista, hacer cuadricula (F) (HECHO)
+PATAS A DIFERENCIA DE PY NUNCA SE GRISA
+empezar a ver el agregado de las etapas
+Mas adelante, poder elegir fecha de algunos procesos (PRIORIDAD 2)
+-el resultado de los filtros, mostrarlos en orden ascendente (HECHO)
+-agregar los procesos (PRIORIDAD 1)
+-enter en la vista de procesos (HECHO)
+-Agregar mes pendientes de entrega, agregarlo desde la vista de prioridades
+-Al tener un proceso iniciado por una cantidad x de empleados, se tiene que finalizar por la misma cantidad de empleados.
+-Al modificar fecha de producción de trafo, que no se modifique el mes y el año
+-Magia de ariel con las fechas
 
 
 
@@ -91,3 +93,12 @@ PATAS A DIFERENCIA DE PY NUNCA SE GRISA
 empezar a ver el agregado de las etapas
 Mas adelante, poder elegir fecha de algunos procesos
 
+26-10:
+-el resultado de los filtros, mostrarlos en orden ascendente
+-agregar los procesos
+-enter en la vista de procesos
+-Agregar mes pendientes de entrega, agregarlo desde la vista de prioridades
+-Al tener un proceso iniciado por una cantidad x de empleados, se tiene que finalizar por la misma cantidad de empleados.
+-Al modificar fecha de producción de trafo, que no se modifique el mes y el año
+-Magia de ariel con las fechas
+-El proceso de envío a deposito debe ser de solo lectura para laboratorio

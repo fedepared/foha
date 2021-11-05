@@ -158,6 +158,11 @@
 }
 
 
+/*sino la columna de env se ve corrida*/
+td.mat-cell:last-of-type{
+  padding:0;
+}
+
 
 
 /*Menu*/

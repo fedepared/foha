@@ -193,7 +193,7 @@ export class ExcelTimesService {
       ]
     
     
-    worksheet.views=[{state: 'frozen', xSplit: 10, ySplit: 0}]
+    worksheet.views=[{state: 'frozen', xSplit: 17, ySplit: 0}]
       
     worksheet.addRow([" "]);
     let iguales=false;
@@ -341,7 +341,7 @@ export class ExcelTimesService {
         return " "
       }
       //pausado
-      if(etapa.idColor==9)
+      else if(etapa.idColor==9)
       {
         if(etapa.tiempoParc!=null)
         {
@@ -350,9 +350,7 @@ export class ExcelTimesService {
         else{
           return "No medido"
         }
-      } 
-      //finalizado
-      if(etapa.idColor==10){
+      }else if(etapa.idColor==10){
         if(etapa.tiempoFin==null)
         {
           return "No Medido"
@@ -360,6 +358,8 @@ export class ExcelTimesService {
         else{
           return etapa.tiempoFin
         }
+      }else{
+        return " "
       }
 
     

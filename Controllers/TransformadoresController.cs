@@ -324,7 +324,7 @@ namespace Foha.Controllers
         var results = _context.Transformadores.Include(z=>z.IdClienteNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
-            .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
+            .OrderBy(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
 
         if(oTe !=null)
             results=results.Where(x=>x.OTe != null && x.OTe.ToString().Contains(oTe)).ToList();
@@ -383,18 +383,20 @@ namespace Foha.Controllers
         // }
         if(month.Length>0)
         {
+            
             for (var i = 0; i < month.Length; i++)
             {
                 trafos.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
             }
-
+            
         }
 
+        
 
         if(trafos.Count()>0)
         {
 
-            var resultados=trafos.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+            var resultados=trafos.OrderBy(x=>x.Anio).ThenBy(x=>x.Mes).GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
             {
                 Anio = key.Anio,
                 Mes = this.AsignarMes(key.Mes) ,
@@ -405,7 +407,7 @@ namespace Foha.Controllers
         else{
             if(results.Count()>0)
             {
-                var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+                var resultados=results.OrderBy(x=>x.Anio).ThenBy(x=>x.Mes).GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
                 {
                     Anio = key.Anio,
                     Mes = this.AsignarMes(key.Mes) ,
@@ -464,7 +466,7 @@ namespace Foha.Controllers
         if(trafo.Count()>0)
         {
 
-            var resultados=trafo.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+            var resultados=trafo.OrderBy(x=>x.Anio).ThenBy(x=>x.Mes).GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
             {
                 Anio = key.Anio,
                 Mes = this.AsignarMes(key.Mes) ,
@@ -475,7 +477,7 @@ namespace Foha.Controllers
         else{
             if(results.Count()>0)
             {
-                var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
+                var resultados=results.OrderBy(x=>x.Anio).ThenBy(x=>x.Mes).GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
                 {
                     Anio = key.Anio,
                     Mes = this.AsignarMes(key.Mes) ,

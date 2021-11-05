@@ -77,6 +77,15 @@
                 placeholder="R/P"
                formControlName="radPan" [errorStateMatcher]="matcher" type="text">
     </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>lote</mat-label>
+      <input matInput
+              placeholder="lote"
+              formControlName="lote" [errorStateMatcher]="matcher" type="text">
+      <!-- <mat-error *ngIf="!form.hasError('required')">El nucleo es<strong>requerido</strong> -->
+      <!-- </mat-error> -->
+  </mat-form-field>
     
     <mat-form-field appearance="outline">
       <mat-label>Fecha de producción</mat-label>
