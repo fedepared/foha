@@ -299,7 +299,7 @@ export class ExcelService {
           {
             cuentaCol++;
             cuenta++;
-            if(cuentaCol<43 && (e.etapa.find(z=>z.idTipoEtapa==cuenta).idColorNavigation)!==null)
+            if(cuentaCol<=43 && (e.etapa.find(z=>z.idTipoEtapa==cuenta).idColorNavigation)!==null)
             {
               
               colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuenta).idColorNavigation.codigoColor).replace('#','');
@@ -342,7 +342,13 @@ export class ExcelService {
     {
         if(etapa.idColor==9)
         {
-          return " ";
+          if(etapa.fechaPausa==null)
+          {
+            return " ";
+          }
+          else{
+            return this.dateFormat(etapa.fechaPausa)
+          }
         }
         else if(etapa.idColor==1030)
         {

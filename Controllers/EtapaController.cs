@@ -600,6 +600,7 @@ namespace Foha.Controllers
                 editEtapaDto.DateIni=etapaAnterior.DateIni;
                 editEtapaDto.TiempoParc=etapaAnterior.TiempoParc;
                 editEtapaDto.InicioProceso=DateTime.Now;
+                editEtapaDto.FechaPausa=etapaAnterior.FechaPausa;
             }
 
             
@@ -660,6 +661,7 @@ namespace Foha.Controllers
                 return Conflict("La etapa ya había sido pausada, por favor actualice la vista");
             }
             editEtapaDto.DateIni=etapaAntes.DateIni;
+            editEtapaDto.FechaPausa=DateTime.Now;
             //chequeo si es el primer comienzo
             if(etapaAntes.InicioProceso==null)
             {
@@ -843,6 +845,7 @@ namespace Foha.Controllers
             }
 
             editEtapaDto.DateIni=etapaAntes.DateIni;
+            editEtapaDto.FechaPausa=DateTime.Now;
             //chequeo si es el primer comienzo
             if(etapaAntes.InicioProceso==null)
             {

@@ -102,3 +102,5 @@ Mas adelante, poder elegir fecha de algunos procesos
 -Al modificar fecha de producción de trafo, que no se modifique el mes y el año
 -Magia de ariel con las fechas
 -El proceso de envío a deposito debe ser de solo lectura para laboratorio
+
+Para la v 2.0, ver la posibilidad de pausar en casos especiales (por ejemplo, almuerzo)

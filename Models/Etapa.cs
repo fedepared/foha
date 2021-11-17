@@ -18,10 +18,12 @@ namespace Foha.Models
         public string TiempoParc { get; set; }
         public string TiempoFin { get; set; }
         public int? IdTransfo { get; set; }
+        public string IdEmpleado { get; set; }
         public string Hora { get; set; }
         public DateTime? InicioProceso { get; set; }
         public int? IdColor { get; set; }
         public int? NumEtapa { get; set; }
+        public DateTime? FechaPausa { get; set; }
 
         public Colores IdColorNavigation { get; set; }
         public TipoEtapa IdTipoEtapaNavigation { get; set; }

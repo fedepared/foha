@@ -21,6 +21,8 @@ namespace Foha.Dtos
         public int? IdColor { get; set; }
         public int? NumEtapa{get;set;}
 
+        public DateTime? FechaPausa { get; set; }
+
         
         // public Colores IdColorNavigation { get; set; }
         // public TipoEtapa IdTipoEtapaNavigation { get; set; }

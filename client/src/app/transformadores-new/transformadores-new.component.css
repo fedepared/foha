@@ -154,7 +154,15 @@
 
 .mat-column-observaciones{
   /* left:488px!important; */
-  min-width:70px;
+  min-width:130px;
+}
+
+/*alto de fila*/
+tr.mat-footer-row, tr.mat-row {
+
+/* tr.mat-footer-row { */
+  
+  height: 30px !important;
 }
 
 

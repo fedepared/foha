@@ -14,7 +14,7 @@ namespace Foha.Models
         public int IdColor { get; set; }
         public string CodigoColor { get; set; }
         public string Leyenda { get; set; }
-
+        
         [JsonIgnore]
         public ICollection<Etapa> Etapa { get; set; }
     }

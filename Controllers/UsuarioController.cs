@@ -31,7 +31,8 @@ namespace Foha.Controllers
         [HttpGet]
         public IEnumerable<Usuario> GetUsuario()
         {
-            return _context.Usuario.Include(x=>x.IdTipoUsNavigation);
+            // return _context.Usuario.Include(x=>x.IdTipoUsNavigation);
+            return _context.Usuario;
         }
 
         [HttpGet("userNames")]
