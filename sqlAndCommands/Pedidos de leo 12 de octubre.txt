@@ -46,7 +46,7 @@ FALTA POR HACER:
 -Excel por operarios (F, C más adelante, optimizando la consulta)
 
 -Que los encargados puedan ver los reportes (F) 
--Poder editar nombre de clientes (Criso) 
+-Poder editar nombre de clientes (Criso) (HECHO - PROBAR)
 -Agregar al excel fecha de pausa (F) (No se puede, agregar campo?)
 -Ver posibilidad de seleccionar varios trafos con comanditos tipo mortal kombat (Fede...DESCARTADO)
 
@@ -89,8 +89,8 @@ exportar con numero de prioridad (HECHO)
 FALTA POR HACER:
 Agregar el campo fecha de ultima pausa
 Usuario tipo vista, hacer cuadricula (F)
-PATAS A DIFERENCIA DE PY NUNCA SE GRISA
-empezar a ver el agregado de las etapas
+PATAS A DIFERENCIA DE PY NUNCA SE GRISA (INCLUIDO EN EL AGREGADO DE PROCESOS)
+empezar a ver el agregado de las etapas (HECHO BACK, CHEQUEAR FRONT)
 Mas adelante, poder elegir fecha de algunos procesos
 
 26-10:

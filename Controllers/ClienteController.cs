@@ -87,7 +87,7 @@ namespace Foha.Controllers
                 return BadRequest(res);
             }
 
-            if(_context.Cliente.Any(x=>x.IdCliente==editCliente.LegajoCli && !x.NombreCli.Equals(editCliente.NombreCli)))
+            if(_context.Cliente.Any(x=>x.IdCliente!=editCliente.IdCliente && x.LegajoCli.Equals(editCliente.LegajoCli))) //Probar si se puede editar el nombre
             {
                 res.Message="Ya existe un cliente con ese legajo asignado";
                 res.Status= 409;
