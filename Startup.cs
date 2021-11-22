@@ -48,7 +48,7 @@ namespace Foha
             services.AddMvc().AddControllersAsServices();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<fohaContext>(options => 
+            services.AddDbContext<fohaIniContext>(options => 
             options
 
             // .UseLazyLoadingProxies()

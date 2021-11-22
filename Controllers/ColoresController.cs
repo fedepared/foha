@@ -16,10 +16,10 @@ namespace Foha.Controllers
     [ApiController]
     public class ColoresController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<Colores> _repo;
-        public ColoresController(fohaContext context, IMapper mapper, IDataRepository<Colores> repo)
+        public ColoresController(fohaIniContext context, IMapper mapper, IDataRepository<Colores> repo)
         {
             _context = context;
             _mapper = mapper;

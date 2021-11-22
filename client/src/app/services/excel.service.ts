@@ -62,6 +62,7 @@ export class ExcelService {
     // Set font, size and style in title row.
     titleRow.font = { name: 'Calibri', size: 20, bold: true };
     titleRow.alignment={horizontal:"center"};
+    
     titleRow.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"fabf8f"},bgColor:{ argb:"fabf8f"}};
     titleRow.border={
       top: {style:'medium'},
@@ -70,7 +71,7 @@ export class ExcelService {
       right: {style:'medium'}
     }
     
-    worksheet.mergeCells(1,1,2,38);
+    worksheet.mergeCells(1,1,2,55);
     
     
     // Blank Row
@@ -82,17 +83,19 @@ export class ExcelService {
     this.date=moment().format('D MMMM YYYY, h:mm:ss a');
     let actualizado=worksheet.addRow(['ACTUALIZADO A:  '+this.date]);
     actualizado.font={name: 'Calibri', size: 14, bold: true}
-    worksheet.mergeCells(`A${actualizado.number}:F${actualizado.number}`);
+    worksheet.mergeCells(`A${actualizado.number}:I${actualizado.number}`);
 
     let columnas=worksheet.getRow(6).values = [
       'PRI',
       'OT',
+      'N',
       'OP',
       'RNG',
       'LOTE',
       'POT',
       'FOT',
       'CLIENTE',
+      'VENDEDOR',
       'FPR',
       'OBS',
       'DOC',
@@ -112,16 +115,27 @@ export class ExcelService {
       'PY CYP ',
       'PY SOL',
       'PY ENV',
+      'PATAS CYP',
+      'PATAS ENV',
       'NUC',
       'MON',
+      'CONEX BT',
+      'CONEX AT',
+      'RELAC DE TRANSF',
       'HOR',
       'CUBA CYP',
-      'TAPA',
       'RAD/PAN',
-      'CUBA',
-      'TINT',
-      'GRAN',
-      'PINT',
+      'CUBIERTA',
+      'SOLD. CUBA',
+      'HERMETICIDAD',
+      'GRAN. CUBA',
+      'PINT. CUBA',
+      'ENV. CUBA',
+      'TAPA CYP',
+      'SOLD. TAPA',
+      'GRAN. TAPA',
+      'PINT. TAPA',
+      'ENV. TAPA',
       'ENC',
       'LAB',
       'TERM',
@@ -151,12 +165,14 @@ export class ExcelService {
     worksheet.columns = [
       {key:'prioridad',width:6},
       {key:'oT',width:6},
+      {key:'n',width:3},
       {key:'oP',width:6},
       {key:'rango',width:6},
       {key:'lote',width:5},
       {key:'potencia',width:8},
       {key:'fot',width:11},
       {key:'cliente',width:11},
+      {key:'vendedor',width:11},
       {key:'fpr',width:11},
       {key:'observaciones',width:11},
       {key:'documentacion',width:11.5},
@@ -176,21 +192,35 @@ export class ExcelService {
       {key:'corteYPlegadoPYS',width:11.5},
       {key:'soldaduraPYS',width:11.5},
       {key:'envioPYS',width:11.5},
+      {key:'cYPPatas',width:11.5},
+      {key:'envioPatas',width:11.5},
       {key:'nucleo',width:11.5},
       {key:'montaje',width:11.5},
+      {key:'conexBT',width:11.5},
+      {key:'conexAT',width:11.5},
+      {key:'relacionDeTransferencia',width:11.5},
       {key:'horno',width:11.5},
       {key:'cYPTapaCuba',width:11.5},
-      {key:'tapa',width:11.5},
       {key:'radiadoresOPaneles',width:11.5},
+      {key:'cubierta',width:11.5},
       {key:'cuba',width:11.5},
       {key:'tintasPenetrantes',width:11.5},
       {key:'granallado',width:11.5},
       {key:'pintura',width:11.5},
+      {key:'envioCuba',width:11.5},
+      {key:'cYPTapa',width:11.5},
+      {key:'tapa',width:11.5},
+      {key:'granalladoTapa',width:11.5},
+      {key:'pinturaTapa',width:11.5},
+      {key:'envioTapa',width:11.5},
       {key:'encubado',width:11.5},
       {key:'ensayosRef',width:11.5},
       {key:'terminacion',width:11.5},
       {key:'envioADeposito',width:11.5},
-      {key:'envioACliente',width:11.5}
+      {key:'envioACliente',width:11.5},
+
+      
+
       ]
     
     
@@ -204,7 +234,6 @@ export class ExcelService {
       if((e.hasOwnProperty("group")))
       {
         let periodo=worksheet.addRow([`${e.group}`]);
-        
         periodo.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
         periodo.font={name: 'Calibri', size: 11, bold: true};
         periodo.border={top: { style: 'thin' },bottom:{style:'thin'}};
@@ -212,7 +241,7 @@ export class ExcelService {
       }
       else{
         let cuenta=0;
-        let cuentaCol=11;
+        let cuentaCol=13;
         let fot:Date=this.fopToDate(e.fechaPactada);
         let oTe=e.oTe
         
@@ -228,12 +257,14 @@ export class ExcelService {
         worksheet.addRow({
           prioridad:e.prioridad,
           oT:e.oTe,
-          oP:`${(e.nucleos!=null ? e.nucleos : '')}${e.oPe}`,
+          n:(e.nucleos!=null) ? e.nucleos : '',
+          oP:e.oPe,
           rango:e.rangoInicio,
           lote:e.lote,
           potencia:e.potencia,
           fot:this.stringToDate(e.fechaPactada),
           cliente:e.nombreCli,
+          vendedor:e.idVendedorNavigation==null ? "" : e.idVendedorNavigation.nombre,
           fpr:this.stringToDate(e.fechaProd),
           observaciones:e.observaciones,
           documentacion:this.dateOrTime(((e.etapa.find(z=>z.idTipoEtapa==1)))),
@@ -253,32 +284,67 @@ export class ExcelService {
           corteYPlegadoPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==15))),
           soldaduraPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==16))),
           envioPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==17))),
+          //18
+          cYPPatas:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==33))),
+          //19
+          envioPatas:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==34))),
+          //20
           nucleo:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==18))),
+          //21
           montaje:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==19))),
+          //22
+          conexBT:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==35))),
+          //23
+          conexAT:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==36))),
+          //24
+          relacionDeTransferencia:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==37))),
+          //25
           horno:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==20))),
+          //26
           cYPTapaCuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==21))),
-          tapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==22))),
+          //27
           radiadoresOPaneles:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==23))),
+          //28
+          cubierta:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==43))),
+          //29
           cuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==24))),
+          //30
           tintasPenetrantes:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==25))),
+          //31
           granallado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==26))),
+          //32
           pintura:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==27))),
+          //33
+          envioCuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==38))),
+          //34
+          cYPTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==39))),
+          //35
+          tapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==22))),
+          //36
+          granalladoTapa:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==40))),
+          //37
+          pinturaTapa:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==41))),
+          //38
+          envioTapa:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==42))),
+          //39
           encubado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==28))),
+          //40
           ensayosRef:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==29))),
+          //41
           terminacion:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==30))),
+          //42
           envioADeposito:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==31))),
+          //43
           envioACliente:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==32)))
         }).eachCell({includeEmpty: true},(cell,colNumber)=>{
 
           let colorCortado;
           
 
-          if(colNumber==9){
+          if(colNumber==11){
             if(cell!=null && fot!=null)
             {
               let fop:Date=this.fopToDate(cell);
-              // console.log(fot);
-              // console.log(fop)
               if(fot<fop)
               {
                 cell.fill={
@@ -299,15 +365,104 @@ export class ExcelService {
           {
             cuentaCol++;
             cuenta++;
-            if(cuentaCol<=43 && (e.etapa.find(z=>z.idTipoEtapa==cuenta).idColorNavigation)!==null)
+            if(cuentaCol<=56)
             {
-              
-              colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuenta).idColorNavigation.codigoColor).replace('#','');
-              cell.fill={
-                type: 'pattern',
-                pattern: 'solid',
-                fgColor: { argb: `${colorCortado}` },
-                bgColor: { argb: `${colorCortado}` }
+              let cuent;
+              if(cuenta>17)
+              {
+                    switch(cuenta){
+                      case 18:
+                        cuent = 33
+                        break;
+                      case 19:
+                        cuent = 34
+                        break;
+                      case 20:
+                        cuent = 18
+                        break;
+                      case 21:
+                        cuent = 19
+                        break;
+                      case 22:
+                        cuent=35
+                        break;
+                      case 23:
+                        cuent=36
+                        break;
+                      case 24:
+                        cuent=37
+                        break;
+                      case 25:
+                        cuent=20
+                        break;
+                      case 26:
+                        cuent=21
+                        break;
+                      case 27:
+                        cuent=23
+                        break;
+                      case 28:
+                        cuent=43
+                        break;
+                      case 29:
+                        cuent=24
+                        break;
+                      case 30:
+                        cuent=25
+                        break;
+                      case 31:
+                        cuent=26
+                        break;
+                      case 32:
+                        cuent=27
+                        break;
+                      case 33:
+                        cuent=38
+                        break;
+                      case 34:
+                        cuent=39
+                        break;
+                      case 35:
+                        cuent=22
+                        break;
+                      case 36:
+                        cuent=40
+                        break;
+                      case 37:
+                        cuent=41
+                        break;
+                      case 38:
+                        cuent=42
+                        break;
+                      case 39:
+                        cuent=28
+                        break;
+                      case 40:
+                        cuent=29
+                        break;
+                      case 41:
+                        cuent=30
+                        break;
+                      case 42:
+                        cuent=31
+                        break;
+                      case 43:
+                        cuent=32
+                        break;
+                    }
+              }
+              else{
+                cuent=cuenta;
+              }
+              if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
+              {
+                colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation.codigoColor).replace('#','');
+                cell.fill={
+                  type: 'pattern',
+                  pattern: 'solid',
+                  fgColor: { argb: `${colorCortado}` },
+                  bgColor: { argb: `${colorCortado}` }
+                }
               }
             }
           }
@@ -378,7 +533,9 @@ export class ExcelService {
     return new Date(fop);
   }
 
-
+  typeOfEtapa(etapa){
+    return etapa.idTipoEtapa
+  }
 
   dateFormat(date:string):Date{
     return new Date(date.split('T')[0]);

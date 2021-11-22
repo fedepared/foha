@@ -184,7 +184,7 @@
           <th mat-header-cell *matHeaderCellDef style="text-align:center;border-bottom-color: black!important;border-bottom-width:2.5px!important;"  matTooltip={{tooltipTrafo(column)}} matTooltipPosition="above">
             {{encabezadosTrafo(column)}}
           </th>
-          <td mat-cell *matCellDef="let element" style="text-align:center;" [ngClass]="(column=='fechaProd')? colorFOT(element):''"  [matTooltip]="(column=='nombreCli' || column=='observaciones') ? element[column] : ''"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yy') :  column=='nombreCli' ? breakCli(element[column]) : column=='observaciones' ? breakObs(element[column]):element[column]}} </td>
+          <td mat-cell *matCellDef="let element" style="text-align:center;" [ngClass]="(column=='fechaProd')? colorFOT(element):''"  [matTooltip]="(column=='nombreCli' || column=='observaciones') ? element[column] : column=='idVendedorNavigation' ? ((element[column]==null ? '' : element[column].nombre)):''"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yy') :  column=='nombreCli' ? breakCli(element[column]) : column=='observaciones' ? breakObs(element[column]): column=='idVendedorNavigation' ? (element[column]==null ? '' : element[column].abrev) :element[column]}} </td>
       </ng-container>
     
       <ng-container *ngFor="let column of etapasColumns;" matColumnDef="{{column}}">

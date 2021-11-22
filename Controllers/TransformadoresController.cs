@@ -33,12 +33,12 @@ namespace Foha.Controllers
     [ApiController]
     public class TransformadoresController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<Transformadores> _repo;
         private readonly IDataRepository<Etapa> _repoEtapa;
 
-        public TransformadoresController(fohaContext context, IMapper mapper, IDataRepository<Transformadores> repo, IDataRepository<Etapa> repoEtapa)
+        public TransformadoresController(fohaIniContext context, IMapper mapper, IDataRepository<Transformadores> repo, IDataRepository<Etapa> repoEtapa)
         {
             _context = context;
             _mapper = mapper;
@@ -245,6 +245,7 @@ namespace Foha.Controllers
             DateTime month = DateTime.Now;
             var resultado2=_context.Transformadores
             .Include(x=>x.IdClienteNavigation)
+            .Include(x=>x.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             // .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
             .Where(x=>x.Mes == month.Month && x.Anio==month.Year).OrderBy(x=>x.Prioridad).ToList();
@@ -322,6 +323,7 @@ namespace Foha.Controllers
     {
         List<Transformadores> trafos = new List<Transformadores>();
         var results = _context.Transformadores.Include(z=>z.IdClienteNavigation)
+            .Include(z=>z.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
             .OrderBy(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
@@ -434,6 +436,7 @@ namespace Foha.Controllers
         )
     {
         var results = _context.Transformadores.Include(z=>z.IdClienteNavigation)
+            .Include(z=>z.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
             .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).ToList();

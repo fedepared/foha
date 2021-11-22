@@ -24,10 +24,10 @@ namespace Foha.Controllers
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly ITokenRepository _token;
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         
 
-        public AuthController(IAuthRepository<Usuario> repo, IConfiguration config, IMapper mapper, ITokenRepository token, fohaContext context)
+        public AuthController(IAuthRepository<Usuario> repo, IConfiguration config, IMapper mapper, ITokenRepository token, fohaIniContext context)
         {
             _mapper = mapper;
             _config = config;

@@ -41,6 +41,8 @@ import moment from 'moment';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { IResponse } from '../models/iresponse';
 import { ExcelTimesService } from '../services/excel-times.service';
+import { VendedoresService } from '../services/vendedores.service';
+import { Vendedores } from '../models/vendedores';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -60,16 +62,27 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "PY CYP":15,
         "PY SOL":16,
         "PY ENV":17,
+        "CYP PAT":33,
+        "PAT ENV":34,
         "NUC":18,
         "MON":19,
+        "CON BT":35,
+        "CON AT":36,
+        "REL TRANSF":37,
         "HOR":20,
         "CUBA CYP":21,
-        "TAPA":22,
         "RAD \n PAN":23,
-        "CUBA":24,
+        "CUBI":43,
+        "SOL \n CUBA":24,
         "HERM":25,
-        "GRAN":26,
-        "PINT":27,
+        "GRAN \n CUBA":26,
+        "PINT \n CUBA":27,
+        "ENV \n CUBA":38,
+        "CYP \n TAPA":39,
+        "SOL \n TAPA":22,
+        "GRAN \n TAPA":40,
+        "PINT \n TAPA":41,
+        "ENV \n TAPA":42,
         "ENC":28,
         "LAB":29,
         "TERM":30,
@@ -326,6 +339,7 @@ export class TransformadoresNewComponent implements OnInit {
     'potencia',
     'fechaPactada',
     'nombreCli',
+    'idVendedorNavigation',
     'fechaProd',
     'observaciones'
   ]
@@ -454,6 +468,9 @@ export class TransformadoresNewComponent implements OnInit {
       case'nombreCli':
           trafo="CLI"
           break;
+      case 'idVendedorNavigation':
+          trafo="VEND"
+          break;
       case'observaciones':
           trafo="OBS"
           break;
@@ -536,6 +553,9 @@ export class TransformadoresNewComponent implements OnInit {
       case 'fechaProd':
           trafo="Fecha Producción"
           break;
+      case 'idVendedorNavigation':
+        trafo="Vendedor"
+        break;
     }
     return trafo;
   }
@@ -639,6 +659,51 @@ export class TransformadoresNewComponent implements OnInit {
         break;
       case "ENV":
         etapa="Envío a cliente";
+        break;
+      case "CYP PAT":
+        etapa="C Y P PATAS"
+        break;
+      case "PAT ENV":
+        etapa="ENVIO PATAS"
+        break;
+      case "CON BT":
+        etapa="CONEXION BT"
+        break;
+      case "CON AT":
+        etapa="CONEXION AT"
+        break;
+      case "REL TRANSF":
+        etapa="RELACION DE TRANSFERENCIA"
+        break;
+      case "CUBA CYP":
+        etapa="CUBA C Y P"
+        break;
+      case "SOL \n CUBA":
+        etapa="SOLDADURA CUBA"
+        break;
+      case "GRAN \n CUBA":
+        etapa="GRANALLADO CUBA"
+        break;
+      case "PINT \n CUBA":
+        etapa="PINTURA CUBA"
+        break;
+      case "ENV \n CUBA":
+        etapa="ENVIO CUBA"
+        break;
+      case "CYP \n TAPA":
+        etapa="C Y P TAPA"
+        break;
+      case "GRAN \n TAPA":
+        etapa="GRANALLADO TAPA"
+        break;
+      case "PINT \n TAPA":
+        etapa="PINTURA TAPA"
+        break;
+      case "ENV \n TAPA":
+        etapa="ENVIO TAPA"
+        break;
+      case "CUBI":
+        etapa="CUBIERTA";
         break;
     }
     return etapa;
@@ -833,6 +898,7 @@ export class TransformadoresNewComponent implements OnInit {
                 a.mes = (res.mes  != null) ? res.mes : a.mes;
                 a.anio = (res.anio  != null) ? res.anio : a.anio;
                 a.lote = (res.lote  != null) ? res.lote : a.lote;
+                a.idVendedor = (res.idVendedor !=null) ? res.idVendedor : a.idVendedor;
               }
 
               this.onUpdateAllTrafos(this.selection.selected);
@@ -1143,6 +1209,7 @@ interface ComboClientes{
     isFound:boolean=false;
     tipoTransfo=[];
     foundedValue='';
+    vendedores:Vendedores[];
 
     checkedDate=false;
     hide=false;
@@ -1156,6 +1223,7 @@ interface ComboClientes{
       private dialogRefCli: MatDialogRef<CourseDialog3Component>,
       private tipoTransfoService:TipoTransfoService,
       private transformadoresService:TransformadoresService,
+      private vendedoresService:VendedoresService,
       private dialogRef: MatDialogRef<AddTransfoComponent>,
       @Inject(MAT_DIALOG_DATA) data1
     ) {
@@ -1183,12 +1251,14 @@ interface ComboClientes{
         radPan:[null],
         anio:null,
         mes:null,
+        idVendedor:null,
         prioridad:null,
         fechaCreacion:this.fechaCreacion,
         lote:null,
       },);
       this.getClientes();
       this.getTipoTransfo();
+      this.getVendedores();
 
      //filtro
     //  this.filter();
@@ -1360,6 +1430,12 @@ interface ComboClientes{
       })
     }
 
+    getVendedores(){
+      this.vendedoresService.getVendedores().subscribe((res)=>{
+        this.vendedores = res.data;
+      })
+    }
+
     onFormSubmit(form: NgForm){
       console.log(form);
       //this.isLoadingResults = true;
@@ -1441,9 +1517,10 @@ interface ComboClientes{
     prioridad:number;
     lote:number;
     radPan:string;
+    idVendedor:number;
     foundedValue='';
     enabled=true;
-
+    vendedores:Vendedores[];
     fprOlderfot=false;
 
     @Output()
@@ -1457,6 +1534,7 @@ interface ComboClientes{
       private tipoTransfoService:TipoTransfoService,
       private transformadoresService:TransformadoresService,
       private dialogRef: MatDialogRef<EditDeleteTransfoComponent>,
+      private vendedoresService:VendedoresService,
       @Inject(MAT_DIALOG_DATA) data1
     ) {
         console.log(data1);
@@ -1481,6 +1559,7 @@ interface ComboClientes{
         this.prioridad=data1.prioridad;
         this.lote=data1.lote;
         this.radPan=data1.radPan;
+        this.idVendedor=data1.idVendedor;
     }
 
 
@@ -1507,7 +1586,8 @@ interface ComboClientes{
         nucleos:[this.nucleos],
         prioridad:[this.prioridad],
         lote:[this.lote],
-        radPan:[this.radPan]
+        radPan:[this.radPan],
+        idVendedor:[this.idVendedor]
       });
 
 
@@ -1515,7 +1595,7 @@ interface ComboClientes{
       this.getClientes();
       this.getTipoTransfo();
 
-
+      this.getVendedores();
 
 
 
@@ -1595,6 +1675,11 @@ interface ComboClientes{
           this.filter();
         }
         )
+      }
+      getVendedores(){
+        this.vendedoresService.getVendedores().subscribe((res)=>{
+          this.vendedores = res.data;
+        })
       }
 
       onFormSubmit(form: NgForm){
@@ -1793,6 +1878,8 @@ interface ComboClientes{
     colorSelected:Colores=null;
     tipoEtapas:TipoEtapa[]=[];
     tipoEtapa=new FormControl();
+    idVendedor:number;
+    vendedores : Vendedores[];
 
     options: any[] = [
       {value: '0', viewValue: 'editar datos de cabecera'},
@@ -1812,6 +1899,7 @@ interface ComboClientes{
       private fb: FormBuilder,
       private _snackBar:MatSnackBar,
       private dialogRef: MatDialogRef<EditAllTrafosNewComponent>,
+      private vendedoresService:VendedoresService,
       @Inject(MAT_DIALOG_DATA) data1
     ) {
         this.titulo=data1.titulo;
@@ -1841,12 +1929,14 @@ interface ComboClientes{
         fechaProd:[this.fechaProd],
         anio:[this.anio],
         mes:[this.mes],
-        lote:[this.lote]
+        lote:[this.lote],
+        idVendedor:[this.idVendedor]
 
       })
       this.getclientes();
       this.getColores();
       this.getTipoEtapas();
+      this.getVendedores();
       this.filter();
 
     }
@@ -1874,6 +1964,12 @@ interface ComboClientes{
     getTipoEtapas(){
       this.tipoEtapaService.getTipoEtapas().subscribe(res =>{
         this.tipoEtapas=res;
+      })
+    }
+
+    getVendedores(){
+      this.vendedoresService.getVendedores().subscribe(res => {
+        this.vendedores = res.data;
       })
     }
 

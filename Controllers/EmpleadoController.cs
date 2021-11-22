@@ -18,10 +18,10 @@ namespace Foha.Controllers
     [ApiController]
     public class EmpleadoController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<Empleado> _repo;
-        public EmpleadoController(fohaContext context, IMapper mapper, IDataRepository<Empleado> repo)
+        public EmpleadoController(fohaIniContext context, IMapper mapper, IDataRepository<Empleado> repo)
         {
             _context = context;
             _mapper = mapper;

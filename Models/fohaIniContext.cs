@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Foha.Models
 {
-    public partial class fohaContext : DbContext
+    public partial class fohaIniContext : DbContext
     {
-        public fohaContext()
+        public fohaIniContext()
         {
         }
 
-        public fohaContext(DbContextOptions<fohaContext> options)
+        public fohaIniContext(DbContextOptions<fohaIniContext> options)
             : base(options)
         {
         }
@@ -26,13 +26,14 @@ namespace Foha.Models
         public virtual DbSet<TipoUs> TipoUs { get; set; }
         public virtual DbSet<Transformadores> Transformadores { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Vendedores> Vendedores { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=CHRIS;Database=foha;Trusted_Connection=True;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-TEE2OFO;Database=fohaIni;Trusted_Connection=True;User Id=sa;Password=102401;Integrated Security=false;");
             }
         }
 
@@ -46,6 +47,8 @@ namespace Foha.Models
                     .HasColumnName("idCliente")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.LegajoCli).HasColumnName("legajoCli");
+
                 entity.Property(e => e.NombreCli)
                     .IsRequired()
                     .HasColumnName("nombreCli")
@@ -57,7 +60,9 @@ namespace Foha.Models
             {
                 entity.HasKey(e => e.IdColor);
 
-                entity.Property(e => e.IdColor).HasColumnName("idColor");
+                entity.Property(e => e.IdColor)
+                    .HasColumnName("idColor")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.CodigoColor)
                     .IsRequired()
@@ -82,6 +87,11 @@ namespace Foha.Models
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.IdSector).HasColumnName("idSector");
+
+                entity.Property(e => e.Legajo)
+                    .HasColumnName("legajo")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NombreEmp)
                     .IsRequired()
@@ -109,16 +119,20 @@ namespace Foha.Models
                     .HasColumnName("dateIni")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.FechaPausa)
+                    .HasColumnName("fechaPausa")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.Hora)
                     .HasColumnName("hora")
                     .HasMaxLength(10);
 
                 entity.Property(e => e.IdColor).HasColumnName("idColor");
 
-                // entity.Property(e => e.IdEmpleado)
-                //     .HasColumnName("idEmpleado")
-                //     .HasMaxLength(50)
-                //     .IsUnicode(false);
+                entity.Property(e => e.IdEmpleado)
+                    .HasColumnName("idEmpleado")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.IdTipoEtapa).HasColumnName("idTipoEtapa");
 
@@ -282,6 +296,8 @@ namespace Foha.Models
 
                 entity.Property(e => e.IdTipoTransfo).HasColumnName("idTipoTransfo");
 
+                entity.Property(e => e.IdVendedor).HasColumnName("idVendedor");
+
                 entity.Property(e => e.Lote).HasColumnName("lote");
 
                 entity.Property(e => e.Mes).HasColumnName("mes");
@@ -327,6 +343,11 @@ namespace Foha.Models
                     .WithMany(p => p.Transformadores)
                     .HasForeignKey(d => d.IdTipoTransfo)
                     .HasConstraintName("FK_Transformadores_TipoTransfo");
+
+                entity.HasOne(d => d.IdVendedorNavigation)
+                    .WithMany(p => p.Transformadores)
+                    .HasForeignKey(d => d.IdVendedor)
+                    .HasConstraintName("FK_Transformadores_Vendedores");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
@@ -369,6 +390,35 @@ namespace Foha.Models
                     .WithMany(p => p.Usuario)
                     .HasForeignKey(d => d.IdTipoUs)
                     .HasConstraintName("FK_Usuario_TipoUs");
+            });
+
+            modelBuilder.Entity<Vendedores>(entity =>
+            {
+                entity.HasKey(e => e.IdVendedor);
+
+                entity.Property(e => e.IdVendedor)
+                    .HasColumnName("idVendedor")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Abrev)
+                    .HasColumnName("abrev")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Legajo)
+                    .HasColumnName("legajo")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Mail)
+                    .HasColumnName("mail")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .HasColumnName("nombre")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
             });
         }
     }

@@ -32,7 +32,7 @@ public partial class AddTransformadoresDto
         public string Nucleos { get; set; }
         public int? Lote { get; set; }
         public string RadPan { get; set; }
-
+        public int? IdVendedor { get; set; }
         
 
         // public Cliente IdClienteNavigation { get; set; }

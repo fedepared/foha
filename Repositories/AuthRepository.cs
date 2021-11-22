@@ -10,9 +10,9 @@ namespace Foha.Repositories
     public class AuthRepository<T> : IAuthRepository<T> where T : class  
 
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         
-        public AuthRepository(fohaContext context)
+        public AuthRepository(fohaIniContext context)
         {
             _context = context;
         }

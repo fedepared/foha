@@ -70,6 +70,15 @@
       </mat-form-field>
       <button [disabled]="this.form.controls['f'].disabled" mat-mini-fab style="background-color:teal;float:right;" matTooltip="agregar clientes" (click)="addCliente()"><mat-icon>add</mat-icon></button>
     </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Vendedores</mat-label>
+      <mat-select formControlName="idVendedor">
+        <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.idVendedor" >
+          {{vendedor.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     
     <mat-form-field appearance="outline">
       <mat-label>R/P</mat-label>

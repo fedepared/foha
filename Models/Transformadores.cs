@@ -29,9 +29,11 @@ namespace Foha.Models
         public string Nucleos { get; set; }
         public int? Lote { get; set; }
         public string RadPan { get; set; }
+        public int? IdVendedor { get; set; }
 
         public Cliente IdClienteNavigation { get; set; }
         public TipoTransfo IdTipoTransfoNavigation { get; set; }
+        public Vendedores IdVendedorNavigation { get; set; }
         public ICollection<Etapa> Etapa { get; set; }
     }
 }

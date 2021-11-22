@@ -17,11 +17,11 @@ namespace Foha.Controllers
     [ApiController]
     public class SectoresController: ControllerBase 
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<TipoEtapa> _repo;
 
-        public SectoresController(fohaContext context, IMapper mapper, IDataRepository<TipoEtapa> repo)
+        public SectoresController(fohaIniContext context, IMapper mapper, IDataRepository<TipoEtapa> repo)
         {
             _context = context;
             _mapper = mapper;

@@ -19,11 +19,11 @@ namespace Foha.Controllers
 
          public class TipoTransfoController : ControllerBase
         {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<TipoTransfo> _repo;
 
-        public TipoTransfoController(fohaContext context, IMapper mapper, IDataRepository<TipoTransfo> repo)
+        public TipoTransfoController(fohaIniContext context, IMapper mapper, IDataRepository<TipoTransfo> repo)
         {
             _context = context;
             _mapper = mapper;

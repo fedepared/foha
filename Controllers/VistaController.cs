@@ -17,11 +17,11 @@ namespace Foha.Controllers
     [ApiController]
     public class VistaController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<MegaUltraArchiVista> _repo;
 
-        public VistaController(fohaContext context, IMapper mapper, IDataRepository<MegaUltraArchiVista> repo)
+        public VistaController(fohaIniContext context, IMapper mapper, IDataRepository<MegaUltraArchiVista> repo)
         {
             _context = context;
             _mapper = mapper;

@@ -6,9 +6,9 @@ namespace Foha.Repositories
 {
     public class DataRepository<T> : IDataRepository<T> where T : class
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
 
-        public DataRepository(fohaContext context)
+        public DataRepository(fohaIniContext context)
         {
             _context = context;
         }

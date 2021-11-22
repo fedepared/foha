@@ -16,10 +16,10 @@ namespace Foha.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<Usuario> _repo;
-        public UsuarioController(fohaContext context, IMapper mapper, IDataRepository<Usuario> repo)
+        public UsuarioController(fohaIniContext context, IMapper mapper, IDataRepository<Usuario> repo)
         {
             _context = context;
             _mapper = mapper;

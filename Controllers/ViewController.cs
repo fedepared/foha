@@ -17,11 +17,11 @@ namespace Foha.Controllers
     [ApiController]
     public class ViewController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<VistaTiemposParc> _repo;
 
-        public ViewController(fohaContext context, IMapper mapper, IDataRepository<VistaTiemposParc> repo)
+        public ViewController(fohaIniContext context, IMapper mapper, IDataRepository<VistaTiemposParc> repo)
         {
             _context = context;
             _mapper = mapper;

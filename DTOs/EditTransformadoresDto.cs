@@ -29,6 +29,7 @@ public class EditTransformadoresDto
 
         public string RadPan { get; set; }
         
+        public int? IdVendedor { get; set; }
 
         // public Cliente IdClienteNavigation { get; set; }
         // public TipoTransfo IdTipoTransfoNavigation { get; set; }

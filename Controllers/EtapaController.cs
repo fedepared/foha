@@ -22,12 +22,12 @@ namespace Foha.Controllers
     [ApiController]
     public class EtapaController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<Etapa> _repo;
         private readonly IDataRepository<EtapaEmpleado> _repo2;
 
-        public EtapaController(fohaContext context, IMapper mapper, IDataRepository<Etapa> repo,IDataRepository<EtapaEmpleado> repo2)
+        public EtapaController(fohaIniContext context, IMapper mapper, IDataRepository<Etapa> repo,IDataRepository<EtapaEmpleado> repo2)
         {
 
             _context = context;
@@ -900,6 +900,28 @@ namespace Foha.Controllers
             _repo.Update(preEtapa);
             await _repo.SaveAsync(preEtapa);
             return StatusCode(201,preEtapa);
+        }
+
+        [HttpGet("actualizarEtapas")]
+        public void ActualizarEtapas(){
+            var trafos=_context.Transformadores.ToArray();
+            var tipoEtapas = _context.TipoEtapa.Where(x=>x.IdTipoEtapa>33).ToList();
+            for (var i = 0; i < trafos.Count(); i++)
+            {
+                List<Etapa> listaEtapa = new List<Etapa>();
+                foreach (var tipoEtapa in tipoEtapas)
+                {
+                    Etapa etapa = new Etapa();
+                    etapa.IdTransfo=trafos[i].IdTransfo;
+                    etapa.IdTipoEtapa=tipoEtapa.IdTipoEtapa;
+                    listaEtapa.Add(etapa);
+                }
+                _context.Etapa.AddRange(listaEtapa);
+            }
+
+            // _repo.UpdateAll(etapas);
+            var res= _context.SaveChanges();
+
         }
 
         [HttpPut("stop/{id}/{length}")]

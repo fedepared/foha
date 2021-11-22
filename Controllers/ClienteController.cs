@@ -19,10 +19,10 @@ namespace Foha.Controllers
     [ApiController]
     public class ClienteController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly IDataRepository<Cliente> _repo;
-        public ClienteController(fohaContext context, IMapper mapper, IDataRepository<Cliente> repo)
+        public ClienteController(fohaIniContext context, IMapper mapper, IDataRepository<Cliente> repo)
         {
             _context = context;
             _mapper = mapper;

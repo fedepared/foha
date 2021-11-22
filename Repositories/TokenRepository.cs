@@ -14,9 +14,9 @@ namespace Foha.Repositories
 {
     public class TokenRepository:ITokenRepository
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IConfiguration _config;
-        public TokenRepository(fohaContext context,IConfiguration config)
+        public TokenRepository(fohaIniContext context,IConfiguration config)
          {
              _context = context;
              _config = config;

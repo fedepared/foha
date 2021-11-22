@@ -17,11 +17,11 @@ namespace Foha.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly fohaContext _context;
+        private readonly fohaIniContext _context;
         private readonly IMapper _mapper;
         private readonly ITokenRepository _token;
         private readonly IDataRepository<Usuario> _repo;
-        public TokenController(fohaContext context, IMapper mapper, ITokenRepository token)
+        public TokenController(fohaIniContext context, IMapper mapper, ITokenRepository token)
         {
             _context = context;
             _mapper = mapper;
