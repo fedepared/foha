@@ -1609,31 +1609,31 @@ namespace Foha.Controllers
                 if(t.IdTransfo == 2){
                     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
                     {
                         CyPPatas.IsEnded = true;
-                        CyPPatas.idColor = 10;
+                        CyPPatas.IdColor = 10;
                         CyPPatas.DateFin = DateTime.Today;
                         ENVPatas.IsEnded = true;
-                        ENVPatas.idColor = 10;
+                        ENVPatas.IdColor = 10;
                         ENVPatas.DateFin = DateTime.Today;
                     }
                     Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
                     Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
                     {
                         ConexBT.IsEnded = true;
-                        ConexBT.idColor = 10;
+                        ConexBT.IdColor = 10;
                         ConexBT.DateFin = DateTime.Today;
                         ConexAT.IsEnded = true;
-                        ConexAT.idColor = 10;
+                        ConexAT.IdColor = 10;
                         ConexAT.DateFin = DateTime.Today;
                     }
                     Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
                     {
                         RelacTransf.IsEnded = true;
-                        RelacTransf.idColor = 10;
+                        RelacTransf.IdColor = 10;
                         RelacTransf.DateFin = DateTime.Today;
                     }
                     Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38, IdColor = 1034, IsEnded = true};
@@ -1654,60 +1654,60 @@ namespace Foha.Controllers
                     _context.Etapa.Add(EnvioTapa);
                     _context.Etapa.Add(Cubierta);
                 }
-                else if(t.idTrafo == 3 || t.idTrafo == 4){
+                else if(t.IdTransfo == 3 || t.IdTransfo == 4){
                     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
                     {
                         CyPPatas.IsEnded = true;
-                        CyPPatas.idColor = 10;
+                        CyPPatas.IdColor = 10;
                         CyPPatas.DateFin = DateTime.Today;
                         ENVPatas.IsEnded = true;
-                        ENVPatas.idColor = 10;
+                        ENVPatas.IdColor = 10;
                         ENVPatas.DateFin = DateTime.Today;
                     }
                     Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
                     Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
                     {
                         ConexBT.IsEnded = true;
-                        ConexBT.idColor = 10;
+                        ConexBT.IdColor = 10;
                         ConexBT.DateFin = DateTime.Today;
                         ConexAT.IsEnded = true;
-                        ConexAT.idColor = 10;
+                        ConexAT.IdColor = 10;
                         ConexAT.DateFin = DateTime.Today;
                     }
                     Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
                     {
                         RelacTransf.IsEnded = true;
-                        RelacTransf.idColor = 10;
+                        RelacTransf.IdColor = 10;
                         RelacTransf.DateFin = DateTime.Today;
                     }
                     Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
                     Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).IdColor == 10)
                     {
                         EnvioCuba.IsEnded = true;
-                        EnvioCuba.idColor = 10;
+                        EnvioCuba.IdColor = 10;
                         EnvioCuba.DateFin = DateTime.Today;
                         EnvioTapa.IsEnded = true;
-                        EnvioTapa.idColor = 10;
+                        EnvioTapa.IdColor = 10;
                         EnvioTapa.DateFin = DateTime.Today;
                     }
                     Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
                     Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
                     Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).IdColor == 10)
                     {
                         CyPTapa.IsEnded = true;
-                        CyPTapa.idColor = 10;
+                        CyPTapa.IdColor = 10;
                         CyPTapa.DateFin = DateTime.Today;
                         GranalladoTapa.IsEnded = true;
-                        GranalladoTapa.idColor = 10;
+                        GranalladoTapa.IdColor = 10;
                         GranalladoTapa.DateFin = DateTime.Today;
                         PinturaTapa.IsEnded = true;
-                        PinturaTapa.idColor = 10;
+                        PinturaTapa.IdColor = 10;
                         PinturaTapa.DateFin = DateTime.Today;
                     }
                     Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
@@ -1723,67 +1723,67 @@ namespace Foha.Controllers
                     _context.Etapa.Add(EnvioTapa);
                     _context.Etapa.Add(Cubierta);
                 }
-                else if(t.idTrafo == 5){
+                else if(t.IdTransfo == 5){
                     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
                     {
                         CyPPatas.IsEnded = true;
-                        CyPPatas.idColor = 10;
+                        CyPPatas.IdColor = 10;
                         CyPPatas.DateFin = DateTime.Today;
                         ENVPatas.IsEnded = true;
-                        ENVPatas.idColor = 10;
+                        ENVPatas.IdColor = 10;
                         ENVPatas.DateFin = DateTime.Today;
                     }
                     Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
                     Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
                     {
                         ConexBT.IsEnded = true;
-                        ConexBT.idColor = 10;
+                        ConexBT.IdColor = 10;
                         ConexBT.DateFin = DateTime.Today;
                         ConexAT.IsEnded = true;
-                        ConexAT.idColor = 10;
+                        ConexAT.IdColor = 10;
                         ConexAT.DateFin = DateTime.Today;
                     }
                     Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
                     {
                         RelacTransf.IsEnded = true;
-                        RelacTransf.idColor = 10;
+                        RelacTransf.IdColor = 10;
                         RelacTransf.DateFin = DateTime.Today;
                     }
                     Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
                     Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).IdColor == 10)
                     {
                         EnvioCuba.IsEnded = true;
-                        EnvioCuba.idColor = 10;
+                        EnvioCuba.IdColor = 10;
                         EnvioCuba.DateFin = DateTime.Today;
                         EnvioTapa.IsEnded = true;
-                        EnvioTapa.idColor = 10;
+                        EnvioTapa.IdColor = 10;
                         EnvioTapa.DateFin = DateTime.Today;
                     }
                     Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
                     Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
                     Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).IdColor == 10)
                     {
                         CyPTapa.IsEnded = true;
-                        CyPTapa.idColor = 10;
+                        CyPTapa.IdColor = 10;
                         CyPTapa.DateFin = DateTime.Today;
                         GranalladoTapa.IsEnded = true;
-                        GranalladoTapa.idColor = 10;
+                        GranalladoTapa.IdColor = 10;
                         GranalladoTapa.DateFin = DateTime.Today;
                         PinturaTapa.IsEnded = true;
-                        PinturaTapa.idColor = 10;
+                        PinturaTapa.IdColor = 10;
                         PinturaTapa.DateFin = DateTime.Today;
                     }
                     Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 24).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 24).idColor == 10)
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 24).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 24).IdColor == 10)
                     {
                         Cubierta.IsEnded = true;
-                        Cubierta.idColor = 10;
+                        Cubierta.IdColor = 10;
                         Cubierta.DateFin = DateTime.Today;
                     }
                     _context.Etapa.Add(CyPPatas);
