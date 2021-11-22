@@ -162,7 +162,7 @@ namespace Foha.Controllers
 
         List<TipoEtapa> resultadoAnterior = new List<TipoEtapa>();
         var i=0;
-        int[] arrayEncapsulados = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,20,21,22,23,24,25,26,27,28};
+        int[] arrayEncapsulados = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,20,21,22,23,24,25,26,27,28,38,39,40,41,42,43};
         int [] arrayDistribucion = {8,9,10,11,12,13,14};
         var petroleros = 14;
         var resultado=_context.TipoEtapa.FromSql(cadena4);
@@ -686,8 +686,8 @@ namespace Foha.Controllers
                 {
                     switch(TransformadoresResponse.IdTipoTransfo)
                     {
-                        case 2:
-                            if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32)
+                        case 2: //Agregue de la 33 a la 37 que tampoco corresponden para este trafo
+                            if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32 && i.IdTipoEtapa!=33 && i.IdTipoEtapa!=34 && i.IdTipoEtapa!=35 && i.IdTipoEtapa!=36 && i.IdTipoEtapa!=37 )
                             {
                                 etapa.IdColor=1034;
                                 etapa.IsEnded = true;

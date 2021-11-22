@@ -94,7 +94,7 @@ namespace Foha.Controllers
             switch (sector){
               case 2:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa>=2 && x.IdTipoEtapa<=14) )
+                    .Where(x=>x.IdTransfo==idTransfo && ((x.IdTipoEtapa>=2 && x.IdTipoEtapa<=14)) )
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync();
@@ -114,7 +114,7 @@ namespace Foha.Controllers
                     break;
               case 3:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo && ((x.IdTipoEtapa>=15 && x.IdTipoEtapa<=17) || x.IdTipoEtapa>=21 && x.IdTipoEtapa<=27 ))
+                    .Where(x=>x.IdTransfo==idTransfo && ((x.IdTipoEtapa>=15 && x.IdTipoEtapa<=17) || x.IdTipoEtapa>=21 && x.IdTipoEtapa<=27 || x.IdTipoEtapa == 33 || x.IdTipoEtapa == 34 || x.IdTipoEtapa == 33 || x.IdTipoEtapa == 38 || x.IdTipoEtapa == 39 || x.IdTipoEtapa == 40 || x.IdTipoEtapa == 41 || x.IdTipoEtapa == 42 || x.IdTipoEtapa == 43))
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync();
@@ -132,7 +132,7 @@ namespace Foha.Controllers
               
               case 5:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa>=19 && x.IdTipoEtapa<=20))
+                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa>=19 && x.IdTipoEtapa<=20) || x.IdTipoEtapa == 35 || x.IdTipoEtapa == 36 )
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync();
@@ -1144,6 +1144,14 @@ namespace Foha.Controllers
                     etapasPorSector.Add("HERM",25);
                     etapasPorSector.Add("GRAN",26);
                     etapasPorSector.Add("PINT",27);
+                    etapasPorSector.Add("CYP PATAS",33);
+                    etapasPorSector.Add("ENV PATAS",34);
+                    etapasPorSector.Add("ENV CUBA",38);
+                    etapasPorSector.Add("CYP TAPA",39);
+                    etapasPorSector.Add("GRAN TAPA",40);
+                    etapasPorSector.Add("PINT TAPA",41);
+                    etapasPorSector.Add("ENV TAPA",42);
+                    etapasPorSector.Add("CUBI",43);
                     break;
               case 4:
                     etapasPorSector.Add("NUC",18);
@@ -1151,6 +1159,8 @@ namespace Foha.Controllers
               case 5:
                     etapasPorSector.Add("MON",19);
                     etapasPorSector.Add("HOR",20);
+                    etapasPorSector.Add("CONEX BT",35);
+                    etapasPorSector.Add("CONEX AT",36);
                     break;
               case 6:
                     etapasPorSector.Add("HOR",20);
@@ -1161,6 +1171,7 @@ namespace Foha.Controllers
                 break;
               case 8:
                     etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("REL TRAN",37);
                     break;
               case 9:                
                     etapasPorSector.Add("TERM",30);
@@ -1200,6 +1211,17 @@ namespace Foha.Controllers
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("DEP",31);
                     etapasPorSector.Add("ENV",32);
+                    etapasPorSector.Add("CYP PATAS",33);
+                    etapasPorSector.Add("ENV PATAS",34);
+                    etapasPorSector.Add("CONEX BT",35);
+                    etapasPorSector.Add("CONEX AT",36);
+                    etapasPorSector.Add("REL TRAN",37);
+                    etapasPorSector.Add("ENV CUBA",38);
+                    etapasPorSector.Add("CYP TAPA",39);
+                    etapasPorSector.Add("GRAN TAPA",40);
+                    etapasPorSector.Add("PINT TAPA",41);
+                    etapasPorSector.Add("ENV TAPA",42);
+                    etapasPorSector.Add("CUBI",43);
                     break;
                 //encubado Enc
                 case 12:
@@ -1272,13 +1294,13 @@ namespace Foha.Controllers
                     Sector = new int?[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
                     break;
                 case 3:
-                    Sector = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27 };
+                    Sector = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 33, 34, 38, 39, 40, 41, 42, 43 };
                     break;
                 case 4:
                     Sector = new int?[] { 18 };
                     break;
                 case 5:
-                    Sector = new int?[] { 19, 20 };
+                    Sector = new int?[] { 19, 20, 35, 36 };
                     break;
                 case 6:
                     Sector = new int?[] { 20 };
@@ -1287,13 +1309,13 @@ namespace Foha.Controllers
                     Sector = new int?[] { 20, 28 };
                     break;
                 case 8:
-                    Sector = new int?[] { 29 };
+                    Sector = new int?[] { 29, 37 };
                     break;
                 case 9:
                     Sector = new int?[] { 30, 31, 32 };
                     break;
                 case 10:
-                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43 };
                     break;
                 case 12:
                     Sector = new int?[] { 20, 28, 32 };
@@ -1531,7 +1553,7 @@ namespace Foha.Controllers
                 case 22:
                     return "TAPA";
                 case 23:
-                    return "RAD/PAN";
+                    return "RAD PAN";
                 case 24:
                     return "CUBA";
                 case 25:
@@ -1550,8 +1572,244 @@ namespace Foha.Controllers
                     return "DEP";
                 case 32:
                     return "ENV";
+                case 33:
+                    return "CYP PATAS";
+                case 34:
+                    return "ENV PATAS";
+                case 35:
+                    return "CONEX BT";
+                case 36:
+                    return "CONEX AT";
+                case 37:
+                    return "REL TRA";
+                case 38:
+                    return "ENV CUBA";
+                case 39:
+                    return "CYP TAPA";
+                case 40:
+                    return "GRAN TAPA";
+                case 41:
+                    return "PINT TAPA";
+                case 42:
+                    return "ENV TAPA";
+                case 43:
+                    return "CUBI";
                 default:
                     return "";
+            }
+        }
+
+        public async Task<IActionResult> AddEtapasNuevasATrafosViejos()//CHEQUEAR, PUEDE FALLAR! :)
+        {
+            Response<string> r = new Response<string>();
+            List<Transformadores> trafos = new List<Transformadores>();
+            trafos = _context.Transformadores.Include(x => x.Etapa).ToList();
+            foreach(Transformadores t in trafos)
+            {
+                if(t.IdTransfo == 2){
+                    Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                    Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).idColor == 10)
+                    {
+                        CyPPatas.IsEnded = true;
+                        CyPPatas.idColor = 10;
+                        CyPPatas.DateFin = DateTime.Today;
+                        ENVPatas.IsEnded = true;
+                        ENVPatas.idColor = 10;
+                        ENVPatas.DateFin = DateTime.Today;
+                    }
+                    Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
+                    Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).idColor == 10)
+                    {
+                        ConexBT.IsEnded = true;
+                        ConexBT.idColor = 10;
+                        ConexBT.DateFin = DateTime.Today;
+                        ConexAT.IsEnded = true;
+                        ConexAT.idColor = 10;
+                        ConexAT.DateFin = DateTime.Today;
+                    }
+                    Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).idColor == 10)
+                    {
+                        RelacTransf.IsEnded = true;
+                        RelacTransf.idColor = 10;
+                        RelacTransf.DateFin = DateTime.Today;
+                    }
+                    Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38, IdColor = 1034, IsEnded = true};
+                    Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39, IdColor = 1034, IsEnded = true };
+                    Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40, IdColor = 1034, IsEnded = true};
+                    Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41, IdColor = 1034, IsEnded = true};
+                    Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42, IdColor = 1034, IsEnded = true};
+                    Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
+                    _context.Etapa.Add(CyPPatas);
+                    _context.Etapa.Add(ENVPatas);
+                    _context.Etapa.Add(ConexBT);
+                    _context.Etapa.Add(ConexAT);
+                    _context.Etapa.Add(RelacTransf);
+                    _context.Etapa.Add(EnvioCuba);
+                    _context.Etapa.Add(CyPTapa);
+                    _context.Etapa.Add(GranalladoTapa);
+                    _context.Etapa.Add(PinturaTapa);
+                    _context.Etapa.Add(EnvioTapa);
+                    _context.Etapa.Add(Cubierta);
+                }
+                else if(t.idTrafo == 3 || t.idTrafo == 4){
+                    Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                    Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).idColor == 10)
+                    {
+                        CyPPatas.IsEnded = true;
+                        CyPPatas.idColor = 10;
+                        CyPPatas.DateFin = DateTime.Today;
+                        ENVPatas.IsEnded = true;
+                        ENVPatas.idColor = 10;
+                        ENVPatas.DateFin = DateTime.Today;
+                    }
+                    Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
+                    Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).idColor == 10)
+                    {
+                        ConexBT.IsEnded = true;
+                        ConexBT.idColor = 10;
+                        ConexBT.DateFin = DateTime.Today;
+                        ConexAT.IsEnded = true;
+                        ConexAT.idColor = 10;
+                        ConexAT.DateFin = DateTime.Today;
+                    }
+                    Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).idColor == 10)
+                    {
+                        RelacTransf.IsEnded = true;
+                        RelacTransf.idColor = 10;
+                        RelacTransf.DateFin = DateTime.Today;
+                    }
+                    Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
+                    Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).idColor == 10)
+                    {
+                        EnvioCuba.IsEnded = true;
+                        EnvioCuba.idColor = 10;
+                        EnvioCuba.DateFin = DateTime.Today;
+                        EnvioTapa.IsEnded = true;
+                        EnvioTapa.idColor = 10;
+                        EnvioTapa.DateFin = DateTime.Today;
+                    }
+                    Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
+                    Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
+                    Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).idColor == 10)
+                    {
+                        CyPTapa.IsEnded = true;
+                        CyPTapa.idColor = 10;
+                        CyPTapa.DateFin = DateTime.Today;
+                        GranalladoTapa.IsEnded = true;
+                        GranalladoTapa.idColor = 10;
+                        GranalladoTapa.DateFin = DateTime.Today;
+                        PinturaTapa.IsEnded = true;
+                        PinturaTapa.idColor = 10;
+                        PinturaTapa.DateFin = DateTime.Today;
+                    }
+                    Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
+                    _context.Etapa.Add(CyPPatas);
+                    _context.Etapa.Add(ENVPatas);
+                    _context.Etapa.Add(ConexBT);
+                    _context.Etapa.Add(ConexAT);
+                    _context.Etapa.Add(RelacTransf);
+                    _context.Etapa.Add(EnvioCuba);
+                    _context.Etapa.Add(CyPTapa);
+                    _context.Etapa.Add(GranalladoTapa);
+                    _context.Etapa.Add(PinturaTapa);
+                    _context.Etapa.Add(EnvioTapa);
+                    _context.Etapa.Add(Cubierta);
+                }
+                else if(t.idTrafo == 5){
+                    Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                    Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).idColor == 10)
+                    {
+                        CyPPatas.IsEnded = true;
+                        CyPPatas.idColor = 10;
+                        CyPPatas.DateFin = DateTime.Today;
+                        ENVPatas.IsEnded = true;
+                        ENVPatas.idColor = 10;
+                        ENVPatas.DateFin = DateTime.Today;
+                    }
+                    Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
+                    Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).idColor == 10)
+                    {
+                        ConexBT.IsEnded = true;
+                        ConexBT.idColor = 10;
+                        ConexBT.DateFin = DateTime.Today;
+                        ConexAT.IsEnded = true;
+                        ConexAT.idColor = 10;
+                        ConexAT.DateFin = DateTime.Today;
+                    }
+                    Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).idColor == 10)
+                    {
+                        RelacTransf.IsEnded = true;
+                        RelacTransf.idColor = 10;
+                        RelacTransf.DateFin = DateTime.Today;
+                    }
+                    Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
+                    Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).idColor == 10)
+                    {
+                        EnvioCuba.IsEnded = true;
+                        EnvioCuba.idColor = 10;
+                        EnvioCuba.DateFin = DateTime.Today;
+                        EnvioTapa.IsEnded = true;
+                        EnvioTapa.idColor = 10;
+                        EnvioTapa.DateFin = DateTime.Today;
+                    }
+                    Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
+                    Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
+                    Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).idColor == 10)
+                    {
+                        CyPTapa.IsEnded = true;
+                        CyPTapa.idColor = 10;
+                        CyPTapa.DateFin = DateTime.Today;
+                        GranalladoTapa.IsEnded = true;
+                        GranalladoTapa.idColor = 10;
+                        GranalladoTapa.DateFin = DateTime.Today;
+                        PinturaTapa.IsEnded = true;
+                        PinturaTapa.idColor = 10;
+                        PinturaTapa.DateFin = DateTime.Today;
+                    }
+                    Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43};
+                    if(t.Etapa.First(x => x.IdTipoEtapa == 24).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 24).idColor == 10)
+                    {
+                        Cubierta.IsEnded = true;
+                        Cubierta.idColor = 10;
+                        Cubierta.DateFin = DateTime.Today;
+                    }
+                    _context.Etapa.Add(CyPPatas);
+                    _context.Etapa.Add(ENVPatas);
+                    _context.Etapa.Add(ConexBT);
+                    _context.Etapa.Add(ConexAT);
+                    _context.Etapa.Add(RelacTransf);
+                    _context.Etapa.Add(EnvioCuba);
+                    _context.Etapa.Add(CyPTapa);
+                    _context.Etapa.Add(GranalladoTapa);
+                    _context.Etapa.Add(PinturaTapa);
+                    _context.Etapa.Add(EnvioTapa);
+                    _context.Etapa.Add(Cubierta);
+                }                
+            }
+            try{
+                await _context.SaveChangesAsync();
+                r.Message = "Se agregaron las etapas con exito";
+                r.Status = 200;
+                r.Data = "Se agregaron las etapas con exito";
+                return Ok(r);
+            }
+            catch(Exception e){
+                r.Message = e.Message;
+                r.Status = 409;
+                return Conflict(r);
             }
         }
     }
