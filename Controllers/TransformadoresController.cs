@@ -162,7 +162,7 @@ namespace Foha.Controllers
 
         List<TipoEtapa> resultadoAnterior = new List<TipoEtapa>();
         var i=0;
-        int[] arrayEncapsulados = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,20,21,22,23,24,25,26,27,28,38,39,40,41,42};
+        int[] arrayEncapsulados = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,20,21,22,23,24,25,26,27,28,38,39,40,41,42,43};
         int [] arrayDistribucion = {8,9,10,11,12,13,14};
         var petroleros = 14;
         var resultado=_context.TipoEtapa.FromSql(cadena4);
