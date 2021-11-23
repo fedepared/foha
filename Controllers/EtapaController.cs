@@ -1579,14 +1579,15 @@ namespace Foha.Controllers
             }
         }
 
-        public async Task<IActionResult> AddEtapasNuevasATrafosViejos()//CHEQUEAR, PUEDE FALLAR! :)
+        [HttpGet("AddEtapasNuevasATrafosViejos")]
+        public async Task<IActionResult> AddEtapasNuevasATrafosViejos()//NO FALLA! :)
         {
             Response<string> r = new Response<string>();
             List<Transformadores> trafos = new List<Transformadores>();
             trafos = _context.Transformadores.Include(x => x.Etapa).ToList();
             foreach(Transformadores t in trafos)
             {
-                if(t.IdTransfo == 2){
+                if(t.IdTipoTransfo == 2){
                     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
                     if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
@@ -1634,7 +1635,7 @@ namespace Foha.Controllers
                     _context.Etapa.Add(EnvioTapa);
                     _context.Etapa.Add(Cubierta);
                 }
-                else if(t.IdTransfo == 3 || t.IdTransfo == 4){
+                else if(t.IdTipoTransfo == 3 || t.IdTipoTransfo == 4){
                     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
                     if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
@@ -1703,7 +1704,7 @@ namespace Foha.Controllers
                     _context.Etapa.Add(EnvioTapa);
                     _context.Etapa.Add(Cubierta);
                 }
-                else if(t.IdTransfo == 5){
+                else if(t.IdTipoTransfo == 5){
                     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
                     if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
@@ -1792,5 +1793,19 @@ namespace Foha.Controllers
                 return Conflict(r);
             }
         }
+
+        [HttpGet("GetTrafoSinEtapas")]
+        public async Task<IActionResult> GetTrafoSinEtapas()//NO FALLA! :)
+        {
+            Response<Transformadores> r = new Response<Transformadores>();
+            Transformadores t = new Transformadores();
+            t = await _context.Transformadores.Where(x => x.Etapa.Where(z => z.IdTipoEtapa == 43).Count() == 0).Include(x => x.Etapa).FirstAsync();
+            r.Message = t.IdTransfo.ToString();
+            r.Status = 200;
+            r.Data = t;
+            return Ok(r);
+
+        }
+
     }
 }
