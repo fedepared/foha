@@ -24,17 +24,26 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
   "MON":19,
   "HOR":20,
   "CUBA CYP":21,
-  "TAPA":22,
+  "SOL TAPA":22,
   "RAD/PAN":23,
-  "CUBA":24,
-  "TINT":25,
-  "GRAN":26,
-  "PINT":27,
+  "SOL CUBA":24,
+  "HERM":25,
+  "GRAN CUBA":26,
+  "PINT CUBA":27,
   "ENC":28,
   "LAB":29,
   "TERM":30,
   "DEP":31,
-  "ENV":32
+  "ENV":32,
+  "CON BT":35,
+  "CON AT":36,
+  "REL TRANSF":37,
+  "ENV CUBA":38,
+  "CYP TAPA":39,
+  "GRAN TAPA":40,
+  "PINT TAPA":41,
+  "ENV TAPA":42,
+  "CUBI":43
 }
 
 @Component({

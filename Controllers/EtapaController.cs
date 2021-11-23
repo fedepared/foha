@@ -1134,24 +1134,24 @@ namespace Foha.Controllers
                     etapasPorSector.Add("ENS",14);  
                     break;
               case 3:
+                    etapasPorSector.Add("CUBA CYP",21);
+                    etapasPorSector.Add("RAD \n PAN",23);
+                    etapasPorSector.Add("CUBI",43);
+                    etapasPorSector.Add("SOL \n CUBA",24);
+                    etapasPorSector.Add("HERM",25);
+                    etapasPorSector.Add("GRAN \n CUBA",26);
+                    etapasPorSector.Add("PINT \n CUBA",27);
+                    etapasPorSector.Add("ENV \n CUBA",38);
+                    etapasPorSector.Add("CYP \n TAPA",39);
+                    etapasPorSector.Add("SOL \n TAPA",22);
+                    etapasPorSector.Add("GRAN \n TAPA",40);
+                    etapasPorSector.Add("PINT \n TAPA",41);
+                    etapasPorSector.Add("ENV \n TAPA",42);
                     etapasPorSector.Add("PY CYP",15);
                     etapasPorSector.Add("PY SOL",16);
                     etapasPorSector.Add("PY ENV",17);
-                    etapasPorSector.Add("CUBA CYP",21);
-                    etapasPorSector.Add("TAPA",22);
-                    etapasPorSector.Add("RAD/PAN",23);
-                    etapasPorSector.Add("CUBA",24);
-                    etapasPorSector.Add("HERM",25);
-                    etapasPorSector.Add("GRAN",26);
-                    etapasPorSector.Add("PINT",27);
-                    etapasPorSector.Add("CYP PATAS",33);
-                    etapasPorSector.Add("ENV PATAS",34);
-                    etapasPorSector.Add("ENV CUBA",38);
-                    etapasPorSector.Add("CYP TAPA",39);
-                    etapasPorSector.Add("GRAN TAPA",40);
-                    etapasPorSector.Add("PINT TAPA",41);
-                    etapasPorSector.Add("ENV TAPA",42);
-                    etapasPorSector.Add("CUBI",43);
+                    etapasPorSector.Add("CYP PAT",33);
+                    etapasPorSector.Add("PAT ENV",34);
                     break;
               case 4:
                     etapasPorSector.Add("NUC",18);
@@ -1159,8 +1159,8 @@ namespace Foha.Controllers
               case 5:
                     etapasPorSector.Add("MON",19);
                     etapasPorSector.Add("HOR",20);
-                    etapasPorSector.Add("CONEX BT",35);
-                    etapasPorSector.Add("CONEX AT",36);
+                    etapasPorSector.Add("CON BT",35);
+                    etapasPorSector.Add("CON AT",36);
                     break;
               case 6:
                     etapasPorSector.Add("HOR",20);
@@ -1171,7 +1171,7 @@ namespace Foha.Controllers
                 break;
               case 8:
                     etapasPorSector.Add("LAB",29);
-                    etapasPorSector.Add("REL TRAN",37);
+                    etapasPorSector.Add("REL TRANSF",37);
                     break;
               case 9:                
                     etapasPorSector.Add("TERM",30);
@@ -1196,32 +1196,32 @@ namespace Foha.Controllers
                     etapasPorSector.Add("PY CYP",15);
                     etapasPorSector.Add("PY SOL",16);
                     etapasPorSector.Add("PY ENV",17);
-                    etapasPorSector.Add("CUBA CYP",21);
-                    etapasPorSector.Add("TAPA",22);
-                    etapasPorSector.Add("RAD/PAN",23);
-                    etapasPorSector.Add("CUBA",24);
-                    etapasPorSector.Add("HERM",25);
-                    etapasPorSector.Add("GRAN",26);
-                    etapasPorSector.Add("PINT",27);
+                    etapasPorSector.Add("CYP PAT",33);
+                    etapasPorSector.Add("PAT ENV",34);
                     etapasPorSector.Add("NUC",18);
                     etapasPorSector.Add("MON",19);
+                    etapasPorSector.Add("CON BT",35);
+                    etapasPorSector.Add("CON AT",36);
+                    etapasPorSector.Add("REL TRANSF",37);
                     etapasPorSector.Add("HOR",20);
+                    etapasPorSector.Add("CUBA CYP",21);
+                    etapasPorSector.Add("RAD \n PAN",23);
+                    etapasPorSector.Add("CUBI",43);
+                    etapasPorSector.Add("SOL \n CUBA",24);
+                    etapasPorSector.Add("HERM",25);
+                    etapasPorSector.Add("GRAN \n CUBA",26);
+                    etapasPorSector.Add("PINT \n CUBA",27);
+                    etapasPorSector.Add("ENV \n CUBA",38);
+                    etapasPorSector.Add("CYP \n TAPA",39);
+                    etapasPorSector.Add("SOL \n TAPA",22);
+                    etapasPorSector.Add("GRAN \n TAPA",40);
+                    etapasPorSector.Add("PINT \n TAPA",41);
+                    etapasPorSector.Add("ENV \n TAPA",42);
                     etapasPorSector.Add("ENC",28);
                     etapasPorSector.Add("LAB",29);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("DEP",31);
                     etapasPorSector.Add("ENV",32);
-                    etapasPorSector.Add("CYP PATAS",33);
-                    etapasPorSector.Add("ENV PATAS",34);
-                    etapasPorSector.Add("CONEX BT",35);
-                    etapasPorSector.Add("CONEX AT",36);
-                    etapasPorSector.Add("REL TRAN",37);
-                    etapasPorSector.Add("ENV CUBA",38);
-                    etapasPorSector.Add("CYP TAPA",39);
-                    etapasPorSector.Add("GRAN TAPA",40);
-                    etapasPorSector.Add("PINT TAPA",41);
-                    etapasPorSector.Add("ENV TAPA",42);
-                    etapasPorSector.Add("CUBI",43);
                     break;
                 //encubado Enc
                 case 12:
@@ -1241,18 +1241,18 @@ namespace Foha.Controllers
                 //soldadura
                 case 23:
                     etapasPorSector.Add("PY SOL",16);
-                    etapasPorSector.Add("TAPA",22);
-                    etapasPorSector.Add("CUBA",24);
+                    etapasPorSector.Add("SOL \n TAPA",22);
+                    etapasPorSector.Add("SOL \n CUBA",24);
                     break;
                 //granallado
                 case 24:
                     etapasPorSector.Add("HERM",25);
-                    etapasPorSector.Add("GRAN",26);
+                    etapasPorSector.Add("GRAN \n CUBA",26);
                     break;
                 //pintura
                 case 25:
-                    etapasPorSector.Add("TAPA",22);
-                    etapasPorSector.Add("PINT",27);
+                    etapasPorSector.Add("SOL \n TAPA",22);
+                    etapasPorSector.Add("PINT \n CUBA",27);
                     break;
 
             }
@@ -1470,6 +1470,7 @@ namespace Foha.Controllers
                                     .Include(x => x.EtapaEmpleado)
                                     .ThenInclude(x => x.IdEmpleadoNavigation)
                                     .ToListAsync();
+                etapas = etapas.OrderBy(x => newOrder.IndexOf(x.IdTipoEtapa.Value)).ToList();
                 foreach(Etapa e in etapas)//Recorro las etapas y voy armando los ReportesDTO para devolver.
                 {
                     ReportesDTO reporte = new ReportesDTO();
@@ -1494,7 +1495,7 @@ namespace Foha.Controllers
                     }
                     EtapasResponse.Add(reporte);//Agrego el DTO a la lista
                 }
-                EtapasResponse = EtapasResponse.OrderBy(x => newOrder.IndexOf(int.Parse(x.Proceso))).ToList();
+                
                 r.Status = 200;
                 r.Message = "Se realizo la consulta con exito.";
                 r.Data = EtapasResponse;

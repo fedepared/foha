@@ -281,8 +281,8 @@ export class TimerReloadedComponent implements OnInit {
       case "CUBA CYP":
         etapa="C Y P Tapa-Cuba";
         break;
-      case "TAPA":
-        etapa="TAPA";
+      case "SOL \n TAPA":
+        etapa="Soldadura TAPA";
         break;
       case "RAD/PAN":
         etapa="Radiadores o Paneles";
@@ -313,6 +313,51 @@ export class TimerReloadedComponent implements OnInit {
         break;
       case "ENV":
         etapa="Envío a cliente";
+        break;
+      case "CYP PAT":
+        etapa="C Y P PATAS"
+        break;
+      case "PAT ENV":
+        etapa="ENVIO PATAS"
+        break;
+      case "CON BT":
+        etapa="CONEXION BT"
+        break;
+      case "CON AT":
+        etapa="CONEXION AT"
+        break;
+      case "REL TRANSF":
+        etapa="RELACION DE TRANSFERENCIA"
+        break;
+      case "CUBA CYP":
+        etapa="CUBA C Y P"
+        break;
+      case "SOL \n CUBA":
+        etapa="SOLDADURA CUBA"
+        break;
+      case "GRAN \n CUBA":
+        etapa="GRANALLADO CUBA"
+        break;
+      case "PINT \n CUBA":
+        etapa="PINTURA CUBA"
+        break;
+      case "ENV \n CUBA":
+        etapa="ENVIO CUBA"
+        break;
+      case "CYP \n TAPA":
+        etapa="C Y P TAPA"
+        break;
+      case "GRAN \n TAPA":
+        etapa="GRANALLADO TAPA"
+        break;
+      case "PINT \n TAPA":
+        etapa="PINTURA TAPA"
+        break;
+      case "ENV \n TAPA":
+        etapa="ENVIO TAPA"
+        break;
+      case "CUBI":
+        etapa="CUBIERTA";
         break;
     }
     return etapa;

@@ -82,7 +82,7 @@ export class RelojComponent implements OnInit{
     this.getTrafo(this.procesoElegido.idTransfo);
     this.getTipoEtapa(this.procesoElegido.idTipoEtapa);
     this.numEtapa=this.proceso.numEtapa;
-    if(this.proceso.idTipoEtapa==1 ||this.proceso.idTipoEtapa==15 ||  this.proceso.idTipoEtapa==17 || this.proceso.idTipoEtapa==18 || this.proceso.idTipoEtapa==21 || this.proceso.idTipoEtapa==23 || this.proceso.idTipoEtapa==31 ||this.proceso.idTipoEtapa==32)
+    if(this.proceso.idTipoEtapa==1 ||this.proceso.idTipoEtapa==15 ||  this.proceso.idTipoEtapa==17 || this.proceso.idTipoEtapa==18 || this.proceso.idTipoEtapa==21 || this.proceso.idTipoEtapa==23 || this.proceso.idTipoEtapa==31 ||this.proceso.idTipoEtapa==32 || this.proceso.idTipoEtapa==33 || this.proceso.idTipoEtapa==34 || this.proceso.idTipoEtapa==39 || this.proceso.idTipoEtapa==42)
     {
       this.showButtons=true;
     }
@@ -164,22 +164,22 @@ export class RelojComponent implements OnInit{
         this.tipoEtapaNombre="C Y P Tapa-Cuba";
         break;
       case "tapa":
-        this.tipoEtapaNombre="TAPA";
+        this.tipoEtapaNombre="Soldadura Tapa";
         break;
       case "radiadoresOPaneles":
         this.tipoEtapaNombre="Radiadores o Paneles";
         break;
       case "cuba":
-        this.tipoEtapaNombre="Cuba";
+        this.tipoEtapaNombre="Soldadura Cuba";
         break;
       case "tintasPenetrantes":
         this.tipoEtapaNombre="Hermeticidad";
         break;
       case "granallado":
-        this.tipoEtapaNombre="Granallado";
+        this.tipoEtapaNombre="Granallado Cuba";
         break;
       case "pintura":
-        this.tipoEtapaNombre="Pintura";
+        this.tipoEtapaNombre="Pintura Cuba";
         break;
       case "encubado":
         this.tipoEtapaNombre="Encubado";
@@ -195,6 +195,40 @@ export class RelojComponent implements OnInit{
         break;
       case "envioACliente":
         this.tipoEtapaNombre="Envío a cliente";
+        break;
+      
+      case "CYPPatas":
+        this.tipoEtapaNombre="C y P Patas";
+        break;
+      case "EnvioPatas":
+        this.tipoEtapaNombre="Envío Patas";
+        break;
+      case "ConexBT":
+        this.tipoEtapaNombre="Conexión BT";
+        break;
+      case "conexAT":
+        this.tipoEtapaNombre="Conexión AT";
+        break;
+      case "RelacTransf":
+        this.tipoEtapaNombre="Relación de Transeferencia";
+        break;
+      case "EnvioCuba":
+        this.tipoEtapaNombre="Envío Cuba";
+        break;
+      case "cYPTapa":
+        this.tipoEtapaNombre="C y P Tapa";
+        break;
+      case "GranalladoTapa":
+        this.tipoEtapaNombre="Granallado Tapa";
+        break;
+      case "PinturaTapa":
+        this.tipoEtapaNombre="Pintura Tapa";
+        break;
+      case "EnvioTapa":
+        this.tipoEtapaNombre="Envío Tapa";
+        break;
+      case "Cubierta":
+        this.tipoEtapaNombre="Cubierta";
         break;
     }
     return this.tipoEtapaNombre

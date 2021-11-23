@@ -129,6 +129,30 @@ export class RelojMultipleComponent implements OnInit {
         return "Envio a depósito";
       case 32:
         return "Envío a cliente";
+      case 33:
+        return "C y P Patas";
+      case 34:
+        return "Envío Patas";
+      case 35:
+        return "Conexión BT";
+      case 36:
+        return "Conexión AT";
+      case 37:
+        return "Relación de Transferencia";
+      case 38:
+        return "Envío Cuba";
+      case 39:
+        return "C y P Tapa";
+      case 40:
+        return "Granallado Tapa";
+      case 41:
+        return "Pintura Tapa";
+      case 42:
+        return "Envío Tapa";
+      case 43:
+        return "Cubierta";
+        
+      
     }
   }
 
@@ -142,7 +166,7 @@ export class RelojMultipleComponent implements OnInit {
             this.trafoProcessList.push(res);
           }
         },()=>{},()=>{
-          if(this.trafoProcessList[0].etapa[0].idTipoEtapa==1 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==15 ||  this.trafoProcessList[0].etapa[0].idTipoEtapa==17 || this.trafoProcessList[0].etapa[0].idTipoEtapa==18 || this.trafoProcessList[0].etapa[0].idTipoEtapa==21 || this.trafoProcessList[0].etapa[0].idTipoEtapa==23 || this.trafoProcessList[0].etapa[0].idTipoEtapa==31 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==32)
+          if(this.trafoProcessList[0].etapa[0].idTipoEtapa==1 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==15 ||  this.trafoProcessList[0].etapa[0].idTipoEtapa==17 || this.trafoProcessList[0].etapa[0].idTipoEtapa==18 || this.trafoProcessList[0].etapa[0].idTipoEtapa==21 || this.trafoProcessList[0].etapa[0].idTipoEtapa==23 || this.trafoProcessList[0].etapa[0].idTipoEtapa==31 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==32 || this.trafoProcessList[0].etapa[0].idTipoEtapa==33 || this.trafoProcessList[0].etapa[0].idTipoEtapa==34 || this.trafoProcessList[0].etapa[0].idTipoEtapa==39 || this.trafoProcessList[0].etapa[0].idTipoEtapa==42)
           {
             this.showButtons=true;
           }

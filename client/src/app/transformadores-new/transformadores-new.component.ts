@@ -42,7 +42,7 @@ import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { IResponse } from '../models/iresponse';
 import { ExcelTimesService } from '../services/excel-times.service';
 import { VendedoresService } from '../services/vendedores.service';
-import { Vendedores } from '../models/vendedores';
+import { Vendedores } from '../models/vendedores'; 
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -627,7 +627,7 @@ export class TransformadoresNewComponent implements OnInit {
       case "CUBA CYP":
         etapa="C Y P Tapa-Cuba";
         break;
-      case "TAPA":
+      case "SOL \n TAPA":
         etapa="TAPA";
         break;
       case "RAD \n PAN":
@@ -733,15 +733,6 @@ export class TransformadoresNewComponent implements OnInit {
     }
   }
 
-
-  // toggleAllSelection() {
-  //   if (this.allSelected.selected) {
-  //     this.form.controls['month'].setValue(this.months)
-        
-  //   } else {
-  //     this.form.controls.month.patchValue([]);
-  //   }
-  // }
 
 
     mostrar(){
@@ -1032,17 +1023,6 @@ export class TransformadoresNewComponent implements OnInit {
 
           })
       }
-
-      // onRowClicked(row) {
-      //   this.data2 = row;
-      //   forkJoin([
-      //     this.getEtapasporTransfo(this.data2.idTransfo),
-      //     this.getTipoEtapas()
-      //   ]).subscribe(() => {
-      //     this.asignarEtapaTransfo();
-      //     this.openDialogEtapaTransfo(this.data7);
-      //   });
-      // }
 
       onRowClicked(idTransfo){
         console.log(idTransfo);

@@ -285,19 +285,19 @@ export class ExcelService {
           soldaduraPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==16))),
           envioPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==17))),
           //18
-          cYPPatas:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==33))),
+          cYPPatas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==33))),
           //19
-          envioPatas:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==34))),
+          envioPatas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==34))),
           //20
           nucleo:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==18))),
           //21
           montaje:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==19))),
           //22
-          conexBT:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==35))),
+          conexBT:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==35))),
           //23
-          conexAT:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==36))),
+          conexAT:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==36))),
           //24
-          relacionDeTransferencia:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==37))),
+          relacionDeTransferencia:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==37))),
           //25
           horno:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==20))),
           //26
@@ -305,7 +305,7 @@ export class ExcelService {
           //27
           radiadoresOPaneles:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==23))),
           //28
-          cubierta:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==43))),
+          cubierta:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==43))),
           //29
           cuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==24))),
           //30
@@ -321,11 +321,11 @@ export class ExcelService {
           //35
           tapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==22))),
           //36
-          granalladoTapa:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==40))),
+          granalladoTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==40))),
           //37
-          pinturaTapa:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==41))),
+          pinturaTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==41))),
           //38
-          envioTapa:this.typeOfEtapa((e.etapa.find(z=>z.idTipoEtapa==42))),
+          envioTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==42))),
           //39
           encubado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==28))),
           //40
