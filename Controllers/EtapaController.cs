@@ -1439,6 +1439,7 @@ namespace Foha.Controllers
         public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int idTransfo){
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
+            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 30, 31, 32 };
             try{
                 List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == idTransfo)//Busco las etapas del trafo que me pide.
                                     .Include(x => x.IdTipoEtapaNavigation)
@@ -1471,6 +1472,7 @@ namespace Foha.Controllers
                     }
                     EtapasResponse.Add(reporte);//Agrego el DTO a la lista
                 }
+                EtapasResponse = EtapasResponse.OrderBy(x => newOrder.IndexOf(x.Proceso)).ToList();
                 r.Status = 200;
                 r.Message = "Se realizo la consulta con exito.";
                 r.Data = EtapasResponse;
