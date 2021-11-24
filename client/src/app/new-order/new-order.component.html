@@ -6,31 +6,10 @@
 </mat-card>
 
 <mat-card class="checkbox-container">
-  <!-- <mat-checkbox aria-label="Select All" 
-  [checked]="isChecked()" [indeterminate]="isIndeterminate()" (change)="$event ? toggleAll($event) : null">
-   Seleccionar todos
- </mat-checkbox> -->
-<!-- </div> -->
   <mat-card-content *ngFor="let item of mesesTrafo" >
     <mat-checkbox (click)="$event.stopPropagation()"
                     (change)="$event ? toggle(item, $event) : null"
                     [checked]="exists(item)">
-        <!-- <div [ngSwitch]="item.slice(13,15)" style="display:inline;">
-          <p *ngSwitchCase="'1'" style="display:inline;">Ene</p>
-          <p *ngSwitchCase="'2'" style="display:inline;">Feb</p>
-          <p *ngSwitchCase="'3'" style="display:inline;">Mar</p>
-          <p *ngSwitchCase="'4'" style="display:inline;">Abr</p>
-          <p *ngSwitchCase="'5'" style="display:inline;">May</p>
-          <p *ngSwitchCase="'6'" style="display:inline;">Jun</p>
-          <p *ngSwitchCase="'7'" style="display:inline;">Jul</p>
-          <p *ngSwitchCase="'8'" style="display:inline;">Ago</p>
-          <p *ngSwitchCase="'9'" style="display:inline;">Sep</p>
-          <p *ngSwitchCase="'10'" style="display:inline;">Oct</p>
-          <p *ngSwitchCase="'11'" style="display:inline;">Nov</p>
-          <p *ngSwitchCase="'12'" style="display:inline;">Dic</p>
-          <P *ngSwitchCase="'13'" style="display:inline;">Stock</P>
-        </div>
-        &nbsp;  -->
         <span style="display:inline;text-align:left">{{item.mes}} de {{item.anio}} </span> 
     </mat-checkbox>
   </mat-card-content>
@@ -58,6 +37,7 @@
               <p *ngSwitchCase="'11'" style="display:inline;">Nov</p>
               <p *ngSwitchCase="'12'" style="display:inline;">Dic</p>
               <P *ngSwitchCase="'13'" style="display:inline;">Stock</P>
+              <P *ngSwitchCase="'14'" style="display:inline;">Entrega Pendiente</P>
             </div>
             &nbsp;
             <span style="display:inline;text-align:left">{{d.id | slice:4:8}}</span>

@@ -1,8 +1,3 @@
-ARIEL:
-
-Montaje, se va a separar en tres etapas (que lo vean solo ellos, y no la vista de transformadores) (Desestimar por ahora)
-
-
 FALTA POR HACER:
 
 
@@ -11,9 +6,32 @@ FALTA POR HACER:
 -Filtro de meses, elegir de todos los meses (F...Agregar, y optimizar consulta)
 -Excel por operarios (F, C más adelante, optimizando la consulta)
 
--Que los encargados puedan ver los reportes (F) 
--Poder editar nombre de clientes (Criso) 
+-Que los encargados puedan ver los reportes (F HECHO) 
+-Poder editar nombre de clientes (Criso HECHO) 
 -cambiar tintas penetrantes por hermeticidad (F, no se cambia db, solo front vista) (HECHO)
+-Usuario tipo vista, hacer cuadricula (F) (HECHO)
+-agregar los procesos con las pertinentes modificaciones en back y front (PRIORIDAD 1 HECHO)
+
+-Agregar campo serie para la cabecera de los trafos. Al finalizar laboratorio, buscar el idTrafo, y actualizar el campo serie. (F,C)
+-Mail, ver posibilidad de enviar (F,C)
+
+
+
+Mas adelante, poder elegir fecha de algunos procesos (PRIORIDAD 2)
+
+
+
+
+
+
+
+-Agregar el campo fecha de ultima pausa (Hecho)
+-Separar en el excel nucleos de op(HECHO)
+-Mejorar ancho de RADPAN (HECHO)
+-Achicar filas (HECHO)
+-Agregar mes pendientes de entrega, agregarlo desde la vista de prioridades (HECHO)
+
+
 - A la derecha de cli el vendedor: hacer tabla de vendedores ( Fede, Criso): 
 	*Inicialmente, cuando un vendedor mire el listado de producción, pueda ver el trafo que le corresponda con legajo, nombre, mail, sigla.
 	*Flasheando, cuando un trafo tiene fecha vencida, el sistema envía un mail
@@ -23,46 +41,11 @@ FALTA POR HACER:
 	2)poder editar fecha
 	3)Los caracteres
 (F,C) (PRIORIDAD 2)
--Sacar soldadura de prensayugos y agregar el de patas (Nullear tadaaaaa) (C cambia db y F busca donde demonios se usa)
--Agregar campo serie para la cabecera de los trafos. Al finalizar laboratorio, buscar el idTrafo, y actualizar el campo serie. (F,C)
--Mail, ver posibilidad de enviar (F,C)
-
-Usuario tipo vista, hacer cuadricula (F) (HECHO)
-PATAS A DIFERENCIA DE PY NUNCA SE GRISA
-Mas adelante, poder elegir fecha de algunos procesos (PRIORIDAD 2)
--agregar los procesos (PRIORIDAD 1)
-
--Al tener un proceso iniciado por una cantidad x de empleados, se tiene que finalizar por la misma cantidad de empleados.
-
--Al modificar fecha de producción de trafo, que no se modifique el mes y el año
--Magia de ariel con las fechas
 
 
+-Mas adelante, poder elegir fecha de algunos procesos
 
 
-
-22/10:
-
-
-
-
-FALTA POR HACER:
--Agregar el campo fecha de ultima pausa (Hecho)
--Separar en el excel nucleos de op(HECHO)
--Mejorar ancho de RADPAN (HECHO)
--Achicar filas (HECHO)
-
-
--Agregar mes pendientes de entrega, agregarlo desde la vista de prioridades
-PATAS A DIFERENCIA DE PY NUNCA SE GRISA
-Mas adelante, poder elegir fecha de algunos procesos
-
-26-10:
--agregar los procesos
--Agregar mes pendientes de entrega, agregarlo desde la vista de prioridades
--Al tener un proceso iniciado por una cantidad x de empleados, se tiene que finalizar por la misma cantidad de empleados (Preguntar).
--Al modificar fecha de producción de trafo, que no se modifique el mes y el año
--Magia de ariel con las fechas
 -El proceso de envío a deposito debe ser de solo lectura para laboratorio
 
 
@@ -70,6 +53,7 @@ Mas adelante, poder elegir fecha de algunos procesos
 -ISSUES: 
 	cuando cargo varios transformadores, ver porqué puede pasar que asigna prioridad más alta al rango más bajo
 	cambie la fecha de producción de un transformador, y se fue al fondo de todo (Hablar con cristian, creo que era la idea)
+	Al tener un proceso iniciado por una cantidad x de empleados, se tiene que finalizar por la misma cantidad de empleados.
 
 
 

@@ -14,7 +14,7 @@
     box-shadow: inset 1px 4px 7px 0px rgba(59, 58, 58, 0.75);
     color:whitesmoke;
     height:60px;
-    padding: 10px;
+    padding: 10px 10px;
   };
 
   html{
@@ -37,6 +37,6 @@
 
   .checkbox-container{
     display: grid;  
-    grid-template-columns: repeat(10, 1fr);
-
+    /* grid-template-columns: repeat(10, 1fr); */
+    grid-template-columns: repeat( auto-fit, minmax(200px, 1fr) );
   }
