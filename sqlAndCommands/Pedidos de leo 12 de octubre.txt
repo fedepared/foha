@@ -33,7 +33,7 @@ Mas adelante, poder elegir fecha de algunos procesos (PRIORIDAD 2)
 
 
 - A la derecha de cli el vendedor: hacer tabla de vendedores ( Fede, Criso): 
-	*Inicialmente, cuando un vendedor mire el listado de producción, pueda ver el trafo que le corresponda con legajo, nombre, mail, sigla.
+	*Inicialmente, cuando un vendedor mire el listado de producción, pueda ver el trafo que le corresponda con legajo, nombre, mail, sigla (FILTRO).
 	*Flasheando, cuando un trafo tiene fecha vencida, el sistema envía un mail
 
 -ver tema color y fecha de nucleos con orden de compra(y ver posibilidad de cargarlo cuando lo cambia a violeta) y agregar Letras "R" , "A", "E", "F"

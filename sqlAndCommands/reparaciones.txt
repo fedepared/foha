@@ -1,0 +1,26 @@
+Reparaciones: 
+-Recepción de un trafo que devuelve un cliente
+-Leves hasta rehacer de nuevo
+-Cabecera: 
+
+- OT se reemplaza por OR (Son numeros no a la par, pero en algún momento alcanzará a las OT más viejas)
+  Ver posibilidad de renombrar OT por OT/OR
+- OP puede no llegar a tener
+  
+- sin rango, o rango 1
+- Lote podría ser
+- Por lo general no lleva nuc
+- Idea: nuevo tipo de trafo, reparaciones. Todos los procesos en gris, y despues que vayan cambiando
+
+
+Lo Pablo:
+
+su identificacion : Nombre de fabricante y numero de serie 
+idea: 
+poner la identificacion en observaciones, y crear filtro de observaciones 
+ver de agregar un checkbox o algo así para setear la OP en 0 y agregar las observaciones
+
+relacion de transformacion
+
+
+
