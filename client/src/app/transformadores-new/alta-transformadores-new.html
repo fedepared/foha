@@ -3,29 +3,17 @@
 <mat-dialog-content style="height:100%;width:380px" >
   <br>
   <form [formGroup]="form" style="width:100%;display: grid;">
-      <mat-form-field appearance="outline">
-        <mat-label>potencia</mat-label>
-
-        <input matInput
-                placeholder="potencia"
-               formControlName="potencia" [errorStateMatcher]="matcher" type="number">
-        <mat-error *ngIf="!form.hasError('required')">
-          La potencia es <strong>requerida</strong>
-        </mat-error>
-      </mat-form-field>
-    
-    
+      
     <mat-form-field appearance="outline">
-      <mat-label>nucleo</mat-label>
-      <input matInput
-                placeholder="nucleo"
-               formControlName="nucleos" [errorStateMatcher]="matcher" type="text">
-      <mat-error *ngIf="!form.hasError('required')">El nucleo es<strong>requerido</strong>
-      </mat-error>
+      <mat-label>Tipo de Transformador</mat-label>
+      <mat-select #idTipoTransfo formControlName="idTipoTransfo">
+        <mat-option *ngFor="let valueTransfo of tipoTransfo" (onSelectionChange)="changeTipoTransfo(valueTransfo.idTipoTransfo,$event)" [value]="valueTransfo.idTipoTransfo" >
+          {{valueTransfo.nombreTipoTransfo  }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
-    
-    
-    <mat-form-field appearance="outline">
+
+    <mat-form-field appearance="outline" *ngIf="disableForms==false">
       <mat-label>oP</mat-label>
       <input matInput
                 placeholder="op"
@@ -34,9 +22,42 @@
         El op es<strong>requerido</strong>
       </mat-error>
     </mat-form-field>
-    
-    
 
+    <mat-form-field appearance="outline">
+      <mat-label>OT/OR</mat-label>
+      <input matInput
+               formControlName="oTe" [errorStateMatcher]="matcher" type="number">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>nucleo</mat-label>
+      <input matInput
+                placeholder="nucleo"
+               formControlName="nucleos" [errorStateMatcher]="matcher" type="text">
+      <mat-error *ngIf="!form.hasError('required')">El nucleo es<strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>R/P</mat-label>
+      <mat-select  formControlName="radPan">
+        <mat-option *ngFor="let rP of radPanArray" [value]="rP" >
+          {{rP}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>potencia</mat-label>
+
+      <input matInput
+              placeholder="potencia"
+              formControlName="potencia" [errorStateMatcher]="matcher" type="number">
+      <mat-error *ngIf="!form.hasError('required')">
+        La potencia es <strong>requerida</strong>
+      </mat-error>
+    </mat-form-field>
+    
     <mat-form-field appearance="outline">
       <mat-label>Cantidad de transformadores a agregar</mat-label>
       <input matInput
@@ -44,11 +65,11 @@
                formControlName="cantidad" [errorStateMatcher]="matcher" type="number">
       <mat-error *ngIf="!form.hasError('required')">
         La cantidad es<strong>requerida</strong>
-    </mat-error>
+      </mat-error>
     </mat-form-field>
-    <mat-checkbox class="example-margin" style="margin:auto;" [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">¿Desea ingresar el rango?</mat-checkbox>
+    <mat-checkbox class="example-margin" style="margin:auto;" [(ngModel)]="checked" *ngIf="disableForms==false" [ngModelOptions]="{standalone: true}">¿Desea ingresar el rango?</mat-checkbox>
     
-    <mat-form-field appearance="outline" *ngIf="checked==true">
+    <mat-form-field appearance="outline" *ngIf="checked==true && disableForms==false">
       <mat-label>Rango</mat-label>
       <input matInput
                 placeholder="Rango"
@@ -57,23 +78,8 @@
     </mat-form-field>
     <div [ngClass]="foundedValue!='' ? 'error-message' : 'none-error-message' ">{{foundedValue}}</div>
     
-    <mat-form-field appearance="outline">
-      <mat-label>oT</mat-label>
-      <input matInput
-                placeholder="ot"
-               formControlName="oTe" [errorStateMatcher]="matcher" type="number">
-    </mat-form-field>
     
-    
-    <mat-form-field appearance="outline">
-      <mat-label>Tipo de Transformador</mat-label>
-      <mat-select #idTipoTransfo  (selected)="changeTipoTransfo($event.value)" formControlName="idTipoTransfo">
-        <mat-option *ngFor="let valueTransfo of tipoTransfo" [value]="valueTransfo.idTipoTransfo" >
-          {{valueTransfo.nombreTipoTransfo  }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    
+        
     <div>
       <mat-form-field appearance="outline" style="width:85%;">
         <mat-label>Elegir cliente</mat-label>
@@ -97,14 +103,7 @@
       </mat-select>
     </mat-form-field>
     
-    <mat-form-field appearance="outline">
-      <mat-label>R/P</mat-label>
-      <mat-select  formControlName="radPan">
-        <mat-option *ngFor="let rP of radPanArray" [value]="rP" >
-          {{rP}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    
     
     <mat-checkbox class="example-margin" style="margin:auto;" [(ngModel)]="checkedDate" [ngModelOptions]="{standalone: true}">¿Desea ingresar fecha de Producción?</mat-checkbox>
     
@@ -132,11 +131,14 @@
       <input matInput
                 placeholder="observaciones"
                formControlName="observaciones" [errorStateMatcher]="matcher" type="text">
+      <mat-error *ngIf="!form.hasError('required')">
+        Las observaciones son <strong> requeridas</strong> en órdenes de reparación
+      </mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions style="float:right;">
   <button class="mat-raised-button" (click)="close()">Cancelar</button>
-  <button class="mat-raised-button mat-primary" style="background-color: teal;" [mat-dialog-close]="true" (click)="saveTrafo()">{{labelButton}}</button>
+  <button class="mat-raised-button mat-primary" [disabled]="!form.valid" style="background-color: teal;" [mat-dialog-close]="true" (click)="saveTrafo()">{{labelButton}}</button>
 </mat-dialog-actions>

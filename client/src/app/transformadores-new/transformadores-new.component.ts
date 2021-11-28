@@ -68,7 +68,7 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "MON":19,
         "CON BT":35,
         "CON AT":36,
-        "REL TRANSF":37,
+        "REL \n TRA":37,
         "HOR":20,
         "CUBA CYP":21,
         "RAD \n PAN":23,
@@ -445,7 +445,7 @@ export class TransformadoresNewComponent implements OnInit {
     switch(trafo)
     {
       case "oTe":
-          trafo="OT"
+          trafo="OT | OR"
           break;
       case'oPe':
           trafo="OP"
@@ -672,8 +672,8 @@ export class TransformadoresNewComponent implements OnInit {
       case "CON AT":
         etapa="CONEXION AT"
         break;
-      case "REL TRANSF":
-        etapa="RELACION DE TRANSFERENCIA"
+      case "REL \n TRA":
+        etapa="RELACION DE TRANSFORMACION"
         break;
       case "CUBA CYP":
         etapa="CUBA C Y P"
@@ -1046,7 +1046,8 @@ export class TransformadoresNewComponent implements OnInit {
           (this.form.get('rangoInicio').value && this.form.get('rangoInicio').value.length>=2) ||
           (this.form.get('potencia').value) ||
           (this.form.get('nombreCli').value && this.form.get('nombreCli').value.length>=3) ||
-          (this.form.get('month').value)
+          (this.form.get('month').value) || 
+          (this.form.get('observaciones').value)
         )
         {
             const ot =this.form.get('oTe').value;
@@ -1056,6 +1057,7 @@ export class TransformadoresNewComponent implements OnInit {
             const pot=this.form.get('potencia').value;
             const nC=this.form.get('nombreCli').value;
             const partialMonth=this.form.get('month').value;
+            const obs = this.form.get('observaciones').value;
             let monthArray=[];
             let yearArray=[];
             if(partialMonth!==null)
@@ -1077,6 +1079,8 @@ export class TransformadoresNewComponent implements OnInit {
             this.nombreCli = nC === null ? ' ' : nC;
             this.month= partialMonth === null ? [] : monthArray;
             this.year = partialMonth === null ? [] :yearArray;
+            this.observaciones = obs === null ? ' ' : obs; 
+            
 
             let filterValue = {
               oTe :this.oTe,
@@ -1086,7 +1090,8 @@ export class TransformadoresNewComponent implements OnInit {
               potencia:this.potencia,
               nombreCli:this.nombreCli,
               month:this.month,
-              year:this.year
+              year:this.year,
+              observaciones: this.observaciones
             }
             this.openSnackBar("aplicando los filtros seleccionados","buscando")
             this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{
@@ -1195,6 +1200,9 @@ interface ComboClientes{
     hide=false;
     fprOlderfot=false;
 
+    //disable some form controls
+    disableForms:boolean=false;
+
     constructor(
       private _snackBar:MatSnackBar,
       private clienteService:ClienteService,
@@ -1209,6 +1217,7 @@ interface ComboClientes{
     ) {
         this.titulo=data1.titulo;
         this.labelButton=data1.labelButton;
+
     }
 
     ngOnInit() {
@@ -1289,6 +1298,7 @@ interface ComboClientes{
       {
         this.form.controls['anio'].setValue(new Date().getFullYear());
         this.form.controls['mes'].setValue(13);
+        console.log(this.form.controls['mes']);
       }
       console.log(this.form);
     }
@@ -1297,65 +1307,84 @@ interface ComboClientes{
       return value.id;
     }
 
-    changeTipoTransfo(valueTransfo){
-      return valueTransfo.id;
+    changeTipoTransfo(idTipoTransfo: number, event: any){
+      // ignore on deselection of the previous option
+      if (event.isUserInput) {    
+        //reparaciones
+        if(idTipoTransfo==6){
+          this.disableForms=true;
+          this.form.controls['oPe'].setValue(0);
+          this.form.controls['observaciones'].setValidators([Validators.required]);
+        }
+        else{
+          this.disableForms=false;
+          this.form.controls['oPe'].setValue(null);
+          this.form.controls['observaciones'].clearValidators();
+        }
+        this.form.controls['observaciones'].updateValueAndValidity();
+      }
+      console.log(this.form.value)
     }
 
     saveTrafo() {
+      
       console.log(this.form.value);
       let cliente=this.form.controls['f'].value;
-      this.form.controls['idCliente'].setValue(cliente.id);
-      this.form.controls['nombreCli'].setValue(cliente.value);
       this.form.controls['fechaCreacion'].setValue(new Date());
-      
-      //No elige fecha de producción/pactada
-      if(this.checkedDate==false)
+      if(cliente!=null)
       {
-        this.form.controls['fechaProd'].setValue(new Date());
-        this.form.controls['fechaPactada'].setValue(new Date());
-        // this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
-        // this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
-      }
-      //No es cliente Stock
-      if(cliente.id!=9999)
-      {
-        //No eligió fechas de producción
+          this.form.controls['idCliente'].setValue(cliente.id);
+          this.form.controls['nombreCli'].setValue(cliente.value);
+          //No es cliente Stock
+          if(cliente.id!=9999)
+          {
+            //No eligió fechas de producción
+            if(this.checkedDate==false)
+            {
+              this.form.controls['anio'].setValue(new Date().getFullYear());
+              this.form.controls['mes'].setValue(13);
+            }
+            else{
+              console.log(this.form.controls['fechaProd'])
+              this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
+              this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
+            }
+          }
+        }
+        
+        //No elige fecha de producción/pactada
         if(this.checkedDate==false)
         {
-          this.form.controls['anio'].setValue(new Date().getFullYear());
-          this.form.controls['mes'].setValue(13);
+          this.form.controls['fechaProd'].setValue(new Date());
+          this.form.controls['fechaPactada'].setValue(new Date());
+        }
+        
+        this.form.controls['prioridad'].setValue(1);
+        let cantidad=parseInt(this.form.get('cantidad').value);
+        if(cantidad > 1){
+          var nTransfo = cantidad;
+          let arregloTransfo:Transformadores[]=[];
+          for (let i = 0; i < nTransfo; i++) {
+            arregloTransfo[i]=this.form.value;
+            arregloTransfo[i].lote=cantidad;
+          }
+          console.log("ARREGLO TRANSFOR:",arregloTransfo);
+          this.transformadoresService.addTransformadores(arregloTransfo).subscribe(res => {
+            console.log(res);
+          });
+          arregloTransfo=[];
         }
         else{
-          this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
-          this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
+          this.form.controls['lote'].setValue[1];
+          this.transformadoresService.addTransformador(this.form.value).subscribe(
+            (res) => {
+              this.openSnackBar("Transformador agregado", "Exito!");
+            },
+            err => {
+              this.openSnackBar("No se ha agregado ningún transformador","Error!");
+              console.log(err);
+          })
         }
-      }
-      this.form.controls['prioridad'].setValue(1);
-      let cantidad=parseInt(this.form.get('cantidad').value);
-      if(cantidad > 1){
-        var nTransfo = cantidad;
-        let arregloTransfo:Transformadores[]=[];
-        for (let i = 0; i < nTransfo; i++) {
-          arregloTransfo[i]=this.form.value;
-          arregloTransfo[i].lote=cantidad;
-        }
-        console.log("ARREGLO TRANSFOR:",arregloTransfo);
-        this.transformadoresService.addTransformadores(arregloTransfo).subscribe(res => {
-          console.log(res);
-        });
-        arregloTransfo=[];
-      }
-      else{
-        this.form.controls['lote'].setValue[1];
-        this.transformadoresService.addTransformador(this.form.value).subscribe(
-          (res) => {
-            this.openSnackBar("Transformador agregado", "Exito!");
-          },
-          err => {
-            this.openSnackBar("No se ha agregado ningún transformador","Error!");
-            console.log(err);
-        }
-        )}
     }
 
 

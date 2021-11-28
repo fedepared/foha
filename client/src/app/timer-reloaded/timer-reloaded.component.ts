@@ -76,7 +76,8 @@ export class TimerReloadedComponent implements OnInit {
     'oTe',
     'oPe',
     'rangoInicio',
-    'potencia'
+    'potencia',
+    'observaciones'
   ]
 
   //esto es una forma cheta de obtener el array con los nombres de las columnas que machean con el "nombreTipoEtapa".
@@ -108,7 +109,8 @@ export class TimerReloadedComponent implements OnInit {
       rangoInicio	:new FormControl(),
       potencia:new FormControl(),
       nProceso: new FormControl(),
-      month:new FormControl()
+      month:new FormControl(),
+      observaciones:new FormControl()
     }
   )
 
@@ -118,7 +120,8 @@ export class TimerReloadedComponent implements OnInit {
   nProceso= '';
   potencia='';
   month=[];
-  year=[]
+  year=[];
+  observaciones= '';
 
   pageNumber:number=1;
 
@@ -190,6 +193,9 @@ export class TimerReloadedComponent implements OnInit {
       case'potencia':
           trafo="POT"
           break;    
+      case'observaciones':
+          trafo="OBS"
+          break;
     }
     return trafo;
   }
@@ -326,8 +332,8 @@ export class TimerReloadedComponent implements OnInit {
       case "CON AT":
         etapa="CONEXION AT"
         break;
-      case "REL TRANSF":
-        etapa="RELACION DE TRANSFERENCIA"
+      case "REL \n TRA":
+        etapa="RELACION DE TRANSFORMACION"
         break;
       case "CUBA CYP":
         etapa="CUBA C Y P"
@@ -517,16 +523,17 @@ export class TimerReloadedComponent implements OnInit {
       (this.form.get('rangoInicio').value && this.form.get('rangoInicio').value.length>=2) ||
       (this.form.get('potencia').value) ||
       (this.form.get('month').value) ||
-      (this.form.get('nProceso').value)
-    )
-    {
+      (this.form.get('nProceso').value)|| 
+      (this.form.get('observaciones').value)
+      )
+      {
         const ot =this.form.get('oTe').value;
         const op=this.form.get('oPe').value;
         const rI=this.form.get('rangoInicio').value;
         const pot=this.form.get('potencia').value;
         const nProc=this.form.get('nProceso').value;
-        // const month=this.form.get('month').value;
         const partialMonth=this.form.get('month').value;
+        const obs = this.form.get('observaciones').value;
         
         let monthArray=[];
         let yearArray=[];
@@ -547,6 +554,7 @@ export class TimerReloadedComponent implements OnInit {
         // this.month= month === null ? ' ' : month;
         this.month= partialMonth === null ? [] : monthArray;
         this.year = partialMonth === null ? [] : yearArray;
+        this.observaciones = obs === null ? ' ' : obs; 
 
         let filterValue = {
           oTe :this.oTe,
@@ -555,7 +563,8 @@ export class TimerReloadedComponent implements OnInit {
           potencia:this.potencia,
           month:this.month,
           year:this.year,
-          nProceso:this.nProceso
+          nProceso:this.nProceso,
+          observaciones: this.observaciones
         }
         this.openSnackBar("aplicando los filtros seleccionados","buscando")
         this.transformadoresService.getTrafosFilterProcess(filterValue).subscribe(res=>{

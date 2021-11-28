@@ -1202,7 +1202,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("MON",19);
                     etapasPorSector.Add("CON BT",35);
                     etapasPorSector.Add("CON AT",36);
-                    etapasPorSector.Add("REL TRANSF",37);
+                    etapasPorSector.Add("REL \n TRA",37);
                     etapasPorSector.Add("HOR",20);
                     etapasPorSector.Add("CUBA CYP",21);
                     etapasPorSector.Add("RAD \n PAN",23);
@@ -1253,6 +1253,7 @@ namespace Foha.Controllers
                 case 25:
                     etapasPorSector.Add("SOL \n TAPA",22);
                     etapasPorSector.Add("PINT \n CUBA",27);
+                    etapasPorSector.Add("PINT \n TAPA",41);
                     break;
 
             }

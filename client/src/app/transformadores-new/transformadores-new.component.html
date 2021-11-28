@@ -70,15 +70,25 @@
                 
             >
           </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Elija el mes</mat-label>
-                <mat-select [compareWith]="compareObjects" formControlName="month" multiple>
-                  <mat-option *ngFor="let m of months"  [value]="m">
-                    {{m.mes}} de {{m.anio}}
-                  </mat-option>
-                  <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
-                </mat-select>
-              </mat-form-field>
+          <mat-form-field class="search__form_field-especial" appearance="outline">
+            <mat-label>Observaciones</mat-label>
+            <input type="text"
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
+                  matInput
+                  formControlName="observaciones"
+                
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="search__form_field-especial"> 
+            <mat-label>Elija el mes</mat-label>
+              <mat-select [compareWith]="compareObjects" formControlName="month" multiple>
+                <mat-option *ngFor="let m of months"  [value]="m">
+                  {{m.mes}} de {{m.anio}}
+                </mat-option>
+                <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
+              </mat-select>
+            </mat-form-field>
           <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
             <mat-icon>backspace</mat-icon>
           </button>

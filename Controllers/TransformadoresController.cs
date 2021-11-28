@@ -292,7 +292,7 @@ namespace Foha.Controllers
             // order.Lista=resultado.OrderBy(x=>x.Prioridad).ToList();
 
             // return Ok(order);
-            var resultado2=resultado.Select(x=>new {x.Anio,x.Mes,x.Etapa,x.OTe,x.OPe,x.RangoInicio,x.Potencia,x.Prioridad,x.IdTransfo})
+            var resultado2=resultado.Select(x=>new {x.Anio,x.Mes,x.Etapa,x.OTe,x.OPe,x.RangoInicio,x.Potencia,x.Prioridad,x.IdTransfo,x.Observaciones})
 
 
 
@@ -318,7 +318,8 @@ namespace Foha.Controllers
         [FromQuery (Name = "potencia")] string potencia,
         [FromQuery (Name = "nombreCli")] string nombreCli,
         [FromQuery (Name = "month")] int[] month,
-        [FromQuery (Name = "year")] int[] year
+        [FromQuery (Name = "year")] int[] year,
+        [FromQuery (Name = "observaciones")]string observaciones
         )
     {
         List<Transformadores> trafos = new List<Transformadores>();
@@ -340,49 +341,9 @@ namespace Foha.Controllers
             results=results.Where(x=>x.Potencia==(Int32.Parse(potencia))).ToList();
         if(nombreCli !=null)
             results=results.Where(x=>x.NombreCli!=null && x.NombreCli.Contains(nombreCli.ToUpper())).ToList();
-        // if(month.Length>0)
-        // {
-        //     if(month.Length>1)
-        //     {
+        if(observaciones !=null)
+            results = results.Where(x=>(x.Observaciones ?? " ").ToUpper().Contains(observaciones.ToUpper())).ToList();
 
-        //         results=results.Where(x=> month.ToList().Contains(x.Mes.ToString())).ToList();
-
-        //     }
-        //     if(month.Length==1)
-        //     {
-        //         results=results.Where(x=>x.Mes.ToString().Contains(month[0].ToString())).ToList();
-        //     }
-
-        // }
-        // if(year.Length>0)
-        // {
-        //     if(year.Length>1)
-        //     {
-
-        //         results=results.Where(x=> year.ToList().Contains(x.Anio.ToString())).ToList();
-
-        //     }
-        //     if(year.Length==1)
-        //     {
-        //         results=results.Where(x=>x.Anio.ToString().Contains(year[0].ToString())).ToList();
-        //     }
-
-        // }
-
-        // if(results.Count()>0)
-        // {
-
-        //     var resultados=results.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
-        //     {
-        //         Anio = key.Anio,
-        //         Mes = this.AsignarMes(key.Mes) ,
-        //         Trafos =group.OrderBy(x=>x.Prioridad).ToList()
-        //     });
-        //     return Ok(resultados);
-        // }
-        // else{
-        //     return Ok();
-        // }
         if(month.Length>0)
         {
             
@@ -432,7 +393,9 @@ namespace Foha.Controllers
         [FromQuery (Name = "potencia")] string potencia,
         [FromQuery (Name = "month")] int[] month,
         [FromQuery (Name ="year")]int[] year,
-        [FromQuery (Name = "nProceso")] string nProceso
+        [FromQuery (Name = "nProceso")] string nProceso,
+        [FromQuery (Name = "observaciones")]string observaciones
+
         )
     {
         var results = _context.Transformadores.Include(z=>z.IdClienteNavigation)
@@ -456,6 +419,8 @@ namespace Foha.Controllers
             results=results.Where(x=>x.Potencia==(Int32.Parse(potencia))).ToList();
         if(nProceso != null)
             results=results.Where(x=>x.Etapa.Any(f=>f.NumEtapa != null && f.NumEtapa.ToString().Contains(nProceso))).ToList();
+        if(observaciones !=null)
+            results = results.Where(x=>(x.Observaciones ?? " ").ToUpper().Contains(observaciones.ToUpper())).ToList();
         if(month.Length>0)
         {
             for (var i = 0; i < month.Length; i++)

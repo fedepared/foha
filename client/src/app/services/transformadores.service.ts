@@ -133,7 +133,8 @@ export class TransformadoresService {
         potencia:filter.potencia,
         nombreCli:filter.nombreCli,
         month:filter.month,
-        year:filter.year
+        year:filter.year,
+        observaciones:filter.observaciones
       }
     })
     .pipe(
@@ -154,7 +155,8 @@ export class TransformadoresService {
           potencia:filter.potencia,
           nProceso:filter.nProceso,
           month:filter.month,
-          year:filter.year
+          year:filter.year,
+          observaciones:filter.observaciones
       }
     })
     .pipe(
