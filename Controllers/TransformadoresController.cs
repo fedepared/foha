@@ -189,6 +189,9 @@ namespace Foha.Controllers
         if(transfo.IdTipoTransfo==5){
             resultadoAnterior=resultado.Where(z=>z.IdTipoEtapa != petroleros).ToList();
         }
+        if(transfo.IdTipoTransfo==6){
+            resultadoAnterior=resultado.ToList();
+        }
 
 
         return resultadoAnterior;
@@ -576,8 +579,14 @@ namespace Foha.Controllers
         }
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
-
-        if(_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).Count()>0){
+        if(addTransformadoresDto.IdTipoTransfo == 6){
+            addTransformadoresDto.RangoFin=1;
+            addTransformadoresDto.RangoInicio=1;
+            if(addTransformadoresDto.OPe == null){
+                addTransformadoresDto.OPe = 0;
+            }
+        }
+        else if(_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).Count()>0){
             if(addTransformadoresDto.RangoInicio==null)
             {
                 if(_context.Transformadores.Any(x=>x.OPe==addTransformadoresDto.OPe))
@@ -671,6 +680,10 @@ namespace Foha.Controllers
                                 etapa.IdColor=1034;
                                 etapa.IsEnded = true;
                             }
+                            break;
+                        case 6:
+                            etapa.IdColor=1034;
+                            etapa.IsEnded = true;
                             break;
                     }
                 }
