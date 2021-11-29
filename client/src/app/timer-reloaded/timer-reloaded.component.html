@@ -104,7 +104,7 @@
       </ng-container>
         <ng-container *ngFor="let column of displayedColumns2" sticky matColumnDef="{{column}}">  
             <th mat-header-cell *matHeaderCellDef matTooltip={{tooltipTrafo(column)}} matTooltipPosition="above" style="padding:5px!important; text-align: center;border-bottom-color: black!important;border-bottom-width:2.5px!important;" >{{encabezadosTrafo(column)}}</th>
-            <td mat-cell *matCellDef="let element" style="min-width:60px;"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yyyy') : (element[column])}} </td>
+            <td mat-cell *matCellDef="let element" style="min-width:60px;"> {{column=='fechaPactada'|| column=='fechaProd' ? (element[column] | date:'dd/MM/yyyy') : column =='oPe' ? op(element[column]) : (element[column])}} </td>
         </ng-container>
         <ng-container *ngFor="let column of etapasColumns;" matColumnDef="{{column}}" >
             <th mat-header-cell *matHeaderCellDef [style.border-left]="(column=='BT1' || column=='AT1' || column=='RG1' || column=='RF1' || column=='ENS' ) ? '2px solid rgba(56,56,56,0.60)' :((column=='DOC') ? '2.5px solid rgb(56,56,56)' : '0')" style="padding-left:10px!important;border-bottom-width:1.5px;border-bottom-color: rgba(0,0,0,0.5)!important;" matTooltip={{toolTipEtapas(column)}} matTooltipPosition="above">{{column}}</th>

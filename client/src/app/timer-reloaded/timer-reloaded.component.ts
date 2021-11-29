@@ -220,6 +220,17 @@ export class TimerReloadedComponent implements OnInit {
     return trafo;
   }
 
+  op(ope){
+    if(ope==0) 
+    {
+      return "OR"
+    }
+    else
+    {
+      return ope
+    } 
+  }
+
   toolTipEtapas(etapa:string)
   {
     switch(etapa)

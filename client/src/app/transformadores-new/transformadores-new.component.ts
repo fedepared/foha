@@ -560,6 +560,17 @@ export class TransformadoresNewComponent implements OnInit {
     return trafo;
   }
 
+  op(ope){
+    if(ope==0) 
+    {
+      return "OR"
+    }
+    else
+    {
+      return ope
+    } 
+  }
+
   toolTipEtapas(etapa:string)
   {
     switch(etapa)
@@ -1335,29 +1346,32 @@ interface ComboClientes{
       {
           this.form.controls['idCliente'].setValue(cliente.id);
           this.form.controls['nombreCli'].setValue(cliente.value);
-          //No es cliente Stock
+          
+      }
+        
+      //No elige fecha de producción/pactada
+      if(this.checkedDate==false)
+      {
+        this.form.controls['fechaProd'].setValue(new Date());
+        this.form.controls['fechaPactada'].setValue(new Date());
+        if(cliente!=null)
+        {
           if(cliente.id!=9999)
           {
-            //No eligió fechas de producción
-            if(this.checkedDate==false)
-            {
-              this.form.controls['anio'].setValue(new Date().getFullYear());
-              this.form.controls['mes'].setValue(13);
-            }
-            else{
-              console.log(this.form.controls['fechaProd'])
-              this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
-              this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
-            }
+            this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.getFullYear());
+            this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.getMonth()+1);
           }
         }
-        
-        //No elige fecha de producción/pactada
-        if(this.checkedDate==false)
+        else
         {
-          this.form.controls['fechaProd'].setValue(new Date());
-          this.form.controls['fechaPactada'].setValue(new Date());
+          this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.getFullYear());
+          this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.getMonth()+1);
         }
+      }
+      else{
+        this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
+        this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
+      }
         
         this.form.controls['prioridad'].setValue(1);
         let cantidad=parseInt(this.form.get('cantidad').value);
@@ -1496,7 +1510,7 @@ interface ComboClientes{
 
     form: FormGroup;
     potencia:number;
-    oPe:string;
+    oPe:number;
     oTe:number;
     idTransfo:number;
     idCliente:number;
@@ -1531,6 +1545,9 @@ interface ComboClientes{
     enabled=true;
     vendedores:Vendedores[];
     fprOlderfot=false;
+
+    //no mostrar ope
+    notShow=false;
 
     @Output()
     dateChange:EventEmitter<MatDatepickerInputEvent<any>>;
@@ -1598,6 +1615,10 @@ interface ComboClientes{
         radPan:[this.radPan],
         idVendedor:[this.idVendedor]
       });
+      if(this.oPe==0)
+      {
+        this.notShow=true;
+      }
 
 
 

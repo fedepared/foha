@@ -14,7 +14,7 @@
         </mat-error>
       </mat-form-field>
     
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" *ngIf="notShow==false">
       <mat-label>oP</mat-label>
       <input matInput
                 placeholder="op"
