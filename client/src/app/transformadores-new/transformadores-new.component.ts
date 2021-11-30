@@ -86,7 +86,7 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "ENC":28,
         "LAB":29,
         "TERM":30,
-        "DEP":31,
+        "APR":31,
         "ENV":32
 }
 
@@ -104,7 +104,7 @@ interface Mes {
     <div [style.height]="'40px'" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2.5px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '3px solid rgb(56,56,56)': '1px solid rgb(56,56,56)')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
       <span style="display:inline;margin:0;width:24px;height:24px;">
-        <button mat-icon-button *ngIf="idTipoUs!='4' && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>done</mat-icon></button>
+        <button mat-icon-button *ngIf="idTipoUs!='4' && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
       </span>
     </div>
   </ng-container>
@@ -665,8 +665,8 @@ export class TransformadoresNewComponent implements OnInit {
       case "TERM":
         etapa="Terminacion";
         break;
-      case "DEP":
-        etapa="Envio a depósito";
+      case "APR":
+        etapa="Aprobacion";
         break;
       case "ENV":
         etapa="Envío a cliente";

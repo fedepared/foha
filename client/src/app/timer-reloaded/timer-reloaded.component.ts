@@ -12,6 +12,7 @@ import { take } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
+import { TransitiveCompileNgModuleMetadata } from '@angular/compiler';
 
 
 let MAP_NOMBRE_ETAPA:{[tipoEtapa:string]:number}={
@@ -31,7 +32,7 @@ interface Mes {
   <ng-container *ngIf="etapa">
     <div style="height:61px; line-height:61px" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '2.5px solid rgb(56,56,56)': '0')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
       <span *ngIf="etapa.dateIni" (click)=select(etapa)>{{etapa.numEtapa}}</span>
-      <button mat-icon-button style="float:right;" *ngIf="!etapa.dateIni" (click)=select(etapa)><mat-icon>done</mat-icon></button>
+      <button mat-icon-button style="float:right;" *ngIf="condition(etapa)" (click)=select(etapa)><mat-icon>lens_blur</mat-icon></button>
     </div>
   </ng-container>
   `,
@@ -43,15 +44,46 @@ export class EtapaColumnComponent2{
   @Output() procesoSelected=new EventEmitter<Etapa>();
   
   array=new Array();
+  sector=null;
 
   constructor(){
-    
+    this.sector=localStorage.getItem("sector");
   }
 
   select(row){
     
     this.procesoSelected.emit(row);
 
+  }
+
+  condition(etapa:Etapa){
+    if(!etapa.dateIni && etapa.idColor!=10){
+      if(this.sector == 9)
+      {
+        if(etapa.idTipoEtapa==31){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }else if(this.sector ==12)
+      {
+        if(etapa.idTipoEtapa==29||etapa.idTipoEtapa==31){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+      else{
+        return true;
+      }
+
+    }
+    else{
+      return false;
+    }
+    
   }
 
 
@@ -286,56 +318,17 @@ export class TimerReloadedComponent implements OnInit {
       case "PY ENV":
         etapa="Envio de PYS";
         break;
-      case "NUC":
-        etapa="Nucleo";
-        break;
-      case "MON":
-        etapa="Montaje";
-        break;
-      case "HOR":
-        etapa="Horno";
-        break;
-      case "CUBA CYP":
-        etapa="C Y P Tapa-Cuba";
-        break;
-      case "SOL \n TAPA":
-        etapa="Soldadura TAPA";
-        break;
-      case "RAD/PAN":
-        etapa="Radiadores o Paneles";
-        break;
-      case "CUBA":
-        etapa="Cuba";
-        break;
-      case "HERM":
-        etapa="Hermeticidad";
-        break;
-      case "GRAN":
-        etapa="Granallado";
-        break;
-      case "PINT":
-        etapa="Pintura";
-        break;
-      case "ENC":
-        etapa="Encubado";
-        break;
-      case "LAB":
-        etapa="Ensayos(Ref)";
-        break;
-      case "TERM":
-        etapa="Terminacion";
-        break;
-      case "DEP":
-        etapa="Envio a depósito";
-        break;
-      case "ENV":
-        etapa="Envío a cliente";
-        break;
       case "CYP PAT":
         etapa="C Y P PATAS"
         break;
       case "PAT ENV":
         etapa="ENVIO PATAS"
+        break;
+      case "NUC":
+        etapa="Nucleo";
+        break;
+      case "MON":
+        etapa="Montaje";
         break;
       case "CON BT":
         etapa="CONEXION BT"
@@ -344,14 +337,26 @@ export class TimerReloadedComponent implements OnInit {
         etapa="CONEXION AT"
         break;
       case "REL \n TRA":
-        etapa="RELACION DE TRANSFORMACION"
+          etapa="RELACION DE TRANSFORMACION"
+          break;
+      case "HOR":
+        etapa="Horno";
         break;
-      case "CUBA CYP":
-        etapa="CUBA C Y P"
+      case "CUBA \n CYP":
+        etapa="C Y P Tapa-Cuba";
+        break;
+      case "RAD \n PAN":
+        etapa="Radiadores o Paneles";
+        break;
+      case "CUBI":
+        etapa="CUBIERTA";
         break;
       case "SOL \n CUBA":
         etapa="SOLDADURA CUBA"
         break;
+      case "HERM":
+          etapa="Hermeticidad";
+          break;
       case "GRAN \n CUBA":
         etapa="GRANALLADO CUBA"
         break;
@@ -364,6 +369,9 @@ export class TimerReloadedComponent implements OnInit {
       case "CYP \n TAPA":
         etapa="C Y P TAPA"
         break;
+      case "SOL \n TAPA":
+        etapa="Soldadura TAPA";
+        break;
       case "GRAN \n TAPA":
         etapa="GRANALLADO TAPA"
         break;
@@ -373,8 +381,20 @@ export class TimerReloadedComponent implements OnInit {
       case "ENV \n TAPA":
         etapa="ENVIO TAPA"
         break;
-      case "CUBI":
-        etapa="CUBIERTA";
+      case "ENC":
+        etapa="Encubado";
+        break;
+      case "LAB":
+        etapa="Ensayos(Ref)";
+        break;
+      case "TERM":
+        etapa="Terminacion";
+        break;
+      case "APR":
+        etapa="Aprobacion";
+        break;
+      case "ENV":
+        etapa="Envío a cliente";
         break;
     }
     return etapa;

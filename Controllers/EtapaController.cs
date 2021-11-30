@@ -155,7 +155,7 @@ namespace Foha.Controllers
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync(); 
                     // etapasPorSector.Add("TERM",30);
-                    // etapasPorSector.Add("DEP",31);
+                    // etapasPorSector.Add("APR",31);
                     // etapasPorSector.Add("ENV",32);
                     break;
               case 10:
@@ -1171,11 +1171,12 @@ namespace Foha.Controllers
                 break;
               case 8:
                     etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("REL TRANSF",37);
                     break;
               case 9:                
                     etapasPorSector.Add("TERM",30);
-                    etapasPorSector.Add("DEP",31);
+                    etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("ENV",32);
                     break;
               case 10:
@@ -1204,7 +1205,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("CON AT",36);
                     etapasPorSector.Add("REL \n TRA",37);
                     etapasPorSector.Add("HOR",20);
-                    etapasPorSector.Add("CUBA CYP",21);
+                    etapasPorSector.Add("CUBA \n CYP",21);
                     etapasPorSector.Add("RAD \n PAN",23);
                     etapasPorSector.Add("CUBI",43);
                     etapasPorSector.Add("SOL \n CUBA",24);
@@ -1220,7 +1221,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("ENC",28);
                     etapasPorSector.Add("LAB",29);
                     etapasPorSector.Add("TERM",30);
-                    etapasPorSector.Add("DEP",31);
+                    etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("ENV",32);
                     break;
                 //encubado Enc
@@ -1228,6 +1229,9 @@ namespace Foha.Controllers
                     etapasPorSector.Add("HOR",20);
                     etapasPorSector.Add("ENC",28);
                     etapasPorSector.Add("ENV",32);
+                    etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("TERM",30);
+                    etapasPorSector.Add("APR",31);
                     break;
 
                 //caldereria enc 
@@ -1236,10 +1240,12 @@ namespace Foha.Controllers
                 //cyp
                 case 22:
                     etapasPorSector.Add("PY CYP",15);
+                    etapasPorSector.Add("CYP PAT",33);
                     etapasPorSector.Add("CUBA CYP",21);
                     break;
                 //soldadura
                 case 23:
+                    etapasPorSector.Add("CUBI",43);
                     etapasPorSector.Add("PY SOL",16);
                     etapasPorSector.Add("SOL \n TAPA",22);
                     etapasPorSector.Add("SOL \n CUBA",24);
@@ -1251,7 +1257,7 @@ namespace Foha.Controllers
                     break;
                 //pintura
                 case 25:
-                    etapasPorSector.Add("SOL \n TAPA",22);
+                    // etapasPorSector.Add("SOL \n TAPA",22);
                     etapasPorSector.Add("PINT \n CUBA",27);
                     etapasPorSector.Add("PINT \n TAPA",41);
                     break;
@@ -1573,7 +1579,7 @@ namespace Foha.Controllers
                 case 30:
                     return "TERM";
                 case 31:
-                    return "DEP";
+                    return "";
                 case 32:
                     return "ENV";
                 case 33:
