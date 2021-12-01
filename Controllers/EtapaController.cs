@@ -1293,6 +1293,7 @@ namespace Foha.Controllers
             DateTime desde = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.DesdeMili).UtcDateTime;
             DateTime hasta = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.HastaMili).UtcDateTime;
             int?[] Sector = new int?[] { 1 };
+            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 30, 31, 32 };
             switch(etapaPorSectorDto.IdSect){
                 case 1:
                     Sector = new int?[] { 1 };
@@ -1362,7 +1363,7 @@ namespace Foha.Controllers
                                                         .ToListAsync();
                     }
                     
-                    
+                    EtapasEmp = EtapasEmp.OrderBy(x => newOrder.IndexOf(x.IdEtapaNavigation.IdTipoEtapa.Value)).ToList();
                     foreach(EtapaEmpleado e in EtapasEmp)//Despues de agarrar las etapas, segun el sector que corresponda, armo lo que voy a devolver en una lista de ReportesDTO
                     {
                         ReportesDTO reporte = new ReportesDTO();//Creo un ReportesDTO para ir cargandole los datos. La lista esta inicializada al principio del metodo.
@@ -1426,7 +1427,8 @@ namespace Foha.Controllers
                                 .ToListAsync();
                     }                     
                 }
-
+                
+                etapas = etapas.OrderBy(x => newOrder.IndexOf(x.IdTipoEtapa.Value)).ToList();
                 foreach(Etapa e in etapas)//Despues de agarrar las etapas, segun el sector que corresponda, armo lo que voy a devolver en una lista de ReportesDTO
                 {
                     ReportesDTO reporte = new ReportesDTO();//Creo un ReportesDTO para ir cargandole los datos. La lista esta inicializada al principio del metodo.
