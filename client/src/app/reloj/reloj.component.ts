@@ -210,7 +210,7 @@ export class RelojComponent implements OnInit{
         this.tipoEtapaNombre="Conexión AT";
         break;
       case "RelacTransf":
-        this.tipoEtapaNombre="Relación de Transeferencia";
+        this.tipoEtapaNombre="Relación de Transormación";
         break;
       case "EnvioCuba":
         this.tipoEtapaNombre="Envío Cuba";

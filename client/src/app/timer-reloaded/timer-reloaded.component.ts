@@ -534,6 +534,7 @@ export class TimerReloadedComponent implements OnInit {
   }
 
   isGroup(index, item): boolean{
+    console.log(item)
     return item.group;
   }
 

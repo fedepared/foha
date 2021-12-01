@@ -138,7 +138,7 @@ export class RelojMultipleComponent implements OnInit {
       case 36:
         return "Conexión AT";
       case 37:
-        return "Relación de Transferencia";
+        return "Relación de Transformación";
       case 38:
         return "Envío Cuba";
       case 39:
