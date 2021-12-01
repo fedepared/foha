@@ -1561,17 +1561,17 @@ namespace Foha.Controllers
                 case 21:
                     return "CUBA CYP";
                 case 22:
-                    return "TAPA";
+                    return "SOL TAPA";
                 case 23:
                     return "RAD PAN";
                 case 24:
-                    return "CUBA";
+                    return "SOL CUBA";
                 case 25:
                     return "HERM";
                 case 26:
-                    return "GRAN";
+                    return "GRAN CUBA";
                 case 27:
-                    return "PINT";
+                    return "PINT CUBA";
                 case 28:
                     return "ENC";
                 case 29:
@@ -1579,17 +1579,17 @@ namespace Foha.Controllers
                 case 30:
                     return "TERM";
                 case 31:
-                    return "";
+                    return "APR";
                 case 32:
                     return "ENV";
                 case 33:
-                    return "CYP PATAS";
+                    return "CYP PAT";
                 case 34:
-                    return "ENV PATAS";
+                    return "PAT ENV";
                 case 35:
-                    return "CONEX BT";
+                    return "CON BT";
                 case 36:
-                    return "CONEX AT";
+                    return "CON AT";
                 case 37:
                     return "REL TRA";
                 case 38:
