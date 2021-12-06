@@ -151,4 +151,8 @@ button{
   padding: 10px;
 };
 
+th.mat-header-cell:last-of-type{
+  padding-right:0!important;
+}
+
 

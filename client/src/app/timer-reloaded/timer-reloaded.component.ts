@@ -424,7 +424,7 @@ export class TimerReloadedComponent implements OnInit {
           this.isLoadingResults = false;
       },
         () =>{
-          this.ngZone.onMicrotaskEmpty.pipe(take(4)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
+          this.ngZone.onMicrotaskEmpty.pipe(take(5)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
           this.isLoadingResults=false;
           this.openSnackBar("Información cargada","Exito!")
       });
@@ -534,7 +534,7 @@ export class TimerReloadedComponent implements OnInit {
   }
 
   isGroup(index, item): boolean{
-    console.log(item)
+    
     return item.group;
   }
 

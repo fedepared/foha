@@ -357,7 +357,7 @@ namespace Foha.Controllers
             
         }
 
-        
+               
 
         if(trafos.Count()>0)
         {
@@ -433,6 +433,7 @@ namespace Foha.Controllers
 
         }
 
+        results.Select(x=>new {x.Anio,x.Mes,x.Etapa,x.OTe,x.OPe,x.RangoInicio,x.Potencia,x.Prioridad,x.IdTransfo,x.Observaciones});
 
         if(trafo.Count()>0)
         {
