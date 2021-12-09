@@ -623,6 +623,7 @@ export class TimerReloadedComponent implements OnInit {
           }
         },()=>{},()=>{
           this.isLoadingResults=false;
+          this.ngZone.onMicrotaskEmpty.pipe(take(5)).subscribe(() => {this.matTable.updateStickyColumnStyles();})
         });
 
       }
