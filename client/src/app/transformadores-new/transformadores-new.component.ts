@@ -1736,12 +1736,12 @@ interface ComboClientes{
     
 
     changeDate(event,bool){
-      if(bool==true)
-      {
-        this.form.controls['mes'].setValue((event.value.month())+1);
-        this.form.controls['anio'].setValue(event.value.year());
+      // if(bool==true)
+      // {
+      //   this.form.controls['mes'].setValue((event.value.month())+1);
+      //   this.form.controls['anio'].setValue(event.value.year());
         
-      }
+      // }
       if(new Date(this.form.controls['fechaProd'].value) > new Date(this.form.controls['fechaPactada'].value))
       {
         this.fprOlderfot=true;
@@ -2024,8 +2024,8 @@ interface ComboClientes{
 
     changeDate(event){
 
-      this.form.controls['mes'].setValue((event.value.month())+1);
-      this.form.controls['anio'].setValue(event.value.year());
+      // this.form.controls['mes'].setValue((event.value.month())+1);
+      // this.form.controls['anio'].setValue(event.value.year());
 
     }
 
