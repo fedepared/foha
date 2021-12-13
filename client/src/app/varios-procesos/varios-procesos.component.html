@@ -65,7 +65,7 @@
       <mat-form-field appearance="outline" *ngIf="showButtons==true">
         <mat-label>Procesos</mat-label>
         <mat-select [formControl]="etapas" multiple>
-          <mat-option *ngFor="let etapa of dataTipoEtapa" [value]="etapa">{{etapa.nombreEtapa}}</mat-option>
+          <mat-option *ngFor="let etapa of dataTipoEtapa" [value]="etapa">{{returnName(etapa.idTipoEtapa)}}</mat-option>
         </mat-select>
       </mat-form-field>
       &nbsp;&nbsp;
