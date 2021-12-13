@@ -755,11 +755,11 @@ namespace Foha.Controllers
             return BadRequest(ModelState);
         }
 
-        Transformadores trafoOriginal = _context.Transformadores.AsNoTracking().FirstOrDefault(x => x.IdTransfo == editTransformadoresDto.IdTransfo);
+        //Transformadores trafoOriginal = _context.Transformadores.AsNoTracking().FirstOrDefault(x => x.IdTransfo == editTransformadoresDto.IdTransfo);
         var preTransformadores = _mapper.Map<Transformadores>(editTransformadoresDto);
-        if(trafoOriginal.FechaProd != editTransformadoresDto.FechaProd){
-            preTransformadores.Prioridad = _context.Transformadores.Where(x=>x.Mes == editTransformadoresDto.Mes && x.Anio== editTransformadoresDto.Anio).Max(z=>z.Prioridad) + 1;
-        }
+        // if(trafoOriginal.FechaProd != editTransformadoresDto.FechaProd){
+        //     preTransformadores.Prioridad = _context.Transformadores.Where(x=>x.Mes == editTransformadoresDto.Mes && x.Anio== editTransformadoresDto.Anio).Max(z=>z.Prioridad) + 1;
+        // }
         
         try{
             _repo.Update(preTransformadores);
@@ -797,16 +797,16 @@ namespace Foha.Controllers
     [HttpPut("updateAllTrafos")]
     public async Task<IActionResult> UpdateAllTransfo([FromBody] EditTransformadoresDto[] trafos)
     {
-        int prioSumada = 1;
+        //int prioSumada = 1;
         List<Transformadores> listaTrafos = new List<Transformadores>();
         foreach(var trafo in trafos)
         {
-            Transformadores trafoOriginal = _context.Transformadores.Where(x => x.IdTransfo == trafo.IdTransfo).AsNoTracking().FirstOrDefault();
+            //Transformadores trafoOriginal = _context.Transformadores.Where(x => x.IdTransfo == trafo.IdTransfo).AsNoTracking().FirstOrDefault();
             var preTransformadores = _mapper.Map<Transformadores>(trafo);
-            if(trafoOriginal.FechaProd != trafo.FechaProd){
-                preTransformadores.Prioridad = _context.Transformadores.Where(x=>x.Mes == trafo.Mes && x.Anio== trafo.Anio).Max(z=>z.Prioridad) + prioSumada;
-                prioSumada ++;
-            }
+            // if(trafoOriginal.FechaProd != trafo.FechaProd){
+            //     preTransformadores.Prioridad = _context.Transformadores.Where(x=>x.Mes == trafo.Mes && x.Anio== trafo.Anio).Max(z=>z.Prioridad) + prioSumada;
+            //     prioSumada ++;
+            // }
             listaTrafos.Add(preTransformadores);
         }
 
@@ -1010,6 +1010,18 @@ namespace Foha.Controllers
             default:
                 return "";
         }
+    }
+
+    public async Task<IActionResult> TestTrafosBackend(){
+        Response<List<TransformadoresVistaDTO>> r = new Response<List<TransformadoresVistaDTO>>();
+        List<TransformadoresVistaDTO> TrafosAMostrar = new List<TransformadoresVistaDTO>();
+        TransformadoresVistaDTO tfdto = new TransformadoresVistaDTO();
+        tfdto.Trafos = await _context.Transformadores.Where(x => x.Mes == DateTime.Today.Month && x.Anio == DateTime.Today.Year).ToListAsync();
+        tfdto.Encabezado = "Diciembre de 2021. Tot";
+        r.Message = "Se realizo la consulta exitosamente";
+        r.Data = TrafosAMostrar;
+        r.Status = 200;
+        return Ok(r);
     }
 
 }
