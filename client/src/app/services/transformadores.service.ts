@@ -107,12 +107,20 @@ export class TransformadoresService {
   }
 
   getTrafosByPage(pageNumber:number):Observable<any[]>{
-    return this.http.get<any[]>(`${this.apiUrl}/getTrafosByPage/${pageNumber}`)
+    return this.http.get<any[]>(`${this.apiUrl}/getTrafosByPage/1`)
     .pipe(
       tap(_=>this.log('fetched Page Trafos')),
       catchError(this.handleError('get By Page',[]))
     )
   }
+
+  // getTrafosByPage(pageNumber:number):Observable<IResponse<any[]> | any>{
+  //   return this.http.get<IResponse<any[]>>(`${this.apiUrl}/lucas`)
+  //   .pipe(
+  //     tap(_=>this.log('fetched Page Trafos')),
+  //     catchError(this.handleError('get By Page',[]))
+  //   )
+  // }
 
   GetTrafosByPageProcess(pageNumber:number):Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/GetTrafosByPageProcess/${pageNumber}`)

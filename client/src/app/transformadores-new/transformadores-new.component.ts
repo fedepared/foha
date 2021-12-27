@@ -768,6 +768,7 @@ export class TransformadoresNewComponent implements OnInit {
           console.log(transfo);
           this.isLoadingResults = true;
           this.dataGetTrafos.paginator = this.paginator;
+          
           let transfoArray=[];
 
           for (let a of transfo)

@@ -1,0 +1,20 @@
+cuando elijo varios procesos (individualmente uno por uno) y despues hago una modificación multiple, 
+se va hasta al fondo, y tendría que ir al principio
+
+ordenar los procesos en la lista de vista de procesos
+
+en multiple selección de procesos, que se ordenen por prioridad los procesos 
+(elegía varios y les aparecía desordenados)
+
+sacar R/P
+
+campo serie: numérico, es como el rango de OT y se asigna en el momento que laboratorio
+filtro por serie
+
+columna aparte
+
+visualmente, ver como solucionar el tema de los checkbox cuando selecciona varias cosas de los filtros
+
+ver enroque de cabeceras
+
+ver rango de rangos
