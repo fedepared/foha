@@ -532,6 +532,12 @@ namespace Foha.Controllers
         }
     }
 
+    [HttpGet("getTrafosVariosProcesos")]
+    public async Task<IActionResult> GetTrafosVariosProcesos()
+    {
+        return Ok(await _context.Transformadores.ToListAsync());
+    }
+
     [HttpPost("orderTrafo")]
     public async Task<IActionResult> GetOrderTrafo([FromBody] MonthYearDto[] monthYear)
     {

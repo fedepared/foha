@@ -29,9 +29,12 @@ namespace Foha.Controllers
 
         // GET: api/TipoEtapa
         [HttpGet]
-        public IEnumerable<TipoEtapa> GetTipoEtapa()
+        public async Task<IActionResult> GetTipoEtapa()
         {
-            return _context.TipoEtapa;
+            var tipoEtapa =await _context.TipoEtapa.ToListAsync();
+            List<int> order= new List<int>(){1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,33,34,18,19,35,36,37,20,21,23,43,24,25,26,27,38,39,22,40,41,42,28,29,30,31,32};
+            tipoEtapa = tipoEtapa.OrderBy(d => order.IndexOf(d.IdTipoEtapa)).ToList();
+            return Ok(tipoEtapa);
         }
 
         // GET: api/TipoEtapa/5

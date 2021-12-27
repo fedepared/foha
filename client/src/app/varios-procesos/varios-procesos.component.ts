@@ -72,7 +72,7 @@ export class VariosProcesosComponent implements OnInit {
   selection = new SelectionModel<Transformadores>(true, []);
 
   getTransformadores(): void {
-    this.transformadoresService.getTransformadores()
+    this.transformadoresService.getTrafosVariosProcesos()
       .subscribe(transfo => {
         this.data.data = transfo;
         this.data.paginator = this.paginator;

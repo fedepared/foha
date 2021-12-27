@@ -68,6 +68,15 @@ export class TransformadoresService {
     )
   }
 
+  getTrafosVariosProcesos():Observable<Transformadores[]>{
+    return this.http.get<Transformadores[]>(`${this.apiUrl}/getTrafosVariosProcesos`)
+    .pipe(
+      tap(_=>this.log('fetched Orden')),
+      catchError(this.handleError('getOrden',[]))
+    );
+  }
+
+
   addTransformador(transformador: any): Observable<Transformadores> {
     return this.http.post<Transformadores>(this.apiUrl, transformador, httpOptions).pipe(
       tap((transformadorRes: Transformadores) => console.log(`Transformador agregado con el id=${transformadorRes.idTransfo}`)),

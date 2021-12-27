@@ -1,10 +1,10 @@
 cuando elijo varios procesos (individualmente uno por uno) y despues hago una modificación multiple, 
-se va hasta al fondo, y tendría que ir al principio
+se va hasta al fondo, y tendría que ir al principio (HECHO, Testear)
 
-ordenar los procesos en la lista de vista de procesos
+ordenar los procesos en la lista de vista de procesos (Hecho)
 
 en multiple selección de procesos, que se ordenen por prioridad los procesos 
-(elegía varios y les aparecía desordenados)
+(elegía varios y les aparecía desordenados) (Hecho)
 
 sacar R/P
 

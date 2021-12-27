@@ -466,10 +466,23 @@ export class TimerReloadedComponent implements OnInit {
     if(this.selection.selected.length>1)
     {
       this.openSnackBar("Transformadores elegidos","Exito!");
-      this.trafoSelected=this.selection.selected;
+      let sorted=this.selection.selected.sort(this.order);
+
+      this.trafoSelected=sorted.map(a => a.idTransfo);
+
     }
 
     
+  }
+
+  order(a,b){
+    if ( a.prioridad < b.prioridad ){
+      return -1;
+    }
+    if ( a.prioridad > b.prioridad ){
+      return 1;
+    }
+    return 0;
   }
 
   sendProc(){
