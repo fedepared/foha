@@ -86,7 +86,8 @@
       </button>
     </form>
 
-</div>  
+</div> 
+ 
 <div>
     <div class="example-loading-shade"
          *ngIf="isLoadingResults">
@@ -147,6 +148,18 @@
       <button mat-mini-fab style="background-color: teal;color:whitesmoke;right:0;" matTooltip="ir al inicio" (click)="moveUp()">
         <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
+    </div>
+    <div>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>checklist</mat-icon>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let a of selection.selected">
+          <span>OP:{{a.oPe}} || OT:{{a.oTe}} || rg:{{a.rangoInicio}}</span>
+        </div>
+      </mat-expansion-panel>
     </div>
   </div>
 </div>

@@ -71,6 +71,7 @@ import { ModifyProcNumberComponent } from './modify-proc-number/modify-proc-numb
 import { AddTransfoComponent, TransformadoresNewComponent,EditDeleteTransfoComponent, EditAllTrafosNewComponent, ShowInfoNewComponent,EtapaColumnComponent3,AssignColorComponent2,ConfirmAssignDialog,DeleteAllTransfoDialog } from './transformadores-new/transformadores-new.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RelojMultipleComponent } from './reloj-multiple/reloj-multiple.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
@@ -78,7 +79,7 @@ import { RelojMultipleComponent } from './reloj-multiple/reloj-multiple.componen
     declarations: [ShowInfoNewComponent,EditAllTrafosNewComponent,EditDeleteTransfoComponent,AddTransfoComponent,EditAllTrafosComponent,AppComponent, EtapaColumnComponent,EtapaColumnComponent2, LoginComponent, RegisterComponent,  EmpleadosComponent, NavBarComponent,CourseDialogComponent,DialogFinalizarProceso,CourseDialog2Component, ClientesComponent,CourseDialog3Component,CourseDialog4Component,ShowInfoComponent, ModificarProcesosComponent,ReAsignarProcesoComponent,ReAsignarProcesoConfirmComponent,AltaAnioMesReloaded, LeyendasComponent, ReferenciasComponent,DialogReferenciasDialog, TransformadoresReloadedComponent,AssignColorComponent,ConfirmAssignDialog, TimerReloadedComponent, RelojComponent, DailyReportComponent, OrderReloadedComponent, NewOrderComponent, EmployerReportComponent, VariosProcesosComponent,AsignarVariosProcesosComponent,ChangeConfirmAssignComponent, ResetPassComponent, ModifyProcNumberComponent, TransformadoresNewComponent, RelojMultipleComponent, EtapaColumnComponent3,AssignColorComponent2,DialogFinalizarProcesoMultiple,DeleteAllTransfoDialog],
     imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,MatInputModule,DragDropModule,
       MatPaginatorModule,MatProgressSpinnerModule, MatSortModule, MatTableModule, MatIconModule, MatButtonModule, MatCardModule,
-      MatFormFieldModule,MatAutocompleteModule,MatMenuModule, MatDatepickerModule, MatNativeDateModule,FormsModule, ReactiveFormsModule, MatToolbarModule,MatSidenavModule,MatListModule,MatSelectModule,MatChipsModule,MatDialogModule,MatGridListModule,MatSnackBarModule,MatTooltipModule,ColorPickerModule,SatDatepickerModule, SatNativeDateModule,MatCheckboxModule,InfiniteScrollModule],
+      MatFormFieldModule,MatAutocompleteModule,MatMenuModule, MatDatepickerModule, MatNativeDateModule,FormsModule, ReactiveFormsModule, MatToolbarModule,MatSidenavModule,MatListModule,MatSelectModule,MatChipsModule,MatDialogModule,MatGridListModule,MatSnackBarModule,MatTooltipModule,ColorPickerModule,SatDatepickerModule, SatNativeDateModule,MatCheckboxModule,InfiniteScrollModule,MatExpansionModule],
       providers: [
         { provide: GuardianGuard},
         { provide: MensajesService},
