@@ -253,8 +253,8 @@ namespace Foha.Controllers
             // .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
             .Where(x=>x.Mes == month.Month && x.Anio==month.Year).OrderBy(x=>x.Prioridad).ToList();
 
-            //A preguntar, condición de filtrado de los procesos terminados (en esta línea filtra los procesos que tienen una de las últimas dos etapas finalizadas)
-            // resultado2 = resultado2.Where(x=>x.Etapa.ElementAt(30).IsEnded!=true && x.Etapa.ElementAt(31).IsEnded!=true).ToList();
+            //A preguntar, condición de filtrado de los procesos terminados (en esta línea filtra los procesos que tienen una de las últimas dos etapas finalizadas) (FUNCA)
+            //resultado2 = resultado2.Where(x=> x.Etapa.Where(z => z.IdTipoEtapa == 32).First().IsEnded!=true).ToList();
 
             var resultado=resultado2.GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new
             {
@@ -735,11 +735,12 @@ namespace Foha.Controllers
             for(var i=0;i<addTransformadoresDto.Length;i++)
             {
                 addTransformadoresDto[i].RangoInicio=addTransformadoresDto[i].RangoInicio + i;
+                await PostTransformadores(addTransformadoresDto[i]);
             }
-            foreach (var item in addTransformadoresDto)
-            {
-                await PostTransformadores(item);
-            }
+            // foreach (var item in addTransformadoresDto)
+            // {
+                
+            // }
         }
 
         return Ok();
@@ -1015,16 +1016,14 @@ namespace Foha.Controllers
     [HttpGet("lucas")]
     public async Task<IActionResult> TestTrafosBackend(){
         Response<List<dynamic>> r = new Response<List<dynamic>>();
-        List<TransformadoresVistaDTO> TrafosAMostrar = new List<TransformadoresVistaDTO>();
-        TransformadoresVistaDTO tfdto = new TransformadoresVistaDTO();
-        tfdto.Trafos = await _context.Transformadores.Where(x => x.Mes == DateTime.Today.Month && x.Anio == DateTime.Today.Year).Include(x=>x.IdClienteNavigation)
+        List<Transformadores> tfdto = new List<Transformadores>();
+        tfdto = await _context.Transformadores.Where(x => x.Mes == DateTime.Today.Month && x.Anio == DateTime.Today.Year).Include(x=>x.IdClienteNavigation)
             .Include(x=>x.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation).ToListAsync();
         List<dynamic> trafosDynamic = new List<dynamic>();
-        tfdto.Encabezado = "Diciembre de 2021. Tot";
         var testobj = new {group = "Diciembre de 2021. Tot" };
         trafosDynamic.Add(testobj);
-        foreach(Transformadores t in tfdto.Trafos){
+        foreach(Transformadores t in tfdto){
             trafosDynamic.Add(t);
         }
         r.Message = "Se realizo la consulta exitosamente";

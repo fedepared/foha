@@ -33,7 +33,7 @@ namespace Foha.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-TEE2OFO;Database=fohaIni;Trusted_Connection=True;User Id=sa;Password=102401;Integrated Security=false;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-4O7TAPT\\CHRIS;Database=fohaIni;Trusted_Connection=True;Integrated Security=true;");
             }
         }
 
@@ -333,6 +333,8 @@ namespace Foha.Models
                 entity.Property(e => e.RangoFin).HasColumnName("rangoFin");
 
                 entity.Property(e => e.RangoInicio).HasColumnName("rangoInicio");
+
+                entity.Property(e => e.Serie).HasColumnName("serie");
 
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.Transformadores)

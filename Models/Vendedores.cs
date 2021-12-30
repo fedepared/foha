@@ -16,6 +16,7 @@ namespace Foha.Models
         public string Nombre { get; set; }
         public string Abrev { get; set; }
         public string Mail { get; set; }
+
         [JsonIgnore]
         public ICollection<Transformadores> Transformadores { get; set; }
     }

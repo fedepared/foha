@@ -1,0 +1,23 @@
+Cliente
+	[JsonIgnore]
+	public ICollection<Transformadores> Transformadores { get; set; }
+
+Colores
+	[JsonIgnore]
+	public ICollection<Etapa> Etapa { get; set; }
+	
+Empleado
+	[JsonIgnore]
+	public ICollection<EtapaEmpleado> EtapaEmpleado { get; set; }
+	
+TipoEtapa
+	[JsonIgnore]
+	public ICollection<Etapa> Etapa { get; set; }
+	
+TipoUs
+	[JsonIgnore]
+	public ICollection<Usuario> Usuario { get; set; }
+	
+Vendedores
+	[JsonIgnore]
+	public ICollection<Transformadores> Transformadores { get; set; }

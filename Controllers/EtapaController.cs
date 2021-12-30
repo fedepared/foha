@@ -323,13 +323,11 @@ namespace Foha.Controllers
         [HttpPatch("{id}")]
         public async Task<ActionResult> Patch(int id, [FromBody] EditEtapaDto editEtapaDto)
         {
-        
-        
-        var etapa = await _context.Etapa.FirstAsync(x => x.IdEtapa == editEtapaDto.IdEtapa);
-        etapa.IdTransfo=editEtapaDto.IdTransfo;
-        await _context.SaveChangesAsync();
-        
-        return StatusCode(200,etapa);
+            var etapa = await _context.Etapa.FirstAsync(x => x.IdEtapa == editEtapaDto.IdEtapa);
+            etapa.IdTransfo=editEtapaDto.IdTransfo;
+            await _context.SaveChangesAsync();
+            
+            return StatusCode(200,etapa);
         }
 
         [HttpPut("switchEtapas")]
@@ -793,7 +791,13 @@ namespace Foha.Controllers
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 
             _repo.Update(preEtapa);
-            
+
+            if(editEtapaDto.IdTipoEtapa == 29){
+                Transformadores trafo = _context.Etapa.Where(x => x.IdEtapa == editEtapaDto.IdEtapa).Include(x => x.IdTransfoNavigation).First().IdTransfoNavigation;
+                trafo.Serie = editEtapaDto.NumEtapa;
+                _context.SaveChangesAsync();
+            }
+
             foreach (var a in _context.EtapaEmpleado.Where(x=>x.IdEtapa==editEtapaDto.IdEtapa))
             {
                 a.DateFin=editEtapaDto.DateFin;
@@ -997,6 +1001,12 @@ namespace Foha.Controllers
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 
             _repo.Update(preEtapa);
+
+            if(editEtapaDto.IdTipoEtapa == 29){
+                Transformadores trafo = _context.Etapa.Where(x => x.IdEtapa == editEtapaDto.IdEtapa).Include(x => x.IdTransfoNavigation).First().IdTransfoNavigation;
+                trafo.Serie = editEtapaDto.NumEtapa;
+                await _context.SaveChangesAsync();
+            }
             
             foreach (var a in _context.EtapaEmpleado.Where(x=>x.IdEtapa==editEtapaDto.IdEtapa))
             {

@@ -16,9 +16,8 @@ namespace Foha.Models
         public int? IdSector { get; set; }
         public string Legajo { get; set; }
 
-
         public Sectores IdSectorNavigation { get; set; }
-        
+
         [JsonIgnore]
         public ICollection<EtapaEmpleado> EtapaEmpleado { get; set; }
     }
