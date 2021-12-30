@@ -183,6 +183,9 @@ export class TimerReloadedComponent implements OnInit {
   //variable para los meses
   months=null;
 
+  //variable para mostrar los seleccionados
+  showSelection=false;
+
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable, { static: false }) matTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
