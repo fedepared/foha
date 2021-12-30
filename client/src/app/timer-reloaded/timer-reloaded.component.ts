@@ -183,6 +183,9 @@ export class TimerReloadedComponent implements OnInit {
   //variable para los meses
   months=null;
 
+  //variable para mostrar los seleccionados
+  showSelection=false;
+
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable, { static: false }) matTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -466,10 +469,23 @@ export class TimerReloadedComponent implements OnInit {
     if(this.selection.selected.length>1)
     {
       this.openSnackBar("Transformadores elegidos","Exito!");
-      this.trafoSelected=this.selection.selected;
+      let sorted=this.selection.selected.sort(this.order);
+
+      this.trafoSelected=sorted.map(a => a.idTransfo);
+
     }
 
     
+  }
+
+  order(a,b){
+    if ( a.prioridad < b.prioridad ){
+      return -1;
+    }
+    if ( a.prioridad > b.prioridad ){
+      return 1;
+    }
+    return 0;
   }
 
   sendProc(){

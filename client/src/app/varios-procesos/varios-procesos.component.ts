@@ -72,7 +72,7 @@ export class VariosProcesosComponent implements OnInit {
   selection = new SelectionModel<Transformadores>(true, []);
 
   getTransformadores(): void {
-    this.transformadoresService.getTransformadores()
+    this.transformadoresService.getTrafosVariosProcesos()
       .subscribe(transfo => {
         this.data.data = transfo;
         this.data.paginator = this.paginator;
@@ -90,6 +90,55 @@ export class VariosProcesosComponent implements OnInit {
     this.tipoEtapaService.getTipoEtapas().subscribe(tipoEtapas=>{
       this.dataTipoEtapa=tipoEtapas;
     })
+  }
+
+  returnName(idTipoEtapa:number){
+        const etapa ={
+          1:"DOC",
+          2:"BT1",
+          3:"BT2",
+          4:"BT3",
+          5:"AT1",
+          6:"AT2",
+          7:"AT3",
+          8:"RG1",
+          9:"RG2",
+          10:"RG3",
+          11:"RF1",
+          12:"RF2",
+          13:"RF3",
+          14:"ENS",
+          15:"PY CYP",
+          16:"PY SOL",
+          17:"PY ENV",
+          33:"CYP PAT",
+          34:"PAT ENV",
+          18:"NUC",
+          19:"MON",
+          35:"CON BT",
+          36:"CON AT",
+          37:"REL \n TRA",
+          20:"HOR",
+          21:"CUBA CYP",
+          23:"RAD \n PAN",
+          43:"CUBI",
+          24:"SOL \n CUBA",
+          25:"HERM",
+          26:"GRAN \n CUBA",
+          27:"PINT \n CUBA",
+          38:"ENV \n CUBA",
+          39:"CYP \n TAPA",
+          22:"SOL \n TAPA",
+          40:"GRAN \n TAPA",
+          41:"PINT \n TAPA",
+          42:"ENV \n TAPA",
+          28:"ENC",
+          29:"LAB",
+          30:"TERM",
+          31:"APR",
+          32:"ENV"
+        }
+        return etapa[idTipoEtapa]
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

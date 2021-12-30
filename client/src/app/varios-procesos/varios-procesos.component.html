@@ -65,7 +65,7 @@
       <mat-form-field appearance="outline" *ngIf="showButtons==true">
         <mat-label>Procesos</mat-label>
         <mat-select [formControl]="etapas" multiple>
-          <mat-option *ngFor="let etapa of dataTipoEtapa" [value]="etapa">{{etapa.nombreEtapa}}</mat-option>
+          <mat-option *ngFor="let etapa of dataTipoEtapa" [value]="etapa">{{returnName(etapa.idTipoEtapa)}}</mat-option>
         </mat-select>
       </mat-form-field>
       &nbsp;&nbsp;
@@ -131,4 +131,4 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
     </table>
 </div>
-<mat-paginator [pageSizeOptions]="[30, 50, 100]"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[100,200,400]"></mat-paginator>

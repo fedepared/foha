@@ -86,7 +86,8 @@
       </button>
     </form>
 
-</div>  
+</div> 
+ 
 <div>
     <div class="example-loading-shade"
          *ngIf="isLoadingResults">
@@ -98,7 +99,7 @@
         <th mat-header-cell [hidden]="!selectColumn" *matHeaderCellDef>
         </th>
         <td mat-cell [hidden]="!selectColumn" *matCellDef="let row">
-          <mat-checkbox #c [checked]="selection.isSelected(row.idTransfo)" (change)="$event ? selection.toggle(row.idTransfo) : null">
+          <mat-checkbox #c [checked]="selection.isSelected(row)" (change)="$event ? selection.toggle(row) : null">
           </mat-checkbox>
         </td>
       </ng-container>
@@ -147,6 +148,21 @@
       <button mat-mini-fab style="background-color: teal;color:whitesmoke;right:0;" matTooltip="ir al inicio" (click)="moveUp()">
         <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
+    </div>
+    <div id="circularMenu" class="circular-menu" style="z-index:5000;">
+      <button mat-mini-fab class="floating-btn"  onclick="document.getElementById('circularMenu').classList.toggle('active');" matTooltip="ver selección">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+        
+      </button>
+      <menu class="items-wrapper">
+        <span class="menu-item">
+          <mat-chip-list >
+            <mat-chip *ngFor="let a of selection.selected" style="background-color:teal;color:white;height:fit-content;width:fit-content">OP:{{a.oPe}} | OT:{{a.oTe}} | rg:{{a.rangoInicio}}</mat-chip>
+          </mat-chip-list>
+          <!-- <div>
+          </div> -->
+        </span>
+      </menu>
     </div>
   </div>
 </div>

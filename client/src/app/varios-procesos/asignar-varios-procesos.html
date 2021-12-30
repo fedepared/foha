@@ -127,7 +127,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
     </table>
 </div>
-<mat-paginator [pageSizeOptions]="[10, 20, 100]"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[100, 200, 300]"></mat-paginator>
 
 <div *ngFor="let found of foundValues; trackBy:foundItem">
   <div [ngClass]="found ? 'error-message' : 'none-error-message' ">Transformador con OP:{{found.oPe}} OT:{{found.oTe}} rango:{{found.rangoIni}} posee procesos iniciados/finalizados</div>

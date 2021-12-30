@@ -51,7 +51,14 @@ export class RelojMultipleComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    document.body.scrollIntoView(false);
+    // document.body.scrollIntoView(false);
+
+    document.getElementById("target").scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+      });
+
     console.log(this.multiProcessTrafoSelected)
     this.trafo=this.multiProcessTrafoSelected;
     // this.etapaService.getEtapaByIdTransfo(this.trafo.idTransfo,parseInt(localStorage.getItem('sector'))).subscribe(res => {
