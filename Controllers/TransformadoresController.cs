@@ -1012,14 +1012,23 @@ namespace Foha.Controllers
         }
     }
 
+    [HttpGet("lucas")]
     public async Task<IActionResult> TestTrafosBackend(){
-        Response<List<TransformadoresVistaDTO>> r = new Response<List<TransformadoresVistaDTO>>();
+        Response<List<dynamic>> r = new Response<List<dynamic>>();
         List<TransformadoresVistaDTO> TrafosAMostrar = new List<TransformadoresVistaDTO>();
         TransformadoresVistaDTO tfdto = new TransformadoresVistaDTO();
-        tfdto.Trafos = await _context.Transformadores.Where(x => x.Mes == DateTime.Today.Month && x.Anio == DateTime.Today.Year).ToListAsync();
+        tfdto.Trafos = await _context.Transformadores.Where(x => x.Mes == DateTime.Today.Month && x.Anio == DateTime.Today.Year).Include(x=>x.IdClienteNavigation)
+            .Include(x=>x.IdVendedorNavigation)
+            .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation).ToListAsync();
+        List<dynamic> trafosDynamic = new List<dynamic>();
         tfdto.Encabezado = "Diciembre de 2021. Tot";
+        var testobj = new {group = "Diciembre de 2021. Tot" };
+        trafosDynamic.Add(testobj);
+        foreach(Transformadores t in tfdto.Trafos){
+            trafosDynamic.Add(t);
+        }
         r.Message = "Se realizo la consulta exitosamente";
-        r.Data = TrafosAMostrar;
+        r.Data = trafosDynamic;
         r.Status = 200;
         return Ok(r);
     }
