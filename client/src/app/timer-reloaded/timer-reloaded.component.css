@@ -158,7 +158,7 @@ th.mat-header-cell:last-of-type{
 
 /*Menu*/
 .circular-menu {
-  position: fixed;
+  /*position: fixed;*/
   bottom: 4em;
   right: 2.3em;
 }
@@ -217,13 +217,17 @@ th.mat-header-cell:last-of-type{
 .circular-menu .items-wrapper {
   padding: 0;
   margin: 0;
-  width:0;
+  /*width:0;*/
+  position:relative;
+  left:20000em;
 }
 
 .circular-menu.active .items-wrapper {
   padding: 0;
   margin: 0;
   width:fit-content;
+  position:relative;
+  left:0;
 }
 
 .circular-menu .menu-item {
@@ -255,3 +259,9 @@ th.mat-header-cell:last-of-type{
 .circular-menu.active .menu-item:nth-child(1) {
   transform: translate3d(-3em,0,0);
 }
+
+@media screen and (max-width: 800px) {
+  .circular-menu.active .menu-item:nth-child(1){
+    transform: translate3d(2em,0,0);
+  }
+ }

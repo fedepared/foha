@@ -26,8 +26,8 @@ public class EditTransformadoresDto
         public DateTime? FechaProd { get; set; }
         public string Nucleos { get; set; }
         public int? Lote { get; set; }
-
         public string RadPan { get; set; }
+        public int? Serie {get;set;}
         
         public int? IdVendedor { get; set; }
 

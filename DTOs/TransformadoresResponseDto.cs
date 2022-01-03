@@ -34,6 +34,8 @@ namespace Foha.Dtos
 
         public string RadPan { get; set; }
 
+        public int? Serie {get;set;}
+
         public Cliente IdClienteNavigation { get; set; }
         public TipoTransfo IdTipoTransfoNavigation { get; set; }
         public ICollection<Etapa> Etapa { get; set; }

@@ -322,7 +322,8 @@ namespace Foha.Controllers
         [FromQuery (Name = "nombreCli")] string nombreCli,
         [FromQuery (Name = "month")] int[] month,
         [FromQuery (Name = "year")] int[] year,
-        [FromQuery (Name = "observaciones")]string observaciones
+        [FromQuery (Name = "observaciones")]string observaciones,
+        [FromQuery (Name = "serie")] string serie
         )
     {
         List<Transformadores> trafos = new List<Transformadores>();
@@ -346,7 +347,8 @@ namespace Foha.Controllers
             results=results.Where(x=>x.NombreCli!=null && x.NombreCli.Contains(nombreCli.ToUpper())).ToList();
         if(observaciones !=null)
             results = results.Where(x=>(x.Observaciones ?? " ").ToUpper().Contains(observaciones.ToUpper())).ToList();
-
+        if(serie !=null)
+            results = results.Where(x => x.Serie.ToString().Contains(serie)).ToList();
         if(month.Length>0)
         {
             
@@ -1013,15 +1015,20 @@ namespace Foha.Controllers
         }
     }
 
-    [HttpGet("lucas")]
+    [HttpGet("testTrafosBackend")]
     public async Task<IActionResult> TestTrafosBackend(){
         Response<List<dynamic>> r = new Response<List<dynamic>>();
         List<Transformadores> tfdto = new List<Transformadores>();
-        tfdto = await _context.Transformadores.Where(x => x.Mes == DateTime.Today.Month && x.Anio == DateTime.Today.Year).Include(x=>x.IdClienteNavigation)
-            .Include(x=>x.IdVendedorNavigation)
-            .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation).ToListAsync();
+        var month=DateTime.Today.Month;
+        var year=DateTime.Today.Year;
+        tfdto = await _context.Transformadores.Where(x => x.Mes == month && x.Anio == year)
+        .Include(x=>x.IdClienteNavigation)
+        .Include(x=>x.IdVendedorNavigation)
+        .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation).ToListAsync();
+
+
         List<dynamic> trafosDynamic = new List<dynamic>();
-        var testobj = new {group = "Diciembre de 2021. Tot" };
+        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() };
         trafosDynamic.Add(testobj);
         foreach(Transformadores t in tfdto){
             trafosDynamic.Add(t);

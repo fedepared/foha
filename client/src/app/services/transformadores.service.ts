@@ -123,13 +123,13 @@ export class TransformadoresService {
     )
   }
 
-  // getTrafosByPage(pageNumber:number):Observable<IResponse<any[]> | any>{
-  //   return this.http.get<IResponse<any[]>>(`${this.apiUrl}/lucas`)
-  //   .pipe(
-  //     tap(_=>this.log('fetched Page Trafos')),
-  //     catchError(this.handleError('get By Page',[]))
-  //   )
-  // }
+  getPrueba(pageNumber:number):Observable<IResponse<any[]> | any>{
+    return this.http.get<IResponse<any[]>>(`${this.apiUrl}/testTrafosBackend`)
+    .pipe(
+      tap(_=>this.log('fetched Page Trafos')),
+      catchError(this.handleError('get By Page',[]))
+    )
+  }
 
   GetTrafosByPageProcess(pageNumber:number):Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/GetTrafosByPageProcess/${pageNumber}`)
@@ -151,7 +151,8 @@ export class TransformadoresService {
         nombreCli:filter.nombreCli,
         month:filter.month,
         year:filter.year,
-        observaciones:filter.observaciones
+        observaciones:filter.observaciones,
+        serie:filter.serie
       }
     })
     .pipe(

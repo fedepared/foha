@@ -29,13 +29,20 @@
                formControlName="oTe" [errorStateMatcher]="matcher" type="number">
     </mat-form-field>
 
+    
     <mat-form-field appearance="outline">
       <mat-label>nucleo</mat-label>
       <input matInput
-                placeholder="nucleo"
-               formControlName="nucleos" [errorStateMatcher]="matcher" type="text">
+      placeholder="nucleo"
+      formControlName="nucleos" [errorStateMatcher]="matcher" type="text">
       <mat-error *ngIf="!form.hasError('required')">El nucleo es<strong>requerido</strong>
       </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>SERIE</mat-label>
+      <input matInput
+               formControlName="serie" [errorStateMatcher]="matcher" type="number">
     </mat-form-field>
 
     <mat-form-field appearance="outline">

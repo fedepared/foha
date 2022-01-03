@@ -34,6 +34,7 @@ const routes: Routes = [
   {path:'reporteEmpleados',component:EmployerReportComponent,canActivate:[GuardianGuard]},
   {path:'resetPass',component:ResetPassComponent,canActivate:[GuardianGuard]},
   {path:'modificarNumerosProc',component:ModifyProcNumberComponent,canActivate:[GuardianGuard]},
+  {path:'records',component:TransformadoresReloadedComponent,canActivate:[GuardianGuard]}
   
 ];
 

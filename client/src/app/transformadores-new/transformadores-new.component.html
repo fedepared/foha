@@ -80,6 +80,17 @@
                 
             >
           </mat-form-field>
+          <mat-form-field class="search__form_field-especial" appearance="outline">
+            <mat-label>Serie</mat-label>
+            <input type="text"
+            (keyup.enter)="function($event)"
+            (keydown.enter)="function($event)"
+                  matInput
+                  formControlName="serie"
+            >
+          </mat-form-field>
+
+
           <mat-form-field appearance="outline" class="search__form_field-especial"> 
             <mat-label>Elija el mes</mat-label>
               <mat-select [compareWith]="compareObjects" formControlName="month" multiple>

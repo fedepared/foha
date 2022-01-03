@@ -34,6 +34,7 @@ public partial class AddTransformadoresDto
         public string RadPan { get; set; }
         public int? IdVendedor { get; set; }
         
+        public int? Serie {get;set;}
 
         // public Cliente IdClienteNavigation { get; set; }
         // public TipoTransfo IdTipoTransfoNavigation { get; set; }

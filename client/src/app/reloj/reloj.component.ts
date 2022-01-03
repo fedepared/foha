@@ -82,7 +82,7 @@ export class RelojComponent implements OnInit{
     this.getTrafo(this.procesoElegido.idTransfo);
     this.getTipoEtapa(this.procesoElegido.idTipoEtapa);
     this.numEtapa=this.proceso.numEtapa;
-    if(this.proceso.idTipoEtapa==1 ||this.proceso.idTipoEtapa==15 ||  this.proceso.idTipoEtapa==17 || this.proceso.idTipoEtapa==18 || this.proceso.idTipoEtapa==21 || this.proceso.idTipoEtapa==23 || this.proceso.idTipoEtapa==31 ||this.proceso.idTipoEtapa==32 || this.proceso.idTipoEtapa==33 || this.proceso.idTipoEtapa==34 || this.proceso.idTipoEtapa==39 || this.proceso.idTipoEtapa==42)
+    if(this.proceso.idTipoEtapa==1 ||this.proceso.idTipoEtapa==15 ||  this.proceso.idTipoEtapa==17 || this.proceso.idTipoEtapa==18 || this.proceso.idTipoEtapa==21 || this.proceso.idTipoEtapa==23 || this.proceso.idTipoEtapa==31 ||this.proceso.idTipoEtapa==32 || this.proceso.idTipoEtapa==33 || this.proceso.idTipoEtapa==34 || this.proceso.idTipoEtapa==38 || this.proceso.idTipoEtapa==39 || this.proceso.idTipoEtapa==42)
     {
       this.showButtons=true;
     }

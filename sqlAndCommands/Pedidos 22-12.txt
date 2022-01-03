@@ -6,14 +6,14 @@ ordenar los procesos en la lista de vista de procesos (Hecho)
 en multiple selección de procesos, que se ordenen por prioridad los procesos 
 (elegía varios y les aparecía desordenados) (Hecho)
 
-sacar R/P
+sacar R/P (Hecho)
 
-campo serie: numérico, es como el rango de OT y se asigna en el momento que laboratorio
-filtro por serie
+campo serie: numérico, es como el rango de OT y se asigna en el momento que laboratorio (Hecho)
+filtro por serie (Hecho)
 
 columna aparte
 
-visualmente, ver como solucionar el tema de los checkbox cuando selecciona varias cosas de los filtros
+visualmente, ver como solucionar el tema de los checkbox cuando selecciona varias cosas de los filtros (Prueba en procesos)
 
 ver enroque de cabeceras
 
