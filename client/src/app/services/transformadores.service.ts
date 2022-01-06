@@ -152,7 +152,8 @@ export class TransformadoresService {
         month:filter.month,
         year:filter.year,
         observaciones:filter.observaciones,
-        serie:filter.serie
+        serie:filter.serie,
+        vendedor:filter.vendedor
       }
     })
     .pipe(

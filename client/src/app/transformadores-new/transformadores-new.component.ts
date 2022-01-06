@@ -352,6 +352,9 @@ export class TransformadoresNewComponent implements OnInit {
 
   etapasActualizadas:boolean;
 
+  //vendedores
+  vendedores:Vendedores[]=[];
+
   //Filtro
   form=new FormGroup(
     {
@@ -366,6 +369,7 @@ export class TransformadoresNewComponent implements OnInit {
       nombreCli	:new FormControl(),
       fechaPactada:new FormControl(),
       fechaProd:new FormControl(),
+      vendedor:new FormControl(),
       month:new FormControl()
     }
   )
@@ -382,6 +386,7 @@ export class TransformadoresNewComponent implements OnInit {
     potencia= '';
     nombreCli= '';
     serie='';
+    vendedor='';
     month=[];
     year=[];
 
@@ -422,7 +427,7 @@ export class TransformadoresNewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @ViewChild('allSelected') private allSelected: MatOption;
-  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService, private excelTimesService:ExcelTimesService) {
+  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService, private excelTimesService:ExcelTimesService, private vendedoresService:VendedoresService) {
 
     }
 
@@ -434,6 +439,7 @@ export class TransformadoresNewComponent implements OnInit {
     this.dataGetTrafos=new MatTableDataSource();
     this.getTrafos();
     this.getMonthYear();
+    this.getSellers();
   }
 
   function(event){
@@ -897,6 +903,12 @@ export class TransformadoresNewComponent implements OnInit {
       })
     }
 
+    getSellers(){
+      this.vendedoresService.getVendedores().subscribe(res =>{
+        this.vendedores = res.data;
+      })
+    }
+
     isGroup(index, item): boolean{
       return item.group;
     }
@@ -1150,6 +1162,7 @@ export class TransformadoresNewComponent implements OnInit {
           (this.form.get('nombreCli').value && this.form.get('nombreCli').value.length>=3) ||
           (this.form.get('month').value) || 
           (this.form.get('serie').value) ||
+          (this.form.get('vendedor').value) ||
           (this.form.get('observaciones').value)
         )
         {
@@ -1161,6 +1174,7 @@ export class TransformadoresNewComponent implements OnInit {
             const nC=this.form.get('nombreCli').value;
             const partialMonth=this.form.get('month').value;
             const serie = this.form.get('serie').value;
+            const vendedor = this.form.get('vendedor').value;
             const obs = this.form.get('observaciones').value;
             let monthArray=[];
             let yearArray=[];
@@ -1183,7 +1197,8 @@ export class TransformadoresNewComponent implements OnInit {
             this.nombreCli = nC === null ? ' ' : nC;
             this.month= partialMonth === null ? [] : monthArray;
             this.year = partialMonth === null ? [] :yearArray;
-            this.serie = serie === null ? [] : serie;
+            this.serie = serie === null ? ' ' : serie;
+            this.vendedor = vendedor === null ? ' ' : vendedor;
             this.observaciones = obs === null ? ' ' : obs; 
             
 
@@ -1197,7 +1212,8 @@ export class TransformadoresNewComponent implements OnInit {
               month:this.month,
               year:this.year,
               observaciones: this.observaciones,
-              serie:this.serie
+              serie:this.serie,
+              vendedor:this.vendedor
             }
             this.openSnackBar("aplicando los filtros seleccionados","buscando")
             this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{

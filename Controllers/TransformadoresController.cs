@@ -323,7 +323,8 @@ namespace Foha.Controllers
         [FromQuery (Name = "month")] int[] month,
         [FromQuery (Name = "year")] int[] year,
         [FromQuery (Name = "observaciones")]string observaciones,
-        [FromQuery (Name = "serie")] string serie
+        [FromQuery (Name = "serie")] string serie,
+        [FromQuery (Name = "vendedor")] int vendedor
         )
     {
         List<Transformadores> trafos = new List<Transformadores>();
@@ -349,6 +350,8 @@ namespace Foha.Controllers
             results = results.Where(x=>(x.Observaciones ?? " ").ToUpper().Contains(observaciones.ToUpper())).ToList();
         if(serie !=null)
             results = results.Where(x => x.Serie.ToString().Contains(serie)).ToList();
+        if(vendedor !=null)
+            results = results.Where(x=>x.IdVendedor == vendedor).ToList();
         if(month.Length>0)
         {
             

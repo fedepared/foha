@@ -92,7 +92,7 @@
         <mat-label>Elegir cliente</mat-label>
         <input type="text" matInput formControlName="f" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option (onSelectionChange)="selectedClient($event)" *ngFor="let f of filteredOptions | async" [value]="f">
+          <mat-option (onSelectionChange)="selectedClient($event)" *ngFor="let f of filteredOptions | async" [value]="f" matTooltip="{{f.value}}">
             {{f.value}}
           </mat-option>
         </mat-autocomplete>

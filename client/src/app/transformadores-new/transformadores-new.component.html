@@ -90,6 +90,16 @@
             >
           </mat-form-field>
 
+          <mat-form-field class="search__form_field-especial" appearance="outline">
+            <mat-label>Vendedor</mat-label>
+            <mat-select formControlName="vendedor">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.idVendedor">
+                {{vendedor.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
 
           <mat-form-field appearance="outline" class="search__form_field-especial"> 
             <mat-label>Elija el mes</mat-label>
