@@ -1,0 +1,12 @@
+back:
+
+	-Tabla TipoEtapas: Agregar campo orden(int) y agregar campo abrev(varchar)
+
+	-ver la posibilidad de que el back al hacer la consulta de la vista de trafos, traiga las etapas ordenadas por el orden la tabla TipoEtapas
+
+front:
+	si se puede lo del back, ver de rehacer la vista 
+	refactor de etapa-column3
+	css 
+
+
