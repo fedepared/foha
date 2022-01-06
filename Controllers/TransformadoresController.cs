@@ -1024,7 +1024,9 @@ namespace Foha.Controllers
         tfdto = await _context.Transformadores.Where(x => x.Mes == month && x.Anio == year)
         .Include(x=>x.IdClienteNavigation)
         .Include(x=>x.IdVendedorNavigation)
-        .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation).ToListAsync();
+        .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
+        .OrderBy(x=>x.Prioridad)
+        .ToListAsync();
 
 
         List<dynamic> trafosDynamic = new List<dynamic>();

@@ -181,7 +181,7 @@ td.mat-cell:last-of-type{
 .circular-menu {
   position: fixed;
   bottom: 4em;
-  right: 2.3em;
+  right: 4em;
 }
 
 .circular-menu .floating-btn {
