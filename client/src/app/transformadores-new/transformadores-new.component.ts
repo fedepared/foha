@@ -1175,6 +1175,7 @@ export class TransformadoresNewComponent implements OnInit {
             const partialMonth=this.form.get('month').value;
             const serie = this.form.get('serie').value;
             const vendedor = this.form.get('vendedor').value;
+            console.log(vendedor);
             const obs = this.form.get('observaciones').value;
             let monthArray=[];
             let yearArray=[];

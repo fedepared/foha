@@ -324,7 +324,7 @@ namespace Foha.Controllers
         [FromQuery (Name = "year")] int[] year,
         [FromQuery (Name = "observaciones")]string observaciones,
         [FromQuery (Name = "serie")] string serie,
-        [FromQuery (Name = "vendedor")] int vendedor
+        [FromQuery (Name = "vendedor")] int? vendedor
         )
     {
         List<Transformadores> trafos = new List<Transformadores>();
