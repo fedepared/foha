@@ -817,7 +817,7 @@ export class TransformadoresNewComponent implements OnInit {
 
 
   //Obtiene la etapa de un transformador en base al nombre de la etapa
-  getEtapa(t:Transformadores, nombreEtapa: string): any {
+  getEtapa(t:any, nombreEtapa: string): any {
     let matchEtapa = t.etapa.filter(etapa => etapa.idTipoEtapa == MAP_NOMBRE_ETAPA[nombreEtapa]);
 
     if(matchEtapa.length!=0)
