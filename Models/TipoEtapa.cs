@@ -13,6 +13,8 @@ namespace Foha.Models
 
         public int IdTipoEtapa { get; set; }
         public string NombreEtapa { get; set; }
+        public int? Orden { get; set; }
+        public string Abrev { get; set; }
 
         [JsonIgnore]
         public ICollection<Etapa> Etapa { get; set; }

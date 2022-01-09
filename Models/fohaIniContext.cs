@@ -237,11 +237,18 @@ namespace Foha.Models
 
                 entity.Property(e => e.IdTipoEtapa).HasColumnName("idTipoEtapa");
 
+                entity.Property(e => e.Abrev)
+                    .HasColumnName("abrev")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.NombreEtapa)
                     .IsRequired()
                     .HasColumnName("nombreEtapa")
                     .HasMaxLength(150)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Orden).HasColumnName("orden");
             });
 
             modelBuilder.Entity<TipoTransfo>(entity =>

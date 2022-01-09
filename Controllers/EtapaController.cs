@@ -204,7 +204,7 @@ namespace Foha.Controllers
                 //granallado
                 case 24:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa==25 || x.IdTipoEtapa==26))
+                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa==22 || x.IdTipoEtapa==24 || x.IdTipoEtapa==25 || x.IdTipoEtapa==26))
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync(); 
@@ -214,7 +214,7 @@ namespace Foha.Controllers
                 //pintura
                 case 25:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa==22 || x.IdTipoEtapa==27))
+                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa==31 || x.IdTipoEtapa==40 || x.IdTipoEtapa==22 || x.IdTipoEtapa==27 || x.IdTipoEtapa==25))
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync(); 
@@ -1262,12 +1262,16 @@ namespace Foha.Controllers
                     break;
                 //granallado
                 case 24:
+                    etapasPorSector.Add("SOL \n TAPA",22);//Pedido Lucas Solo Lectura
+                    etapasPorSector.Add("SOL \n CUBA",24);//Pedido Lucas Solo Lectura
                     etapasPorSector.Add("HERM",25);
                     etapasPorSector.Add("GRAN \n CUBA",26);
                     break;
                 //pintura
                 case 25:
                     // etapasPorSector.Add("SOL \n TAPA",22);
+                    etapasPorSector.Add("GRAN \n CUBA",26);
+                    etapasPorSector.Add("GRAN \n TAPA",40);
                     etapasPorSector.Add("PINT \n CUBA",27);
                     etapasPorSector.Add("PINT \n TAPA",41);
                     break;
