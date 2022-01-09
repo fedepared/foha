@@ -46,7 +46,7 @@ Mas adelante, poder elegir fecha de algunos procesos (PRIORIDAD 2)
 -Mas adelante, poder elegir fecha de algunos procesos
 
 
--El proceso de envío a deposito debe ser de solo lectura para laboratorio
+-El proceso de envío a deposito debe ser de solo lectura para laboratorio (Hecho)
 
 
 
