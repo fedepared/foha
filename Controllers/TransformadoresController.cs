@@ -1044,5 +1044,38 @@ namespace Foha.Controllers
         return Ok(r);
     }
 
+
+    [HttpGet("testTrafosBackendOrdenado")]
+    public async Task<IActionResult> TestTrafosBackendOrdenado(){
+        Response<List<dynamic>> r = new Response<List<dynamic>>();
+        List<Transformadores> tfdto = new List<Transformadores>();
+        var month=DateTime.Today.Month;
+        var year=DateTime.Today.Year;
+        tfdto = await _context.Transformadores.Where(x => x.Mes == month && x.Anio == year)
+        .Include(x=>x.IdClienteNavigation)
+        .Include(x=>x.IdVendedorNavigation)
+        .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
+        .Include(x => x.Etapa).ThenInclude(x => x.IdTipoEtapaNavigation)
+        .OrderBy(x=>x.Prioridad)
+        .ToListAsync();
+
+        foreach(Transformadores t in tfdto)
+        {
+            t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
+        }
+
+
+        List<dynamic> trafosDynamic = new List<dynamic>();
+        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() };
+        trafosDynamic.Add(testobj);
+        foreach(Transformadores t in tfdto){
+            trafosDynamic.Add(t);
+        }
+        r.Message = "Se realizo la consulta exitosamente";
+        r.Data = trafosDynamic;
+        r.Status = 200;
+        return Ok(r);
+    }
+
 }
 }
