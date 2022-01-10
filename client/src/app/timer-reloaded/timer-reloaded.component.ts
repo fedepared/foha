@@ -74,6 +74,23 @@ export class EtapaColumnComponent2{
         else{
           return true;
         }
+      }else if(this.sector==24)
+      {
+        if(etapa.idTipoEtapa==22 || etapa.idTipoEtapa==24)
+        {
+          return false;
+        }
+        else{
+          return true;
+        }
+      }else if(this.sector==25){
+        if(etapa.idTipoEtapa==26 || etapa.idTipoEtapa==40)
+        {
+          return false;
+        }
+        else{
+          return true;
+        }
       }
       else{
         return true;
