@@ -108,6 +108,7 @@ interface Mes {
       </span>
     </div>
   </ng-container>
+    
   `,
 
   styleUrls: ['./transformadores-new.component.css']
