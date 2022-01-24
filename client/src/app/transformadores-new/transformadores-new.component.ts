@@ -443,7 +443,6 @@ export class TransformadoresNewComponent implements OnInit {
   }
 
   function(event){
-    console.log(event);
     event.preventDefault();
     this.applyApiFilter();
   }
@@ -817,17 +816,19 @@ export class TransformadoresNewComponent implements OnInit {
 
 
   //Obtiene la etapa de un transformador en base al nombre de la etapa
-  getEtapa(t:any, nombreEtapa: string): any {
-    let matchEtapa = t.etapa.filter(etapa => etapa.idTipoEtapa == MAP_NOMBRE_ETAPA[nombreEtapa]);
-
-    if(matchEtapa.length!=0)
-    {
-      return matchEtapa[0];
-    }
+  getEtapa(t:any, nombreEtapa: string,i): any {
+    // console.log(i)
+    // let matchEtapa = t.etapa.filter(etapa => etapa.idTipoEtapa == MAP_NOMBRE_ETAPA[nombreEtapa]);
+    
+    // if(matchEtapa.length!=0)
+    // {
+    //   return matchEtapa[0];
+    // }
     if(this.etapasActualizadas==true)
     {
       this.getTrafos();
     }
+    return t.etapa[i];
   }
 
   actualizar(evento:any){

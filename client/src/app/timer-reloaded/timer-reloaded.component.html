@@ -15,7 +15,7 @@
               
               matInput
               formControlName="oTe"
-              (keyup.enter)="function($event)"
+              
               (keydown.enter)="function($event)"
         >
       </mat-form-field>
@@ -25,7 +25,7 @@
               
               matInput
               formControlName="oPe"
-              (keyup.enter)="function($event)"
+              
               (keydown.enter)="function($event)"
               
         >
@@ -36,7 +36,7 @@
               
               matInput
               formControlName="rangoInicio"
-              (keyup.enter)="function($event)"
+              
               (keydown.enter)="function($event)"
         >
       </mat-form-field>
@@ -46,7 +46,7 @@
               
               matInput
               formControlName="potencia"
-              (keyup.enter)="function($event)"
+              
               (keydown.enter)="function($event)"
         >
       </mat-form-field>
@@ -56,14 +56,14 @@
               
               matInput
               formControlName="nProceso"
-              (keyup.enter)="function($event)"
+              
               (keydown.enter)="function($event)"
         >
       </mat-form-field>
       <mat-form-field class="search__form_field-especial" appearance="outline">
         <mat-label>Observaciones</mat-label>
         <input type="text"
-        (keyup.enter)="function($event)"
+        
         (keydown.enter)="function($event)"
               matInput
               formControlName="observaciones"
@@ -132,7 +132,7 @@
       <mat-icon>checklist</mat-icon>
     </button>
     <mat-menu #menu="matMenu" yPosition="above">
-      <button style="margin:0" *ngFor="let a of selection.selected" mat-menu-item>OP:{{a.oPe}} | OT:{{a.oTe}} | rg:{{a.rangoInicio}}</button>
+      <button style="margin:0" *ngFor="let a of selection.selected" mat-menu-item (click)="deselect($event,a)"><mat-icon>close</mat-icon>OP:{{a.oPe}} | OT:{{a.oTe}} | rg:{{a.rangoInicio}}</button>
     </mat-menu>
     
     <!-- <div id="circularMenu" class="circular-menu" style="z-index:5000;" *ngIf="selection.selected.length>0">

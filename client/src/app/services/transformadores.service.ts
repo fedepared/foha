@@ -124,7 +124,7 @@ export class TransformadoresService {
   }
 
   getPrueba(pageNumber:number):Observable<IResponse<any[]> | any>{
-    return this.http.get<IResponse<any[]>>(`${this.apiUrl}/testTrafosBackend`)
+    return this.http.get<IResponse<any[]>>(`${this.apiUrl}/testTrafosBackendOrdenado`)
     .pipe(
       tap(_=>this.log('fetched Page Trafos')),
       catchError(this.handleError('get By Page',[]))

@@ -486,8 +486,14 @@ export class TimerReloadedComponent implements OnInit {
     if(this.selection.selected.length>1)
     {
       this.openSnackBar("Transformadores elegidos","Exito!");
-      let sorted=this.selection.selected.sort(this.order);
+      const fieldSorter = (fields) => (a, b) => fields.map(o => {
+        let dir = 1;
+        if (o[0] === '-') { dir = -1; o=o.substring(1); }
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
+      }).reduce((p, n) => p ? p : n, 0);
 
+      let sorted=[...new Set(this.selection.selected.sort(fieldSorter(['anio','mes','prioridad'])))];
+      
       this.trafoSelected=sorted.map(a => a.idTransfo);
 
     }
@@ -495,15 +501,13 @@ export class TimerReloadedComponent implements OnInit {
     
   }
 
-  order(a,b){
-    if ( a.prioridad < b.prioridad ){
-      return -1;
-    }
-    if ( a.prioridad > b.prioridad ){
-      return 1;
-    }
-    return 0;
+  deselect(event,a){
+    event.stopPropagation();
+    console.log("Antes",this.selection.selected)
+    this.selection.deselect(a)
+    console.log("Despues",this.selection.selected)
   }
+
 
   sendProc(){
     this.sendProcess=!this.sendProcess;

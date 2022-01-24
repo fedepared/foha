@@ -1,0 +1,8 @@
+como limpiar la selección ? 
+ver tema enter de filtro 
+
+ver ordenamiento de selección múltiple: No está andando la funcion de ordenamiento
+ver tema tablet 
+ver terminación de vista completa de transformadores 
+
+no actualiza la selección múltiple si selecciono otros nuevos trafos
