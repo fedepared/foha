@@ -486,14 +486,18 @@ export class TimerReloadedComponent implements OnInit {
     if(this.selection.selected.length>1)
     {
       this.openSnackBar("Transformadores elegidos","Exito!");
-      const fieldSorter = (fields) => (a, b) => fields.map(o => {
-        let dir = 1;
-        if (o[0] === '-') { dir = -1; o=o.substring(1); }
-        return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
-      }).reduce((p, n) => p ? p : n, 0);
+      // const fieldSorter = (fields) => (a, b) => fields.map(o => {
+      //   let dir = 1;
+      //   if (o[0] === '-') { dir = -1; o=o.substring(1); }
+      //   return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
+      // }).reduce((p, n) => p ? p : n, 0);
 
-      let sorted=[...new Set(this.selection.selected.sort(fieldSorter(['anio','mes','prioridad'])))];
+      // let sorted=[...new Set(this.selection.selected.sort(fieldSorter(['anio','mes','prioridad'])))];
       
+      let sorted = [... new Set(this.selection.selected)];
+      sorted.sort((a,b)=> (b.anio - a.anio || a.mes - b.mes || a.prioridad - b.prioridad ));
+
+
       this.trafoSelected=sorted.map(a => a.idTransfo);
 
     }
@@ -580,9 +584,6 @@ export class TimerReloadedComponent implements OnInit {
        duration: this.durationInSeconds * 1000,
       });
   }
-
-
-
   
 
   applyApiFilter(){
