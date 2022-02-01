@@ -1,0 +1,14 @@
+- enroque de transformadores:
+cliente, OT, fechaPactada, observaciones,vendedor y serie no se cambian.
+
+- horno:
+Desde procesos puede tener inicio y pausa. 
+Desde Inicio empiezan a correr 72hs
+1) se corren automaticamente 72 hs, y se finaliza
+2) si pasan menos de 72 hs y encubado inicia, se pausa horno
+Nunca Fin
+
+
+-codigo qr:
+
+-ordenamiento sigue sin andar:
