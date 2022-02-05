@@ -1,0 +1,127 @@
+
+    <div style="padding-top:30px" fxLayout="row" fxLayoutAlign="start center" >
+        <form [formGroup]="form" class="search__form">
+          <mat-form-field class="search__form_field" appearance="outline">
+            <mat-label>OT</mat-label>
+            <input type="text"
+                  
+                  matInput
+                  formControlName="oTe"
+                  
+                  (keydown.enter)="function($event)"
+            >
+          </mat-form-field>
+          <mat-form-field class="search__form_field" appearance="outline">
+            <mat-label>OP</mat-label>
+            <input type="text"
+                  
+                  matInput
+                  formControlName="oPe"
+                  
+                  (keydown.enter)="function($event)"
+                  
+            >
+          </mat-form-field>
+          <mat-form-field class="search__form_field" appearance="outline">
+            <mat-label>Rango</mat-label>
+            <input type="text"
+                  
+                  matInput
+                  formControlName="rangoInicio"
+                  
+                  (keydown.enter)="function($event)"
+            >
+          </mat-form-field>
+          <mat-form-field class="search__form_field" appearance="outline">
+            <mat-label>Potencia</mat-label>
+            <input type="text"
+                  
+                  matInput
+                  formControlName="potencia"
+                  
+                  (keydown.enter)="function($event)"
+            >
+          </mat-form-field>
+          <mat-form-field class="search__form_field" appearance="outline">
+            <mat-label>Cliente</mat-label>
+            <input type="text"
+                  
+                  matInput
+                  formControlName="nombreCli"
+                  (keyup)="applyFilter()"
+            >
+          </mat-form-field>
+          <mat-form-field class="search__form_field" appearance="outline">
+            <mat-label>Observaciones</mat-label>
+            <input type="text"
+                  
+                  matInput
+                  formControlName="observaciones"
+                  (keyup)="applyFilter()"
+            >
+          </mat-form-field>
+          <button mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
+            <mat-icon>backspace</mat-icon>
+          </button>
+        </form>
+    </div>
+    
+    <div id="tabla1" class="mat-elevation-z8">
+        <div class="example-loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+        <table mat-table [dataSource]="data" > 
+            <ng-container matColumnDef="select" >
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+                  <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()"> 
+                  </mat-checkbox>-->
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? checkedValue(row,$event) : null"
+                                [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+                </td>
+            </ng-container>
+            
+              
+              <ng-container matColumnDef="oP" sticky>
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">oP</th>
+                <td mat-cell *matCellDef="let row">{{row.oPe }}</td>
+              </ng-container>
+      
+               
+              <ng-container matColumnDef="oT" sticky>
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">oT</th>
+                <td mat-cell *matCellDef="let row">{{row.oTe}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="rango" sticky>
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">rango</th>
+                <td mat-cell *matCellDef="let row">{{row.rangoInicio}}</td>
+              </ng-container>
+    
+              <ng-container matColumnDef="Cliente" sticky>
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">Cliente</th>
+                <td mat-cell *matCellDef="let row" matTooltip="{{row.nombreCli}}">{{breakCli(row.nombreCli)}}</td>
+              </ng-container>
+    
+              <ng-container matColumnDef="Potencia" sticky> 
+                <th mat-header-cell *matHeaderCellDef  style="text-align: center;">Potencia</th>
+                <td mat-cell *matCellDef="let row" >{{row.potencia}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="Observaciones" sticky>
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">Observaciones</th>
+                <td mat-cell *matCellDef="let row">{{row.observaciones}}</td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
+        </table>
+    </div>
+    <mat-paginator align="left" style="width:40vw" [pageSizeOptions]="[100,200,400]"></mat-paginator>
+

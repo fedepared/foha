@@ -17,6 +17,7 @@ import { VariosProcesosComponent } from './varios-procesos/varios-procesos.compo
 import { ResetPassComponent } from './auth/reset-pass/reset-pass.component';
 import { ModifyProcNumberComponent } from './modify-proc-number/modify-proc-number.component';
 import { TransformadoresNewComponent } from './transformadores-new/transformadores-new.component';
+import { SwitchTrafosComponent } from './switch-trafos/switch-trafos.component';
 
 const routes: Routes = [
   {path:'login',component:LoginComponent,data:{title:'Login'}},
@@ -34,7 +35,8 @@ const routes: Routes = [
   {path:'reporteEmpleados',component:EmployerReportComponent,canActivate:[GuardianGuard]},
   {path:'resetPass',component:ResetPassComponent,canActivate:[GuardianGuard]},
   {path:'modificarNumerosProc',component:ModifyProcNumberComponent,canActivate:[GuardianGuard]},
-  {path:'records',component:TransformadoresReloadedComponent,canActivate:[GuardianGuard]}
+  {path:'records',component:TransformadoresReloadedComponent,canActivate:[GuardianGuard]},
+  {path:'switchTrafos',component:SwitchTrafosComponent,canActivate:[GuardianGuard]}
   
 ];
 

@@ -72,6 +72,13 @@ namespace Foha.Controllers
             return Ok(transformadores);
         }
 
+        // GET: api/Transformadores
+        [HttpGet("getTransformadoresNoProcess")]
+        public IEnumerable<Transformadores> GetTransformadoresNoProcess()
+        {
+            return _context.Transformadores.OrderByDescending(x=>x.Anio).ThenByDescending(z=>z.Mes).ToList();
+        }
+
         [HttpGet("GetDataExcel")]
         public IEnumerable<object> GetDataExcel()
         {
@@ -345,7 +352,7 @@ namespace Foha.Controllers
         if(potencia !=null)
             results=results.Where(x=>x.Potencia==(Int32.Parse(potencia))).ToList();
         if(nombreCli !=null)
-            results=results.Where(x=>x.NombreCli!=null && x.NombreCli.Contains(nombreCli.ToUpper())).ToList();
+            results=results.Where(x=>x.NombreCli!=null && x.NombreCli.ToUpper().Contains(nombreCli.ToUpper())).ToList();
         if(observaciones !=null)
             results = results.Where(x=>(x.Observaciones ?? " ").ToUpper().Contains(observaciones.ToUpper())).ToList();
         if(serie !=null)

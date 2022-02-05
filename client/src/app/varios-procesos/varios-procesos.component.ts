@@ -72,7 +72,7 @@ export class VariosProcesosComponent implements OnInit {
   selection = new SelectionModel<Transformadores>(true, []);
 
   getTransformadores(): void {
-    this.transformadoresService.getTransformadores()
+    this.transformadoresService.getTransformadoresNoProcess()
       .subscribe(transfo => {
         this.data.data = transfo;
         this.data.paginator = this.paginator;
@@ -82,8 +82,7 @@ export class VariosProcesosComponent implements OnInit {
       }, err => {
         // console.log(err);
         this.isLoadingResults = false;
-      });
-      
+      });   
   }
 
   getTipoEtapas():void{
@@ -259,8 +258,8 @@ export class VariosProcesosComponent implements OnInit {
     return (row:any, filters: string) => {
       
       // split string per '$' to array
-      console.log("Filters",filters);
-      console.log("selected",this.selection.selected);
+      // console.log("Filters",filters);
+      // console.log("selected",this.selection.selected);
       const filterArray = filters.split('$');
       
       const oTe = filterArray[0];

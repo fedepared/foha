@@ -37,6 +37,14 @@ export class TransformadoresService {
       );
   }
 
+  getTransformadoresNoProcess():Observable<Transformadores[]>{
+    return this.http.get<Transformadores[]>(`${this.apiUrl}/getTransformadoresNoProcess`)
+    .pipe(
+      tap(_ =>this.log('fetched TransformadoresNoProcess')),
+      catchError(this.handleError('getTransformadoresNoProcess',[]))
+    )
+  }
+
   getTransformador(id:number):Observable<Transformadores>{
     const url=`${apiUrl}/${id}`;
     return this.http.get<Transformadores>(url).pipe(
