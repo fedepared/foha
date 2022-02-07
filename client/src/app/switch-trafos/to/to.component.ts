@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { Transformadores } from 'src/app/models/transformadores';
@@ -12,12 +12,14 @@ import { TransformadoresService } from 'src/app/services/transformadores.service
 })
 export class ToComponent implements OnInit {
 
+  selection = new SelectionModel<Transformadores>(true, []);
+  @Output() arriveSelectionEvent = new EventEmitter<number[]>();
   data:MatTableDataSource<Transformadores>;
   isLoadingResults = true;
   displayedColumns:string[]=['select','oT','oP','rango','Cliente','Potencia','Observaciones']
   showButtons=false;
-  selection = new SelectionModel<Transformadores>(true, []);
-  
+  //Expansion panel
+  panelOpenState=false;
   form=new FormGroup(
     {
       oTe:new FormControl(),	
@@ -65,74 +67,11 @@ export class ToComponent implements OnInit {
       });   
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    if(this.data!=undefined)
-    {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.data.data.length;
-      return numSelected === numRows;
-    }
-    else{
-      return false;
-    }
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    
-    this.isAllSelected() ?
-        this.selectionClear() : 
-        this.data.data.forEach(row => {
-            let mcc=new MatCheckboxChange();
-            mcc.checked=true;
-
-            this.selection.select(row);
-            this.checkedValue(row,mcc);
-          }
-        );
-        
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Transformadores): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.idTransfo}`;
-  }
-
-  checkedValue(row,event){
-    //this.selection.toggle(event);
-    var i = 0;
-    while (i < this.arrTrafoSelected.length) {
-      console.log(this.arrTrafoSelected)
-      if (this.arrTrafoSelected[i] === row) {
-        console.log(this.arrTrafoSelected);
-        this.arrTrafoSelected.splice(i, 1);
-      } else {
-        ++i;
-      }
-    }
-    if(event.checked==true )
-    {
-      
-      this.showButtons=true;
-      this.arrTrafoSelected.push(row);
-    }
-    else{
-      let j=this.arrTrafoSelected.indexOf(row);
-      if(j>-1)
-      {
-        this.arrTrafoSelected.splice(j,1);
-      }
-      if(this.arrTrafoSelected.length==0)
-      {
-        this.showButtons=false;
-      }
-    }
-    console.log(this.arrTrafoSelected);
+  switchTrafos(){
+    let array=this.selection.selected.map((obj)=>{
+      return obj.idTransfo;
+    })
+    this.arriveSelectionEvent.emit(array);
   }
 
   selectionClear(){

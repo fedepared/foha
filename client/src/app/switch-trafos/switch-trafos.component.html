@@ -5,9 +5,13 @@
     <br>
 </mat-card>
 
-<div fxLayout="row" fxLayoutAlign="start center">
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <!-- <div *ngFor="let a of selection">{{a.idTransfo}}</div> -->
+    <div fxFlex="50">
+        <app-from (selectionEvent)="receiveSelected($event)"></app-from>
+    </div>
+    <div *ngIf="originSelection.length>0" fxFlex="45">
+        <app-to (arriveSelectionEvent)="sendSelection($event)"></app-to>
+    </div>
     
-        <app-from fxFlex="70"></app-from>
-    
-        <app-to fxFlex="50"></app-to>
 </div>

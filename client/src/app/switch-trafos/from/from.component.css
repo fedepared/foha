@@ -4,7 +4,6 @@ table {
 }
 
 #tabla1{
-    width:40vw;
     height:300px;
     overflow:overlay;
 }
@@ -13,16 +12,17 @@ table {
 
   .search__form {
     
-    /* display: flex;
+    display: flex;
     flex-flow: row wrap;
     justify-content: center;
     margin-left:0;
-    align-items: flex-start; */
-    /* margin-right:auto */
+    align-items: flex-start;
+    margin-right:auto;
+    margin-left:auto;
     
   }
   .search__form_field {
-    width: 10ch; 
+    width: 10ch;
     /* margin: 0 8px 16px 8px; */
   }
   .search__table {
@@ -34,4 +34,17 @@ table {
     background-color: #f44336;
     color: white;
     width:100%;
+  }
+
+  #chip{
+    height:fit-content;
+    width:fit-content;
+    background-color:teal;
+    color:white;
+  }
+
+  #selectButton{
+    background-color: teal;
+    color:white;
+    max-height:48px;
   }

@@ -5,7 +5,6 @@ table {
 
 #tabla1{
     height:300px;
-    width:40vw; 
     overflow:overlay;
 }
 
@@ -33,4 +32,17 @@ table {
     background-color: #f44336;
     color: white;
     width:100%;
+  }
+
+  #chip{
+    height:fit-content;
+    width:fit-content;
+    background-color:teal;
+    color:white;
+  }
+
+  #selectButton{
+    background-color: teal;
+    color:white;
+    max-height:48px;
   }

@@ -109,7 +109,16 @@
                 </mat-option>
                 <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
               </mat-select>
-            </mat-form-field>
+          </mat-form-field>
+          <!-- <mat-form-field class="search__form_field-especial" appearance="outline">
+            <mat-label>Tipo Transformador</mat-label>
+            <mat-select formControlName="tTransfo">
+              <mat-option [value]="null"> </mat-option>
+              <mat-option *ngFor="let t of tipoTransfo" [value]="t.idTipoTransfo">
+                {{t.nombreTipoTransfo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
           <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
             <mat-icon>backspace</mat-icon>
           </button>

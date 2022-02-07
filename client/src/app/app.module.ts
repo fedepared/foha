@@ -75,6 +75,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { SwitchTrafosComponent } from './switch-trafos/switch-trafos.component';
 import { FromComponent } from './switch-trafos/from/from.component';
 import { ToComponent } from './switch-trafos/to/to.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -82,7 +83,7 @@ import { ToComponent } from './switch-trafos/to/to.component';
     declarations: [ShowInfoNewComponent,EditAllTrafosNewComponent,EditDeleteTransfoComponent,AddTransfoComponent,EditAllTrafosComponent,AppComponent, EtapaColumnComponent,EtapaColumnComponent2, LoginComponent, RegisterComponent,  EmpleadosComponent, NavBarComponent,CourseDialogComponent,DialogFinalizarProceso,CourseDialog2Component, ClientesComponent,CourseDialog3Component,CourseDialog4Component,ShowInfoComponent, ModificarProcesosComponent,ReAsignarProcesoComponent,ReAsignarProcesoConfirmComponent,AltaAnioMesReloaded, LeyendasComponent, ReferenciasComponent,DialogReferenciasDialog, TransformadoresReloadedComponent,AssignColorComponent,ConfirmAssignDialog, TimerReloadedComponent, RelojComponent, DailyReportComponent, OrderReloadedComponent, NewOrderComponent, EmployerReportComponent, VariosProcesosComponent,AsignarVariosProcesosComponent,ChangeConfirmAssignComponent, ResetPassComponent, ModifyProcNumberComponent, TransformadoresNewComponent, RelojMultipleComponent, EtapaColumnComponent3,AssignColorComponent2,DialogFinalizarProcesoMultiple,DeleteAllTransfoDialog, SwitchTrafosComponent, FromComponent, ToComponent],
     imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,MatInputModule,DragDropModule,
       MatPaginatorModule,MatProgressSpinnerModule, MatSortModule, MatTableModule, MatIconModule, MatButtonModule, MatCardModule,
-      MatFormFieldModule,MatAutocompleteModule,MatMenuModule, MatDatepickerModule, MatNativeDateModule,FormsModule, ReactiveFormsModule, MatToolbarModule,MatSidenavModule,MatListModule,MatSelectModule,MatChipsModule,MatDialogModule,MatGridListModule,MatSnackBarModule,MatTooltipModule,ColorPickerModule,SatDatepickerModule, SatNativeDateModule,MatCheckboxModule,InfiniteScrollModule,MatExpansionModule],
+      MatFormFieldModule,MatAutocompleteModule,MatMenuModule, MatDatepickerModule, MatNativeDateModule,FormsModule, ReactiveFormsModule, MatToolbarModule,MatSidenavModule,MatListModule,MatSelectModule,MatChipsModule,MatDialogModule,MatGridListModule,MatSnackBarModule,MatTooltipModule,ColorPickerModule,SatDatepickerModule, SatNativeDateModule,MatCheckboxModule,InfiniteScrollModule,MatExpansionModule,FlexLayoutModule],
       providers: [
         { provide: GuardianGuard},
         { provide: MensajesService},

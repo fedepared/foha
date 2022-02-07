@@ -1,45 +1,36 @@
-<div style="padding-top:30px" fxLayout="row" fxLayoutAlign="start center" >
+<div style="padding-top:30px">
       
-    <form [formGroup]="form" class="search__form">
+    <form [formGroup]="form" class="search__form" fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="5px">
       <mat-form-field class="search__form_field" appearance="outline">
         <mat-label>OT</mat-label>
         <input type="text"
-              
               matInput
               formControlName="oTe"
-              
-              (keydown.enter)="function($event)"
         >
       </mat-form-field>
       <mat-form-field class="search__form_field" appearance="outline">
         <mat-label>OP</mat-label>
         <input type="text"
-              
               matInput
               formControlName="oPe"
-              
-              (keydown.enter)="function($event)"
+              (keyup)="applyFilter()"
               
         >
       </mat-form-field>
       <mat-form-field class="search__form_field" appearance="outline">
         <mat-label>Rango</mat-label>
         <input type="text"
-              
               matInput
               formControlName="rangoInicio"
-              
-              (keydown.enter)="function($event)"
+              (keyup)="applyFilter()"
         >
       </mat-form-field>
       <mat-form-field class="search__form_field" appearance="outline">
         <mat-label>Potencia</mat-label>
         <input type="text"
-              
               matInput
               formControlName="potencia"
-              
-              (keydown.enter)="function($event)"
+              (keyup)="applyFilter()"
         >
       </mat-form-field>
       <mat-form-field class="search__form_field" appearance="outline">
@@ -66,6 +57,28 @@
     </form>
 </div>
 
+<div *ngIf="selection.selected.length>0" fxLayout="row" fxLayoutAlign="center">
+  <mat-accordion fxFlex="70">
+    <mat-expansion-panel (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Transformadores de destino
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="row">
+        <mat-chip-list>
+          <mat-chip
+            *ngFor="let sel of selection.selected" id="chip">
+            OT:{{sel.oTe}} || OP:{{sel.oPe}} || Rg: {{sel.rangoInicio}} 
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <button mat-raised-button fxFlex="30" id="selectButton" (click)="switchTrafos()">Intercambiar</button>
+</div>
+
 <div id="tabla1" class="mat-elevation-z8">
     <div class="example-loading-shade" *ngIf="isLoadingResults">
         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
@@ -73,17 +86,10 @@
     <table mat-table [dataSource]="data" > 
         <ng-container matColumnDef="select" >
             <th mat-header-cell *matHeaderCellDef style="text-align: center;">
-              <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()"
-                            [aria-label]="checkboxLabel()"> 
-              </mat-checkbox>-->
+              
             </th>
             <td mat-cell *matCellDef="let row">
-              <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? checkedValue(row,$event) : null"
-                            [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)">
+              <mat-checkbox [checked]="selection.isSelected(row)" (change)="$event ? selection.toggle(row) : null">
               </mat-checkbox>
             </td>
         </ng-container>

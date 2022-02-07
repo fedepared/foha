@@ -324,7 +324,7 @@ export class TransformadoresNewComponent implements OnInit {
 
 
   dataTipoTransfo:ComboTipoTransfo[]=[];
-  data8TipoTransfo:TipoTransfo[]=[];
+  tipoTransfo:TipoTransfo[]=[];
   pageNumber:number=1;
 
 
@@ -371,7 +371,8 @@ export class TransformadoresNewComponent implements OnInit {
       fechaPactada:new FormControl(),
       fechaProd:new FormControl(),
       vendedor:new FormControl(),
-      month:new FormControl()
+      month:new FormControl(),
+      tTransfo:new FormControl()
     }
   )
 
@@ -390,6 +391,7 @@ export class TransformadoresNewComponent implements OnInit {
     vendedor='';
     month=[];
     year=[];
+    tTransfo='';
 
 
   mes:Mes[]=[
@@ -428,7 +430,7 @@ export class TransformadoresNewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @ViewChild('allSelected') private allSelected: MatOption;
-  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService, private excelTimesService:ExcelTimesService, private vendedoresService:VendedoresService) {
+  constructor(private ngZone: NgZone,private transformadoresService: TransformadoresService, public dialog: MatDialog,private _snackBar: MatSnackBar,private etapaService: EtapaService, private tipoEtapaService: TipoEtapaService, private excelService: ExcelService,private coloresService:ColoresService, private excelTimesService:ExcelTimesService, private vendedoresService:VendedoresService, private tipoTransfoService: TipoTransfoService) {
 
     }
 
@@ -441,6 +443,7 @@ export class TransformadoresNewComponent implements OnInit {
     this.getTrafos();
     this.getMonthYear();
     this.getSellers();
+    this.getTipoTransfo();
   }
 
   function(event){
@@ -908,6 +911,12 @@ export class TransformadoresNewComponent implements OnInit {
     getSellers(){
       this.vendedoresService.getVendedores().subscribe(res =>{
         this.vendedores = res.data;
+      })
+    }
+
+    getTipoTransfo(){
+      this.tipoTransfoService.getTipoTransfo().subscribe(res => {
+        this.tipoTransfo = res;
       })
     }
 
