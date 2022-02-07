@@ -1,0 +1,12 @@
+combo cliente del filtro ver tema con chriso 
+
+botones del menu
+
+se va para atrás con lo de laboratorio cuando terminan un proceso, para la serie
+
+entonces a la hora de dar de alta un transfo, se va a autonumerar la serie
+
+agregar checkbox de op nueva y tratar de generar automaticamente la op. Además de certificar que el rango es 1
+
+Para proceso nucleo en modificaciones de trafos, se cambia el campo nucleo en cada trafo
+

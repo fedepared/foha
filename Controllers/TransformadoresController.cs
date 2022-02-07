@@ -339,7 +339,10 @@ namespace Foha.Controllers
             .Include(z=>z.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
+            .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation)
             .OrderBy(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
+
+        
 
         if(oTe !=null)
             results=results.Where(x=>x.OTe != null && x.OTe.ToString().Contains(oTe)).ToList();
@@ -359,6 +362,12 @@ namespace Foha.Controllers
             results = results.Where(x => x.Serie.ToString().Contains(serie)).ToList();
         if(vendedor !=null)
             results = results.Where(x=>x.IdVendedor == vendedor).ToList();
+
+        foreach(Transformadores t in results)
+        {
+            t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
+        }
+        
         if(month.Length>0)
         {
             
@@ -417,6 +426,7 @@ namespace Foha.Controllers
             .Include(z=>z.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
+            .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation)
             .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
         List<Transformadores> trafo = new List<Transformadores>();
 
@@ -436,6 +446,12 @@ namespace Foha.Controllers
             results=results.Where(x=>x.Etapa.Any(f=>f.NumEtapa != null && f.NumEtapa.ToString().Contains(nProceso))).ToList();
         if(observaciones !=null)
             results = results.Where(x=>(x.Observaciones ?? " ").ToUpper().Contains(observaciones.ToUpper())).ToList();
+        
+        foreach(Transformadores t in results)
+        {
+            t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
+        }
+
         if(month.Length>0)
         {
             for (var i = 0; i < month.Length; i++)
