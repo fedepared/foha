@@ -13,7 +13,7 @@ import { TransformadoresService } from 'src/app/services/transformadores.service
 export class ToComponent implements OnInit {
 
   selection = new SelectionModel<Transformadores>(true, []);
-  @Output() arriveSelectionEvent = new EventEmitter<number[]>();
+  @Output() arriveSelectionEvent = new EventEmitter<any[]>();
   data:MatTableDataSource<Transformadores>;
   isLoadingResults = true;
   displayedColumns:string[]=['select','oT','oP','rango','Cliente','Potencia','Observaciones']
@@ -69,7 +69,7 @@ export class ToComponent implements OnInit {
 
   switchTrafos(){
     let array=this.selection.selected.map((obj)=>{
-      return obj.idTransfo;
+        return {idTransfo:obj.idTransfo,oPe:obj.oPe,oTe:obj.oTe,rangoInicio:obj.rangoInicio};
     })
     this.arriveSelectionEvent.emit(array);
   }

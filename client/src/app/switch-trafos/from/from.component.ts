@@ -13,7 +13,7 @@ import { TransformadoresService } from 'src/app/services/transformadores.service
 export class FromComponent implements OnInit {
   
   selection = new SelectionModel<Transformadores>(true, []);
-  @Output() selectionEvent = new EventEmitter<number[]>();
+  @Output() selectionEvent = new EventEmitter<any[]>();
   
   data:MatTableDataSource<Transformadores>;
   isLoadingResults = true;
@@ -71,7 +71,7 @@ export class FromComponent implements OnInit {
 
   sendValues(){
     let array=this.selection.selected.map((obj)=>{
-      return obj.idTransfo;
+      return {idTransfo:obj.idTransfo,oPe:obj.oPe,oTe:obj.oTe,rangoInicio:obj.rangoInicio};
     })
     this.selectionEvent.emit(array);
   }

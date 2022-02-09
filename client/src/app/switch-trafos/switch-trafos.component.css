@@ -5,3 +5,29 @@
     height:60px;
     padding: 10px;
   };
+
+  #chip{
+    height:fit-content;
+    width:fit-content;
+    background-color:teal;
+    color:white;
+  }
+
+  ::ng-deep .mat-chip-list-wrapper {
+    display: block
+  }
+  
+  .mat-chip-list-wrapper mat-chip {
+    display: block;
+    float: left;
+    clear: left;
+  }
+  
+  .mat-chip-list-wrapper .mat-chip-input {
+    width: 100%;
+  }
+  
+  /** Just for align close icon/button */
+  .mat-chip-list-wrapper mat-chip .mat-chip-remove {
+    vertical-align: bottom;
+  }

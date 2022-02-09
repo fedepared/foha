@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { DialogData } from '../reloj/reloj.component';
 
 @Component({
   selector: 'app-switch-trafos',
@@ -11,7 +12,7 @@ export class SwitchTrafosComponent implements OnInit {
   originSelection=[];
   arriveSelection=[]
 
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private _snackBar: MatSnackBar,public dialog: MatDialog) { }
 
   
 
@@ -27,8 +28,22 @@ export class SwitchTrafosComponent implements OnInit {
 
   sendSelection($event){
     this.arriveSelection=$event;
+    console.log(this.arriveSelection)
     if(this.originSelection.length == this.arriveSelection.length){
-      this.openSnackBar("Bien elegido","Capo");
+      const dialogRef = this.dialog.open(ConfirmDialog,{
+        data:{
+          originSelection:this.originSelection,
+          arriveSelection:this.arriveSelection
+        }
+      
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if(result)
+        {
+          console.log("verdad");
+        }
+      });
+      
     }else{
       this.openSnackBar("Debe seleccionar la misma cantidad de transformadores de origen y destino", "Error!")
     }
@@ -40,4 +55,23 @@ export class SwitchTrafosComponent implements OnInit {
       });
   }
 
+}
+
+@Component({
+  selector: 'confirm',
+  templateUrl: 'confirm.html',
+  styleUrls: ['switch-trafos.component.css'],
+  styles: ['#chip{height:fit-content; width:fit-content;background-color:teal;color:white;}',
+            '::ng-deep .mat-chip-list-wrapper{display: block}',
+            '::ng-deep .mat-chip-list-wrapper mat-chip {display: block;float: left;clear: left;}',
+            '::ng-deep .mat-chip-list-wrapper .mat-chip-input {width: 100%;}'
+  ] 
+})
+export class ConfirmDialog {
+  originSelection=[];
+  arriveSelection=[];
+  constructor(@Inject(MAT_DIALOG_DATA) public data) {
+    this.originSelection=this.data.originSelection
+    this.arriveSelection=this.data.arriveSelection
+  }
 }

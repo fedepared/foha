@@ -79,6 +79,7 @@
       </mat-accordion>
       <button mat-raised-button fxFlex="30" id="selectButton" (click)="sendValues()">Seleccionar</button>
     </div>
+    
     <div id="tabla1" class="mat-elevation-z8">
         <div class="example-loading-shade" *ngIf="isLoadingResults">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
@@ -133,4 +134,5 @@
         </table>
     </div>
     <mat-paginator align="left" style="width:40vw" [pageSizeOptions]="[100,200,400]"></mat-paginator>
+    
 
