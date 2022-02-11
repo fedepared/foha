@@ -525,8 +525,8 @@ export class ExcelService {
     }
   }
 
-  stringToDate(fot) : Date{
-    return new Date(fot.split('T')[0]);
+  stringToDate(fot) : Date | string{
+    return ((fot != null) ? new Date(fot.split('T')[0]) : '');
   }
 
   fopToDate(fop): Date{

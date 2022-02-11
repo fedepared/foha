@@ -1,0 +1,5 @@
+instalar url rewrite y asp.net hosting bundle-installer (v en el vault: 2.1.19)
+-crear sitio para la api en iis
+-crear app dentro del default website para angular 
+-para el grupo de aplicaciones, en la versión de .net clr, va "Sin codigo administrado/no managed code"
+
