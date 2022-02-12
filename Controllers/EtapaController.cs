@@ -792,11 +792,11 @@ namespace Foha.Controllers
 
             _repo.Update(preEtapa);
 
-            if(editEtapaDto.IdTipoEtapa == 29){
-                Transformadores trafo = _context.Etapa.Where(x => x.IdEtapa == editEtapaDto.IdEtapa).Include(x => x.IdTransfoNavigation).First().IdTransfoNavigation;
-                trafo.Serie = editEtapaDto.NumEtapa;
-                await _context.SaveChangesAsync();
-            }
+            // if(editEtapaDto.IdTipoEtapa == 29){
+            //     Transformadores trafo = _context.Etapa.Where(x => x.IdEtapa == editEtapaDto.IdEtapa).Include(x => x.IdTransfoNavigation).First().IdTransfoNavigation;
+            //     trafo.Serie = editEtapaDto.NumEtapa;
+            //     await _context.SaveChangesAsync();
+            // }
 
             foreach (var a in _context.EtapaEmpleado.Where(x=>x.IdEtapa==editEtapaDto.IdEtapa))
             {
