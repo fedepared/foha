@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material';
 import { IResponse } from '../models/iresponse';
 import { OrderTrafo } from '../models/orderTrafo';
 import { MonthYear } from '../models/monthYear';
+import { EnroqueTrafos } from '../models/enroqueTrafos';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -254,6 +255,14 @@ export class TransformadoresService {
     return this.http.post<IResponse<any>>(url,arrayTrafos,httpOptions).pipe(
       tap(_ => this.openSnackBar(`${_.message}`,"Exito!")),
       catchError(this.handleError<IResponse<any>>('confirm delete many Transformadores',))
+    )
+  }
+
+  postEnroqueTrafos(enroqueTrafos:EnroqueTrafos):Observable<IResponse<any> | any>{
+    const url = `${apiUrl}/EnroqueTrafos`
+    return this.http.post<IResponse<any>>(url,enroqueTrafos,httpOptions).pipe(
+      tap(_ => this.openSnackBar(`${_.message}`,"Exito!")),
+      catchError(this.handleError<IResponse<any>>('Enroque Trafos',))
     )
   }
 

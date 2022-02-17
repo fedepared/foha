@@ -1411,7 +1411,7 @@ namespace Foha.Controllers
             Desde.Nucleos = Hasta.Nucleos;
             Desde.OPe = Hasta.OPe;
             Desde.Potencia = Hasta.Potencia;
-            Desde.Prioridad = Hasta.Potencia;
+            Desde.Prioridad = Hasta.Prioridad;
             Desde.RadPan = Hasta.RadPan;
             Desde.RangoFin = Hasta.RangoFin;
             Desde.RangoInicio = Hasta.RangoInicio;
@@ -1425,7 +1425,7 @@ namespace Foha.Controllers
             Hasta.Nucleos = CopiaDesde.Nucleos;
             Hasta.OPe = CopiaDesde.OPe;
             Hasta.Potencia = CopiaDesde.Potencia;
-            Hasta.Prioridad = CopiaDesde.Potencia;
+            Hasta.Prioridad = CopiaDesde.Prioridad;
             Hasta.RadPan = CopiaDesde.RadPan;
             Hasta.RangoFin = CopiaDesde.RangoFin;
             Hasta.RangoInicio = CopiaDesde.RangoInicio;

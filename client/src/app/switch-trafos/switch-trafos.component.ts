@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { EnroqueTrafos } from '../models/enroqueTrafos';
 import { DialogData } from '../reloj/reloj.component';
+import { TransformadoresService } from '../services/transformadores.service';
 
 @Component({
   selector: 'app-switch-trafos',
@@ -12,7 +14,7 @@ export class SwitchTrafosComponent implements OnInit {
   originSelection=[];
   arriveSelection=[]
 
-  constructor(private _snackBar: MatSnackBar,public dialog: MatDialog) { }
+  constructor(private _snackBar: MatSnackBar,public dialog: MatDialog,private transformadoresService:TransformadoresService) { }
 
   
 
@@ -38,9 +40,15 @@ export class SwitchTrafosComponent implements OnInit {
       
       })
       dialogRef.afterClosed().subscribe(result => {
+        let enroqueTrafos:EnroqueTrafos = {
+          trafosDesde : this.originSelection.map((x)=> x.idTransfo),
+          trafosHasta : this.arriveSelection.map((x)=> x.idTransfo)
+        }
         if(result)
         {
-          console.log("verdad");
+          this.transformadoresService.postEnroqueTrafos(enroqueTrafos).subscribe(res=>{
+            console.log(res);
+          })
         }
       });
       
