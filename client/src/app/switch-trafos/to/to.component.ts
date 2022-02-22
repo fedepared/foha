@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { Transformadores } from 'src/app/models/transformadores';
@@ -14,6 +14,8 @@ export class ToComponent implements OnInit {
 
   selection = new SelectionModel<Transformadores>(true, []);
   @Output() arriveSelectionEvent = new EventEmitter<any[]>();
+  @Input() resOk: boolean;
+
   data:MatTableDataSource<Transformadores>;
   isLoadingResults = true;
   displayedColumns:string[]=['select','oT','oP','rango','Cliente','Potencia','Observaciones']
@@ -51,6 +53,12 @@ export class ToComponent implements OnInit {
     this.data.filterPredicate =this.createFilter();
 
     this.getTransformadores();
+  }
+
+  ngOnChanges(){
+    if(this.resOk==true){
+      this.selection.clear();
+    }
   }
 
   getTransformadores(): void {

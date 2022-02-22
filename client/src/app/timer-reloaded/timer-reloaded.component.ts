@@ -428,17 +428,17 @@ export class TimerReloadedComponent implements OnInit {
         console.log(transfo);
         this.isLoadingResults = true;
         this.dataGetTrafos.paginator = this.paginator;
-        let transfoArray=[];
-        for (let a of transfo)
-        {
-          let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
-          transfoArray.push(group);
-          for(let b of a.trafos)
-          {
-            transfoArray.push(b);
-          }
-        this.dataGetTrafos.data=transfoArray;
-        }
+        // let transfoArray=[];
+        // for (let a of transfo)
+        // {
+        //   let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
+        //   transfoArray.push(group);
+        //   for(let b of a.trafos)
+        //   {
+        //     transfoArray.push(b);
+        //   }
+        this.dataGetTrafos.data=transfo;
+        // }
         
       }, err => {
           this.isLoadingResults = false;
@@ -645,17 +645,18 @@ export class TimerReloadedComponent implements OnInit {
           {
             this.isLoadingResults=true;
             this.dataGetTrafos.paginator = this.paginator;
-            let transfoArray=[];
-            for (let a of res)
-            {
-              let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
-              transfoArray.push(group);
-              for(let b of a.trafos)
-              {
-                transfoArray.push(b);
-              }
-              this.dataGetTrafos.data=transfoArray;
-            }
+
+            // let transfoArray=[];
+            // for (let a of res)
+            // {
+            //   let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
+            //   transfoArray.push(group);
+            //   for(let b of a.trafos)
+            //   {
+            //     transfoArray.push(b);
+            //   }
+            // }
+            this.dataGetTrafos.data=res;
             this.openSnackBar("Transformadores encontrados","Exito!");
           }
           else{

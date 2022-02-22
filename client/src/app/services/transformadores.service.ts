@@ -140,17 +140,49 @@ export class TransformadoresService {
     )
   }
 
+  // GetTrafosByPageProcess(pageNumber:number):Observable<any[]>{
+  //   return this.http.get<any[]>(`${this.apiUrl}/GetTrafosByPageProcess/${pageNumber}`)
+  //   .pipe(
+  //     tap(_=>this.log('fetched Page Trafos')),
+  //     catchError(this.handleError('get By Page',[]))
+  //   )
+  // }
+
   GetTrafosByPageProcess(pageNumber:number):Observable<any[]>{
-    return this.http.get<any[]>(`${this.apiUrl}/GetTrafosByPageProcess/${pageNumber}`)
+    return this.http.get<any[]>(`${this.apiUrl}/getTrafosByPageProcessOrdenado/${pageNumber}`)
     .pipe(
       tap(_=>this.log('fetched Page Trafos')),
       catchError(this.handleError('get By Page',[]))
     )
   }
+  
+
+  // getTrafosFilter(filter:any ):Observable<any[]>{
+  //   console.log(filter);
+  //   return this.http.get<any[]>(`${this.apiUrl}/getFilteredValue`,{
+  //     params:{
+  //       oTe :filter.oTe,
+  //       nucleos:filter.nucleos,
+  //       oPe:filter.oPe,
+  //       rangoInicio:filter.rangoInicio,
+  //       potencia:filter.potencia,
+  //       nombreCli:filter.nombreCli,
+  //       month:filter.month,
+  //       year:filter.year,
+  //       observaciones:filter.observaciones,
+  //       serie:filter.serie,
+  //       vendedor:filter.vendedor
+  //     }
+  //   })
+  //   .pipe(
+  //     tap(_=>this.log('fetched Filter')),
+  //     catchError(this.handleError('get By Filter',[]))
+  //   )
+  // }
 
   getTrafosFilter(filter:any ):Observable<any[]>{
     console.log(filter);
-    return this.http.get<any[]>(`${this.apiUrl}/getFilteredValue`,{
+    return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenado`,{
       params:{
         oTe :filter.oTe,
         nucleos:filter.nucleos,
@@ -172,10 +204,31 @@ export class TransformadoresService {
   }
 
   
+  // getTrafosFilterProcess(filter:any ):Observable<any[]>{
+  //   console.log(filter);
+    
+  //   return this.http.get<any[]>(`${this.apiUrl}/GetFilteredValueProcess`,{
+  //     params:{
+  //         oTe :filter.oTe,
+  //         oPe:filter.oPe,
+  //         rangoInicio:filter.rangoInicio,
+  //         potencia:filter.potencia,
+  //         nProceso:filter.nProceso,
+  //         month:filter.month,
+  //         year:filter.year,
+  //         observaciones:filter.observaciones
+  //     }
+  //   })
+  //   .pipe(
+  //     tap(_=>this.log('fetched Filter')),
+  //     catchError(this.handleError('get By Filter',[]))
+  //   )
+  // }
+
   getTrafosFilterProcess(filter:any ):Observable<any[]>{
     console.log(filter);
     
-    return this.http.get<any[]>(`${this.apiUrl}/GetFilteredValueProcess`,{
+    return this.http.get<any[]>(`${this.apiUrl}/GetFilteredValueProcessOrdenado`,{
       params:{
           oTe :filter.oTe,
           oPe:filter.oPe,
