@@ -853,6 +853,7 @@ namespace Foha.Controllers
     {
         //int prioSumada = 1;
         List<Transformadores> listaTrafos = new List<Transformadores>();
+        
         foreach(var trafo in trafos)
         {
             //Transformadores trafoOriginal = _context.Transformadores.Where(x => x.IdTransfo == trafo.IdTransfo).AsNoTracking().FirstOrDefault();
@@ -875,8 +876,29 @@ namespace Foha.Controllers
 
     }
 
+    [HttpPut("newUpdateAllTrafos")]
+    public async Task<IActionResult> NewUpdateAllTransfo([FromBody] EditTransformadoresDto[] trafos)
+    {
+        Response<string> res =new  Response<string>();
 
+        var a = _mapper.Map<EditTransformadoresDto[],Transformadores[]>(trafos);
+        List<Transformadores> listaTrafos = new List<Transformadores>();
 
+        listaTrafos.AddRange(a);
+        _repo.UpdateAll(listaTrafos);
+        try{
+            await _context.SaveChangesAsync();
+            res.Message="Transformadores agregados";
+            res.Status=200;
+            return Ok(res);
+        }
+        catch(DbUpdateException ex){
+            res.Message=ex.Message;
+            res.Status = 400;
+            return BadRequest(res);
+        }
+
+    }
     // DELETE: api/Transformadores/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTransformadores([FromRoute] int id)

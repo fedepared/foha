@@ -196,20 +196,40 @@ export class NewOrderComponent implements OnInit {
     console.log(this.orderDefinitivo);
     for(let oD of this.orderDefinitivo)
     {
-      oD.lista.forEach((e,i)=>{
-        e.anio=oD.anio;
-        e.mes=oD.mes;
-        e.prioridad=i;
-        this.transformadoresService.updateTransformador(e.idTransfo,e)
-        .subscribe(transfo => {
-          this.isLoadingResults = false;
-          }, err => {
-            console.log(err);
-            this.openSnackBar("Error al guardar:",err)
-            this.isLoadingResults = false;
-          });
+      
+      console.log("antes",oD.lista.map(({idTransfo,prioridad,oTe,oPe})=>({idTransfo,prioridad,oTe,oPe})));
+      oD.lista.map((trafo,index)=>{
+        trafo.anio = oD.anio;
+        trafo.mes = oD.mes;
+        trafo.prioridad = index;
       })
+      //  oD.lista.forEach((e,i)=>{
+      //   e.anio=oD.anio;
+      //   e.mes=oD.mes;
+      //   e.prioridad=i;
+        // this.transformadoresService.updateTransformador(e.idTransfo,e)
+        // .subscribe(transfo => {
+        //   this.isLoadingResults = false;
+        //   }, err => {
+        //     console.log(err);
+        //     this.openSnackBar("Error al guardar:",err)
+        //     this.isLoadingResults = false;
+        //   });
+      // }
       // this.transformadoresService.metodoNuevo([])
+      console.log("despues",oD.lista.map(({idTransfo,prioridad,oTe,oPe})=>({idTransfo,prioridad,oTe,oPe})));
+      let month = this.mes.find((x)=>x.value==oD.mes)
+      this.transformadoresService.newUpdateAllTrafos(oD.lista).subscribe(res =>{
+        
+        if(res.status == 200){
+          this.openSnackBar(`Se actualizaron las prioridades del mes de ${month.viewValue} de ${oD.anio}`,"")
+          this.transformadoresService.AsignarFechaProdMesGet(oD.mes,oD.anio).subscribe((re)=>{
+            if(res.status==200){
+              this.openSnackBar(`${res.message}`,"")
+            } 
+          })
+        }
+      });
     }
     this.openSnackBar("Orden Guardado!","Ok")
     this.getMonthYear();
