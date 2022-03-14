@@ -287,6 +287,22 @@ export class TransformadoresService {
     )
   }
 
+  newUpdateAllTrafos(transformadores):Observable<IResponse<any>>{
+    const url = `${apiUrl}/newUpdateAllTrafos`;
+    return this.http.put<IResponse<any>>(url,transformadores,httpOptions).pipe(
+      tap(_ => this.openSnackBar('Transformadores actualizados','Ok')),
+      catchError(this.handleError<IResponse<any>>('updated Transformadores'))
+    )
+  }
+
+  AsignarFechaProdMesGet(mes:number,anio:number){
+    return this.http.get<IResponse<any>>(`${this.apiUrl}/AsignarFechaProdMesGet/${mes}/${anio}`)
+    .pipe(
+      tap(_=>this.log('fetched Page Trafos')),
+      catchError(this.handleError('get By Page',[]))
+    )
+  }
+
   deleteTransformador (id: number): Observable<Transformadores> {
     const url = `${apiUrl}/${id}`;
     return this.http.delete<Transformadores>(url, httpOptions).pipe(
