@@ -1501,7 +1501,7 @@ namespace Foha.Controllers
         }
         fechas = fechas.Where(d => d.DayOfWeek > DayOfWeek.Sunday & d.DayOfWeek < DayOfWeek.Saturday).ToList();
         int DiasLaborales = fechas.Count();
-        int maxDiario = trafos.Count() / DiasLaborales;
+        double maxDiario = Math.Ceiling((double)trafos.Count() / (double)DiasLaborales);
         int Contador = 0;
         int ContadorFecha = 0;
         foreach(Transformadores t in trafos){
