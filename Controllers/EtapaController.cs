@@ -601,8 +601,63 @@ namespace Foha.Controllers
                 editEtapaDto.FechaPausa=etapaAnterior.FechaPausa;
             }
 
-            
+            if(editEtapaDto.IdTipoEtapa == 21)
+            {
+                Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).Include(x => x.EtapaEmpleado).First();
+                if(etapaHorno.IsEnded == false){
+                    etapaHorno.FechaPausa = DateTime.Now;
+                    if(etapaHorno.InicioProceso==null)
+                    {
+                        //Tiempo parcial 
+                        TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaHorno.TiempoParc));
+                        
+                        foreach(var a in editEtapaDto.EtapaEmpleado)
+                        {
+                            
+                            //Calculo el nuevo tiempo para el empleado encontrado
+                            a.DateIni=etapaHorno.DateIni;
+                            a.TiempoParc=preEtapaTiempoParc.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                            var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                            try{
+                                _repo2.Update(preEtapaEmpleado);
+                            }
+                            catch(DbUpdateConcurrencyException){
+                                throw;
+                            }
 
+                        }
+
+                        editEtapaDto.TiempoParc = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss");
+
+                    }
+                    else{
+                        //calculo el nuevo intervalo 
+                        TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - etapaHorno.InicioProceso);
+                        foreach(var a in editEtapaDto.EtapaEmpleado)
+                        {
+                            var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
+                            TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
+                            a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                            a.DateIni=editEtapaDto.DateIni;
+                            var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                            try{
+                                _repo2.Update(preEtapaEmpleado);
+                            }
+                            catch(DbUpdateConcurrencyException){
+                                throw;
+                            }
+                        }
+                        var horasHombre=preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count());
+                        TimeSpan suma = new TimeSpan();
+                        var prueba=etapaHorno.TiempoParc;
+                        var prueba2=horasHombre;
+                        suma=TimeSpan.ParseExact(etapaHorno.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
+                        editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                    }
+                    _context.Etapa.Update(etapaHorno);
+                }
+            }
+            
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
                 
@@ -1851,6 +1906,54 @@ namespace Foha.Controllers
             r.Data = t;
             return Ok(r);
 
+        }
+
+        [HttpGet("ChequearHorno")]
+        public async Task<IActionResult> ChequearHorno(){
+            Response<String> r = new Response<string>();
+            List<Etapa> etapasHorno = await _context.Etapa.Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030).Include(x => x.IdTipoEtapaNavigation).ToListAsync();
+            DateTime fechaActual = DateTime.Now;
+            foreach(Etapa e in etapasHorno)
+            {
+                if((fechaActual - e.DateIni).Value.TotalHours >= 72){
+                    TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - e.InicioProceso);
+                    var horasHombre=preEtapaTiempoParc.Multiply(e.EtapaEmpleado.Count());
+                    TimeSpan suma = new TimeSpan();
+                    suma =(TimeSpan.ParseExact(e.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
+                    e.TiempoFin=suma.ToString(@"dd\:hh\:mm\:ss");
+                    foreach(var a in e.EtapaEmpleado)
+                    {
+                        var isEtapaEmpleadoAntes= _context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
+                        TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
+                        a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                        a.DateIni=e.DateIni;
+                        a.TiempoFin=e.TiempoFin;
+                        a.DateFin=e.DateFin;
+                        a.IsEnded=true;
+                        var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                        try{
+                            _repo2.Update(preEtapaEmpleado);
+                        }
+                        catch(DbUpdateConcurrencyException){
+                            throw;
+                        }
+                    }
+                    e.DateFin = fechaActual;
+                    e.IsEnded = true;
+                    e.IdColor = 10;
+                    _context.Etapa.Update(e);
+                }
+            }
+            try{
+                await _context.SaveChangesAsync();
+                r.Message = "Se actualizaron las etapas del tipo Horno.";
+                r.Status = 200;
+                return Ok(r);
+            }catch(Exception e){
+                r.Message = e.Message;
+                r.Status = 500;
+                return Conflict(r);
+            }
         }
 
     }

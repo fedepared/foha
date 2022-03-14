@@ -746,6 +746,7 @@ namespace Foha.Controllers
         try
         {
             await _context.SaveChangesAsync();
+            AsignarFechaProdMes(addTransformadoresDto.Mes.Value, addTransformadoresDto.Anio.Value);
             return Ok();
         }
         catch (Exception ex)
@@ -800,6 +801,8 @@ namespace Foha.Controllers
                 
             // }
         }
+
+        AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
 
         return Ok();
 
@@ -1132,12 +1135,12 @@ namespace Foha.Controllers
             var pageQuantity=pageNumber * 80;
             DateTime month = DateTime.Now;
 
-             var resultado= _context.Transformadores
+             var resultado= await _context.Transformadores
             .Include(z=>z.IdClienteNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
             .Include(b=>b.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation)
-            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
+            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToListAsync();
 
             foreach(var t in resultado)
             {
@@ -1145,7 +1148,7 @@ namespace Foha.Controllers
             }
 
             List<dynamic> trafosDynamic = new List<dynamic>();
-            resultado = resultado.OrderByDescending(x => x.Anio).ThenByDescending(x => x.Mes).ToList();
+            resultado = resultado.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
             var anioIni = resultado[0].Anio;
             var mesIni = resultado[0].Mes;
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+resultado.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1229,7 +1232,7 @@ namespace Foha.Controllers
         {
 
             List<dynamic> trafosDynamic = new List<dynamic>();
-            trafos = trafos.OrderByDescending(x => x.Anio).ThenByDescending(x => x.Mes).ToList();
+            trafos = trafos.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
             var anioIni = trafos[0].Anio;
             var mesIni = trafos[0].Mes;
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1253,7 +1256,7 @@ namespace Foha.Controllers
             if(results.Count()>0)
             {
                List<dynamic> trafosDynamic = new List<dynamic>();
-                results = results.OrderByDescending(x => x.Anio).ThenByDescending(x => x.Mes).ToList();
+                results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
                 var anioIni = results[0].Anio;
                 var mesIni = results[0].Mes;
                 var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1337,7 +1340,7 @@ namespace Foha.Controllers
         {
 
             List<dynamic> trafosDynamic = new List<dynamic>();
-            trafo = trafo.OrderByDescending(x => x.Anio).ThenByDescending(x => x.Mes).ToList();
+            trafo = trafo.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
             var anioIni = trafo[0].Anio;
             var mesIni = trafo[0].Mes;
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafo.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1361,7 +1364,7 @@ namespace Foha.Controllers
             if(results.Count()>0)
             {
                List<dynamic> trafosDynamic = new List<dynamic>();
-                results = results.OrderByDescending(x => x.Anio).ThenByDescending(x => x.Mes).ToList();
+                results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
                 var anioIni = results[0].Anio;
                 var mesIni = results[0].Mes;
                 var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1464,6 +1467,53 @@ namespace Foha.Controllers
             return Conflict(r);
         }
     }
+
+    private void AsignarFechaProdMes(int mes, int anio){
+        Response<String> r = new Response<string>();
+        List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
+        int dias = DateTime.DaysInMonth(anio, mes);
+        List<DateTime> fechas = new List<DateTime>();
+        for (int i = 1; i <= dias; i++)
+        {
+            fechas.Add(new DateTime(anio, mes, i));
+        }
+        fechas = fechas.Where(d => d.DayOfWeek > DayOfWeek.Sunday & d.DayOfWeek < DayOfWeek.Saturday).ToList();
+        int DiasLaborales = fechas.Count();
+        int maxDiario = trafos.Count() / DiasLaborales;
+        int Contador = 0;
+        int ContadorFecha = 0;
+        foreach(Transformadores t in trafos){
+            t.FechaProd = fechas[ContadorFecha];
+            _context.Transformadores.Update(t);
+            Contador++;
+            if(Contador == maxDiario)
+            {
+                Contador = 0;
+                ContadorFecha++;
+            }
+        }       
+        _context.SaveChanges();
+    }
+
+    [HttpGet("AsignarFechaProdMesGet/{mes}/{anio}")]
+    public async Task<IActionResult> AsignarFechaProdMesGet([FromRoute] int mes, [FromRoute] int anio){
+        Response<String> r = new Response<String>();
+        try{
+            AsignarFechaProdMes(mes, anio);
+            r.Message = "Se realizo la asignacion de fechas de produccion exitosamente.";
+            r.Status = 200;
+            r.Data = "Se realizo la asignacion de fechas de produccion exitosamente.";
+            return Ok(r);
+        }catch(Exception e){
+            r.Message = e.Message;
+            r.Data = e.Message;
+            r.Status = 500;
+            return Conflict(r);
+        }
+    }
+
+
+
 
 }
 }
