@@ -32,7 +32,7 @@ import { EtapaTransfo } from '../models/etapaTransfo';
 //filtro
 import {map, startWith} from 'rxjs/operators';
 import * as jQuery from 'jquery';
-import { MatDatepickerInputEvent, MatPaginator } from '@angular/material';
+import { MatCheckboxChange, MatDatepickerInputEvent, MatPaginator } from '@angular/material';
 import { CourseDialog3Component } from '../clientes/clientes.component';
 import { Transform } from 'stream';
 import { TmplAstRecursiveVisitor } from '@angular/compiler';
@@ -470,46 +470,6 @@ export class TransformadoresNewComponent implements OnInit {
     };
     return encabezado[trafo];
     
-    // switch(trafo)
-    // {
-    //   case "oTe":
-    //       trafo="OT | OR"
-    //       break;
-    //   case'oPe':
-    //       trafo="OP"
-    //       break;
-    //   case'rangoInicio':
-    //       trafo="RNG"
-    //       break;
-    //   case'lote':
-    //       trafo="LOT"
-    //       break;
-    //   case'potencia':
-    //       trafo="POT"
-    //       break;
-    //   case'nucleos':
-    //       trafo="NUC"
-    //       break;
-    //   case 'radPan':
-    //       trafo="R/P";
-    //       break;
-    //   case'nombreCli':
-    //       trafo="CLI"
-    //       break;
-    //   case 'idVendedorNavigation':
-    //       trafo="VEND"
-    //       break;
-    //   case'observaciones':
-    //       trafo="OBS"
-    //       break;
-    //   case 'fechaPactada':
-    //       trafo="FOT"
-    //       break;
-    //   case 'fechaProd':
-    //       trafo="FPR"
-    //       break;
-    // }
-    // return trafo;
   }
 
 
@@ -566,43 +526,6 @@ export class TransformadoresNewComponent implements OnInit {
     }
     return toolTipTrafo[trafo];
     
-    // switch(trafo)
-    // {
-    //   case 'oTe':
-    //       trafo='OT'
-    //       break;
-    //   case'oPe':
-    //       trafo='OP'
-    //       break;
-    //   case'rangoInicio':
-    //       trafo='Rango'
-    //       break;
-    //   case'rangoFin':
-    //       trafo='Lote'
-    //       break;
-    //   case'potencia':
-    //       trafo='Potencia'
-    //       break;
-    //   case'nucleos':
-    //       trafo='Nucleo'
-    //       break;
-    //   case'nombreCli':
-    //       trafo='Cliente'
-    //       break;
-    //   case'observaciones':
-    //       trafo='Observaciones'
-    //       break;
-    //   case 'fechaPactada':
-    //       trafo='Fecha segun OT'
-    //       break;
-    //   case 'fechaProd':
-    //       trafo='Fecha Producción'
-    //       break;
-    //   case 'idVendedorNavigation':
-    //     trafo='Vendedor'
-    //     break;
-    // }
-    // return trafo;
   }
 
   op(ope){
@@ -669,151 +592,7 @@ export class TransformadoresNewComponent implements OnInit {
     }
     return et[etapa];
 
-    // switch(etapa)
-    // {
-    //   case "DOC":
-    //     etapa="Documentación";
-    //     break;
-    //   case "BT1":
-    //     etapa="Bob BT";
-    //     break;
-    //   case "BT2":
-    //     etapa="Bob BT";
-    //     break;
-    //   case "BT3":
-    //     etapa="Bob BT";
-    //     break;
-    //   case "AT1":
-    //     etapa="Bob AT";
-    //     break;
-    //   case "AT2":
-    //     etapa="Bob AT";
-    //     break;
-    //   case "AT3":
-    //     etapa="Bob AT";
-    //     break;
-    //   case "RG1":
-    //     etapa="Bob RG";
-    //     break;
-    //   case "RG2":
-    //     etapa="Bob RG";
-    //     break;
-    //   case "RG3":
-    //     etapa="Bob RG";
-    //     break;
-    //   case "RF1":
-    //     etapa="Bob RF";
-    //     break;
-    //   case "RF2":
-    //     etapa="Bob RF";
-    //     break;
-    //   case "RF3":
-    //     etapa="Bob RF";
-    //     break;
-    //   case "ENS":
-    //     etapa="Ensamblaje Bobinas";
-    //     break;
-    //   case "PY CYP":
-    //     etapa="C Y P PYS";
-    //     break;
-    //   case "PY SOL":
-    //     etapa="Soldadura Prensayugos";
-    //     break;
-    //   case "PY ENV":
-    //     etapa="Envio de PYS";
-    //     break;
-    //   case "NUC":
-    //     etapa="Nucleo";
-    //     break;
-    //   case "MON":
-    //     etapa="Montaje";
-    //     break;
-    //   case "HOR":
-    //     etapa="Horno";
-    //     break;
-    //   case "CUBA CYP":
-    //     etapa="C Y P Tapa-Cuba";
-    //     break;
-    //   case "SOL \n TAPA":
-    //     etapa="TAPA";
-    //     break;
-    //   case "RAD \n PAN":
-    //     etapa="Radiadores o Paneles";
-    //     break;
-    //   case "CUBA":
-    //     etapa="Cuba";
-    //     break;
-    //   case "HERM":
-    //     etapa="Hermeticidad";
-    //     break;
-    //   case "GRAN":
-    //     etapa="Granallado";
-    //     break;
-    //   case "PINT":
-    //     etapa="Pintura";
-    //     break;
-    //   case "ENC":
-    //     etapa="Encubado";
-    //     break;
-    //   case "LAB":
-    //     etapa="Ensayos(Ref)";
-    //     break;
-    //   case "TERM":
-    //     etapa="Terminacion";
-    //     break;
-    //   case "APR":
-    //     etapa="Aprobacion";
-    //     break;
-    //   case "ENV":
-    //     etapa="Envío a cliente";
-    //     break;
-    //   case "CYP PAT":
-    //     etapa="C Y P PATAS"
-    //     break;
-    //   case "PAT ENV":
-    //     etapa="ENVIO PATAS"
-    //     break;
-    //   case "CON BT":
-    //     etapa="CONEXION BT"
-    //     break;
-    //   case "CON AT":
-    //     etapa="CONEXION AT"
-    //     break;
-    //   case "REL \n TRA":
-    //     etapa="RELACION DE TRANSFORMACION"
-    //     break;
-    //   case "CUBA CYP":
-    //     etapa="CUBA C Y P"
-    //     break;
-    //   case "SOL \n CUBA":
-    //     etapa="SOLDADURA CUBA"
-    //     break;
-    //   case "GRAN \n CUBA":
-    //     etapa="GRANALLADO CUBA"
-    //     break;
-    //   case "PINT \n CUBA":
-    //     etapa="PINTURA CUBA"
-    //     break;
-    //   case "ENV \n CUBA":
-    //     etapa="ENVIO CUBA"
-    //     break;
-    //   case "CYP \n TAPA":
-    //     etapa="C Y P TAPA"
-    //     break;
-    //   case "GRAN \n TAPA":
-    //     etapa="GRANALLADO TAPA"
-    //     break;
-    //   case "PINT \n TAPA":
-    //     etapa="PINTURA TAPA"
-    //     break;
-    //   case "ENV \n TAPA":
-    //     etapa="ENVIO TAPA"
-    //     break;
-    //   case "CUBI":
-    //     etapa="CUBIERTA";
-    //     break;
-    // }
-    // return etapa;
+   
   }
 
 
@@ -1234,18 +1013,22 @@ export class TransformadoresNewComponent implements OnInit {
               {
                 this.isLoadingResults=true;
                 this.dataGetTrafos.paginator = this.paginator;
-                let transfoArray=[];
-                for (let a of res)
-                {
-                  let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
-                  transfoArray.push(group);
-                  for(let b of a.trafos)
-                  {
-                    transfoArray.push(b);
-                  }
-                  this.dataGetTrafos.data=transfoArray;
-                  this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
-                }
+                // let transfoArray=[];
+                // for (let a of res)
+                // {
+                //   let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
+                //   transfoArray.push(group);
+                //   for(let b of a.trafos)
+                //   {
+                //     transfoArray.push(b);
+                //   }
+                //   this.dataGetTrafos.data=transfoArray;
+                //   this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
+                // }
+                this.dataGetTrafos.data = res;
+                this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
+
+
                 this.openSnackBar("Transformadores encontrados","Exito!")
               }
               else{
@@ -1296,7 +1079,7 @@ interface ComboClientes{
 
     form: FormGroup;
     potencia:number;
-    oPe:string;
+    oPe:number;
     oTe:number;
     idTransfo:number;
     idCliente:number;
@@ -1337,6 +1120,8 @@ interface ComboClientes{
 
     //disable some form controls
     disableForms:boolean=false;
+    //opNueva
+    newOp=false;
 
     constructor(
       private _snackBar:MatSnackBar,
@@ -1425,6 +1210,17 @@ interface ComboClientes{
         }
       );
 
+    }
+
+    newOpe(event:MatCheckboxChange){
+      if(event.checked){
+        this.form.controls['oPe'].setValue(0);
+        this.disableForms=true;
+        console.log(this.form.controls);
+      }
+      else{
+        this.disableForms=false;
+      }
     }
 
     selectedClient(event)

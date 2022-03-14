@@ -1,3 +1,4 @@
+import { OverlayKeyboardDispatcher } from '@angular/cdk/overlay';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { EnroqueTrafos } from '../models/enroqueTrafos';
@@ -12,7 +13,8 @@ import { TransformadoresService } from '../services/transformadores.service';
 export class SwitchTrafosComponent implements OnInit {
   
   originSelection=[];
-  arriveSelection=[]
+  arriveSelection=[];
+  resCompleted:boolean=false;
 
   constructor(private _snackBar: MatSnackBar,public dialog: MatDialog,private transformadoresService:TransformadoresService) { }
 
@@ -23,9 +25,7 @@ export class SwitchTrafosComponent implements OnInit {
 
 
   receiveSelected($event) {
-    // this.selection.push($event)
     this.originSelection=$event
-    console.log(this.originSelection)
   }
 
   sendSelection($event){
@@ -47,7 +47,9 @@ export class SwitchTrafosComponent implements OnInit {
         if(result)
         {
           this.transformadoresService.postEnroqueTrafos(enroqueTrafos).subscribe(res=>{
-            console.log(res);
+            if(res.status==200){
+              this.resCompleted=true;
+            }
           })
         }
       });

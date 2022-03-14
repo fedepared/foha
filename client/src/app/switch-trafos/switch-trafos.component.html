@@ -8,10 +8,10 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
     <!-- <div *ngFor="let a of selection">{{a.idTransfo}}</div> -->
     <div fxFlex="50">
-        <app-from (selectionEvent)="receiveSelected($event)"></app-from>
+        <app-from (selectionEvent)="receiveSelected($event)" [resOk]="resCompleted"></app-from>
     </div>
     <div *ngIf="originSelection.length>0" fxFlex="45">
-        <app-to (arriveSelectionEvent)="sendSelection($event)"></app-to>
+        <app-to (arriveSelectionEvent)="sendSelection($event)" [resOk]="resCompleted"></app-to>
     </div>
     
 </div>

@@ -611,7 +611,7 @@ namespace Foha.Controllers
             
         }
 
-        if(addTransformadoresDto.OPe == 0){
+        if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6){
             addTransformadoresDto.OPe = _context.Transformadores.Max(x => x.OPe) + 1;
         }
 
@@ -624,7 +624,7 @@ namespace Foha.Controllers
             addTransformadoresDto.RangoFin=1;
             addTransformadoresDto.RangoInicio=1;
             //if(addTransformadoresDto.OPe == null){
-            //    addTransformadoresDto.OPe = 0;
+            // addTransformadoresDto.OPe = 0;
             //}
         }
         else if(_context.Transformadores.Where((x=>x.OPe==addTransformadoresDto.OPe)).Count()>0){
@@ -1247,7 +1247,7 @@ namespace Foha.Controllers
                     trafosDynamic.Add(t);
                 }
             }
-            return Ok(trafos);
+            return Ok(trafosDynamic);
         }
         else{
             if(results.Count()>0)
@@ -1271,7 +1271,7 @@ namespace Foha.Controllers
                         trafosDynamic.Add(t);
                     }
                 }
-                return Ok(results);
+                return Ok(trafosDynamic);
             }
             else{
                 return Ok();
@@ -1355,7 +1355,7 @@ namespace Foha.Controllers
                     trafosDynamic.Add(t);
                 }
             }
-            return Ok(trafo);
+            return Ok(trafosDynamic);
         }
         else{
             if(results.Count()>0)
@@ -1379,7 +1379,7 @@ namespace Foha.Controllers
                         trafosDynamic.Add(t);
                     }
                 }
-                return Ok(results);
+                return Ok(trafosDynamic);
             }
             else{
                 return Ok();
@@ -1400,11 +1400,29 @@ namespace Foha.Controllers
         {
             Transformadores Desde = _context.Transformadores.Find(trafos.TrafosDesde[cont]);
             Transformadores Hasta = _context.Transformadores.Find(trafos.TrafosHasta[cont]);
-            Transformadores CopiaDesde = Desde;
+            // Transformadores CopiaDesde = Desde;
+
+            Transformadores CopiaDesde = new Transformadores(){
+                Anio = Desde.Anio,
+                FechaProd = Desde.FechaProd,
+                IdCliente = Desde.IdCliente,
+                NombreCli = Desde.NombreCli,
+                IdTipoTransfo = Desde.IdTipoTransfo,
+                Lote = Desde.Lote,
+                Mes = Desde.Mes,
+                Nucleos = Desde.Nucleos,
+                OPe = Desde.OPe,
+                Potencia = Desde.Potencia,
+                Prioridad = Desde.Prioridad,
+                RadPan = Desde.RadPan,
+                RangoFin = Desde.RangoFin,
+                RangoInicio = Desde.RangoInicio,
+            };
 
             Desde.Anio = Hasta.Anio;
             Desde.FechaProd = Hasta.FechaProd;
             Desde.IdCliente = Hasta.IdCliente;
+            Desde.NombreCli = Hasta.NombreCli;
             Desde.IdTipoTransfo = Hasta.IdTipoTransfo;
             Desde.Lote = Hasta.Lote;
             Desde.Mes = Hasta.Mes;
@@ -1419,6 +1437,7 @@ namespace Foha.Controllers
             Hasta.Anio = CopiaDesde.Anio;
             Hasta.FechaProd = CopiaDesde.FechaProd;
             Hasta.IdCliente = CopiaDesde.IdCliente;
+            Hasta.NombreCli = CopiaDesde.NombreCli;
             Hasta.IdTipoTransfo = CopiaDesde.IdTipoTransfo;
             Hasta.Lote = CopiaDesde.Lote;
             Hasta.Mes = CopiaDesde.Mes;
@@ -1429,6 +1448,7 @@ namespace Foha.Controllers
             Hasta.RadPan = CopiaDesde.RadPan;
             Hasta.RangoFin = CopiaDesde.RangoFin;
             Hasta.RangoInicio = CopiaDesde.RangoInicio;
+            
 
             _context.Transformadores.Update(Desde);
             _context.Transformadores.Update(Hasta);            

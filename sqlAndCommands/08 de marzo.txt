@@ -1,0 +1,19 @@
+Problema: cuando creas un trafo, le asignas una fecha. Pero el problema es cuando agregan de golpe 
+fecha de producción: cálculo automáticamente, cada vez que se priorizan los transformadores o cuando agregan trafos...
+se saca fecha de producción a la hora de cargar y a la hora de modificar
+
+cálculo = total de trafos/días hábiles en el mes
+
+falta filtro desde hasta en rango, y tipo de trafo 
+
+falta lo de horno
+
+cambiar orden de resultado de filtros
+
+agregar potencia a la vista de priorización 
+
+
+en vista de por ejemplo bobinas, AT, RF y demás, serían las columnas 
+
+
+

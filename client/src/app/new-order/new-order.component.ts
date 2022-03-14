@@ -209,6 +209,7 @@ export class NewOrderComponent implements OnInit {
             this.isLoadingResults = false;
           });
       })
+      // this.transformadoresService.metodoNuevo([])
     }
     this.openSnackBar("Orden Guardado!","Ok")
     this.getMonthYear();
