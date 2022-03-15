@@ -4,11 +4,11 @@
     justify-content: center;
   }
   .search__form_field {
-    width: 8ch;
+    width: 10ch;
     /*margin: 0 8px 16px 8px;*/
   }
   .search__form_field-especial {
-    width: 140px;
+    width: 20ch;
     /* margin: 0 8px 16px 8px; */
   }
   .search__table {

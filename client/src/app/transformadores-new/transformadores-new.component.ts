@@ -381,23 +381,26 @@ export class TransformadoresNewComponent implements OnInit {
   )
 
 
-
-
-    oTe= '';
+    oTeDesde='';
+    oTeHasta='';
+    oPeDesde='';
+    oPeHasta='';
+    rangoInicioDesde='';
+    rangoInicioHasta='';
+    potenciaDesde='';
+    potenciaHasta='';
     nucleos='';
-    oPe= '';
-    rangoInicio= '';
-    rangoFin= '';
-    observaciones= '';
-    potencia= '';
-    nombreCli= '';
     serie='';
+    nombreCli='';
+    observaciones='';
     vendedor='';
     month=[];
     year=[];
     tTransfo='';
+    fechaPactada='';
+    fechaProd='';
 
-
+  
   mes:Mes[]=[
     {value:1,viewValue:"Enero"},
     {value:2,viewValue:"Febrero"},
@@ -948,29 +951,36 @@ export class TransformadoresNewComponent implements OnInit {
 
       applyApiFilter(){
         if(
-          (this.form.get('oTe').value && this.form.get('oTe').value.length>=3)||
+
+
+          (this.form.get('oTeDesde').value || this.form.get('oTeHasta').value) ||
+          (this.form.get('oPeDesde').value || this.form.get('oPeHasta').value) ||
+          (this.form.get('rangoInicioDesde').value || this.form.get('rangoInicioHasta').value) ||
+          (this.form.get('potenciaDesde').value || this.form.get('potenciaHasta').value) ||
           (this.form.get('nucleos').value) ||
-          (this.form.get('oPe').value && this.form.get('oPe').value.length>=3) ||
-          (this.form.get('rangoInicio').value && this.form.get('rangoInicio').value.length>=2) ||
-          (this.form.get('potencia').value) ||
-          (this.form.get('nombreCli').value && this.form.get('nombreCli').value.length>=3) ||
-          (this.form.get('month').value) || 
           (this.form.get('serie').value) ||
+          (this.form.get('nombreCli').value) ||
+          (this.form.get('observaciones').value) ||
           (this.form.get('vendedor').value) ||
-          (this.form.get('observaciones').value)
+          (this.form.get('tTransfo')) ||
+          (this.form.get('month').value)
         )
         {
-            const ot =this.form.get('oTe').value;
+            const otDesde =this.form.get('oTeDesde').value;
+            const otHasta =this.form.get('oTeHasta').value;
+            const opDesde=this.form.get('oPeDesde').value;
+            const opHasta=this.form.get('oPeHasta').value;
+            const rgID=this.form.get('rangoInicioDesde').value;
+            const rgIH=this.form.get('rangoInicioHasta').value;
+            const potDesde=this.form.get('potenciaDesde').value;
+            const potHasta=this.form.get('potenciaHasta').value;
             const nucl=this.form.get('nucleos').value;
-            const op=this.form.get('oPe').value;
-            const rI=this.form.get('rangoInicio').value;
-            const pot=this.form.get('potencia').value;
-            const nC=this.form.get('nombreCli').value;
-            const partialMonth=this.form.get('month').value;
             const serie = this.form.get('serie').value;
-            const vendedor = this.form.get('vendedor').value;
-            console.log(vendedor);
+            const nC=this.form.get('nombreCli').value;
             const obs = this.form.get('observaciones').value;
+            const partialMonth=this.form.get('month').value;
+            const vendedor = this.form.get('vendedor').value;
+            const tTransfo = this.form.get('tTransfo').value;
             let monthArray=[];
             let yearArray=[];
             if(partialMonth!==null)
@@ -982,33 +992,41 @@ export class TransformadoresNewComponent implements OnInit {
               }
             }
 
-
-
-            this.oTe = ot === null ? ' ' : ot;
+            this.oTeDesde = otDesde === null ? 0 : otDesde;
+            this.oTeHasta = otHasta === null ? 0 : otHasta;
+            this.oPeDesde = opDesde === null ? 0 : opDesde;
+            this.oPeHasta = opHasta === null ? 0 : opHasta;
+            this.rangoInicioDesde = rgID === null ? 0 : rgID;
+            this.rangoInicioHasta = rgIH === null ? 0 : rgIH;
+            this.potenciaDesde = potDesde === null ? 0 : potDesde;
+            this.potenciaHasta = potHasta === null ? 0 : potHasta;
             this.nucleos = nucl === null ? ' ' : nucl;
-            this.oPe = op === null ? ' ' : op;
-            this.rangoInicio = rI === null ? ' ' : rI;
-            this.potencia = pot === null ? ' ' : pot;
+            this.serie = serie === null ? ' ' : serie;
             this.nombreCli = nC === null ? ' ' : nC;
+            this.observaciones = obs === null ? ' ' : obs; 
+            this.vendedor = vendedor === null ? ' ' : vendedor;
+            this.tTransfo = tTransfo === null ? ' ' : tTransfo;
             this.month= partialMonth === null ? [] : monthArray;
             this.year = partialMonth === null ? [] :yearArray;
-            this.serie = serie === null ? ' ' : serie;
-            this.vendedor = vendedor === null ? ' ' : vendedor;
-            this.observaciones = obs === null ? ' ' : obs; 
             
 
             let filterValue = {
-              oTe :this.oTe,
+              oTeDesde:this.oTeDesde,
+              oTeHasta:this.oTeHasta,
+              oPeDesde:this.oPeDesde,
+              oPeHasta:this.oPeHasta,
+              rangoInicioDesde:this.rangoInicioDesde,
+              rangoInicioHasta:this.rangoInicioHasta,
+              potenciaDesde:this.potenciaDesde,
+              potenciaHasta:this.potenciaHasta,
               nucleos:this.nucleos,
-              oPe:this.oPe,
-              rangoInicio:this.rangoInicio,
-              potencia:this.potencia,
-              nombreCli:this.nombreCli,
-              month:this.month,
-              year:this.year,
-              observaciones: this.observaciones,
               serie:this.serie,
-              vendedor:this.vendedor
+              nombreCli:this.nombreCli,
+              observaciones:this.observaciones,
+              vendedor:this.vendedor,
+              tTransfo:this.tTransfo,
+              month:this.month,
+              year:this.year
             }
             this.openSnackBar("aplicando los filtros seleccionados","buscando")
             this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{

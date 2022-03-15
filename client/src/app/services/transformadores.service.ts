@@ -184,17 +184,34 @@ export class TransformadoresService {
     console.log(filter);
     return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenado`,{
       params:{
-        oTe :filter.oTe,
+        // oTe :filter.oTe,
+        // nucleos:filter.nucleos,
+        // oPe:filter.oPe,
+        // rangoInicio:filter.rangoInicio,
+        // potencia:filter.potencia,
+        // nombreCli:filter.nombreCli,
+        // month:filter.month,
+        // year:filter.year,
+        // observaciones:filter.observaciones,
+        // serie:filter.serie,
+        // vendedor:filter.vendedor
+
+        oTeDesde:filter.oTeDesde,
+        oTeHasta:filter.oTeHasta,
+        oPeDesde:filter.oPeDesde,
+        oPeHasta:filter.oPeHasta,
+        rangoInicioDesde:filter.rangoInicioDesde,
+        rangoInicioHasta:filter.rangoInicioHasta,
+        potenciaDesde:filter.potenciaDesde,
+        potenciaHasta:filter.potenciaHasta,
         nucleos:filter.nucleos,
-        oPe:filter.oPe,
-        rangoInicio:filter.rangoInicio,
-        potencia:filter.potencia,
-        nombreCli:filter.nombreCli,
-        month:filter.month,
-        year:filter.year,
-        observaciones:filter.observaciones,
         serie:filter.serie,
-        vendedor:filter.vendedor
+        nombreCli:filter.nombreCli,
+        observaciones:filter.observaciones,
+        vendedor:filter.vendedor,
+        tTransfo:filter.tTransfo,
+        month:filter.month,
+        year:filter.year
       }
     })
     .pipe(
