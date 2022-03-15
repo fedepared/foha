@@ -74,6 +74,15 @@ export class EtapaService {
     )
   }
 
+  getChequearHorno():Observable<IResponse<any[]>>{
+    const url = `${apiUrl}/ChequearHorno`;
+    return this.http.get<IResponse<any[]>>(url)
+    .pipe(
+      tap(_=>console.log('fetched Etapas')),
+      catchError(this.handleError<IResponse<any[]>>('Chequeo de horno'))
+    )
+  }
+
 
   addEtapa(etapa: any): Observable<Etapa> {
     return this.http

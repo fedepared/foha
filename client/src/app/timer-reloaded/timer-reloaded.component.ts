@@ -682,5 +682,10 @@ export class TimerReloadedComponent implements OnInit {
     this.getTrafos();
   }
 
+  checkFurnace(){
+    this.etapaService.getChequearHorno().subscribe( (res) =>{
+      this.openSnackBar(res.message,"!");
+    })
+  }
 
 }

@@ -4,15 +4,15 @@
     justify-content: center;
   }
   .search__form_field {
-    width: 100px;
-    margin: 0 8px 16px 8px;
+    width: 8ch;
+    /*margin: 0 8px 16px 8px;*/
   }
   .search__form_field-especial {
     width: 140px;
-    margin: 0 8px 16px 8px;
+    /* margin: 0 8px 16px 8px; */
   }
   .search__table {
-    margin: 0 18px 18px 18px;
+    /* margin: 0 18px 18px 18px; */
   }
   
   .error-message{
@@ -291,4 +291,24 @@ td.mat-cell:last-of-type{
 .fot{
   background-color: firebrick;
   color:white;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  padding-bottom:0.25em
+}
+
+fieldset{
+  border-bottom:0.5px solid white;
+  border-left:0.5px solid white;
+  border-right:0.5px solid white;
+  border-top:0.5px solid white;
+  border-radius: 10px;
+  margin:0 5px;
+  padding:0;
+}
+
+fieldset legend{
+  font-size:small;
+  color:slategray;
+  
 }

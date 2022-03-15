@@ -10,121 +10,195 @@
     <div style="padding-top:30px">
         
         <form [formGroup]="form" class="search__form">
-          <mat-form-field class="search__form_field" appearance="outline">
-            <mat-label>OT</mat-label>
-            <input type="text"
-                  matInput
-                  formControlName="oTe"
+          <div></div>
+          <fieldset>
+            <legend>OT</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Desde</mat-label>
+              <input type="number"
+                    matInput
+                    formControlName="oTeDesde"
+                    
+                    (keydown.enter)="function($event)"
+              >
+            </mat-form-field>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Hasta</mat-label>
+              <input type="number"
+                    matInput
+                    formControlName="oTeHasta"
+                    
+                    (keydown.enter)="function($event)"
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>OP</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Desde</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="oPeDesde"
+                    
+              >
+            </mat-form-field>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Hasta</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="oPeHasta"
+                    
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Rango</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Desde</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="rangoInicioDesde"
+                    
+              >
+            </mat-form-field>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Hasta</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="rangoInicioHasta"
+                    
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Potencia</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Desde</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="potenciaDesde"
+                    
+              >
+            </mat-form-field>
+  
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Hasta</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="potenciaHasta"
+                    
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Nucleos</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Nucleos</mat-label>
+              <input type="text"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="nucleos"
+                    
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Serie</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Serie</mat-label>
+              <input type="text"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="serie"
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Cliente</legend>
+            <mat-form-field class="search__form_field-especial" appearance="outline">
+              <mat-label>Cliente</mat-label>
+              <input type="text"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="nombreCli"
                   
-                  (keydown.enter)="function($event)"
-            >
-          </mat-form-field>
-          <mat-form-field class="search__form_field" appearance="outline">
-            <mat-label>Nucleos</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="nucleos"
+              >
+            </mat-form-field>  
+          </fieldset>
+          <fieldset>
+            <legend>Obs.</legend>
+            <mat-form-field class="search__form_field-especial" appearance="outline">
+              <mat-label>Observaciones</mat-label>
+              <input type="text"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="observaciones"
                   
-            >
-          </mat-form-field>
-          <mat-form-field class="search__form_field" appearance="outline">
-            <mat-label>OP</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="oPe"
-                  
-            >
-          </mat-form-field>
-          <mat-form-field class="search__form_field" appearance="outline">
-            <mat-label>Rango</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="rangoInicio"
-                  
-            >
-          </mat-form-field>
+              >
+            </mat-form-field>  
+          </fieldset>
           
-          <mat-form-field class="search__form_field" appearance="outline">
-            <mat-label>Potencia</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="potencia"
-                  
-            >
-          </mat-form-field>
-          <mat-form-field class="search__form_field" appearance="outline">
-            <mat-label>Cliente</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="nombreCli"
-                
-            >
-          </mat-form-field>
-          <mat-form-field class="search__form_field-especial" appearance="outline">
-            <mat-label>Observaciones</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="observaciones"
-                
-            >
-          </mat-form-field>
-          <mat-form-field class="search__form_field-especial" appearance="outline">
-            <mat-label>Serie</mat-label>
-            <input type="text"
-            
-            (keydown.enter)="function($event)"
-                  matInput
-                  formControlName="serie"
-            >
-          </mat-form-field>
-
-          <mat-form-field class="search__form_field-especial" appearance="outline">
-            <mat-label>Vendedor</mat-label>
-            <mat-select formControlName="vendedor">
-              <mat-option [value]="null"> </mat-option>
-              <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.idVendedor">
-                {{vendedor.nombre}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-
-          <mat-form-field appearance="outline" class="search__form_field-especial"> 
-            <mat-label>Elija el mes</mat-label>
-              <mat-select [compareWith]="compareObjects" formControlName="month" multiple>
-                <mat-option *ngFor="let m of months"  [value]="m">
-                  {{m.mes}} de {{m.anio}}
+          <fieldset>
+            <legend>Vendedor</legend>
+            <mat-form-field class="search__form_field-especial" appearance="outline">
+              <mat-label>Vendedor</mat-label>
+              <mat-select formControlName="vendedor">
+                <mat-option [value]="null"> </mat-option>
+                <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.idVendedor">
+                  {{vendedor.nombre}}
                 </mat-option>
-                <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
               </mat-select>
-          </mat-form-field>
-          <!-- <mat-form-field class="search__form_field-especial" appearance="outline">
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Mes</legend>
+            <mat-form-field appearance="outline" class="search__form_field-especial"> 
+              <mat-label>Elija el mes</mat-label>
+                <mat-select [compareWith]="compareObjects" formControlName="month" multiple>
+                  <mat-option *ngFor="let m of months"  [value]="m">
+                    {{m.mes}} de {{m.anio}}
+                  </mat-option>
+                  <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
+                </mat-select>
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Tipo</legend>
+            <mat-form-field class="search__form_field-especial" appearance="outline">
             <mat-label>Tipo Transformador</mat-label>
-            <mat-select formControlName="tTransfo">
-              <mat-option [value]="null"> </mat-option>
-              <mat-option *ngFor="let t of tipoTransfo" [value]="t.idTipoTransfo">
-                {{t.nombreTipoTransfo}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> -->
-          <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
-            <mat-icon>backspace</mat-icon>
-          </button>
-          <button  mat-icon-button (click)="applyApiFilter()" color="primary" aria-label="Example icon button with a delete icon">
-            <mat-icon>search</mat-icon>
-          </button>
+              <mat-select formControlName="tTransfo">
+                <mat-option [value]="null"> </mat-option>
+                <mat-option *ngFor="let t of tipoTransfo" [value]="t.idTipoTransfo">
+                  {{t.nombreTipoTransfo}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>limpiar / buscar</legend>
+            <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
+              <mat-icon>backspace</mat-icon>
+            </button>
+            <button  mat-icon-button (click)="applyApiFilter()" color="primary" aria-label="Example icon button with a delete icon">
+              <mat-icon>search</mat-icon>
+            </button>
+          </fieldset>
         </form>
     
     </div>

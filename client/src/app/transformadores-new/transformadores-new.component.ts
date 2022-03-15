@@ -359,14 +359,18 @@ export class TransformadoresNewComponent implements OnInit {
   //Filtro
   form=new FormGroup(
     {
-      oTe:new FormControl(),
+      oTeDesde:new FormControl(),
+      oTeHasta:new FormControl(),
       nucleos:new FormControl(),
-      oPe	:new FormControl(),
-      rangoInicio	:new FormControl(),
+      oPeDesde:new FormControl(),
+      oPeHasta:new FormControl(),
+      rangoInicioDesde:new FormControl(),
+      rangoInicioHasta:new FormControl(),
       rangoFin:new FormControl(),
       serie: new FormControl(),
       observaciones:new FormControl(),
-      potencia	:new FormControl(),
+      potenciaDesde:new FormControl(),
+      potenciaHasta:new FormControl(),
       nombreCli	:new FormControl(),
       fechaPactada:new FormControl(),
       fechaProd:new FormControl(),

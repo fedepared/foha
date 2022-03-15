@@ -53,7 +53,9 @@
             <span style="color:steelblue">OP</span> 
             &nbsp;<span style="color:tomato">OT</span>
             &nbsp;<span style="color:brown">Rango</span>
+            &nbsp;<span style="color:limegreen">Potencia</span>
             &nbsp;<span style="color:teal">Fecha Según OT </span>
+            &nbsp;<span style="color:darkolivegreen">Cliente</span>
           </div>
         
           <app-order-reloaded
@@ -71,6 +73,7 @@
             <span style="color:steelblue">{{item.oPe}}</span> 
              &nbsp;<span style="color:tomato">{{ item.oTe }}</span>
              &nbsp;<span style="color:brown">{{item.rangoInicio}}</span>
+             &nbsp;<span style="color:limegreen">{{item.potencia}}</span>
              &nbsp;<span style="color:teal">{{item.fechaPactada | date:'dd/MM/yyyy'}} </span>
              &nbsp;<span style="color:darkolivegreen">{{item.nombreCli}} </span>
           </ng-template>
