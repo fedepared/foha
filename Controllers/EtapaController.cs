@@ -603,6 +603,7 @@ namespace Foha.Controllers
 
             if(editEtapaDto.IdTipoEtapa == 21)
             {
+                await ChequearHorno();
                 Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).Include(x => x.EtapaEmpleado).First();
                 if(etapaHorno.IsEnded == false){
                     etapaHorno.FechaPausa = DateTime.Now;
@@ -1955,6 +1956,5 @@ namespace Foha.Controllers
                 return Conflict(r);
             }
         }
-
     }
 }
