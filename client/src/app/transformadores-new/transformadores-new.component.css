@@ -287,6 +287,9 @@ td.mat-cell:last-of-type{
 .circular-menu.active .menu-item:nth-child(6) {
   transform: translate3d(2.5em,2.5em,0);
 }
+.circular-menu.active .menu-item:nth-child(7) {
+  transform: translate3d(-3.5em,0,0);
+}
 
 .fot{
   background-color: firebrick;

@@ -1433,6 +1433,10 @@ interface ComboClientes{
       }
     }
 
+    openCheckOT(){
+      console.log("no anda");
+    }
+
     openSnackBar(mensaje1,mensaje2){
         this._snackBar.open(mensaje1,mensaje2, {
           duration: 2 * 1000,
