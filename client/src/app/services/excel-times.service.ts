@@ -238,7 +238,7 @@ export class ExcelTimesService {
       else{
         let cuenta=0;
         let cuentaCol=13;
-        let fot:Date=this.fopToDate(e.fechaPactada);
+        let fot:Date|string=this.fopToDate(e.fechaPactada);
         let oTe=e.oTe
         //son del mismo grupo
         if(oTe==otAnterior){
@@ -312,7 +312,7 @@ export class ExcelTimesService {
           if(colNumber==11){
             if(cell!=null && fot!=null)
             {
-              let fop:Date=this.fopToDate(cell);
+              let fop:Date|string=this.fopToDate(cell);
               // console.log(fot);
               // console.log(fop)
               if(fot<fop)
@@ -493,12 +493,13 @@ export class ExcelTimesService {
     
   }
 
-  stringToDate(fot) : Date{
-    return new Date(fot.split('T')[0]);
+  stringToDate(fot) : Date | string{
+
+    return (fot!=null) ? new Date(fot.split('T')[0]) : '';
   }
 
-  fopToDate(fop): Date{
-    return new Date(fop);
+  fopToDate(fop): Date | string{
+    return (fop!=null) ? new Date(fop) : '';
   }
 
 

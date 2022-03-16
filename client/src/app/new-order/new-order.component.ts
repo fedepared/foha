@@ -224,6 +224,7 @@ export class NewOrderComponent implements OnInit {
         if(res.status == 200){
           this.openSnackBar(`Se actualizaron las prioridades del mes de ${month.viewValue} de ${oD.anio}`,"")
           this.transformadoresService.AsignarFechaProdMesGet(oD.mes,oD.anio).subscribe((re)=>{
+            console.log(res);
             if(res.status==200){
               this.openSnackBar(`${res.message}`,"")
             } 
