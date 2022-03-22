@@ -103,6 +103,30 @@
             </mat-form-field>
           </fieldset>
           <fieldset>
+            <legend>Serie</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Desde</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="serieDesde"
+                    
+              >
+            </mat-form-field>
+  
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Hasta</mat-label>
+              <input type="number"
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="serieHasta"
+                    
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
             <legend>Nucleos</legend>
             <mat-form-field class="search__form_field" appearance="outline">
               <mat-label>Nucleos</mat-label>
@@ -112,18 +136,6 @@
                     matInput
                     formControlName="nucleos"
                     
-              >
-            </mat-form-field>
-          </fieldset>
-          <fieldset>
-            <legend>Serie</legend>
-            <mat-form-field class="search__form_field" appearance="outline">
-              <mat-label>Serie</mat-label>
-              <input type="text"
-              
-              (keydown.enter)="function($event)"
-                    matInput
-                    formControlName="serie"
               >
             </mat-form-field>
           </fieldset>

@@ -367,7 +367,8 @@ export class TransformadoresNewComponent implements OnInit {
       rangoInicioDesde:new FormControl(),
       rangoInicioHasta:new FormControl(),
       rangoFin:new FormControl(),
-      serie: new FormControl(),
+      serieDesde: new FormControl(),
+      serieHasta: new FormControl(),
       observaciones:new FormControl(),
       potenciaDesde:new FormControl(),
       potenciaHasta:new FormControl(),
@@ -389,8 +390,9 @@ export class TransformadoresNewComponent implements OnInit {
     rangoInicioHasta='';
     potenciaDesde='';
     potenciaHasta='';
+    serieDesde='';
+    serieHasta='';
     nucleos='';
-    serie='';
     nombreCli='';
     observaciones='';
     vendedor='';
@@ -974,8 +976,9 @@ export class TransformadoresNewComponent implements OnInit {
             const rgIH=this.form.get('rangoInicioHasta').value;
             const potDesde=this.form.get('potenciaDesde').value;
             const potHasta=this.form.get('potenciaHasta').value;
+            const serieDesde = this.form.get('serieDesde').value;
+            const serieHasta = this.form.get('serieHasta').value;
             const nucl=this.form.get('nucleos').value;
-            const serie = this.form.get('serie').value;
             const nC=this.form.get('nombreCli').value;
             const obs = this.form.get('observaciones').value;
             const partialMonth=this.form.get('month').value;
@@ -1000,8 +1003,9 @@ export class TransformadoresNewComponent implements OnInit {
             this.rangoInicioHasta = rgIH === null ? 0 : rgIH;
             this.potenciaDesde = potDesde === null ? 0 : potDesde;
             this.potenciaHasta = potHasta === null ? 0 : potHasta;
+            this.serieDesde = serieDesde === null ? 0 : serieDesde;
+            this.serieHasta = serieHasta === null ? 0 : serieHasta;
             this.nucleos = nucl === null ? ' ' : nucl;
-            this.serie = serie === null ? ' ' : serie;
             this.nombreCli = nC === null ? ' ' : nC;
             this.observaciones = obs === null ? ' ' : obs; 
             this.vendedor = vendedor === null ? ' ' : vendedor;
@@ -1019,8 +1023,9 @@ export class TransformadoresNewComponent implements OnInit {
               rangoInicioHasta:this.rangoInicioHasta,
               potenciaDesde:this.potenciaDesde,
               potenciaHasta:this.potenciaHasta,
+              serieDesde:this.serieDesde,
+              serieHasta:this.serieHasta,
               nucleos:this.nucleos,
-              serie:this.serie,
               nombreCli:this.nombreCli,
               observaciones:this.observaciones,
               vendedor:this.vendedor,
@@ -1067,6 +1072,16 @@ export class TransformadoresNewComponent implements OnInit {
       clean(){
         this.form.reset();
         this.getTrafos();
+      }
+
+      openCheckOT(){
+        const dialogRef5 = this.dialog.open(CheckOTDialog,{
+          
+      
+        })
+        dialogRef5.afterClosed().subscribe(result => {
+
+        })
       }
 
 
@@ -1433,10 +1448,7 @@ interface ComboClientes{
       }
     }
 
-    openCheckOT(){
-      console.log("no anda");
-    }
-
+    
     openSnackBar(mensaje1,mensaje2){
         this._snackBar.open(mensaje1,mensaje2, {
           duration: 2 * 1000,
@@ -2125,6 +2137,14 @@ interface ComboClientes{
     }
   }
 
+  @Component({
+    selector: "checkOT",
+    templateUrl: "checkOT.html",
+    styleUrls:["transformadores-new.component.css"]
+  })
+  export class CheckOTDialog{
+
+  }
 
 
   export class MyErrorStateMatcher implements ErrorStateMatcher {
