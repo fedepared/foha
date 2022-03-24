@@ -1170,7 +1170,7 @@ namespace Foha.Controllers
             }
 
             List<dynamic> trafosDynamic = new List<dynamic>();
-            resultado = resultado.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
+            resultado = resultado.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
             var anioIni = resultado[0].Anio;
             var mesIni = resultado[0].Mes;
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+resultado.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1252,9 +1252,8 @@ namespace Foha.Controllers
         }
         if(trafos.Count()>0)
         {
-
             List<dynamic> trafosDynamic = new List<dynamic>();
-            trafos = trafos.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
+            trafos = trafos.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
             var anioIni = trafos[0].Anio;
             var mesIni = trafos[0].Mes;
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1278,7 +1277,7 @@ namespace Foha.Controllers
             if(results.Count()>0)
             {
                List<dynamic> trafosDynamic = new List<dynamic>();
-                results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
+                results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
                 var anioIni = results[0].Anio;
                 var mesIni = results[0].Mes;
                 var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1362,7 +1361,7 @@ namespace Foha.Controllers
         {
 
             List<dynamic> trafosDynamic = new List<dynamic>();
-            trafo = trafo.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
+            trafo = trafo.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
             var anioIni = trafo[0].Anio;
             var mesIni = trafo[0].Mes;
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafo.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1386,7 +1385,7 @@ namespace Foha.Controllers
             if(results.Count()>0)
             {
                List<dynamic> trafosDynamic = new List<dynamic>();
-                results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ToList();
+                results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
                 var anioIni = results[0].Anio;
                 var mesIni = results[0].Mes;
                 var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
@@ -1428,51 +1427,45 @@ namespace Foha.Controllers
             // Transformadores CopiaDesde = Desde;
 
             Transformadores CopiaDesde = new Transformadores(){
-                Anio = Desde.Anio,
-                FechaProd = Desde.FechaProd,
+                OTe = Desde.OTe,
+                Observaciones = Desde.Observaciones,
                 IdCliente = Desde.IdCliente,
                 NombreCli = Desde.NombreCli,
-                IdTipoTransfo = Desde.IdTipoTransfo,
-                Lote = Desde.Lote,
+                FechaCreacion = Desde.FechaCreacion,
                 Mes = Desde.Mes,
-                Nucleos = Desde.Nucleos,
-                OPe = Desde.OPe,
-                Potencia = Desde.Potencia,
+                Anio = Desde.Anio,
                 Prioridad = Desde.Prioridad,
-                RadPan = Desde.RadPan,
-                RangoFin = Desde.RangoFin,
-                RangoInicio = Desde.RangoInicio,
+                FechaPactada = Desde.FechaPactada,
+                Lote = Desde.Lote,
+                IdVendedor = Desde.IdVendedor,
+                Serie = Desde.Serie
             };
 
-            Desde.Anio = Hasta.Anio;
-            Desde.FechaProd = Hasta.FechaProd;
+            Desde.OTe = Hasta.OTe;
+            Desde.Observaciones = Hasta.Observaciones;
             Desde.IdCliente = Hasta.IdCliente;
             Desde.NombreCli = Hasta.NombreCli;
-            Desde.IdTipoTransfo = Hasta.IdTipoTransfo;
-            Desde.Lote = Hasta.Lote;
+            Desde.FechaCreacion = Hasta.FechaCreacion;
             Desde.Mes = Hasta.Mes;
-            Desde.Nucleos = Hasta.Nucleos;
-            Desde.OPe = Hasta.OPe;
-            Desde.Potencia = Hasta.Potencia;
+            Desde.Anio = Hasta.Anio;
             Desde.Prioridad = Hasta.Prioridad;
-            Desde.RadPan = Hasta.RadPan;
-            Desde.RangoFin = Hasta.RangoFin;
-            Desde.RangoInicio = Hasta.RangoInicio;
+            Desde.FechaPactada = Hasta.FechaPactada;
+            Desde.Lote = Hasta.Lote;
+            Desde.IdVendedor = Hasta.IdVendedor;
+            Desde.Serie = Hasta.Serie;
             
-            Hasta.Anio = CopiaDesde.Anio;
-            Hasta.FechaProd = CopiaDesde.FechaProd;
+            Hasta.OTe = CopiaDesde.OTe;
+            Hasta.Observaciones = CopiaDesde.Observaciones;
             Hasta.IdCliente = CopiaDesde.IdCliente;
             Hasta.NombreCli = CopiaDesde.NombreCli;
-            Hasta.IdTipoTransfo = CopiaDesde.IdTipoTransfo;
-            Hasta.Lote = CopiaDesde.Lote;
+            Hasta.FechaCreacion = CopiaDesde.FechaCreacion;
             Hasta.Mes = CopiaDesde.Mes;
-            Hasta.Nucleos = CopiaDesde.Nucleos;
-            Hasta.OPe = CopiaDesde.OPe;
-            Hasta.Potencia = CopiaDesde.Potencia;
+            Hasta.Anio = CopiaDesde.Anio;
             Hasta.Prioridad = CopiaDesde.Prioridad;
-            Hasta.RadPan = CopiaDesde.RadPan;
-            Hasta.RangoFin = CopiaDesde.RangoFin;
-            Hasta.RangoInicio = CopiaDesde.RangoInicio;
+            Hasta.FechaPactada = CopiaDesde.FechaPactada;
+            Hasta.Lote = CopiaDesde.Lote;
+            Hasta.IdVendedor = CopiaDesde.IdVendedor;
+            Hasta.Serie = CopiaDesde.Serie;
             
 
             _context.Transformadores.Update(Desde);
@@ -1501,7 +1494,7 @@ namespace Foha.Controllers
         }
         fechas = fechas.Where(d => d.DayOfWeek > DayOfWeek.Sunday & d.DayOfWeek < DayOfWeek.Saturday).ToList();
         int DiasLaborales = fechas.Count();
-        double maxDiario = Math.Ceiling((double)trafos.Count() / (double)DiasLaborales);
+        double maxDiario = Math.Round((double)trafos.Count() / (double)DiasLaborales);
         int Contador = 0;
         int ContadorFecha = 0;
         foreach(Transformadores t in trafos){
@@ -1511,7 +1504,10 @@ namespace Foha.Controllers
             if(Contador == maxDiario)
             {
                 Contador = 0;
-                ContadorFecha++;
+                if(ContadorFecha < DiasLaborales)
+                {
+                    ContadorFecha++;
+                }
             }
         }       
         _context.SaveChanges();
