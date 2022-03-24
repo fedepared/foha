@@ -601,63 +601,6 @@ namespace Foha.Controllers
                 editEtapaDto.FechaPausa=etapaAnterior.FechaPausa;
             }
 
-            if(editEtapaDto.IdTipoEtapa == 21)
-            {
-                await ChequearHorno();
-                Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).Include(x => x.EtapaEmpleado).First();
-                if(etapaHorno.IsEnded == false){
-                    etapaHorno.FechaPausa = DateTime.Now;
-                    if(etapaHorno.InicioProceso==null)
-                    {
-                        //Tiempo parcial 
-                        TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaHorno.TiempoParc));
-                        
-                        foreach(var a in editEtapaDto.EtapaEmpleado)
-                        {
-                            
-                            //Calculo el nuevo tiempo para el empleado encontrado
-                            a.DateIni=etapaHorno.DateIni;
-                            a.TiempoParc=preEtapaTiempoParc.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                            var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
-                            try{
-                                _repo2.Update(preEtapaEmpleado);
-                            }
-                            catch(DbUpdateConcurrencyException){
-                                throw;
-                            }
-
-                        }
-
-                        editEtapaDto.TiempoParc = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss");
-
-                    }
-                    else{
-                        //calculo el nuevo intervalo 
-                        TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - etapaHorno.InicioProceso);
-                        foreach(var a in editEtapaDto.EtapaEmpleado)
-                        {
-                            var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
-                            TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
-                            a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                            a.DateIni=editEtapaDto.DateIni;
-                            var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
-                            try{
-                                _repo2.Update(preEtapaEmpleado);
-                            }
-                            catch(DbUpdateConcurrencyException){
-                                throw;
-                            }
-                        }
-                        var horasHombre=preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count());
-                        TimeSpan suma = new TimeSpan();
-                        var prueba=etapaHorno.TiempoParc;
-                        var prueba2=horasHombre;
-                        suma=TimeSpan.ParseExact(etapaHorno.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
-                        editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                    }
-                    _context.Etapa.Update(etapaHorno);
-                }
-            }
             
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
@@ -713,7 +656,7 @@ namespace Foha.Controllers
             if(etapaAntes.IdColor==editEtapaDto.IdColor)
             {
                 return Conflict("La etapa ya había sido pausada, por favor actualice la vista");
-            }
+            }           
             editEtapaDto.DateIni=etapaAntes.DateIni;
             editEtapaDto.FechaPausa=DateTime.Now;
             //chequeo si es el primer comienzo
@@ -721,6 +664,27 @@ namespace Foha.Controllers
             {
                 //Tiempo parcial 
                 TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaAntes.TiempoParc));
+                //SOLO PARA ETAPA HORNO
+                if(editEtapaDto.IdTipoEtapa == 20)
+                {
+                    List<EtapaEmpleado> etapaEmp = _context.EtapaEmpleado.Where(x => x.IdEtapa == id).ToList();
+                    foreach(var a in etapaEmp)
+                    {
+                        
+                        //Calculo el nuevo tiempo para el empleado encontrado
+                        a.DateIni=etapaAntes.DateIni;
+                        a.TiempoParc=preEtapaTiempoParc.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                        var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                        try{
+                            _repo2.Update(preEtapaEmpleado);
+                            await _repo2.SaveAsync(preEtapaEmpleado);
+                        }
+                        catch(DbUpdateConcurrencyException){
+                            throw;
+                        }
+
+                    }
+                }
                 
                 foreach(var a in editEtapaDto.EtapaEmpleado)
                 {
@@ -731,6 +695,7 @@ namespace Foha.Controllers
                     var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
                     try{
                         _repo2.Update(preEtapaEmpleado);
+                        await _repo2.SaveAsync(preEtapaEmpleado);
                     }
                     catch(DbUpdateConcurrencyException){
                         throw;
@@ -744,6 +709,28 @@ namespace Foha.Controllers
             else{
                 //calculo el nuevo intervalo 
                 TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - etapaAntes.InicioProceso);
+                //SOLO PARA ETAPA HORNO
+                if(editEtapaDto.IdTipoEtapa == 20)
+                {
+                    List<EtapaEmpleado> etapaEmp = _context.EtapaEmpleado.Where(x => x.IdEtapa == id).ToList();
+                    foreach(var a in etapaEmp)
+                    {
+                        
+                        //Calculo el nuevo tiempo para el empleado encontrado
+                        a.DateIni=etapaAntes.DateIni;
+                        a.TiempoParc=preEtapaTiempoParc.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                        var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                        try{
+                            _repo2.Update(preEtapaEmpleado);
+                            await _repo2.SaveAsync(preEtapaEmpleado);
+                        }
+                        catch(DbUpdateConcurrencyException){
+                            throw;
+                        }
+
+                    }
+                }
+
                 foreach(var a in editEtapaDto.EtapaEmpleado)
                 {
                     var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
@@ -753,6 +740,7 @@ namespace Foha.Controllers
                     var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
                     try{
                         _repo2.Update(preEtapaEmpleado);
+                        await _repo2.SaveAsync(preEtapaEmpleado);
                     }
                     catch(DbUpdateConcurrencyException){
                         throw;
@@ -819,7 +807,7 @@ namespace Foha.Controllers
                 TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - etapaAntes.InicioProceso);
                 var horasHombre=preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count());
                 TimeSpan suma = new TimeSpan();
-                suma =(TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
+                suma =(TimeSpan.ParseExact(etapaAntes.TiempoParc != "Finalizada" ? etapaAntes.TiempoParc : "0","dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
                 editEtapaDto.TiempoFin=suma.ToString(@"dd\:hh\:mm\:ss");
                 foreach(var a in editEtapaDto.EtapaEmpleado)
                 {
@@ -874,6 +862,31 @@ namespace Foha.Controllers
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             preEtapa.TiempoParc="Finalizada";
             
+            if(editEtapaDto.IdTipoEtapa == 21)
+            {
+                await ChequearHorno();
+                Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).First();
+                if(etapaHorno.IsEnded == false || etapaHorno.IsEnded == null){
+                    etapaHorno.IdColor = 9;
+                    etapaHorno.FechaPausa = DateTime.Now;
+                    EditEtapaDto editDTO = new EditEtapaDto();
+                    editDTO.DateIni = etapaHorno.DateIni;
+                    editDTO.DateFin = etapaHorno.DateFin;
+                    editDTO.FechaPausa = etapaHorno.FechaPausa;
+                    editDTO.EtapaEmpleado = new List<EtapaEmpleado>();
+                    editDTO.Hora = etapaHorno.Hora;
+                    editDTO.IdColor = etapaHorno.IdColor;
+                    editDTO.IdTipoEtapa = etapaHorno.IdTipoEtapa;
+                    editDTO.IdTransfo = etapaHorno.IdTransfo;
+                    editDTO.InicioProceso = etapaHorno.InicioProceso;
+                    editDTO.IsEnded = etapaHorno.IsEnded;
+                    editDTO.NumEtapa = etapaHorno.NumEtapa;
+                    editDTO.TiempoFin = etapaHorno.TiempoFin;
+                    editDTO.TiempoParc = etapaHorno.TiempoParc;    
+                    await PutEtapaPausa(etapaHorno.IdEtapa, editDTO);                
+                }
+            }
+
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
                 var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
@@ -887,7 +900,6 @@ namespace Foha.Controllers
             }
 
             
-
             _repo.Update(preEtapa);
 
             return StatusCode(201,await _repo.SaveAsync(preEtapa));
@@ -1912,36 +1924,29 @@ namespace Foha.Controllers
         [HttpGet("ChequearHorno")]
         public async Task<IActionResult> ChequearHorno(){
             Response<String> r = new Response<string>();
-            List<Etapa> etapasHorno = await _context.Etapa.Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030).Include(x => x.IdTipoEtapaNavigation).ToListAsync();
+            List<Etapa> etapasHorno = await _context.Etapa.Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030 && x.TiempoParc != "Finalizada" && (x.IsEnded == false || x.IsEnded == null)).Include(x => x.IdTipoEtapaNavigation).ToListAsync();
             DateTime fechaActual = DateTime.Now;
             foreach(Etapa e in etapasHorno)
             {
                 if((fechaActual - e.DateIni).Value.TotalHours >= 72){
-                    TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - e.InicioProceso);
-                    var horasHombre=preEtapaTiempoParc.Multiply(e.EtapaEmpleado.Count());
-                    TimeSpan suma = new TimeSpan();
-                    suma =(TimeSpan.ParseExact(e.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
-                    e.TiempoFin=suma.ToString(@"dd\:hh\:mm\:ss");
-                    foreach(var a in e.EtapaEmpleado)
-                    {
-                        var isEtapaEmpleadoAntes= _context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
-                        TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
-                        a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                        a.DateIni=e.DateIni;
-                        a.TiempoFin=e.TiempoFin;
-                        a.DateFin=e.DateFin;
-                        a.IsEnded=true;
-                        var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
-                        try{
-                            _repo2.Update(preEtapaEmpleado);
-                        }
-                        catch(DbUpdateConcurrencyException){
-                            throw;
-                        }
-                    }
                     e.DateFin = fechaActual;
                     e.IsEnded = true;
                     e.IdColor = 10;
+                    EditEtapaDto editDTO = new EditEtapaDto();
+                    editDTO.DateIni = e.DateIni;
+                    editDTO.DateFin = e.DateFin;
+                    editDTO.EtapaEmpleado = e.EtapaEmpleado;
+                    editDTO.FechaPausa = e.FechaPausa;
+                    editDTO.Hora = e.Hora;
+                    editDTO.IdColor = e.IdColor;
+                    editDTO.IdTipoEtapa = e.IdTipoEtapa;
+                    editDTO.IdTransfo = e.IdTransfo;
+                    editDTO.InicioProceso = e.InicioProceso;
+                    editDTO.IsEnded = e.IsEnded;
+                    editDTO.NumEtapa = e.NumEtapa;
+                    editDTO.TiempoFin = e.TiempoFin;
+                    editDTO.TiempoParc = e.TiempoParc;                    
+                    await PutEtapaStop(e.IdEtapa, editDTO);
                     _context.Etapa.Update(e);
                 }
             }
@@ -1956,5 +1961,69 @@ namespace Foha.Controllers
                 return Conflict(r);
             }
         }
+
+        private async void PutEtapaPausaNoTask(int id, EditEtapaDto editEtapaDto)
+        {
+            var etapaAntes=_context.Etapa.AsNoTracking().First(x=>x.IdEtapa==id);
+            editEtapaDto.DateIni=etapaAntes.DateIni;
+            editEtapaDto.FechaPausa=DateTime.Now;
+            //chequeo si es el primer comienzo
+            if(etapaAntes.InicioProceso==null)
+            {
+                //Tiempo parcial 
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaAntes.TiempoParc));
+                
+                foreach(var a in editEtapaDto.EtapaEmpleado)
+                {
+                    
+                    //Calculo el nuevo tiempo para el empleado encontrado
+                    a.DateIni=etapaAntes.DateIni;
+                    a.TiempoParc=preEtapaTiempoParc.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                    var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                    try{
+                        _repo2.Update(preEtapaEmpleado);
+                        await _repo2.SaveAsync(preEtapaEmpleado);
+                    }
+                    catch(DbUpdateConcurrencyException){
+                        throw;
+                    }
+
+                }
+
+                editEtapaDto.TiempoParc = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss");
+
+            }
+            else{
+                //calculo el nuevo intervalo 
+                TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - etapaAntes.InicioProceso);
+                foreach(var a in editEtapaDto.EtapaEmpleado)
+                {
+                    var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
+                    TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
+                    a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                    a.DateIni=editEtapaDto.DateIni;
+                    var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                    try{
+                        _repo2.Update(preEtapaEmpleado);
+                        await _repo2.SaveAsync(preEtapaEmpleado);
+                    }
+                    catch(DbUpdateConcurrencyException){
+                        throw;
+                    }
+                }
+                
+                var horasHombre=preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count());
+                TimeSpan suma = new TimeSpan();
+                var prueba=etapaAntes.TiempoParc;
+                var prueba2=horasHombre;
+                suma=TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
+                editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+            }
+
+            var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
+            _repo.Update(preEtapa);
+            await _repo.SaveAsync(preEtapa);
+        }
+
     }
 }
