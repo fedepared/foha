@@ -959,8 +959,8 @@ export class TransformadoresNewComponent implements OnInit {
           (this.form.get('oPeDesde').value || this.form.get('oPeHasta').value) ||
           (this.form.get('rangoInicioDesde').value || this.form.get('rangoInicioHasta').value) ||
           (this.form.get('potenciaDesde').value || this.form.get('potenciaHasta').value) ||
-          (this.form.get('nucleos').value) ||
-          (this.form.get('serie').value) ||
+          (this.form.get('nucleos').value) || 
+          (this.form.get('serieDesde').value) || (this.form.get('serieHasta').value) ||
           (this.form.get('nombreCli').value) ||
           (this.form.get('observaciones').value) ||
           (this.form.get('vendedor').value) ||
@@ -1009,7 +1009,7 @@ export class TransformadoresNewComponent implements OnInit {
             this.nombreCli = nC === null ? ' ' : nC;
             this.observaciones = obs === null ? ' ' : obs; 
             this.vendedor = vendedor === null ? ' ' : vendedor;
-            this.tTransfo = tTransfo === null ? ' ' : tTransfo;
+            this.tTransfo = tTransfo === null ? 0 : tTransfo;
             this.month= partialMonth === null ? [] : monthArray;
             this.year = partialMonth === null ? [] :yearArray;
             

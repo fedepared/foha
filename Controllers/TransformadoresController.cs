@@ -541,7 +541,7 @@ namespace Foha.Controllers
         Response<dynamic> res = new Response<dynamic>();
         try{
             var mY = _context.Transformadores.Where(x => x.Etapa.Any(z => z.IsEnded == null || z.IsEnded == false))
-                .Include(x => x.Etapa)
+                // .Include(x => x.Etapa)
                 .OrderByDescending(x=>x.Anio).ThenByDescending(x=>x.Mes).ToList()
                 .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new{
                     Anio=key.Anio,
@@ -554,7 +554,7 @@ namespace Foha.Controllers
             res.Status = 200;
             return Ok(mY);
         }catch(Exception e){
-            res.Message = "Se realizo la consulta satisfactoriamente";
+            res.Message = "Se produjo un error al realizar la consulta.";
             res.Status = 400;
             return Conflict(e.Message);
         }
@@ -1192,8 +1192,8 @@ namespace Foha.Controllers
 
     }
 
-    [HttpGet("getFilteredValueOrdenado")]
-    public IActionResult GetFilteredValueOrdenado(
+    [HttpGet("getFilteredValueOrdenadoFULL")]
+    public IActionResult GetFilteredValueOrdenadoFULL(
         [FromQuery (Name = "oTe")] string oTe,
         [FromQuery (Name = "nucleos")] string nucleos,
         [FromQuery (Name = "oPe")] string oPe,
@@ -1504,7 +1504,7 @@ namespace Foha.Controllers
             if(Contador == maxDiario)
             {
                 Contador = 0;
-                if(ContadorFecha < DiasLaborales)
+                if(ContadorFecha < DiasLaborales -1)
                 {
                     ContadorFecha++;
                 }
@@ -1528,6 +1528,100 @@ namespace Foha.Controllers
             r.Status = 500;
             return Conflict(r);
         }
+    }
+
+    [HttpGet("getFilteredValueOrdenado")]
+    public IActionResult GetFilteredValueOrdenado(
+        [FromQuery (Name = "oTeDesde")] int oTeDes,
+        [FromQuery (Name = "oTeHasta")] int oTeHas,
+        [FromQuery (Name = "nucleos")] string nucleos,
+        [FromQuery (Name = "oPeDesde")] int oPeDes,
+        [FromQuery (Name = "oPeHasta")] int oPeHas,
+        [FromQuery (Name = "rangoInicioDesde")] int rangoInicioDesde,
+        [FromQuery (Name = "rangoInicioHasta")] int rangoInicioHasta,
+        [FromQuery (Name = "potenciaDesde")] int potenciaDesde,
+        [FromQuery (Name = "potenciaHasta")] int potenciaHasta,
+        [FromQuery (Name = "nombreCli")] string nombreCli,
+        [FromQuery (Name = "month")] int[] month,
+        [FromQuery (Name = "year")] int[] year,
+        [FromQuery (Name = "observaciones")]string observaciones,
+        [FromQuery (Name = "serieDesde")] int serieDesde,
+        [FromQuery (Name = "serieHasta")] int serieHasta,
+        [FromQuery (Name = "vendedor")] int? vendedor,
+        [FromQuery (Name = "tTransfo")] int tipo
+        )
+    {
+
+        List<Transformadores> results = new List<Transformadores>();
+        results = (from Transformadores t in _context.Transformadores
+                    join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo 
+                    join Colores c in _context.Colores on e.IdColor equals c.IdColor into ec
+                    from c in ec.DefaultIfEmpty()
+                    join Vendedores v in _context.Vendedores on t.IdVendedor equals v.IdVendedor into tv
+                    from v in tv.DefaultIfEmpty()
+                    join EtapaEmpleado emp in _context.EtapaEmpleado on e.IdEtapa equals emp.IdEtapa into eemp
+                    from emo in eemp.DefaultIfEmpty()
+                    join TipoEtapa te in _context.TipoEtapa on e.IdTipoEtapa equals te.IdTipoEtapa
+                    join Cliente cli in _context.Cliente on t.IdCliente equals cli.IdCliente into tcli
+                    from cli in tcli.DefaultIfEmpty()
+                    join TipoTransfo tip in _context.TipoTransfo on t.IdTipoTransfo equals tip.IdTipoTransfo 
+                    where ((t.OTe >= oTeDes ) && (t.OTe <=( oTeHas != 0 ? oTeHas : int.MaxValue)) ||t.OTe == null) 
+                    && (String.IsNullOrEmpty(nucleos) || t.Nucleos.ToUpper().Contains(nucleos.ToUpper())  )
+                    && ((t.OPe >= oPeDes || oPeDes == 0) && (t.OPe <= (oPeHas != 0 ? oPeHas : int.MaxValue)))
+                    && (t.RangoInicio >= rangoInicioDesde || rangoInicioDesde == 0) && (t.RangoInicio <= (rangoInicioHasta != 0 ? rangoInicioHasta : int.MaxValue))
+                    && (t.Potencia >= potenciaDesde || potenciaDesde == 0 ) && (t.Potencia <= (potenciaHasta != 0 ? potenciaHasta : int.MaxValue))
+                    && (String.IsNullOrEmpty(nombreCli) || t.NombreCli.Contains(nombreCli.ToUpper()) ) 
+                    && (String.IsNullOrEmpty(observaciones)  || t.Observaciones.ToUpper().Contains(observaciones.ToUpper()) )
+                    && ((t.Serie >= serieDesde || serieDesde == 0) && (t.Serie <= (serieHasta != 0 ? serieHasta : int.MaxValue)) || t.Serie == null)
+                    && (vendedor == null || t.IdVendedor == vendedor )
+                    && (tipo == 0 || t.IdTipoTransfo == tipo)
+                    select t).Include(z=>z.IdVendedorNavigation)
+                    .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
+                    .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
+                    .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList(); 
+
+        foreach(Transformadores t in results)
+        {
+            t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
+        }
+        
+        if(month.Length>0)
+        {
+            
+            for (var i = 0; i < month.Length; i++)
+            {
+                results = (results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
+            }
+            
+        }
+
+        if(results.Count()>0)
+        {
+            List<dynamic> trafosDynamic = new List<dynamic>();
+            results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
+            var anioIni = results[0].Anio;
+            var mesIni = results[0].Mes;
+            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+            trafosDynamic.Add(obj);
+            foreach(var t in results)
+            {
+                if(t.Anio != anioIni || t.Mes != mesIni){
+                    anioIni = t.Anio;
+                    mesIni = t.Mes;
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+                    trafosDynamic.Add(obj);
+                    trafosDynamic.Add(t);
+                }
+                else{
+                    trafosDynamic.Add(t);
+                }
+            }
+            return Ok(trafosDynamic);
+        }
+        else{
+            return Ok();
+        }
+
     }
 
 
