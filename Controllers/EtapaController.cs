@@ -753,11 +753,15 @@ namespace Foha.Controllers
                 suma=TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
                 editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
             }
-
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
-            await _repo.SaveAsync(preEtapa);
-            return StatusCode(201,preEtapa);
+            try{
+                await _repo.SaveAsync(preEtapa);
+                return StatusCode(201,preEtapa);
+               }
+            catch(DbUpdateConcurrencyException){
+                throw;
+            }
         }
 
         //Fin

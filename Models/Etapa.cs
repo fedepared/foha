@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Foha.Models
 {
@@ -9,7 +10,7 @@ namespace Foha.Models
         {
             EtapaEmpleado = new HashSet<EtapaEmpleado>();
         }
-
+        [Key]
         public int IdEtapa { get; set; }
         public int? IdTipoEtapa { get; set; }
         public DateTime? DateIni { get; set; }
