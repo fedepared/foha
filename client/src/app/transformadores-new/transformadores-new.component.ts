@@ -801,8 +801,9 @@ export class TransformadoresNewComponent implements OnInit {
                 a.mes = (res.mes  != null) ? res.mes : a.mes;
                 a.anio = (res.anio  != null) ? res.anio : a.anio;
                 a.lote = (res.lote  != null) ? res.lote : a.lote;
-                a.idVendedor = (res.idVendedor !=null) ? res.idVendedor : a.idVendedor;
+                a.idVendedor = (res.idVendedor !=null) ? ((res.idVendedor == 0) ? null : res.idVendedor) : a.idVendedor;
                 a.serie = (res.serie != null) ? res.serie:a.serie;
+              
               }
 
               this.onUpdateAllTrafos(this.selection.selected);
@@ -960,7 +961,8 @@ export class TransformadoresNewComponent implements OnInit {
           (this.form.get('rangoInicioDesde').value || this.form.get('rangoInicioHasta').value) ||
           (this.form.get('potenciaDesde').value || this.form.get('potenciaHasta').value) ||
           (this.form.get('nucleos').value) ||
-          (this.form.get('serie').value) ||
+          (this.form.get('rangoInicioDesde').value || this.form.get('rangoInicioHasta').value) ||
+          (this.form.get('serieDesde').value || this.form.get('serieHasta').value) ||
           (this.form.get('nombreCli').value) ||
           (this.form.get('observaciones').value) ||
           (this.form.get('vendedor').value) ||

@@ -119,6 +119,7 @@
         <mat-form-field appearance="outline">
             <mat-label>Vendedores</mat-label>
             <mat-select  formControlName="idVendedor">
+            <mat-option [value]="0">Sin Vendedor</mat-option>
             <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.idVendedor" >
                 {{vendedor.nombre}}
             </mat-option>
