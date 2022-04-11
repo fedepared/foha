@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Foha.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("apiPrueba/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {

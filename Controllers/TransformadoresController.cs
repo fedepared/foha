@@ -1585,30 +1585,33 @@ namespace Foha.Controllers
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
         
+        List<Transformadores> trafos = new List<Transformadores>();
+
         if(month.Length>0)
         {
-            
             for (var i = 0; i < month.Length; i++)
             {
-                results = (results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
+                trafos.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
             }
-            
+        }
+        else{
+            trafos = results;
         }
 
-        if(results.Count()>0)
+        if(trafos.Count()>0)
         {
             List<dynamic> trafosDynamic = new List<dynamic>();
-            results = results.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
-            var anioIni = results[0].Anio;
-            var mesIni = results[0].Mes;
-            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+            trafos = trafos.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
+            var anioIni = trafos[0].Anio;
+            var mesIni = trafos[0].Mes;
+            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
             trafosDynamic.Add(obj);
-            foreach(var t in results)
+            foreach(var t in trafos)
             {
                 if(t.Anio != anioIni || t.Mes != mesIni){
                     anioIni = t.Anio;
                     mesIni = t.Mes;
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+results.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
@@ -1621,6 +1624,9 @@ namespace Foha.Controllers
         else{
             return Ok();
         }
+
+
+        
 
     }
 
