@@ -79,6 +79,7 @@ export class RelojComponent implements OnInit{
     {
       this.play=false;
     }
+
     this.getTrafo(this.procesoElegido.idTransfo);
     this.getTipoEtapa(this.procesoElegido.idTipoEtapa);
     this.numEtapa=this.proceso.numEtapa;
@@ -89,6 +90,11 @@ export class RelojComponent implements OnInit{
     else{
       this.showButtons=false;
     }
+    //chequeo de que el proceso sea de horno
+    if(this.proceso.idTipoEtapa==20){
+      this.isStop=false;
+    }
+
     this.arr.push({id:"",nombreEmpleado:"",value:"",viewValue:""});
     
     this.sector=parseInt(localStorage.getItem('sector'));
@@ -401,7 +407,10 @@ export class RelojComponent implements OnInit{
       let fechaProcesoReiniciado=new Date();
       this.play=false;
       this.isPause=!this.isPause;
-      this.isStop=true;
+      if(this.proceso.idTipoEtapa!=20)
+      {
+        this.isStop=true;
+      }
       this.class=true;
       this.openSnackBar("Proceso iniciado",2);
       

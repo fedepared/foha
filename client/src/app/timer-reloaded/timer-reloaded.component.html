@@ -127,7 +127,7 @@
     </table>
   </div>
   <mat-paginator style="display:flex;" [pageSizeOptions]="[100, 200, 300]" showFirstLastButtons></mat-paginator>
-  <div align="end" id="top">
+  <div align="end" id="top" style="z-index:1000">
     <button mat-icon-button style="color:white;background-color:teal;" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" *ngIf="selection.selected.length>0">
       <mat-icon>checklist</mat-icon>
     </button>
