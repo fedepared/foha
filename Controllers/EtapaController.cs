@@ -730,22 +730,25 @@ namespace Foha.Controllers
 
                     }
                 }
-
-                foreach(var a in editEtapaDto.EtapaEmpleado)
+                else
                 {
-                    var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
-                    TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
-                    a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                    a.DateIni=editEtapaDto.DateIni;
-                    var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
-                    try{
-                        _repo2.Update(preEtapaEmpleado);
-                        await _repo2.SaveAsync(preEtapaEmpleado);
-                    }
-                    catch(DbUpdateConcurrencyException){
-                        throw;
+                    foreach(var a in editEtapaDto.EtapaEmpleado)
+                    {
+                        var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
+                        TimeSpan tiempoParcial=(TimeSpan.ParseExact(isEtapaEmpleadoAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(preEtapaTiempoParc);
+                        a.TiempoParc=tiempoParcial.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                        a.DateIni=editEtapaDto.DateIni;
+                        var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
+                        try{
+                            _repo2.Update(preEtapaEmpleado);
+                            await _repo2.SaveAsync(preEtapaEmpleado);
+                        }
+                        catch(DbUpdateConcurrencyException){
+                            throw;
+                        }
                     }
                 }
+                
                 var horasHombre=preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count());
                 TimeSpan suma = new TimeSpan();
                 var prueba=etapaAntes.TiempoParc;
@@ -1253,10 +1256,12 @@ namespace Foha.Controllers
                 break;
               case 8:
                     etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("CH. \n CAR",44);
                     etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("REL TRANSF",37);
                     break;
               case 9:                
+                    etapasPorSector.Add("CH. \n CAR",44);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("ENV",32);
@@ -1302,6 +1307,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("ENV \n TAPA",42);
                     etapasPorSector.Add("ENC",28);
                     etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("CH. \n CAR",44);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("ENV",32);
@@ -1703,200 +1709,218 @@ namespace Foha.Controllers
             Response<string> r = new Response<string>();
             List<Transformadores> trafos = new List<Transformadores>();
             trafos = _context.Transformadores.Include(x => x.Etapa).ToList();
+            DateTime FechaActual = DateTime.Now;
             foreach(Transformadores t in trafos)
-            {
-                if(t.IdTipoTransfo == 2){
-                    Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
-                    Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
-                    {
-                        CyPPatas.IsEnded = true;
-                        CyPPatas.IdColor = 10;
-                        CyPPatas.DateFin = DateTime.Today;
-                        ENVPatas.IsEnded = true;
-                        ENVPatas.IdColor = 10;
-                        ENVPatas.DateFin = DateTime.Today;
-                    }
-                    Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
-                    Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
-                    {
-                        ConexBT.IsEnded = true;
-                        ConexBT.IdColor = 10;
-                        ConexBT.DateFin = DateTime.Today;
-                        ConexAT.IsEnded = true;
-                        ConexAT.IdColor = 10;
-                        ConexAT.DateFin = DateTime.Today;
-                    }
-                    Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
-                    {
-                        RelacTransf.IsEnded = true;
-                        RelacTransf.IdColor = 10;
-                        RelacTransf.DateFin = DateTime.Today;
-                    }
-                    Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38, IdColor = 1034, IsEnded = true};
-                    Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39, IdColor = 1034, IsEnded = true };
-                    Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40, IdColor = 1034, IsEnded = true};
-                    Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41, IdColor = 1034, IsEnded = true};
-                    Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42, IdColor = 1034, IsEnded = true};
-                    Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
-                    _context.Etapa.Add(CyPPatas);
-                    _context.Etapa.Add(ENVPatas);
-                    _context.Etapa.Add(ConexBT);
-                    _context.Etapa.Add(ConexAT);
-                    _context.Etapa.Add(RelacTransf);
-                    _context.Etapa.Add(EnvioCuba);
-                    _context.Etapa.Add(CyPTapa);
-                    _context.Etapa.Add(GranalladoTapa);
-                    _context.Etapa.Add(PinturaTapa);
-                    _context.Etapa.Add(EnvioTapa);
-                    _context.Etapa.Add(Cubierta);
+            {   
+                Etapa ChapaCaracteristicas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                if(t.Etapa.First(x => x.IdTipoEtapa == 32).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 32).IdColor == 10)
+                {
+                    ChapaCaracteristicas.IsEnded = true;
+                    ChapaCaracteristicas.IdColor = 10;
+                    ChapaCaracteristicas.DateFin = DateTime.Today;
                 }
-                else if(t.IdTipoTransfo == 3 || t.IdTipoTransfo == 4){
-                    Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
-                    Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
+                DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.Value;
+                if(FechaFin != null ){
+                    if((FechaActual - FechaFin).TotalDays >= 60)
                     {
-                        CyPPatas.IsEnded = true;
-                        CyPPatas.IdColor = 10;
-                        CyPPatas.DateFin = DateTime.Today;
-                        ENVPatas.IsEnded = true;
-                        ENVPatas.IdColor = 10;
-                        ENVPatas.DateFin = DateTime.Today;
+                        ChapaCaracteristicas.IsEnded = true;
+                        ChapaCaracteristicas.IdColor = 10;
+                        ChapaCaracteristicas.DateFin = DateTime.Today;
                     }
-                    Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
-                    Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
-                    {
-                        ConexBT.IsEnded = true;
-                        ConexBT.IdColor = 10;
-                        ConexBT.DateFin = DateTime.Today;
-                        ConexAT.IsEnded = true;
-                        ConexAT.IdColor = 10;
-                        ConexAT.DateFin = DateTime.Today;
-                    }
-                    Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
-                    {
-                        RelacTransf.IsEnded = true;
-                        RelacTransf.IdColor = 10;
-                        RelacTransf.DateFin = DateTime.Today;
-                    }
-                    Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
-                    Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).IdColor == 10)
-                    {
-                        EnvioCuba.IsEnded = true;
-                        EnvioCuba.IdColor = 10;
-                        EnvioCuba.DateFin = DateTime.Today;
-                        EnvioTapa.IsEnded = true;
-                        EnvioTapa.IdColor = 10;
-                        EnvioTapa.DateFin = DateTime.Today;
-                    }
-                    Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
-                    Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
-                    Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).IdColor == 10)
-                    {
-                        CyPTapa.IsEnded = true;
-                        CyPTapa.IdColor = 10;
-                        CyPTapa.DateFin = DateTime.Today;
-                        GranalladoTapa.IsEnded = true;
-                        GranalladoTapa.IdColor = 10;
-                        GranalladoTapa.DateFin = DateTime.Today;
-                        PinturaTapa.IsEnded = true;
-                        PinturaTapa.IdColor = 10;
-                        PinturaTapa.DateFin = DateTime.Today;
-                    }
-                    Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
-                    _context.Etapa.Add(CyPPatas);
-                    _context.Etapa.Add(ENVPatas);
-                    _context.Etapa.Add(ConexBT);
-                    _context.Etapa.Add(ConexAT);
-                    _context.Etapa.Add(RelacTransf);
-                    _context.Etapa.Add(EnvioCuba);
-                    _context.Etapa.Add(CyPTapa);
-                    _context.Etapa.Add(GranalladoTapa);
-                    _context.Etapa.Add(PinturaTapa);
-                    _context.Etapa.Add(EnvioTapa);
-                    _context.Etapa.Add(Cubierta);
                 }
-                else if(t.IdTipoTransfo == 5){
-                    Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
-                    Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
-                    {
-                        CyPPatas.IsEnded = true;
-                        CyPPatas.IdColor = 10;
-                        CyPPatas.DateFin = DateTime.Today;
-                        ENVPatas.IsEnded = true;
-                        ENVPatas.IdColor = 10;
-                        ENVPatas.DateFin = DateTime.Today;
-                    }
-                    Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
-                    Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
-                    {
-                        ConexBT.IsEnded = true;
-                        ConexBT.IdColor = 10;
-                        ConexBT.DateFin = DateTime.Today;
-                        ConexAT.IsEnded = true;
-                        ConexAT.IdColor = 10;
-                        ConexAT.DateFin = DateTime.Today;
-                    }
-                    Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
-                    {
-                        RelacTransf.IsEnded = true;
-                        RelacTransf.IdColor = 10;
-                        RelacTransf.DateFin = DateTime.Today;
-                    }
-                    Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
-                    Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).IdColor == 10)
-                    {
-                        EnvioCuba.IsEnded = true;
-                        EnvioCuba.IdColor = 10;
-                        EnvioCuba.DateFin = DateTime.Today;
-                        EnvioTapa.IsEnded = true;
-                        EnvioTapa.IdColor = 10;
-                        EnvioTapa.DateFin = DateTime.Today;
-                    }
-                    Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
-                    Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
-                    Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).IdColor == 10)
-                    {
-                        CyPTapa.IsEnded = true;
-                        CyPTapa.IdColor = 10;
-                        CyPTapa.DateFin = DateTime.Today;
-                        GranalladoTapa.IsEnded = true;
-                        GranalladoTapa.IdColor = 10;
-                        GranalladoTapa.DateFin = DateTime.Today;
-                        PinturaTapa.IsEnded = true;
-                        PinturaTapa.IdColor = 10;
-                        PinturaTapa.DateFin = DateTime.Today;
-                    }
-                    Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43};
-                    if(t.Etapa.First(x => x.IdTipoEtapa == 24).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 24).IdColor == 10)
-                    {
-                        Cubierta.IsEnded = true;
-                        Cubierta.IdColor = 10;
-                        Cubierta.DateFin = DateTime.Today;
-                    }
-                    _context.Etapa.Add(CyPPatas);
-                    _context.Etapa.Add(ENVPatas);
-                    _context.Etapa.Add(ConexBT);
-                    _context.Etapa.Add(ConexAT);
-                    _context.Etapa.Add(RelacTransf);
-                    _context.Etapa.Add(EnvioCuba);
-                    _context.Etapa.Add(CyPTapa);
-                    _context.Etapa.Add(GranalladoTapa);
-                    _context.Etapa.Add(PinturaTapa);
-                    _context.Etapa.Add(EnvioTapa);
-                    _context.Etapa.Add(Cubierta);
-                }                
+                _context.Etapa.Add(ChapaCaracteristicas);
+                // if(t.IdTipoTransfo == 2){
+                //     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                //     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
+                //     {
+                //         CyPPatas.IsEnded = true;
+                //         CyPPatas.IdColor = 10;
+                //         CyPPatas.DateFin = DateTime.Today;
+                //         ENVPatas.IsEnded = true;
+                //         ENVPatas.IdColor = 10;
+                //         ENVPatas.DateFin = DateTime.Today;
+                //     }
+                //     Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
+                //     Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
+                //     {
+                //         ConexBT.IsEnded = true;
+                //         ConexBT.IdColor = 10;
+                //         ConexBT.DateFin = DateTime.Today;
+                //         ConexAT.IsEnded = true;
+                //         ConexAT.IdColor = 10;
+                //         ConexAT.DateFin = DateTime.Today;
+                //     }
+                //     Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
+                //     {
+                //         RelacTransf.IsEnded = true;
+                //         RelacTransf.IdColor = 10;
+                //         RelacTransf.DateFin = DateTime.Today;
+                //     }
+                //     Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38, IdColor = 1034, IsEnded = true};
+                //     Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39, IdColor = 1034, IsEnded = true };
+                //     Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40, IdColor = 1034, IsEnded = true};
+                //     Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41, IdColor = 1034, IsEnded = true};
+                //     Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42, IdColor = 1034, IsEnded = true};
+                //     Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
+                //     _context.Etapa.Add(CyPPatas);
+                //     _context.Etapa.Add(ENVPatas);
+                //     _context.Etapa.Add(ConexBT);
+                //     _context.Etapa.Add(ConexAT);
+                //     _context.Etapa.Add(RelacTransf);
+                //     _context.Etapa.Add(EnvioCuba);
+                //     _context.Etapa.Add(CyPTapa);
+                //     _context.Etapa.Add(GranalladoTapa);
+                //     _context.Etapa.Add(PinturaTapa);
+                //     _context.Etapa.Add(EnvioTapa);
+                //     _context.Etapa.Add(Cubierta);
+                // }
+                // else if(t.IdTipoTransfo == 3 || t.IdTipoTransfo == 4){
+                //     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                //     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
+                //     {
+                //         CyPPatas.IsEnded = true;
+                //         CyPPatas.IdColor = 10;
+                //         CyPPatas.DateFin = DateTime.Today;
+                //         ENVPatas.IsEnded = true;
+                //         ENVPatas.IdColor = 10;
+                //         ENVPatas.DateFin = DateTime.Today;
+                //     }
+                //     Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
+                //     Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
+                //     {
+                //         ConexBT.IsEnded = true;
+                //         ConexBT.IdColor = 10;
+                //         ConexBT.DateFin = DateTime.Today;
+                //         ConexAT.IsEnded = true;
+                //         ConexAT.IdColor = 10;
+                //         ConexAT.DateFin = DateTime.Today;
+                //     }
+                //     Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
+                //     {
+                //         RelacTransf.IsEnded = true;
+                //         RelacTransf.IdColor = 10;
+                //         RelacTransf.DateFin = DateTime.Today;
+                //     }
+                //     Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
+                //     Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).IdColor == 10)
+                //     {
+                //         EnvioCuba.IsEnded = true;
+                //         EnvioCuba.IdColor = 10;
+                //         EnvioCuba.DateFin = DateTime.Today;
+                //         EnvioTapa.IsEnded = true;
+                //         EnvioTapa.IdColor = 10;
+                //         EnvioTapa.DateFin = DateTime.Today;
+                //     }
+                //     Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
+                //     Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
+                //     Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).IdColor == 10)
+                //     {
+                //         CyPTapa.IsEnded = true;
+                //         CyPTapa.IdColor = 10;
+                //         CyPTapa.DateFin = DateTime.Today;
+                //         GranalladoTapa.IsEnded = true;
+                //         GranalladoTapa.IdColor = 10;
+                //         GranalladoTapa.DateFin = DateTime.Today;
+                //         PinturaTapa.IsEnded = true;
+                //         PinturaTapa.IdColor = 10;
+                //         PinturaTapa.DateFin = DateTime.Today;
+                //     }
+                //     Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43, IdColor = 1034, IsEnded = true};
+                //     _context.Etapa.Add(CyPPatas);
+                //     _context.Etapa.Add(ENVPatas);
+                //     _context.Etapa.Add(ConexBT);
+                //     _context.Etapa.Add(ConexAT);
+                //     _context.Etapa.Add(RelacTransf);
+                //     _context.Etapa.Add(EnvioCuba);
+                //     _context.Etapa.Add(CyPTapa);
+                //     _context.Etapa.Add(GranalladoTapa);
+                //     _context.Etapa.Add(PinturaTapa);
+                //     _context.Etapa.Add(EnvioTapa);
+                //     _context.Etapa.Add(Cubierta);
+                // }
+                // else if(t.IdTipoTransfo == 5){
+                //     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                //     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 18).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 18).IdColor == 10)
+                //     {
+                //         CyPPatas.IsEnded = true;
+                //         CyPPatas.IdColor = 10;
+                //         CyPPatas.DateFin = DateTime.Today;
+                //         ENVPatas.IsEnded = true;
+                //         ENVPatas.IdColor = 10;
+                //         ENVPatas.DateFin = DateTime.Today;
+                //     }
+                //     Etapa ConexBT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 35};
+                //     Etapa ConexAT = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 36};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 19).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 19).IdColor == 10)
+                //     {
+                //         ConexBT.IsEnded = true;
+                //         ConexBT.IdColor = 10;
+                //         ConexBT.DateFin = DateTime.Today;
+                //         ConexAT.IsEnded = true;
+                //         ConexAT.IdColor = 10;
+                //         ConexAT.DateFin = DateTime.Today;
+                //     }
+                //     Etapa RelacTransf = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 37};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 20).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 20).IdColor == 10)
+                //     {
+                //         RelacTransf.IsEnded = true;
+                //         RelacTransf.IdColor = 10;
+                //         RelacTransf.DateFin = DateTime.Today;
+                //     }
+                //     Etapa EnvioCuba = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 38};
+                //     Etapa EnvioTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 42};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 28).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 28).IdColor == 10)
+                //     {
+                //         EnvioCuba.IsEnded = true;
+                //         EnvioCuba.IdColor = 10;
+                //         EnvioCuba.DateFin = DateTime.Today;
+                //         EnvioTapa.IsEnded = true;
+                //         EnvioTapa.IdColor = 10;
+                //         EnvioTapa.DateFin = DateTime.Today;
+                //     }
+                //     Etapa CyPTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 39};
+                //     Etapa GranalladoTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 40};
+                //     Etapa PinturaTapa = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 41};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 22).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 22).IdColor == 10)
+                //     {
+                //         CyPTapa.IsEnded = true;
+                //         CyPTapa.IdColor = 10;
+                //         CyPTapa.DateFin = DateTime.Today;
+                //         GranalladoTapa.IsEnded = true;
+                //         GranalladoTapa.IdColor = 10;
+                //         GranalladoTapa.DateFin = DateTime.Today;
+                //         PinturaTapa.IsEnded = true;
+                //         PinturaTapa.IdColor = 10;
+                //         PinturaTapa.DateFin = DateTime.Today;
+                //     }
+                //     Etapa Cubierta = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 43};
+                //     if(t.Etapa.First(x => x.IdTipoEtapa == 24).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 24).IdColor == 10)
+                //     {
+                //         Cubierta.IsEnded = true;
+                //         Cubierta.IdColor = 10;
+                //         Cubierta.DateFin = DateTime.Today;
+                //     }
+                //     _context.Etapa.Add(CyPPatas);
+                //     _context.Etapa.Add(ENVPatas);
+                //     _context.Etapa.Add(ConexBT);
+                //     _context.Etapa.Add(ConexAT);
+                //     _context.Etapa.Add(RelacTransf);
+                //     _context.Etapa.Add(EnvioCuba);
+                //     _context.Etapa.Add(CyPTapa);
+                //     _context.Etapa.Add(GranalladoTapa);
+                //     _context.Etapa.Add(PinturaTapa);
+                //     _context.Etapa.Add(EnvioTapa);
+                //     _context.Etapa.Add(Cubierta);
+                // }                
             }
             try{
                 await _context.SaveChangesAsync();
