@@ -1129,8 +1129,10 @@ namespace Foha.Controllers
         .OrderBy(x=>x.Prioridad)
         .ToListAsync();
 
+
         foreach(Transformadores t in tfdto)
         {
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
 
@@ -1575,6 +1577,7 @@ namespace Foha.Controllers
                     && ((t.Serie >= serieDesde || serieDesde == 0) && (t.Serie <= (serieHasta != 0 ? serieHasta : int.MaxValue)) || t.Serie == null)
                     && (vendedor == null || t.IdVendedor == vendedor )
                     && (tipo == 0 || t.IdTipoTransfo == tipo)
+                    && (e.IdTipoEtapa != 37) //QUE NO MUESTRE REL TRA
                     select t).Include(z=>z.IdVendedorNavigation)
                     .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
                     .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
