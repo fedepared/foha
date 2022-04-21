@@ -810,7 +810,7 @@ namespace Foha.Controllers
             if(etapaAntes.InicioProceso==null)
             {
                 //Tiempo parcial 
-                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaAntes.TiempoParc));
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
                 editEtapaDto.TiempoFin = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                 
                 foreach(var a in editEtapaDto.EtapaEmpleado)
@@ -1698,6 +1698,8 @@ namespace Foha.Controllers
                     return "ENV TAPA";
                 case 43:
                     return "CUBI";
+                case 44:
+                    return "CH. CARA";
                 default:
                     return "";
             }
@@ -1956,7 +1958,7 @@ namespace Foha.Controllers
             DateTime fechaActual = DateTime.Now;
             foreach(Etapa e in etapasHorno)
             {
-                if((fechaActual - e.DateIni).Value.TotalHours >= 72){
+                if((fechaActual - e.DateIni.GetValueOrDefault(DateTime.Now)).TotalHours >= 72){
                     e.DateFin = fechaActual;
                     e.IsEnded = true;
                     e.IdColor = 10;
