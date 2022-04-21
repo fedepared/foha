@@ -84,8 +84,8 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "ENV \n TAPA":42,
         "ENC":28,
         "LAB":29,
-        "TERM":30,
         "CH \n CAR":44,
+        "TERM":30,
         "APR":31,
         "ENV":32
 }
@@ -466,8 +466,7 @@ export class TransformadoresNewComponent implements OnInit {
         }
         else{
           let today = new Date().getTime();
-          let ended = data.etapa.filter(x=>(x.idTipoEtapa==32 && x.isEnded===true) || (x.idTipoEtapa==31 && x.dateFin!==null && 
-          ((today - new Date(x.dateFin).getTime())/1000*3600*24)>60));
+          let ended = data.etapa.filter(x=>(x.idTipoEtapa==32 && x.isEnded===true) && ((today - new Date(x.dateFin).getTime())/(1000*3600*24))>60);
           if(ended.length>0){
             return false;
           }
