@@ -1255,10 +1255,10 @@ namespace Foha.Controllers
                     etapasPorSector.Add("ENC",28);
                 break;
               case 8:
+                    etapasPorSector.Add("REL TRANSF",37);
                     etapasPorSector.Add("LAB",29);
                     etapasPorSector.Add("CH \n CAR",44);
                     etapasPorSector.Add("APR",31);
-                    etapasPorSector.Add("REL TRANSF",37);
                     break;
               case 9:                
                     etapasPorSector.Add("CH \n CAR",44);
