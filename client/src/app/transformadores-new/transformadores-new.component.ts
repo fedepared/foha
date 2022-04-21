@@ -68,7 +68,6 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "MON":19,
         "CON BT":35,
         "CON AT":36,
-        // "REL \n TRA":37,
         "HOR":20,
         "CUBA CYP":21,
         "RAD \n PAN":23,
@@ -86,6 +85,7 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "ENC":28,
         "LAB":29,
         "TERM":30,
+        "CH \n CAR":44,
         "APR":31,
         "ENV":32
 }
@@ -625,6 +625,7 @@ export class TransformadoresNewComponent implements OnInit {
       "PINT \n TAPA":"PINTURA TAPA",
       "ENV \n TAPA":"ENVIO TAPA",
       "CUBI":"CUBIERTA",
+      "CH \n CAR":"Chapa de características",
     }
     return et[etapa];
 

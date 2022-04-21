@@ -158,8 +158,8 @@ export class RelojMultipleComponent implements OnInit {
         return "Envío Tapa";
       case 43:
         return "Cubierta";
-        
-      
+      case 44:
+        return "Chapa de características";
     }
   }
 

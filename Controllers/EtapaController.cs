@@ -587,6 +587,31 @@ namespace Foha.Controllers
                 return Conflict("La etapa ya había sido iniciada, por favor actualice la vista");
             }
 
+            if(editEtapaDto.IdTipoEtapa == 28)
+            {
+                await ChequearHorno();
+                Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).First();
+                if(etapaHorno.IsEnded == false || etapaHorno.IsEnded == null){
+                    etapaHorno.IdColor = 9;
+                    etapaHorno.FechaPausa = DateTime.Now;
+                    EditEtapaDto editDTO = new EditEtapaDto();
+                    editDTO.DateIni = etapaHorno.DateIni;
+                    editDTO.DateFin = etapaHorno.DateFin;
+                    editDTO.FechaPausa = etapaHorno.FechaPausa;
+                    editDTO.EtapaEmpleado = new List<EtapaEmpleado>();
+                    editDTO.Hora = etapaHorno.Hora;
+                    editDTO.IdColor = etapaHorno.IdColor;
+                    editDTO.IdTipoEtapa = etapaHorno.IdTipoEtapa;
+                    editDTO.IdTransfo = etapaHorno.IdTransfo;
+                    editDTO.InicioProceso = etapaHorno.InicioProceso;
+                    editDTO.IsEnded = etapaHorno.IsEnded;
+                    editDTO.NumEtapa = etapaHorno.NumEtapa;
+                    editDTO.TiempoFin = etapaHorno.TiempoFin;
+                    editDTO.TiempoParc = etapaHorno.TiempoParc;    
+                    await PutEtapaPausa(etapaHorno.IdEtapa, editDTO);                
+                }
+            }
+
             //Si el proceso se inicia por primera vez
             if(etapaAnterior.DateIni==null)
             {
@@ -785,7 +810,7 @@ namespace Foha.Controllers
             if(etapaAntes.InicioProceso==null)
             {
                 //Tiempo parcial 
-                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaAntes.TiempoParc));
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
                 editEtapaDto.TiempoFin = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                 
                 foreach(var a in editEtapaDto.EtapaEmpleado)
@@ -869,31 +894,6 @@ namespace Foha.Controllers
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             preEtapa.TiempoParc="Finalizada";
             
-            if(editEtapaDto.IdTipoEtapa == 21)
-            {
-                await ChequearHorno();
-                Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).First();
-                if(etapaHorno.IsEnded == false || etapaHorno.IsEnded == null){
-                    etapaHorno.IdColor = 9;
-                    etapaHorno.FechaPausa = DateTime.Now;
-                    EditEtapaDto editDTO = new EditEtapaDto();
-                    editDTO.DateIni = etapaHorno.DateIni;
-                    editDTO.DateFin = etapaHorno.DateFin;
-                    editDTO.FechaPausa = etapaHorno.FechaPausa;
-                    editDTO.EtapaEmpleado = new List<EtapaEmpleado>();
-                    editDTO.Hora = etapaHorno.Hora;
-                    editDTO.IdColor = etapaHorno.IdColor;
-                    editDTO.IdTipoEtapa = etapaHorno.IdTipoEtapa;
-                    editDTO.IdTransfo = etapaHorno.IdTransfo;
-                    editDTO.InicioProceso = etapaHorno.InicioProceso;
-                    editDTO.IsEnded = etapaHorno.IsEnded;
-                    editDTO.NumEtapa = etapaHorno.NumEtapa;
-                    editDTO.TiempoFin = etapaHorno.TiempoFin;
-                    editDTO.TiempoParc = etapaHorno.TiempoParc;    
-                    await PutEtapaPausa(etapaHorno.IdEtapa, editDTO);                
-                }
-            }
-
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
                 var preEtapaEmpleado=_mapper.Map<EtapaEmpleado>(a);
@@ -1255,13 +1255,13 @@ namespace Foha.Controllers
                     etapasPorSector.Add("ENC",28);
                 break;
               case 8:
-                    etapasPorSector.Add("LAB",29);
-                    etapasPorSector.Add("CH. \n CAR",44);
-                    etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("REL TRANSF",37);
+                    etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("CH \n CAR",44);
+                    etapasPorSector.Add("APR",31);
                     break;
               case 9:                
-                    etapasPorSector.Add("CH. \n CAR",44);
+                    etapasPorSector.Add("CH \n CAR",44);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("ENV",32);
@@ -1698,6 +1698,8 @@ namespace Foha.Controllers
                     return "ENV TAPA";
                 case 43:
                     return "CUBI";
+                case 44:
+                    return "CH. CARA";
                 default:
                     return "";
             }
@@ -1712,14 +1714,14 @@ namespace Foha.Controllers
             DateTime FechaActual = DateTime.Now;
             foreach(Transformadores t in trafos)
             {   
-                Etapa ChapaCaracteristicas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                Etapa ChapaCaracteristicas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 44};
                 if(t.Etapa.First(x => x.IdTipoEtapa == 32).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 32).IdColor == 10)
                 {
                     ChapaCaracteristicas.IsEnded = true;
                     ChapaCaracteristicas.IdColor = 10;
                     ChapaCaracteristicas.DateFin = DateTime.Today;
                 }
-                DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.Value;
+                DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.GetValueOrDefault();
                 if(FechaFin != null ){
                     if((FechaActual - FechaFin).TotalDays >= 60)
                     {
@@ -1956,7 +1958,7 @@ namespace Foha.Controllers
             DateTime fechaActual = DateTime.Now;
             foreach(Etapa e in etapasHorno)
             {
-                if((fechaActual - e.DateIni).Value.TotalHours >= 72){
+                if((fechaActual - e.DateIni.GetValueOrDefault(DateTime.Now)).TotalHours >= 72){
                     e.DateFin = fechaActual;
                     e.IsEnded = true;
                     e.IdColor = 10;

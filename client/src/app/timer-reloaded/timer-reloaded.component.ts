@@ -60,7 +60,7 @@ export class EtapaColumnComponent2{
     if(!etapa.dateIni && etapa.idColor!=10){
       if(this.sector == 9)
       {
-        if(etapa.idTipoEtapa==31){
+        if(etapa.idTipoEtapa==31 || etapa.idTipoEtapa==44){
           return false;
         }
         else{
@@ -683,8 +683,19 @@ export class TimerReloadedComponent implements OnInit {
   }
 
   checkFurnace(){
+    this._snackBar.open("Actualizando etapas de horno...","",{
+      duration: this.durationInSeconds * 1500,
+     })
     this.etapaService.getChequearHorno().subscribe( (res) =>{
-      this.openSnackBar(res.message,"!");
+      this._snackBar.open(res.message,"!",{
+        duration: this.durationInSeconds * 1500,
+       })
+      setTimeout(()=>{
+          if(res.status==200){
+            this.getTrafos()
+          }
+        }
+      ,2000)
     })
   }
 
