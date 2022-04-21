@@ -1256,12 +1256,12 @@ namespace Foha.Controllers
                 break;
               case 8:
                     etapasPorSector.Add("LAB",29);
-                    etapasPorSector.Add("CH. \n CAR",44);
+                    etapasPorSector.Add("CH \n CAR",44);
                     etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("REL TRANSF",37);
                     break;
               case 9:                
-                    etapasPorSector.Add("CH. \n CAR",44);
+                    etapasPorSector.Add("CH \n CAR",44);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("APR",31);
                     etapasPorSector.Add("ENV",32);
@@ -1712,14 +1712,14 @@ namespace Foha.Controllers
             DateTime FechaActual = DateTime.Now;
             foreach(Transformadores t in trafos)
             {   
-                Etapa ChapaCaracteristicas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
+                Etapa ChapaCaracteristicas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 44};
                 if(t.Etapa.First(x => x.IdTipoEtapa == 32).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 32).IdColor == 10)
                 {
                     ChapaCaracteristicas.IsEnded = true;
                     ChapaCaracteristicas.IdColor = 10;
                     ChapaCaracteristicas.DateFin = DateTime.Today;
                 }
-                DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.Value;
+                DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.GetValueOrDefault();
                 if(FechaFin != null ){
                     if((FechaActual - FechaFin).TotalDays >= 60)
                     {
