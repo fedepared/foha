@@ -1954,7 +1954,7 @@ namespace Foha.Controllers
         [HttpGet("ChequearHorno")]
         public async Task<IActionResult> ChequearHorno(){
             Response<String> r = new Response<string>();
-            List<Etapa> etapasHorno = await _context.Etapa.Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030 && x.TiempoParc != "Finalizada" && (x.IsEnded == false || x.IsEnded == null)).Include(x => x.IdTipoEtapaNavigation).ToListAsync();
+            List<Etapa> etapasHorno = await _context.Etapa.AsNoTracking().Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030 && x.TiempoParc != "Finalizada" && (x.IsEnded == false || x.IsEnded == null)).Include(x => x.IdTipoEtapaNavigation).ToListAsync();
             DateTime fechaActual = DateTime.Now;
             foreach(Etapa e in etapasHorno)
             {
@@ -1962,22 +1962,9 @@ namespace Foha.Controllers
                     e.DateFin = fechaActual;
                     e.IsEnded = true;
                     e.IdColor = 10;
-                    EditEtapaDto editDTO = new EditEtapaDto();
-                    editDTO.DateIni = e.DateIni;
-                    editDTO.DateFin = e.DateFin;
-                    editDTO.EtapaEmpleado = e.EtapaEmpleado;
-                    editDTO.FechaPausa = e.FechaPausa;
-                    editDTO.Hora = e.Hora;
-                    editDTO.IdColor = e.IdColor;
-                    editDTO.IdTipoEtapa = e.IdTipoEtapa;
-                    editDTO.IdTransfo = e.IdTransfo;
-                    editDTO.InicioProceso = e.InicioProceso;
-                    editDTO.IsEnded = e.IsEnded;
-                    editDTO.NumEtapa = e.NumEtapa;
-                    editDTO.TiempoFin = e.TiempoFin;
-                    editDTO.TiempoParc = e.TiempoParc;                    
+                    var editDTO = _mapper.Map<EditEtapaDto>(e);                  
                     await PutEtapaStop(e.IdEtapa, editDTO);
-                    _context.Etapa.Update(e);
+                    //_context.Etapa.Update(e);
                 }
             }
             try{
