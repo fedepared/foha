@@ -121,7 +121,6 @@ export class ExcelService {
       'MON',
       'CONEX BT',
       'CONEX AT',
-      'RELAC DE TRANSF',
       'HOR',
       'CUBA CYP',
       'RAD/PAN',
@@ -138,6 +137,7 @@ export class ExcelService {
       'ENV. TAPA',
       'ENC',
       'LAB',
+      'CH CAR',
       'TERM',
       'DEP',
       'ENV'
@@ -198,7 +198,6 @@ export class ExcelService {
       {key:'montaje',width:11.5},
       {key:'conexBT',width:11.5},
       {key:'conexAT',width:11.5},
-      {key:'relacionDeTransferencia',width:11.5},
       {key:'horno',width:11.5},
       {key:'cYPTapaCuba',width:11.5},
       {key:'radiadoresOPaneles',width:11.5},
@@ -215,6 +214,7 @@ export class ExcelService {
       {key:'envioTapa',width:11.5},
       {key:'encubado',width:11.5},
       {key:'ensayosRef',width:11.5},
+      {key:'ChapaDeCaracteristicas',width:11.5},
       {key:'terminacion',width:11.5},
       {key:'envioADeposito',width:11.5},
       {key:'envioACliente',width:11.5},
@@ -297,39 +297,39 @@ export class ExcelService {
           //23
           conexAT:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==36))),
           //24
-          relacionDeTransferencia:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==37))),
-          //25
           horno:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==20))),
-          //26
+          //25
           cYPTapaCuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==21))),
-          //27
+          //26
           radiadoresOPaneles:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==23))),
-          //28
+          //27
           cubierta:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==43))),
-          //29
+          //28
           cuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==24))),
-          //30
+          //29
           tintasPenetrantes:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==25))),
-          //31
+          //30
           granallado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==26))),
-          //32
+          //31
           pintura:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==27))),
-          //33
+          //32
           envioCuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==38))),
-          //34
+          //33
           cYPTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==39))),
-          //35
+          //34
           tapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==22))),
-          //36
+          //35
           granalladoTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==40))),
-          //37
+          //36
           pinturaTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==41))),
-          //38
+          //37
           envioTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==42))),
-          //39
+          //38
           encubado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==28))),
-          //40
+          //39
           ensayosRef:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==29))),
+          //40
+          chapaDeCaracteristicas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==44))),
           //41
           terminacion:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==30))),
           //42
@@ -390,55 +390,55 @@ export class ExcelService {
                         cuent=36
                         break;
                       case 24:
-                        cuent=37
-                        break;
-                      case 25:
                         cuent=20
                         break;
-                      case 26:
+                      case 25:
                         cuent=21
                         break;
-                      case 27:
+                      case 26:
                         cuent=23
                         break;
-                      case 28:
+                      case 27:
                         cuent=43
                         break;
-                      case 29:
+                      case 28:
                         cuent=24
                         break;
-                      case 30:
+                      case 29:
                         cuent=25
                         break;
-                      case 31:
+                      case 30:
                         cuent=26
                         break;
-                      case 32:
+                      case 31:
                         cuent=27
                         break;
-                      case 33:
+                      case 32:
                         cuent=38
                         break;
-                      case 34:
+                      case 33:
                         cuent=39
                         break;
-                      case 35:
+                      case 34:
                         cuent=22
                         break;
-                      case 36:
+                      case 35:
                         cuent=40
                         break;
-                      case 37:
+                      case 36:
                         cuent=41
                         break;
-                      case 38:
+                      case 37:
                         cuent=42
                         break;
-                      case 39:
+                      case 38:
                         cuent=28
                         break;
-                      case 40:
+                      case 39:
                         cuent=29
+                        break;
+                      case 40:
+                        cuent=44
                         break;
                       case 41:
                         cuent=30
@@ -454,14 +454,16 @@ export class ExcelService {
               else{
                 cuent=cuenta;
               }
-              if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
-              {
-                colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation.codigoColor).replace('#','');
-                cell.fill={
-                  type: 'pattern',
-                  pattern: 'solid',
-                  fgColor: { argb: `${colorCortado}` },
-                  bgColor: { argb: `${colorCortado}` }
+              if(cuent != 37){
+                if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
+                {
+                  colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation.codigoColor).replace('#','');
+                  cell.fill={
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: `${colorCortado}` },
+                    bgColor: { argb: `${colorCortado}` }
+                  }
                 }
               }
             }
@@ -542,9 +544,12 @@ export class ExcelService {
   }
 
   tiempoParcToDate(date:string):Date | any{
+    const dateF = (date.split(/ |\//))
+    // console.log(new Date(parseInt(dateF[2]),parseInt(dateF[1])-1,parseInt(dateF[0])));
     if(date!=null)
     {
-      return new Date(date.split(" ")[0]);
+      // return new Date(date.split(" ")[0]);
+      return new Date(parseInt(dateF[2]),parseInt(dateF[1])-1,parseInt(dateF[0]))
     }
     else{
       return "SIN DATOS"
