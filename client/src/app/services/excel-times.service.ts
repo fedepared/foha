@@ -119,7 +119,6 @@ export class ExcelTimesService {
       'MON',
       'CONEX BT',
       'CONEX AT',
-      'RELAC DE TRANSF',
       'HOR',
       'CUBA CYP',
       'RAD/PAN',
@@ -136,6 +135,7 @@ export class ExcelTimesService {
       'ENV. TAPA',
       'ENC',
       'LAB',
+      'CH CAR',
       'TERM',
       'DEP',
       'ENV'
@@ -196,7 +196,6 @@ export class ExcelTimesService {
       {key:'montaje',width:11.5},
       {key:'conexBT',width:11.5},
       {key:'conexAT',width:11.5},
-      {key:'relacionDeTransferencia',width:11.5},
       {key:'horno',width:11.5},
       {key:'cYPTapaCuba',width:11.5},
       {key:'radiadoresOPaneles',width:11.5},
@@ -213,6 +212,7 @@ export class ExcelTimesService {
       {key:'envioTapa',width:11.5},
       {key:'encubado',width:11.5},
       {key:'ensayosRef',width:11.5},
+      {key:'ChapaDeCaracteristicas',width:11.5},
       {key:'terminacion',width:11.5},
       {key:'envioADeposito',width:11.5},
       {key:'envioACliente',width:11.5},
@@ -284,7 +284,6 @@ export class ExcelTimesService {
           montaje:this.time((e.etapa.find(z=>z.idTipoEtapa==19))),
           conexBT:this.time((e.etapa.find(z=>z.idTipoEtapa==35))),
           conexAT:this.time((e.etapa.find(z=>z.idTipoEtapa==36))),
-          relacionDeTransferencia:this.time((e.etapa.find(z=>z.idTipoEtapa==37))),
           horno:this.time((e.etapa.find(z=>z.idTipoEtapa==20))),
           cYPTapaCuba:this.time((e.etapa.find(z=>z.idTipoEtapa==21))),
           radiadoresOPaneles:this.time((e.etapa.find(z=>z.idTipoEtapa==23))),
@@ -301,6 +300,7 @@ export class ExcelTimesService {
           envioTapa:this.time((e.etapa.find(z=>z.idTipoEtapa==42))),
           encubado:this.time((e.etapa.find(z=>z.idTipoEtapa==28))),
           ensayosRef:this.time((e.etapa.find(z=>z.idTipoEtapa==29))),
+          chapaDeCaracteristicas:((e.etapa.find(z=>z.idTipoEtapa==44))),
           terminacion:this.time((e.etapa.find(z=>z.idTipoEtapa==30))),
           envioADeposito:this.time((e.etapa.find(z=>z.idTipoEtapa==31))),
           envioACliente:this.time((e.etapa.find(z=>z.idTipoEtapa==32)))
@@ -360,55 +360,55 @@ export class ExcelTimesService {
                         cuent=36
                         break;
                       case 24:
-                        cuent=37
-                        break;
-                      case 25:
                         cuent=20
                         break;
-                      case 26:
+                      case 25:
                         cuent=21
                         break;
-                      case 27:
+                      case 26:
                         cuent=23
                         break;
-                      case 28:
+                      case 27:
                         cuent=43
                         break;
-                      case 29:
+                      case 28:
                         cuent=24
                         break;
-                      case 30:
+                      case 29:
                         cuent=25
                         break;
-                      case 31:
+                      case 30:
                         cuent=26
                         break;
-                      case 32:
+                      case 31:
                         cuent=27
                         break;
-                      case 33:
+                      case 32:
                         cuent=38
                         break;
-                      case 34:
+                      case 33:
                         cuent=39
                         break;
-                      case 35:
+                      case 34:
                         cuent=22
                         break;
-                      case 36:
+                      case 35:
                         cuent=40
                         break;
-                      case 37:
+                      case 36:
                         cuent=41
                         break;
-                      case 38:
+                      case 37:
                         cuent=42
                         break;
-                      case 39:
+                      case 38:
                         cuent=28
                         break;
-                      case 40:
+                      case 39:
                         cuent=29
+                        break;
+                      case 40:
+                        cuent=44
                         break;
                       case 41:
                         cuent=30
@@ -424,14 +424,17 @@ export class ExcelTimesService {
               else{
                 cuent=cuenta;
               }
-              if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
+              if(cuent!=37)
               {
-                colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation.codigoColor).replace('#','');
-                cell.fill={
-                  type: 'pattern',
-                  pattern: 'solid',
-                  fgColor: { argb: `${colorCortado}` },
-                  bgColor: { argb: `${colorCortado}` }
+                if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
+                {
+                  colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation.codigoColor).replace('#','');
+                  cell.fill={
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: `${colorCortado}` },
+                    bgColor: { argb: `${colorCortado}` }
+                  }
                 }
               }
             }

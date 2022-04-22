@@ -68,7 +68,6 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "MON":19,
         "CON BT":35,
         "CON AT":36,
-        "REL \n TRA":37,
         "HOR":20,
         "CUBA CYP":21,
         "RAD \n PAN":23,
@@ -85,6 +84,7 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "ENV \n TAPA":42,
         "ENC":28,
         "LAB":29,
+        "CH \n CAR":44,
         "TERM":30,
         "APR":31,
         "ENV":32
@@ -320,6 +320,9 @@ export class TransformadoresNewComponent implements OnInit {
   vista:Vista[];
   selectColumn=false;
 
+  //historicos 
+  historics = true;
+
   selection = new SelectionModel<any>(true, []);
 
 
@@ -449,6 +452,29 @@ export class TransformadoresNewComponent implements OnInit {
     this.idTipoUs=localStorage.getItem("idTipoUs");
     console.log(this.idTipoUs);
     this.dataGetTrafos=new MatTableDataSource();
+    this.dataGetTrafos.filterPredicate = ((data, filter: string): boolean => {
+      const filterValue = JSON.parse(filter);
+      //mostrar historicos
+      if(filterValue){
+        return true;
+      }
+      //ocultar historicos
+      else{
+        if(data.hasOwnProperty('group'))
+        {
+          return true;
+        }
+        else{
+          let today = new Date().getTime();
+          let ended = data.etapa.filter(x=>(x.idTipoEtapa==32 && x.isEnded===true) && ((today - new Date(x.dateFin).getTime())/(1000*3600*24))>60);
+          if(ended.length>0){
+            return false;
+          }
+          else return true;
+        }
+      }
+    
+    })
     this.getTrafos();
     this.getMonthYear();
     this.getSellers();
@@ -598,6 +624,7 @@ export class TransformadoresNewComponent implements OnInit {
       "PINT \n TAPA":"PINTURA TAPA",
       "ENV \n TAPA":"ENVIO TAPA",
       "CUBI":"CUBIERTA",
+      "CH \n CAR":"Chapa de características",
     }
     return et[etapa];
 
@@ -1083,6 +1110,15 @@ export class TransformadoresNewComponent implements OnInit {
         dialogRef5.afterClosed().subscribe(result => {
 
         })
+      }
+
+      getHistorics(){
+      
+          this.dataGetTrafos.filter = JSON.stringify(this.historics);
+      
+          // if (this.dataSource.paginator) {
+          //   this.dataSource.paginator.firstPage();
+          // }  
       }
 
 
