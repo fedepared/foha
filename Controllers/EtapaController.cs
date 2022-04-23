@@ -1409,13 +1409,13 @@ namespace Foha.Controllers
                     Sector = new int?[] { 20, 28 };
                     break;
                 case 8:
-                    Sector = new int?[] { 29, 37 };
+                    Sector = new int?[] { 29, 37, 44 };
                     break;
                 case 9:
-                    Sector = new int?[] { 30, 31, 32 };
+                    Sector = new int?[] { 30, 31, 32, 44 };
                     break;
                 case 10:
-                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43 };
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
                     break;
                 case 12:
                     Sector = new int?[] { 20, 28, 32 };
@@ -1562,7 +1562,7 @@ namespace Foha.Controllers
         public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int idTransfo){
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
-            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 30, 31, 32 };
+            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 44, 30, 31, 32 };
             try{
                 List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == idTransfo)//Busco las etapas del trafo que me pide.
                                     .Include(x => x.IdTipoEtapaNavigation)
@@ -1699,7 +1699,7 @@ namespace Foha.Controllers
                 case 43:
                     return "CUBI";
                 case 44:
-                    return "CH. CARA";
+                    return "CH. CAR";
                 default:
                     return "";
             }
@@ -1708,7 +1708,7 @@ namespace Foha.Controllers
         [HttpGet("AddEtapasNuevasATrafosViejos")]
         public async Task<IActionResult> AddEtapasNuevasATrafosViejos()//NO FALLA! :)
         {
-            Response<string> r = new Response<string>();
+            Response<string> r = new Response<string>(); 
             List<Transformadores> trafos = new List<Transformadores>();
             trafos = _context.Transformadores.Include(x => x.Etapa).ToList();
             DateTime FechaActual = DateTime.Now;
