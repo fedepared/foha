@@ -1721,16 +1721,17 @@ namespace Foha.Controllers
                     ChapaCaracteristicas.IdColor = 10;
                     ChapaCaracteristicas.DateFin = DateTime.Today;
                 }
-                DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.GetValueOrDefault();
-                if(FechaFin != null ){
-                    if((FechaActual - FechaFin).TotalDays >= 60)
-                    {
-                        ChapaCaracteristicas.IsEnded = true;
-                        ChapaCaracteristicas.IdColor = 10;
-                        ChapaCaracteristicas.DateFin = DateTime.Today;
-                    }
-                }
                 _context.Etapa.Add(ChapaCaracteristicas);
+                // DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.GetValueOrDefault();
+                // if(FechaFin != null ){
+                //     if((FechaActual - FechaFin).TotalDays >= 60)
+                //     {
+                //         ChapaCaracteristicas.IsEnded = true;
+                //         ChapaCaracteristicas.IdColor = 10;
+                //         ChapaCaracteristicas.DateFin = DateTime.Today;
+                //     }
+                // }
+                // _context.Etapa.Add(ChapaCaracteristicas);
                 // if(t.IdTipoTransfo == 2){
                 //     Etapa CyPPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 33};
                 //     Etapa ENVPatas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 34};
