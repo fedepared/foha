@@ -1554,8 +1554,40 @@ namespace Foha.Controllers
         )
     {
 
-        List<Transformadores> results = new List<Transformadores>();
-        results = (from Transformadores t in _context.Transformadores
+        List<Transformadores> trafos = new List<Transformadores>();
+        if(month.Length > 0){
+
+            trafos = (from Transformadores t in _context.Transformadores
+                    join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo 
+                    join Colores c in _context.Colores on e.IdColor equals c.IdColor into ec
+                    from c in ec.DefaultIfEmpty()
+                    join Vendedores v in _context.Vendedores on t.IdVendedor equals v.IdVendedor into tv
+                    from v in tv.DefaultIfEmpty()
+                    join EtapaEmpleado emp in _context.EtapaEmpleado on e.IdEtapa equals emp.IdEtapa into eemp
+                    from emo in eemp.DefaultIfEmpty()
+                    join TipoEtapa te in _context.TipoEtapa on e.IdTipoEtapa equals te.IdTipoEtapa
+                    join Cliente cli in _context.Cliente on t.IdCliente equals cli.IdCliente into tcli
+                    from cli in tcli.DefaultIfEmpty()
+                    join TipoTransfo tip in _context.TipoTransfo on t.IdTipoTransfo equals tip.IdTipoTransfo 
+                    where ((t.OTe >= oTeDes ) && (t.OTe <=( oTeHas != 0 ? oTeHas : int.MaxValue)) ||t.OTe == null) 
+                    && (String.IsNullOrEmpty(nucleos) || t.Nucleos.ToUpper().Contains(nucleos.ToUpper())  )
+                    && ((t.OPe >= oPeDes || oPeDes == 0) && (t.OPe <= (oPeHas != 0 ? oPeHas : int.MaxValue)))
+                    && (t.RangoInicio >= rangoInicioDesde || rangoInicioDesde == 0) && (t.RangoInicio <= (rangoInicioHasta != 0 ? rangoInicioHasta : int.MaxValue))
+                    && (t.Potencia >= potenciaDesde || potenciaDesde == 0 ) && (t.Potencia <= (potenciaHasta != 0 ? potenciaHasta : int.MaxValue))
+                    && (String.IsNullOrEmpty(nombreCli) || t.NombreCli.Contains(nombreCli.ToUpper()) ) 
+                    && (String.IsNullOrEmpty(observaciones)  || t.Observaciones.ToUpper().Contains(observaciones.ToUpper()) )
+                    && ((t.Serie >= serieDesde || serieDesde == 0) && (t.Serie <= (serieHasta != 0 ? serieHasta : int.MaxValue)) || t.Serie == null)
+                    && (vendedor == null || t.IdVendedor == vendedor )
+                    && (tipo == 0 || t.IdTipoTransfo == tipo)
+                    && (month.Contains(t.Mes.GetValueOrDefault()) && year.Contains(t.Anio.GetValueOrDefault()))
+                    select t).Include(z=>z.IdVendedorNavigation)
+                    .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
+                    .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
+                    .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList();
+
+        }
+        else{
+            trafos = (from Transformadores t in _context.Transformadores
                     join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo 
                     join Colores c in _context.Colores on e.IdColor equals c.IdColor into ec
                     from c in ec.DefaultIfEmpty()
@@ -1580,26 +1612,29 @@ namespace Foha.Controllers
                     select t).Include(z=>z.IdVendedorNavigation)
                     .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
                     .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
-                    .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList(); 
+                    .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList();
+        }
 
-        foreach(Transformadores t in results)
+         
+
+        foreach(Transformadores t in trafos)
         {
             t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
         
-        List<Transformadores> trafos = new List<Transformadores>();
+        //List<Transformadores> trafos = results;
 
-        if(month.Length>0)
-        {
-            for (var i = 0; i < month.Length; i++)
-            {
-                trafos.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
-            }
-        }
-        else{
-            trafos = results;
-        }
+        // if(month.Length>0)
+        // {
+        //     for (var i = 0; i < month.Length; i++)
+        //     {
+        //         trafos.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
+        //     }
+        // }
+        // else{
+        //     trafos = results;
+        // }
 
         if(trafos.Count()>0)
         {
