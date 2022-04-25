@@ -50,7 +50,6 @@
         Finalizados
     </button>
 </mat-card>
-   
 
 <mat-card *ngIf="noResult" style="text-align:center;">
     <mat-card-header style="text-align:center;">
@@ -62,6 +61,27 @@
       </p>
     </mat-card-content>
   </mat-card>
+
+  <div>
+    <form *ngIf="isSelected" [formGroup]="form2" class="search__form" fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="5px">
+        <mat-form-field class="search__form_field" appearance="outline">
+          <mat-label>Proceso</mat-label>
+          <input type="text"
+                matInput
+                formControlName="proceso"
+                (keyup)="applyFilter()"
+          >
+        </mat-form-field>
+        <mat-form-field class="search__form_field" appearance="outline">
+          <mat-label>Empleados</mat-label>
+          <input type="text"
+                matInput
+                formControlName="empleado"
+                (keyup)="applyFilter()"
+          >
+        </mat-form-field>
+    </form>
+</div>
 
 <div id= "tabla2" class="example-container mat-elevation-z8" *ngIf="isSelected">
     <table mat-table [dataSource]="resultado" > 

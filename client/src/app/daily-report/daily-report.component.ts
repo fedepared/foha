@@ -17,6 +17,7 @@ import { EmpleadoService } from '../services/empleado.service';
 import { EtapaPorSector } from '../models/etapaPorSector';
 import { Reporte } from '../models/reporte';
 import { ExcelDailyReportService } from '../services/excel-daily-report.service';
+import { MatTableDataSource } from '@angular/material';
 
 
 
@@ -47,7 +48,7 @@ export class DailyReportComponent implements OnInit {
   date = new FormControl(moment("06/10/2020"));
   dataEtapas:Etapa[]=[];
   events: string[] = [];
-  resultado:Reporte[]=[];
+  resultado:MatTableDataSource<Reporte[]>=new MatTableDataSource<Reporte[]>();
   selectedDate:Date;
   dataEtapasNullTimes:Etapa[]=[];
   isSelected:Boolean=false;
@@ -62,17 +63,29 @@ export class DailyReportComponent implements OnInit {
   selectedEmpleado:Empleado={idEmpleado:"-99",nombreEmp:'None',legajo:"-99"};
   empleados:Empleado[];
   etapaPorSector:EtapaPorSector;
+  
+  form2=new FormGroup(
+    {
+      proceso:new FormControl(),	
+      empleado: new FormControl()
+    }
+  )
 
+  proceso= '';
+  empleado= '';
 
   constructor(private etapaService:EtapaService,fb: FormBuilder,private sectoresService:SectoresService,private empleadoService:EmpleadoService,private excelDailyReportService:ExcelDailyReportService) {
     this.form = fb.group({
       date: [{begin: this.startDate, end: this.endDate}]
     });
+    
    }
 
   
 
   ngOnInit(): void {
+    this.resultado=new MatTableDataSource();
+    this.resultado.filterPredicate =this.createFilter();
     this.getSectores();
   }
 
@@ -143,8 +156,8 @@ export class DailyReportComponent implements OnInit {
     
 
     this.etapaService.postEtapasFinalizadas(this.etapaPorSector).subscribe(res => {
-      this.resultado=res.data;
-      if(this.resultado.length<1)
+      this.resultado.data=res.data;
+      if(this.resultado.data.length<1)
       {
         this.noResult=true;
         this.isSelected=false;
@@ -156,8 +169,62 @@ export class DailyReportComponent implements OnInit {
     })
   }
 
+  applyFilter(){
+    const proc =this.form2.get('proceso').value;
+    const empleado=this.form2.get('empleado').value;
+    
+    this.proceso = proc === null ? '' : proc;
+    this.empleado = empleado === null ? '' : empleado;
+
+    // create string of our searching values and split if by '$'
+    const filterValue = this.proceso + '$' + this.empleado;
+    
+    this.resultado.filter = filterValue.trim().toLowerCase();
+  }
+
+  createFilter(){
+    return (row:any, filters: string) => {
+      
+      // split string per '$' to array
+      // console.log("Filters",filters);
+      // console.log("selected",this.selection.selected);
+      const filterArray = filters.split('$');
+      
+      const proceso = filterArray[0];
+      const empleado = filterArray[1];
+
+      const matchFilter = [];
+
+      // // Fetch data from row
+      if(row.hasOwnProperty('oTe'))
+      {
+        const columnProceso = row.proceso==null ? '' : row.proceso;
+        const columnEmpleado = row.operarios==null ? '' : row.operarios;
+        
+        
+
+        //verify fetching data by our searching values
+        const customFilterProceso =  columnProceso.toString().includes(proceso);
+        const customFilterEmpleado = columnEmpleado.toString().includes(empleado);
+        
+        // //push boolean values into array
+        matchFilter.push(customFilterProceso);
+        matchFilter.push(customFilterEmpleado);
+      }
+      // else{
+      //   return false;
+      // }
+
+
+
+      // return true if all values in array is true
+      // else return false
+      return matchFilter.every(Boolean);
+    };
+  }
+
   export(){
-    this.excelDailyReportService.generateDailyReport(this.selectedSector,this.selectedEmpleado,this.dateRangeDisp.begin,this.dateRangeDisp.end,this.etapaPorSector.idColor,this.resultado)
+    this.excelDailyReportService.generateDailyReport(this.selectedSector,this.selectedEmpleado,this.dateRangeDisp.begin,this.dateRangeDisp.end,this.etapaPorSector.idColor,this.resultado.data)
   }
 
   saveDate(event: any) {

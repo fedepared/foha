@@ -231,6 +231,7 @@ export class ExcelService {
     let otAnterior=0;
     let row=9;
     data.forEach((e,i)=>{
+      console.log(e.idTransfo)
       if((e.hasOwnProperty("group")))
       {
         let periodo=worksheet.addRow([`${e.group}`]);
@@ -544,10 +545,11 @@ export class ExcelService {
   }
 
   tiempoParcToDate(date:string):Date | any{
-    const dateF = (date.split(/ |\//))
+    console.log(date);
     // console.log(new Date(parseInt(dateF[2]),parseInt(dateF[1])-1,parseInt(dateF[0])));
     if(date!=null)
     {
+      const dateF = (date.split(/ |\//))
       // return new Date(date.split(" ")[0]);
       return new Date(parseInt(dateF[2]),parseInt(dateF[1])-1,parseInt(dateF[0]))
     }
