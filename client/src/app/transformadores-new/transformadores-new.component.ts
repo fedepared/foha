@@ -321,7 +321,7 @@ export class TransformadoresNewComponent implements OnInit {
   selectColumn=false;
 
   //historicos 
-  historics = true;
+  historics = false;
 
   selection = new SelectionModel<any>(true, []);
 
@@ -450,10 +450,10 @@ export class TransformadoresNewComponent implements OnInit {
 
   ngOnInit(): void {
     this.idTipoUs=localStorage.getItem("idTipoUs");
-    console.log(this.idTipoUs);
     this.dataGetTrafos=new MatTableDataSource();
     this.dataGetTrafos.filterPredicate = ((data, filter: string): boolean => {
       const filterValue = JSON.parse(filter);
+      console.log(filterValue);
       //mostrar historicos
       if(filterValue){
         return true;
@@ -476,6 +476,7 @@ export class TransformadoresNewComponent implements OnInit {
     
     })
     this.getTrafos();
+    this.getHistorics();
     this.getMonthYear();
     this.getSellers();
     this.getTipoTransfo();
@@ -681,27 +682,8 @@ export class TransformadoresNewComponent implements OnInit {
           console.log(transfo);
           this.isLoadingResults = true;
           this.dataGetTrafos.paginator = this.paginator;
-          
-          // let transfoArray=[];
-
-          // for (let a of transfo)
-          // {
-          //   let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
-          //   transfoArray.push(group);
-          //   for(let b of a.trafos)
-          //   {
-          //     transfoArray.push(b);
-          //   }
-          //   console.log(transfoArray)
-          //   this.dataGetTrafos.data=transfoArray;
-          // }
 
           this.dataGetTrafos.data=transfo.data;
-
-          //Para trabajarlo
-          // this.dataGetTrafos.paginator=this.paginator;
-          // transfo.lista.unshift(transfo.id);
-          // this.dataGetTrafos.data=transfo.lista;
 
         }, err => {
             this.isLoadingResults = false;
@@ -1068,17 +1050,7 @@ export class TransformadoresNewComponent implements OnInit {
               {
                 this.isLoadingResults=true;
                 this.dataGetTrafos.paginator = this.paginator;
-                // let transfoArray=[];
-                // for (let a of res)
-                // {
-                //   let group={group : `${a.mes} de ${a.anio}. Tot:${a.trafos.length}`}
-                //   transfoArray.push(group);
-                //   for(let b of a.trafos)
-                //   {
-                //     transfoArray.push(b);
-                //   }
-                //   this.dataGetTrafos.data=transfoArray;
-                //   this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
+                
                 // }
                 this.dataGetTrafos.data = res;
                 this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
@@ -1116,9 +1088,6 @@ export class TransformadoresNewComponent implements OnInit {
       
           this.dataGetTrafos.filter = JSON.stringify(this.historics);
       
-          // if (this.dataSource.paginator) {
-          //   this.dataSource.paginator.firstPage();
-          // }  
       }
 
 

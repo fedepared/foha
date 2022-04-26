@@ -13,7 +13,7 @@ export class ExcelDailyReportService {
   date:string;
   constructor() { }
 
-  generateDailyReport(selectedSector:Sectores,selectedEmpleado:Empleado,begin:Date,end,idColor,reporte:Reporte[]){
+  generateDailyReport(selectedSector:Sectores,selectedEmpleado:Empleado,begin:Date,end,idColor,reporte:Reporte[]|any){
     console.log(selectedSector)
     console.log(selectedEmpleado)
     console.log(typeof(begin))
