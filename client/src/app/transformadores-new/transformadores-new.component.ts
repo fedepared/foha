@@ -453,7 +453,7 @@ export class TransformadoresNewComponent implements OnInit {
     this.dataGetTrafos=new MatTableDataSource();
     this.dataGetTrafos.filterPredicate = ((data, filter: string): boolean => {
       const filterValue = JSON.parse(filter);
-      console.log(filterValue);
+      
       //mostrar historicos
       if(filterValue){
         return true;

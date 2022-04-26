@@ -231,7 +231,7 @@ export class ExcelService {
     let otAnterior=0;
     let row=9;
     data.forEach((e,i)=>{
-      console.log(e.idTransfo)
+      // console.log(e.idTransfo)
       if((e.hasOwnProperty("group")))
       {
         let periodo=worksheet.addRow([`${e.group}`]);

@@ -169,19 +169,6 @@ export class DailyReportComponent implements OnInit {
     })
   }
 
-  applyFilter(){
-    const proc =this.form2.get('proceso').value;
-    const empleado=this.form2.get('empleado').value;
-    
-    this.proceso = proc === null ? '' : proc;
-    this.empleado = empleado === null ? '' : empleado;
-
-    // create string of our searching values and split if by '$'
-    const filterValue = this.proceso + '$' + this.empleado;
-    
-    this.resultado.filter = filterValue.trim().toLowerCase();
-  }
-
   createFilter(){
     return (row:any, filters: string) => {
       
@@ -189,28 +176,27 @@ export class DailyReportComponent implements OnInit {
       // console.log("Filters",filters);
       // console.log("selected",this.selection.selected);
       const filterArray = filters.split('$');
-      
+      console.log(filterArray)
       const proceso = filterArray[0];
       const empleado = filterArray[1];
 
       const matchFilter = [];
 
       // // Fetch data from row
-      if(row.hasOwnProperty('oTe'))
-      {
+      
         const columnProceso = row.proceso==null ? '' : row.proceso;
         const columnEmpleado = row.operarios==null ? '' : row.operarios;
         
         
 
         //verify fetching data by our searching values
-        const customFilterProceso =  columnProceso.toString().includes(proceso);
-        const customFilterEmpleado = columnEmpleado.toString().includes(empleado);
+        const customFilterProceso =  columnProceso.toString().toLowerCase().includes(proceso);
+        const customFilterEmpleado = columnEmpleado.toString().toLowerCase().includes(empleado);
         
         // //push boolean values into array
         matchFilter.push(customFilterProceso);
         matchFilter.push(customFilterEmpleado);
-      }
+      
       // else{
       //   return false;
       // }
@@ -221,6 +207,21 @@ export class DailyReportComponent implements OnInit {
       // else return false
       return matchFilter.every(Boolean);
     };
+  }
+
+  applyFilter(){
+    const proc =this.form2.get('proceso').value;
+    
+    const empleado=this.form2.get('empleado').value;
+    
+    
+    this.proceso = proc === null ? '' : proc;
+    this.empleado = empleado === null ? '' : empleado;
+
+    // create string of our searching values and split if by '$'
+    const filterValue = this.proceso + '$' + this.empleado;
+    
+    this.resultado.filter = filterValue.trim().toLowerCase();
   }
 
   export(){
