@@ -62,8 +62,8 @@
     </mat-card-content>
   </mat-card>
 
-  <div>
-    <form *ngIf="isSelected" [formGroup]="form2" class="search__form" fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="5px">
+  <mat-card>
+    <form *ngIf="isSelected" [formGroup]="form2" class="search__form" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
         <mat-form-field class="search__form_field" appearance="outline">
           <mat-label>Proceso</mat-label>
           <input type="text"
@@ -80,24 +80,25 @@
                 (keyup)="applyFilter()"
           >
         </mat-form-field>
+        <p>Cantidad de registros {{resultado.filteredData.length}}</p>
     </form>
-</div>
+</mat-card>
 
 <div id= "tabla2" class="example-container mat-elevation-z8" *ngIf="isSelected">
     <table mat-table [dataSource]="resultado" > 
         <ng-container matColumnDef="Transformador"> 
-            <th mat-header-cell *matHeaderCellDef class="tableHeader">Transformador</th>
+            <th mat-header-cell *matHeaderCellDef class="tableHeader" >Transformador</th>
             <td mat-cell *matCellDef="let row" >rango: {{row.rango}} | OP: {{row.ope}} | OT: {{row.ote}} </td>
         </ng-container>
         
     
     
         <ng-container matColumnDef="tipoProceso"> 
-            <th mat-header-cell *matHeaderCellDef class="tableHeader">Proceso</th>
+            <th mat-header-cell *matHeaderCellDef class="tableHeader" >Proceso</th>
             <td mat-cell *matCellDef="let row" >{{row.proceso}}</td>
         </ng-container>
         <ng-container matColumnDef="numEtapa"> 
-            <th mat-header-cell *matHeaderCellDef class="tableHeader">Nº Ref Proceso</th>
+            <th mat-header-cell *matHeaderCellDef class="tableHeader" >Nº Ref Proceso</th>
             <td mat-cell *matCellDef="let row" >{{row.refProceso}}</td>
         </ng-container>
         <ng-container matColumnDef="dateIni"> 
@@ -113,7 +114,7 @@
             <td mat-cell *matCellDef="let row" >{{row.tiempoParc}}</td>
         </ng-container>
         <ng-container matColumnDef="empleados"> 
-            <th mat-header-cell *matHeaderCellDef class="tableHeader">Empleados Asignados</th>
+            <th mat-header-cell *matHeaderCellDef class="tableHeader" >Empleados Asignados</th>
             <td mat-cell *matCellDef="let row" >{{row.operarios}}</td>
         </ng-container>
 

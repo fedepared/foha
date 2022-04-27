@@ -225,7 +225,7 @@ export class DailyReportComponent implements OnInit {
   }
 
   export(){
-    this.excelDailyReportService.generateDailyReport(this.selectedSector,this.selectedEmpleado,this.dateRangeDisp.begin,this.dateRangeDisp.end,this.etapaPorSector.idColor,this.resultado.data)
+    this.excelDailyReportService.generateDailyReport(this.selectedSector,this.selectedEmpleado,this.dateRangeDisp.begin,this.dateRangeDisp.end,this.etapaPorSector.idColor,this.resultado.filteredData)
   }
 
   saveDate(event: any) {

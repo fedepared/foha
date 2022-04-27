@@ -32,3 +32,9 @@
     box-shadow: 4px 6px 10px -2px rgba(0,0,0,0.75);
 }
   
+.example-container {
+  height: 500px;
+  /* width: 550px; */
+  max-width: 100%;
+  overflow: auto;
+}
