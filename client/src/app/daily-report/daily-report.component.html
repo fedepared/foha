@@ -80,7 +80,9 @@
                 (keyup)="applyFilter()"
           >
         </mat-form-field>
-        <p>Cantidad de registros {{resultado.filteredData.length}}</p>
+        
+        <button mat-button style="color:teal;">Registros: {{resultado.filteredData.length}}</button>
+    
     </form>
 </mat-card>
 
