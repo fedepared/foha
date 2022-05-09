@@ -768,7 +768,7 @@ namespace Foha.Controllers
         int contSerie = 1;
         if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Count() > 0)
         {
-            contSerie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Max(x => x.Serie.Value) + 1;
+            contSerie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Max(x => x.Serie.GetValueOrDefault(0)) + 1;
         }
         foreach(AddTransformadoresDto dto in addTransformadoresDto){
             dto.Serie = contSerie;
