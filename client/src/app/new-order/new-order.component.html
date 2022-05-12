@@ -66,9 +66,9 @@
           (selectionChanged)="selectionChanged($event, transfoInter)"
           style="display: inline;">
           <ng-template let-item style="display: inline;">
-            <span>{{d.lista.indexOf(item)}})</span>
+            <span>{{d.lista.indexOf(item)+1}})</span>
             &nbsp;&nbsp;&nbsp; 
-            <span style="color:black;"><strong>{{item.prioridad}}</strong></span>
+            <span style="color:black;"><strong>{{item.prioridad+1}}</strong></span>
             &nbsp;&nbsp;&nbsp; 
             <span style="color:steelblue">{{item.oPe}}</span> 
              &nbsp;<span style="color:tomato">{{ item.oTe }}</span>

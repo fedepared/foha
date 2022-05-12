@@ -184,18 +184,6 @@ export class TransformadoresService {
     console.log(filter);
     return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenado`,{
       params:{
-        // oTe :filter.oTe,
-        // nucleos:filter.nucleos,
-        // oPe:filter.oPe,
-        // rangoInicio:filter.rangoInicio,
-        // potencia:filter.potencia,
-        // nombreCli:filter.nombreCli,
-        // month:filter.month,
-        // year:filter.year,
-        // observaciones:filter.observaciones,
-        // serie:filter.serie,
-        // vendedor:filter.vendedor
-
         oTeDesde:filter.oTeDesde,
         oTeHasta:filter.oTeHasta,
         oPeDesde:filter.oPeDesde,
@@ -219,6 +207,30 @@ export class TransformadoresService {
       tap(_=>this.log('fetched Filter')),
       catchError(this.handleError('get By Filter',[]))
     )
+  }
+
+  getTrafosFilteredWithoutRanges(filter:any ):Observable<any[]>{
+    console.log(filter);
+    return this.http.get<any[]>(`${this.apiUrl}/GetFilteredValueProcessOrdenado`,{
+      params:{
+        oTeDesde:filter.oTe,
+        oPeDesde:filter.oPe,
+        rangoInicioDesde:filter.rangoInicio,
+        potenciaDesde:filter.potencia,
+        serieDesde:filter.serie,
+        nombreCli:filter.nombreCli,
+        observaciones:filter.observaciones,
+        vendedor:filter.vendedor,
+        tTransfo:filter.tTransfo,
+        month:filter.month,
+        year:filter.year
+      }
+    })
+    .pipe(
+      tap(_=>this.log('fetched Filter')),
+      catchError(this.handleError('get By Filter',[]))
+    )
+
   }
 
   
