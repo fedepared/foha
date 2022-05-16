@@ -323,6 +323,9 @@ export class TransformadoresNewComponent implements OnInit {
   //historicos 
   historics = false;
 
+  //rangos
+  ranges = true;
+
   selection = new SelectionModel<any>(true, []);
 
 
@@ -332,6 +335,7 @@ export class TransformadoresNewComponent implements OnInit {
 
 
   colores:Colores[]=[];
+  displayedColumns0:string[]=['prioridad'];
   displayedColumns1:string[]=['select','Accion']
   displayedColumns2:string[]=[
     'oTe',
@@ -352,7 +356,7 @@ export class TransformadoresNewComponent implements OnInit {
   etapasColumns: string[]= Object.keys(MAP_NOMBRE_ETAPA);
 
   // TODAS las columnas
-  allColumns: string[]= this.displayedColumns1.concat(this.displayedColumns2).concat(this.etapasColumns);
+  allColumns: string[]= this.displayedColumns0.concat(this.displayedColumns1).concat(this.displayedColumns2).concat(this.etapasColumns);
 
   etapasActualizadas:boolean;
 
@@ -1044,26 +1048,52 @@ export class TransformadoresNewComponent implements OnInit {
               year:this.year
             }
             this.openSnackBar("aplicando los filtros seleccionados","buscando")
-            this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{
-
-              if(res && res.length>0)
-              {
-                this.isLoadingResults=true;
-                this.dataGetTrafos.paginator = this.paginator;
-                
-                // }
-                this.dataGetTrafos.data = res;
-                this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
-
-
-                this.openSnackBar("Transformadores encontrados","Exito!")
-              }
-              else{
-                this.openSnackBar("No existe ningún transformador con el criterio búscado","Advertencia");
-              }
-            },()=>{},()=>{
-              this.isLoadingResults=false;
-            });
+            if(this.form.get('oTeHasta').disabled){
+              console.log("entro");
+              this.transformadoresService.getTrafosFilteredWithoutRanges(filterValue).subscribe(res=>{
+  
+                if(res && res.length>0)
+                {
+                  this.isLoadingResults=true;
+                  this.dataGetTrafos.paginator = this.paginator;
+                  
+                  // }
+                  this.dataGetTrafos.data = res;
+                  this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
+  
+  
+                  this.openSnackBar("Transformadores encontrados","Exito!")
+                }
+                else{
+                  this.openSnackBar("No existe ningún transformador con el criterio búscado","Advertencia");
+                }
+              },()=>{},()=>{
+                this.isLoadingResults=false;
+                this.form.enable();
+              });
+            }else{
+              this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{
+  
+                if(res && res.length>0)
+                {
+                  this.isLoadingResults=true;
+                  this.dataGetTrafos.paginator = this.paginator;
+                  
+                  // }
+                  this.dataGetTrafos.data = res;
+                  this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => {this.matTable.updateStickyColumnStyles();});
+  
+  
+                  this.openSnackBar("Transformadores encontrados","Exito!")
+                }
+                else{
+                  this.openSnackBar("No existe ningún transformador con el criterio búscado","Advertencia");
+                }
+              },()=>{},()=>{
+                this.isLoadingResults=false;
+                this.form.enable()
+              });
+            }
 
           }
 
@@ -1088,6 +1118,14 @@ export class TransformadoresNewComponent implements OnInit {
       
           this.dataGetTrafos.filter = JSON.stringify(this.historics);
       
+      }
+
+      disableRanges(){
+        this.form.get('oTeHasta').disable();
+        this.form.get('oPeHasta').disable();
+        this.form.get('rangoInicioHasta').disable();
+        this.form.get('serieHasta').disable();
+        this.form.get('potenciaHasta').disable();
       }
 
 
@@ -1792,6 +1830,7 @@ interface ComboClientes{
     tiempoParc:string;
     tiempoFin:string;
     displayedColumns2:string[]=[
+      'prioridad',
       'oTe',
       'nucleos',
       'radPan',
