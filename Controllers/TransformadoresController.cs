@@ -1245,12 +1245,10 @@ namespace Foha.Controllers
         
         if(month.Length>0)
         {
-            
             for (var i = 0; i < month.Length; i++)
             {
                 trafos.AddRange(results.Where(x=>x.Mes==month[i] && x.Anio==year[i]).ToList());
-            }
-            
+            }   
         }
         if(trafos.Count()>0)
         {
