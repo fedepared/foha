@@ -590,24 +590,11 @@ namespace Foha.Controllers
             if(editEtapaDto.IdTipoEtapa == 28)
             {
                 await ChequearHorno();
-                Etapa etapaHorno = _context.Etapa.Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).First();
+                Etapa etapaHorno = _context.Etapa.AsNoTracking().Where(x => x.IdTransfo == editEtapaDto.IdTransfo && x.IdTipoEtapa == 20).First();
                 if(etapaHorno.IsEnded == false || etapaHorno.IsEnded == null){
                     etapaHorno.IdColor = 9;
                     etapaHorno.FechaPausa = DateTime.Now;
-                    EditEtapaDto editDTO = new EditEtapaDto();
-                    editDTO.DateIni = etapaHorno.DateIni;
-                    editDTO.DateFin = etapaHorno.DateFin;
-                    editDTO.FechaPausa = etapaHorno.FechaPausa;
-                    editDTO.EtapaEmpleado = new List<EtapaEmpleado>();
-                    editDTO.Hora = etapaHorno.Hora;
-                    editDTO.IdColor = etapaHorno.IdColor;
-                    editDTO.IdTipoEtapa = etapaHorno.IdTipoEtapa;
-                    editDTO.IdTransfo = etapaHorno.IdTransfo;
-                    editDTO.InicioProceso = etapaHorno.InicioProceso;
-                    editDTO.IsEnded = etapaHorno.IsEnded;
-                    editDTO.NumEtapa = etapaHorno.NumEtapa;
-                    editDTO.TiempoFin = etapaHorno.TiempoFin;
-                    editDTO.TiempoParc = etapaHorno.TiempoParc;    
+                    var editDTO = _mapper.Map<EditEtapaDto>(etapaHorno);      
                     await PutEtapaPausa(etapaHorno.IdEtapa, editDTO);                
                 }
             }
