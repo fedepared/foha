@@ -160,6 +160,11 @@
   /* left:488px!important; */
   min-width:130px;
 }
+.mat-column-prioridad{
+  /* left:488px!important; */
+  color: rgba(0,0,0,.54);
+  min-width:10px;
+}
 
 /*alto de fila*/
 tr.mat-footer-row, tr.mat-row {

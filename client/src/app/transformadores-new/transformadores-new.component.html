@@ -217,6 +217,12 @@
               <mat-checkbox class="example-margin" [(ngModel)]="historics" [ngModelOptions]="{standalone: true}" (change)="getHistorics()"></mat-checkbox>
             </div>
           </fieldset>
+          <fieldset>
+            <legend>Rangos</legend>
+            <div style="height:63px;line-height: 40px;text-align:center;">
+              <mat-checkbox class="example-margin" [(ngModel)]="ranges" [ngModelOptions]="{standalone: true}" (change)="disableRanges()"></mat-checkbox>
+            </div>
+          </fieldset>
         </form>
     
     </div>
@@ -285,9 +291,16 @@
   
       <!--Tabla transformadores-->
   <table mat-table [dataSource]="dataGetTrafos" id="tabla">
-  
-    <ng-container matColumnDef="select" style="padding-right:5px;" sticky="true" >
-      <th mat-header-cell *matHeaderCellDef style="min-width:40px!important"><mat-icon>checkbox</mat-icon>
+    <ng-container matColumnDef="prioridad" style="padding-right:5px;" sticky >
+      <th mat-header-cell *matHeaderCellDef style="min-width:20px!important;border-bottom-color: black!important;border-bottom-width:2.5px!important;" matTooltip="Prioridad">
+        P
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{row.prioridad+1}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="select" style="padding-right:5px;" sticky >
+      <th mat-header-cell *matHeaderCellDef style="min-width:40px!important;border-bottom-color: black!important;border-bottom-width:2.5px!important;"><mat-icon>checkbox</mat-icon>
       </th>
       <td mat-cell *matCellDef="let row">
         <mat-checkbox #c *ngIf="selectColumn" [checked]="selection.isSelected(row)" (change)="$event ? selection.toggle(row) : null">
