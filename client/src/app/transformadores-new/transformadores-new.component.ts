@@ -43,6 +43,7 @@ import { IResponse } from '../models/iresponse';
 import { ExcelTimesService } from '../services/excel-times.service';
 import { VendedoresService } from '../services/vendedores.service';
 import { Vendedores } from '../models/vendedores'; 
+import { Constructor } from '@angular/cdk/table';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -324,7 +325,7 @@ export class TransformadoresNewComponent implements OnInit {
   historics = false;
 
   //rangos
-  ranges = true;
+  ranges = false;
 
   selection = new SelectionModel<any>(true, []);
 
@@ -484,6 +485,7 @@ export class TransformadoresNewComponent implements OnInit {
     this.getMonthYear();
     this.getSellers();
     this.getTipoTransfo();
+    this.disableRanges();
   }
 
   function(event){
@@ -1009,7 +1011,7 @@ export class TransformadoresNewComponent implements OnInit {
               }
             }
 
-            this.oTeDesde = otDesde === null ? 0 : otDesde;
+            this.oTeDesde = otDesde === null  ? 0 : otDesde;
             this.oTeHasta = otHasta === null ? 0 : otHasta;
             this.oPeDesde = opDesde === null ? 0 : opDesde;
             this.oPeHasta = opHasta === null ? 0 : opHasta;
@@ -1048,8 +1050,7 @@ export class TransformadoresNewComponent implements OnInit {
               year:this.year
             }
             this.openSnackBar("aplicando los filtros seleccionados","buscando")
-            if(this.form.get('oTeHasta').disabled){
-              console.log("entro");
+            if(this.ranges==false){
               this.transformadoresService.getTrafosFilteredWithoutRanges(filterValue).subscribe(res=>{
   
                 if(res && res.length>0)
@@ -1069,7 +1070,6 @@ export class TransformadoresNewComponent implements OnInit {
                 }
               },()=>{},()=>{
                 this.isLoadingResults=false;
-                this.form.enable();
               });
             }else{
               this.transformadoresService.getTrafosFilter(filterValue).subscribe(res=>{
@@ -1106,7 +1106,7 @@ export class TransformadoresNewComponent implements OnInit {
 
       openCheckOT(){
         const dialogRef5 = this.dialog.open(CheckOTDialog,{
-          
+          width:'600px'
       
         })
         dialogRef5.afterClosed().subscribe(result => {
@@ -1121,11 +1121,21 @@ export class TransformadoresNewComponent implements OnInit {
       }
 
       disableRanges(){
-        this.form.get('oTeHasta').disable();
-        this.form.get('oPeHasta').disable();
-        this.form.get('rangoInicioHasta').disable();
-        this.form.get('serieHasta').disable();
-        this.form.get('potenciaHasta').disable();
+
+        if(this.ranges==false){
+          this.form.get('oTeHasta').disable();
+          this.form.get('oPeHasta').disable();
+          this.form.get('rangoInicioHasta').disable();
+          this.form.get('serieHasta').disable();
+          this.form.get('potenciaHasta').disable();
+        }else{
+          this.form.get('oTeHasta').enable();
+          this.form.get('oPeHasta').enable();
+          this.form.get('rangoInicioHasta').enable();
+          this.form.get('serieHasta').enable();
+          this.form.get('potenciaHasta').enable();
+        }
+
       }
 
 
@@ -2187,8 +2197,39 @@ interface ComboClientes{
     templateUrl: "checkOT.html",
     styleUrls:["transformadores-new.component.css"]
   })
-  export class CheckOTDialog{
+  export class CheckOTDialog implements OnInit{
+      data:MatTableDataSource<any>=new MatTableDataSource<any>();
+      displayedColumns=['desde','hasta'];
 
+      constructor(private transformadoresService:TransformadoresService,public _snackBar:MatSnackBar){
+
+      }
+      ngOnInit(){
+        this.transformadoresService.checkOT().subscribe(res => {
+          console.log(res);
+          if(res.status==200)
+          {
+            this.data.data=res.data;
+          }
+          else{
+            this.openSnackBar(`${res.message}`,"Error!")
+          }
+        })
+      }
+
+      openSnackBar(mensaje1,mensaje2){
+        this._snackBar.open(mensaje1,mensaje2, {
+          duration: 2 * 1000,
+         });
+      }
+      applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.data.filter = filterValue.trim().toLowerCase();
+    
+        if (this.data.paginator) {
+          this.data.paginator.firstPage();
+        }
+      }
   }
 
 
