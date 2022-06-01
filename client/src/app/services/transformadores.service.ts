@@ -211,19 +211,20 @@ export class TransformadoresService {
 
   getTrafosFilteredWithoutRanges(filter:any ):Observable<any[]>{
     console.log(filter);
-    return this.http.get<any[]>(`${this.apiUrl}/GetFilteredValueProcessOrdenado`,{
+    return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenadoFULL`,{
       params:{
-        oTeDesde:filter.oTe,
-        oPeDesde:filter.oPe,
-        rangoInicioDesde:filter.rangoInicio,
-        potenciaDesde:filter.potencia,
-        serieDesde:filter.serie,
+        oTe:filter.oTeDesde ==='' ? 0 : filter.oTeDesde,
+        nucleos:filter.nucleos,
+        oPe:filter.oPeDesde ==='' ? 0: filter.oPeDesde,
+        rangoInicio:filter.rangoInicioDesde ==='' ? 0 : filter.rangoInicioDesde,
+        potencia:filter.potenciaDesde ==='' ? 0 : filter.potenciaDesde,
         nombreCli:filter.nombreCli,
-        observaciones:filter.observaciones,
-        vendedor:filter.vendedor,
-        tTransfo:filter.tTransfo,
         month:filter.month,
-        year:filter.year
+        year:filter.year,
+        observaciones:filter.observaciones,
+        serie:filter.serieDesde ==='' ? 0 : filter.serieDesde,
+        vendedor:filter.vendedor,
+        tipo:filter.tTransfo,
       }
     })
     .pipe(
@@ -297,6 +298,14 @@ export class TransformadoresService {
     .pipe(
       tap(_=> this.log(_)),
       catchError(this.handleError('get Month Year',"error"))
+    )
+  }
+
+  checkOT():Observable<IResponse<any> | any>{
+    return this.http.get<IResponse<any>>(`${this.apiUrl}/ChequearOTSalteadas`)
+    .pipe(
+      tap(_=>this.log('fetched checkOT')),
+      catchError(this.handleError('get By Page',[]))
     )
   }
 
