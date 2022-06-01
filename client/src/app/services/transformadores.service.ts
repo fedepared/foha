@@ -211,10 +211,10 @@ export class TransformadoresService {
 
   getTrafosFilteredWithoutRanges(filter:any ):Observable<any[]>{
     console.log(filter);
-    return this.http.get<any[]>(`${this.apiUrl}/GetFilteredValueProcessOrdenado`,{
+    return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenadoFULL`,{
       params:{
-        oTeDesde:filter.oTe,
-        oPeDesde:filter.oPe,
+        oTeDesde:filter.oTeDesde,
+        oPeDesde:filter.oPeDesde,
         rangoInicioDesde:filter.rangoInicio,
         potenciaDesde:filter.potencia,
         serieDesde:filter.serie,
