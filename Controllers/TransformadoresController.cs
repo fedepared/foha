@@ -1214,20 +1214,24 @@ namespace Foha.Controllers
         if(month.Length > 0){
             trafos = (from Transformadores t in _context.Transformadores
                     join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo 
-                    join Colores c in _context.Colores on e.IdColor equals c.IdColor 
-                    join Vendedores v in _context.Vendedores on t.IdVendedor equals v.IdVendedor
-                    join EtapaEmpleado emp in _context.EtapaEmpleado on e.IdEtapa equals emp.IdEtapa 
+                    join Colores c in _context.Colores on e.IdColor equals c.IdColor into ec
+                    from c in ec.DefaultIfEmpty()
+                    join Vendedores v in _context.Vendedores on t.IdVendedor equals v.IdVendedor into tv
+                    from v in tv.DefaultIfEmpty()
+                    join EtapaEmpleado emp in _context.EtapaEmpleado on e.IdEtapa equals emp.IdEtapa into eemp
+                    from emo in eemp.DefaultIfEmpty()
                     join TipoEtapa te in _context.TipoEtapa on e.IdTipoEtapa equals te.IdTipoEtapa
-                    join Cliente cli in _context.Cliente on t.IdCliente equals cli.IdCliente
+                    join Cliente cli in _context.Cliente on t.IdCliente equals cli.IdCliente into tcli
+                    from cli in tcli.DefaultIfEmpty()
                     join TipoTransfo tip in _context.TipoTransfo on t.IdTipoTransfo equals tip.IdTipoTransfo 
-                    where (oTe == 0 || t.OTe == oTe) 
+                    where (oTe == 0 || t.OTe == oTe || t.OTe == null) 
                     && (String.IsNullOrEmpty(nucleos) || t.Nucleos.ToUpper().Contains(nucleos.ToUpper())  )
                     && (oPe == 0 || t.OPe == oPe)
                     && (rangoInicio == 0 || t.RangoInicio >= rangoInicio)
                     && (potencia == 0 || t.Potencia == potencia)
                     && (String.IsNullOrEmpty(nombreCli) || t.NombreCli.Contains(nombreCli.ToUpper())) 
                     && (String.IsNullOrEmpty(observaciones)  || t.Observaciones.ToUpper().Contains(observaciones.ToUpper()) )
-                    && (serie == 0 || t.Serie == serie)
+                    && (serie == 0 || t.Serie == serie || t.Serie == null)
                     && (vendedor == null || t.IdVendedor == vendedor )
                     && (tipo == 0 || t.IdTipoTransfo == tipo)
                     && (month.Contains(t.Mes.GetValueOrDefault()) && year.Contains(t.Anio.GetValueOrDefault()))
@@ -1239,13 +1243,17 @@ namespace Foha.Controllers
         else{
             trafos = (from Transformadores t in _context.Transformadores
                     join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo 
-                    join Colores c in _context.Colores on e.IdColor equals c.IdColor 
-                    join Vendedores v in _context.Vendedores on t.IdVendedor equals v.IdVendedor
-                    join EtapaEmpleado emp in _context.EtapaEmpleado on e.IdEtapa equals emp.IdEtapa 
+                    join Colores c in _context.Colores on e.IdColor equals c.IdColor into ec
+                    from c in ec.DefaultIfEmpty()
+                    join Vendedores v in _context.Vendedores on t.IdVendedor equals v.IdVendedor into tv
+                    from v in tv.DefaultIfEmpty()
+                    join EtapaEmpleado emp in _context.EtapaEmpleado on e.IdEtapa equals emp.IdEtapa into eemp
+                    from emo in eemp.DefaultIfEmpty()
                     join TipoEtapa te in _context.TipoEtapa on e.IdTipoEtapa equals te.IdTipoEtapa
-                    join Cliente cli in _context.Cliente on t.IdCliente equals cli.IdCliente
+                    join Cliente cli in _context.Cliente on t.IdCliente equals cli.IdCliente into tcli
+                    from cli in tcli.DefaultIfEmpty()
                     join TipoTransfo tip in _context.TipoTransfo on t.IdTipoTransfo equals tip.IdTipoTransfo 
-                    where (oTe == 0 || t.OTe == oTe) 
+                    where (oTe == 0  || t.OTe == oTe) 
                     && (String.IsNullOrEmpty(nucleos) || t.Nucleos.ToUpper().Contains(nucleos.ToUpper())  )
                     && (oPe == 0 || t.OPe == oPe)
                     && (rangoInicio == 0 || t.RangoInicio >= rangoInicio)
