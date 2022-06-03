@@ -675,7 +675,7 @@ namespace Foha.Controllers
             if(etapaAntes.InicioProceso==null)
             {
                 //Tiempo parcial 
-                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.Parse(etapaAntes.TiempoParc));
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
                 //SOLO PARA ETAPA HORNO
                 if(editEtapaDto.IdTipoEtapa == 20)
                 {
@@ -818,15 +818,13 @@ namespace Foha.Controllers
                     }
 
                 }
-
-
             }
             else{
                 //calculo el nuevo intervalo 
                 TimeSpan preEtapaTiempoParc = (TimeSpan)(DateTime.Now - etapaAntes.InicioProceso);
                 var horasHombre=preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count());
                 TimeSpan suma = new TimeSpan();
-                suma =(TimeSpan.ParseExact(etapaAntes.TiempoParc != "Finalizada" ? etapaAntes.TiempoParc : "0","dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
+                suma =(TimeSpan.ParseExact(etapaAntes.TiempoParc != "Finalizada" ? etapaAntes.TiempoParc : "00:00:00:00","dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
                 editEtapaDto.TiempoFin=suma.ToString(@"dd\:hh\:mm\:ss");
                 foreach(var a in editEtapaDto.EtapaEmpleado)
                 {
