@@ -1234,7 +1234,7 @@ namespace Foha.Controllers
                     && (serie == 0 || t.Serie == serie || t.Serie == null)
                     && (vendedor == null || t.IdVendedor == vendedor )
                     && (tipo == 0 || t.IdTipoTransfo == tipo)
-                    && (month.Contains(t.Mes.GetValueOrDefault()) && year.Contains(t.Anio.GetValueOrDefault()))
+                    && ( year.Contains(t.Anio.GetValueOrDefault()) && month.Contains(t.Mes.GetValueOrDefault()))
                     select t).Include(z=>z.IdVendedorNavigation)
                     .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
                     .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
@@ -1322,10 +1322,6 @@ namespace Foha.Controllers
             .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation)
             .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).ToList();
         List<Transformadores> trafo = new List<Transformadores>();
-
-
-
-
 
         if(oTe !=null)
             results=results.Where(x=>x.OTe != null && x.OTe.ToString().Contains(oTe)).ToList();
@@ -1423,7 +1419,11 @@ namespace Foha.Controllers
         {
             Transformadores Desde = _context.Transformadores.Find(trafos.TrafosDesde[cont]);
             Transformadores Hasta = _context.Transformadores.Find(trafos.TrafosHasta[cont]);
-            // Transformadores CopiaDesde = Desde;
+            Etapa ChapaDesde = _context.Etapa.Where(x => x.IdTipoEtapa == 44 && x.IdTransfo == trafos.TrafosDesde[cont]).First();
+            Etapa ChapaHasta = _context.Etapa.Where(x => x.IdTipoEtapa == 44 && x.IdTransfo == trafos.TrafosHasta[cont]).First();
+            int idDesde = Desde.IdTransfo;
+            ChapaDesde.IdTransfo = ChapaHasta.IdTransfo;
+            ChapaHasta.IdTransfo = idDesde;
 
             Transformadores CopiaDesde = new Transformadores(){
                 OTe = Desde.OTe,
@@ -1468,7 +1468,9 @@ namespace Foha.Controllers
             
 
             _context.Transformadores.Update(Desde);
-            _context.Transformadores.Update(Hasta);            
+            _context.Transformadores.Update(Hasta);
+            _context.Etapa.Update(ChapaDesde);
+            _context.Etapa.Update(ChapaHasta);
         }
 
         try{
