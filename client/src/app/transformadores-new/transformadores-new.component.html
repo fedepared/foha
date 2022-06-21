@@ -218,7 +218,7 @@
             </div>
           </fieldset>
           <fieldset>
-            <legend>Rangos</legend>
+            <legend>Intervalos</legend>
             <div style="height:63px;line-height: 40px;text-align:center;">
               <mat-checkbox class="example-margin" [(ngModel)]="ranges" [ngModelOptions]="{standalone: true}" (change)="disableRanges()"></mat-checkbox>
             </div>
@@ -279,7 +279,7 @@
               <mat-icon>delete</mat-icon>
             </button>
           </a>
-          <a class="menu-item" *ngIf="idTipoUs!='4'">
+          <a class="menu-item">
             <button style="background-color:teal;" mat-mini-fab (click)="openCheckOT()">
               <mat-icon>rule</mat-icon>
             </button>

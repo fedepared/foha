@@ -224,7 +224,7 @@ export class TransformadoresService {
         observaciones:filter.observaciones,
         serie:filter.serieDesde ==='' ? 0 : filter.serieDesde,
         vendedor:filter.vendedor,
-        tipo:filter.tTransfo,
+        tTransfo:filter.tTransfo,
       }
     })
     .pipe(
