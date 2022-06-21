@@ -213,19 +213,12 @@ export class TransformadoresService {
     console.log(filter);
     return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenadoFULL`,{
       params:{
-<<<<<<< HEAD
-        oTeDesde:filter.oTeDesde,
-        oPeDesde:filter.oPeDesde,
-        rangoInicioDesde:filter.rangoInicio,
-        potenciaDesde:filter.potencia,
-        serieDesde:filter.serie,
-=======
+
         oTe:filter.oTeDesde ==='' ? 0 : filter.oTeDesde,
         nucleos:filter.nucleos,
         oPe:filter.oPeDesde ==='' ? 0: filter.oPeDesde,
         rangoInicio:filter.rangoInicioDesde ==='' ? 0 : filter.rangoInicioDesde,
         potencia:filter.potenciaDesde ==='' ? 0 : filter.potenciaDesde,
->>>>>>> 6f1fed3b766c1adfc97cd51fbf6ff3d05cd117cf
         nombreCli:filter.nombreCli,
         month:filter.month,
         year:filter.year,
