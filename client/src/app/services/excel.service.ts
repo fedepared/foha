@@ -214,7 +214,7 @@ export class ExcelService {
       {key:'envioTapa',width:11.5},
       {key:'encubado',width:11.5},
       {key:'ensayosRef',width:11.5},
-      {key:'ChapaDeCaracteristicas',width:11.5},
+      {key:'chapaDeCaracteristicas',width:11.5},
       {key:'terminacion',width:11.5},
       {key:'envioADeposito',width:11.5},
       {key:'envioACliente',width:11.5},
@@ -545,13 +545,13 @@ export class ExcelService {
   }
 
   tiempoParcToDate(date:string):Date | any{
-    console.log(date);
     // console.log(new Date(parseInt(dateF[2]),parseInt(dateF[1])-1,parseInt(dateF[0])));
     if(date!=null)
     {
       const dateF = (date.split(/ |\//))
       // return new Date(date.split(" ")[0]);
-      return new Date(parseInt(dateF[2]),parseInt(dateF[1])-1,parseInt(dateF[0]))
+      
+      return new Date(parseInt(dateF[2]),parseInt(dateF[0])-1,parseInt(dateF[1]));
     }
     else{
       return "SIN DATOS"
