@@ -213,6 +213,7 @@ export class TransformadoresService {
     console.log(filter);
     return this.http.get<any[]>(`${this.apiUrl}/getFilteredValueOrdenadoFULL`,{
       params:{
+
         oTe:filter.oTeDesde ==='' ? 0 : filter.oTeDesde,
         nucleos:filter.nucleos,
         oPe:filter.oPeDesde ==='' ? 0: filter.oPeDesde,
