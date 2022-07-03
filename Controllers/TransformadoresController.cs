@@ -702,7 +702,7 @@ namespace Foha.Controllers
                     switch(TransformadoresResponse.IdTipoTransfo)
                     {
                         case 2: //Agregue de la 33 a la 37 que tampoco corresponden para este trafo
-                            if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32 && i.IdTipoEtapa!=33 && i.IdTipoEtapa!=34 && i.IdTipoEtapa!=35 && i.IdTipoEtapa!=36 && i.IdTipoEtapa!=37 )
+                            if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32 && i.IdTipoEtapa!=33 && i.IdTipoEtapa!=34 && i.IdTipoEtapa!=35 && i.IdTipoEtapa!=36 && i.IdTipoEtapa!=37 && i.IdTipoEtapa!=44 )
                             {
                                 etapa.IdColor=1034;
                                 etapa.IsEnded = true;
