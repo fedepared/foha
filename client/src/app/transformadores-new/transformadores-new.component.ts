@@ -775,12 +775,14 @@ export class TransformadoresNewComponent implements OnInit {
           labelButton:"Guardar",
           diego:this.diego,
           trafosToModify:this.selection.selected,
-          dataTipoTransfo:this.dataTipoTransfo,
+          dataTipoTransfo:this.tipoTransfo,
           dataTrafos:this.dataGetTrafos,
           colores:this.colores,
           habilitar:true,
           cancelado:false
         }
+
+        console.log(data);
 
         const dialogRef3 = this.dialog.open(EditAllTrafosNewComponent, {
           width:'60vw',

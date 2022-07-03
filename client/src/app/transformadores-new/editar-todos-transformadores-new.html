@@ -97,8 +97,8 @@
         <mat-form-field appearance="outline">
             <mat-label>Tipo de Transformador</mat-label>
             <mat-select #idTipoTransfo  formControlName="idTipoTransfo">
-            <mat-option *ngFor="let valueTransfo of dataTipoTransfo" [value]="valueTransfo.id" >
-                {{valueTransfo.value}}
+            <mat-option *ngFor="let valueTransfo of dataTipoTransfo" [value]="valueTransfo.idTipoTransfo" >
+                {{valueTransfo.nombreTipoTransfo}}
             </mat-option>
             </mat-select>
         </mat-form-field>
