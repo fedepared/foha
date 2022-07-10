@@ -44,6 +44,7 @@ import { ExcelTimesService } from '../services/excel-times.service';
 import { VendedoresService } from '../services/vendedores.service';
 import { Vendedores } from '../models/vendedores'; 
 import { Constructor } from '@angular/cdk/table';
+import { isRegExp } from 'util';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -775,12 +776,14 @@ export class TransformadoresNewComponent implements OnInit {
           labelButton:"Guardar",
           diego:this.diego,
           trafosToModify:this.selection.selected,
-          dataTipoTransfo:this.dataTipoTransfo,
+          dataTipoTransfo:this.tipoTransfo,
           dataTrafos:this.dataGetTrafos,
           colores:this.colores,
           habilitar:true,
           cancelado:false
         }
+
+        console.log(data);
 
         const dialogRef3 = this.dialog.open(EditAllTrafosNewComponent, {
           width:'60vw',
@@ -2200,12 +2203,15 @@ interface ComboClientes{
   export class CheckOTDialog implements OnInit{
       data:MatTableDataSource<any>=new MatTableDataSource<any>();
       displayedColumns=['desde','hasta'];
+      inputDesde:number;
+      inputHasta:number;
+      messageError:string;
 
       constructor(private transformadoresService:TransformadoresService,public _snackBar:MatSnackBar){
 
       }
       ngOnInit(){
-        this.transformadoresService.checkOT().subscribe(res => {
+        this.transformadoresService.checkOT(0,0).subscribe(res => {
           console.log(res);
           if(res.status==200)
           {
@@ -2222,13 +2228,46 @@ interface ComboClientes{
           duration: 2 * 1000,
          });
       }
-      applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.data.filter = filterValue.trim().toLowerCase();
-    
-        if (this.data.paginator) {
-          this.data.paginator.firstPage();
+      applyFilter(event: number) {
+        if(this.inputDesde>999){
+          
+          if(this.inputHasta>999)
+          {
+            this.messageError="";
+            this.transformadoresService.checkOT(this.inputDesde,this.inputHasta).subscribe(res=>{
+              if(res.status==200){
+                this.data.data=res.data;
+              }
+              else{
+                this.openSnackBar(`${res.message}`,"Error!")
+              }
+            })
+          }
+          else if(this.inputHasta>0){
+            this.messageError="Debe elegir valores mayores a 999"
+          }
+          else{
+            this.messageError="";
+            this.transformadoresService.checkOT(this.inputDesde,0).subscribe(res=>{
+              if(res.status==200){
+                this.data.data=res.data;
+              }
+              else{
+                this.openSnackBar(`${res.message}`,"Error!")
+              }
+            })
+          }
         }
+        else{
+          this.messageError="Debe elegir valores mayores a 999"
+
+        }
+        // const filterValue = (event.target as HTMLInputElement).value;
+        // this.data.filter = filterValue.trim().toLowerCase();
+    
+        // if (this.data.paginator) {
+        //   this.data.paginator.firstPage();
+        // }
       }
   }
 

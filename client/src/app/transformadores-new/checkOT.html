@@ -1,9 +1,14 @@
 <h2 style="color:teal">Chequeo de OT:</h2>
 
 <mat-form-field appearance="outline">
-  <mat-label>Filtro</mat-label>
-  <input matInput (keyup)="applyFilter($event)" #input>
+  <mat-label>Desde</mat-label>
+  <input matInput (keyup)="applyFilter(inputDesde)" [(ngModel)]="inputDesde">
 </mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Hasta</mat-label>
+  <input matInput (keyup)="applyFilter(inputHasta)" [(ngModel)]="inputHasta">
+</mat-form-field>
+<p *ngIf="messageError" style="color:red;">{{messageError}}</p>
 <div class="example-container">
     <table mat-table [dataSource]="data" class="mat-elevation-z8" style="width:100%">
     
