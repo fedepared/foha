@@ -1580,7 +1580,7 @@ namespace Foha.Controllers
                     && (month.Contains(t.Mes.GetValueOrDefault()) && year.Contains(t.Anio.GetValueOrDefault()))
                     select t).Include(z=>z.IdVendedorNavigation)
                     .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
-                    .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
+                    //.Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
                     .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList();
         }
         else{
@@ -1608,7 +1608,7 @@ namespace Foha.Controllers
                     && (tipo == 0 || t.IdTipoTransfo == tipo)
                     select t).Include(z=>z.IdVendedorNavigation)
                     .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
-                    .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
+                    //.Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
                     .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList();
         }
 
@@ -1680,6 +1680,11 @@ namespace Foha.Controllers
                 anterior = ot;
             }
         }
+        OTSalteadasDto otSaltVerdeAfuera = new OTSalteadasDto();
+        otSaltVerdeAfuera.Desde = inicial;
+        otSaltVerdeAfuera.Hasta = anterior;
+        otSaltVerdeAfuera.Color = verde;
+        Salteadas.Add(otSaltVerdeAfuera);
         r.Status = 200;
         r.Message = "Se consultaron las OT con exito";
         r.Data = Salteadas;
