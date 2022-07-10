@@ -302,8 +302,13 @@ export class TransformadoresService {
     )
   }
 
-  checkOT():Observable<IResponse<any> | any>{
-    return this.http.get<IResponse<any>>(`${this.apiUrl}/ChequearOTSalteadas`)
+  checkOT(oTeDesde:number,oTeHasta:number):Observable<IResponse<any> | any>{
+    return this.http.get<IResponse<any>>(`${this.apiUrl}/ChequearOTSalteadas`,{
+      params:{
+        oTeDesde:oTeDesde.toString(),
+        oTeHasta:oTeHasta.toString(),
+      }
+    })
     .pipe(
       tap(_=>this.log('fetched checkOT')),
       catchError(this.handleError('get By Page',[]))
