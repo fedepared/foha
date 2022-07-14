@@ -171,6 +171,7 @@ namespace Foha.Controllers
         var i=0;
         int[] arrayEncapsulados = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,20,21,22,23,24,25,26,27,28,38,39,40,41,42,43};
         int [] arrayDistribucion = {8,9,10,11,12,13,14};
+        int[] arrayReacYRev = {2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,28,33,34,35,36,37,38,39,40,41,42,43};
         var petroleros = 14;
         var resultado=_context.TipoEtapa.FromSql(cadena4);
         if(transfo.IdTipoTransfo==2)
@@ -178,7 +179,6 @@ namespace Foha.Controllers
             resultadoAnterior=resultado.Where(z=>z.IdTipoEtapa != arrayEncapsulados[i]).ToList();
             for(i=1;i<arrayEncapsulados.Length;i++){
                 resultadoAnterior=resultadoAnterior.Where(x=>x.IdTipoEtapa!=arrayEncapsulados[i]).ToList();
-
             };
             i=0;
         }
@@ -186,7 +186,6 @@ namespace Foha.Controllers
             resultadoAnterior=resultado.Where(z=>z.IdTipoEtapa != arrayDistribucion[i]).ToList();
             for(i=1;i<arrayDistribucion.Length;i++){
                 resultadoAnterior=resultadoAnterior.Where(x=>x.IdTipoEtapa!=arrayDistribucion[i]).ToList();
-
             };
             i=0;
         }
@@ -199,8 +198,16 @@ namespace Foha.Controllers
         if(transfo.IdTipoTransfo==6){
             resultadoAnterior=resultado.ToList();
         }
-
-
+        if(transfo.IdTipoTransfo==7){
+            resultadoAnterior=resultado.ToList();
+        }
+        if(transfo.IdTipoTransfo==8 || transfo.IdTipoTransfo==9){
+            resultadoAnterior=resultado.Where(z=>z.IdTipoEtapa != arrayReacYRev[i]).ToList();
+            for(i=1;i<arrayReacYRev.Length;i++){
+                resultadoAnterior=resultadoAnterior.Where(x=>x.IdTipoEtapa!=arrayReacYRev[i]).ToList();
+            };
+            i=0;
+        }
         return resultadoAnterior;
 
     }
@@ -611,7 +618,7 @@ namespace Foha.Controllers
             
         }
 
-        if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6){
+        if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6 && addTransformadoresDto.IdTipoTransfo!=7 && addTransformadoresDto.IdTipoTransfo!=8 && addTransformadoresDto.IdTipoTransfo!=9){
             addTransformadoresDto.OPe = _context.Transformadores.Max(x => x.OPe) + 1;
         }
 
@@ -620,7 +627,7 @@ namespace Foha.Controllers
         }
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
-        if(addTransformadoresDto.IdTipoTransfo == 6){
+        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7 || addTransformadoresDto.IdTipoTransfo == 8 || addTransformadoresDto.IdTipoTransfo == 9 ){
             addTransformadoresDto.RangoFin=1;
             addTransformadoresDto.RangoInicio=1;
             //if(addTransformadoresDto.OPe == null){
@@ -725,6 +732,24 @@ namespace Foha.Controllers
                         case 6:
                             etapa.IdColor=1034;
                             etapa.IsEnded = true;
+                            break;
+                        case 7:
+                            etapa.IdColor=1034;
+                            etapa.IsEnded = true;
+                            break;
+                        case 8:
+                            if(i.IdTipoEtapa != 29 && i.IdTipoEtapa != 30 && i.IdTipoEtapa != 31 && i.IdTipoEtapa != 32 && i.IdTipoEtapa != 44)
+                            {
+                                etapa.IdColor=1034;
+                                etapa.IsEnded = true;  
+                            }
+                            break;
+                        case 9:
+                            if(i.IdTipoEtapa != 29 && i.IdTipoEtapa != 30 && i.IdTipoEtapa != 31 && i.IdTipoEtapa != 32 && i.IdTipoEtapa != 44)
+                            {
+                                etapa.IdColor=1034;
+                                etapa.IsEnded = true;
+                            }
                             break;
                     }
                 }
@@ -1555,6 +1580,11 @@ namespace Foha.Controllers
 
         List<Transformadores> trafos = new List<Transformadores>();
         if(month.Length > 0){
+            // List<DateTime> meses = new List<DateTime>();
+            // for(int i = 0; i<month.Length;i++)
+            // {
+            //     meses.Add(new DateTime(year[i], month[i], 1));
+            // }
             trafos = (from Transformadores t in _context.Transformadores
                     join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo 
                     join Colores c in _context.Colores on e.IdColor equals c.IdColor into ec
@@ -1646,15 +1676,29 @@ namespace Foha.Controllers
     }
 
     [HttpGet("ChequearOTSalteadas")]
-    public IActionResult ChequearOTSalteadas(){
+    
+    public IActionResult ChequearOTSalteadas(
+        [FromQuery (Name = "oTeDesde")] int oTeDesde,
+        [FromQuery (Name = "oTeHasta")] int oTeHasta
+        )
+    {
         Response<List<OTSalteadasDto>> r = new Response<List<OTSalteadasDto>>();
         List<OTSalteadasDto> Salteadas = new List<OTSalteadasDto>();
         string verde = "#92d050";
         string rojo = "#ff0000";
         int anterior = 0;
         int inicial = 0;
-        List<int> otes = _context.Transformadores.Where(x => x.OTe != null).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
-        
+        List<int> otes = new List<int>();
+        if(oTeDesde == 0 && oTeHasta == 0){
+            otes = _context.Transformadores.Where(x => x.OTe != null).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+        }
+        else if(oTeDesde > 0 && oTeHasta == 0){
+            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe >= oTeDesde).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+        }
+        else if(oTeDesde > 0 && oTeHasta > 0){
+            otes = _context.Transformadores.Where(x => x.OTe != null && (x.OTe >= oTeDesde && x.OTe <= oTeHasta)).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+        }
+                
         foreach(int ot in otes){
             if(anterior == 0)
             {
