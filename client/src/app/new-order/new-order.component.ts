@@ -48,7 +48,8 @@ export class NewOrderComponent implements OnInit {
     {value:11,viewValue:"Noviembre"},
     {value:12,viewValue:"Diciembre"},
     {value:13, viewValue:"Stock"},
-    {value:14, viewValue:"Entrega pendiente"}
+    {value:14, viewValue:"Entrega pendiente"},
+    {value:15, viewValue:"Monte"}
   ];
   //para checkbox
   meses=[];
