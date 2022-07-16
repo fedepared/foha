@@ -8,6 +8,7 @@ obj
 obj/
 /obj
 appsettings.json
+global.json
 obj/Debug/netcoreapp2.1/Foha.dll
 obj/Debug/netcoreapp2.1/Foha.pdb
 obj/Debug/netcoreapp2.1/Foha.assets.cache
@@ -17,4 +18,5 @@ obj/Foha.csproj.nuget.dgspec.json
 obj/Foha.csproj.nuget.g.props
 obj/Foha.csproj.nuget.g.targets
 obj/project.assets.json
+
 
