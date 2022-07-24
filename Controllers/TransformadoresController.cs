@@ -618,6 +618,10 @@ namespace Foha.Controllers
             
         }
 
+        if(addTransformadoresDto.IdTipoTransfo == 8){
+            addTransformadoresDto.Mes = 15;
+        }
+
         if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6 && addTransformadoresDto.IdTipoTransfo!=7 && addTransformadoresDto.IdTipoTransfo!=8 && addTransformadoresDto.IdTipoTransfo!=9){
             addTransformadoresDto.OPe = _context.Transformadores.Max(x => x.OPe) + 1;
         }
@@ -1678,7 +1682,6 @@ namespace Foha.Controllers
     }
 
     [HttpGet("ChequearOTSalteadas")]
-    
     public IActionResult ChequearOTSalteadas(
         [FromQuery (Name = "oTeDesde")] int oTeDesde,
         [FromQuery (Name = "oTeHasta")] int oTeHasta
@@ -1704,6 +1707,17 @@ namespace Foha.Controllers
         foreach(int ot in otes){
             if(anterior == 0)
             {
+                if(oTeDesde != 0)
+                {
+                    if(ot != oTeDesde)
+                    {
+                        OTSalteadasDto otSaltRojo = new OTSalteadasDto();
+                        otSaltRojo.Desde = oTeDesde;
+                        otSaltRojo.Hasta = ot - 1;
+                        otSaltRojo.Color = rojo;
+                        Salteadas.Add(otSaltRojo);
+                    }
+                }
                 anterior = ot;
                 inicial = ot;
             }
@@ -1731,6 +1745,17 @@ namespace Foha.Controllers
         otSaltVerdeAfuera.Hasta = anterior;
         otSaltVerdeAfuera.Color = verde;
         Salteadas.Add(otSaltVerdeAfuera);
+        if(oTeHasta != 0)
+        {
+            if(anterior != oTeHasta)
+            {
+                OTSalteadasDto otSaltRojoAfuera = new OTSalteadasDto();
+                otSaltRojoAfuera.Desde = anterior + 1;
+                otSaltRojoAfuera.Hasta = oTeHasta;
+                otSaltRojoAfuera.Color = rojo;
+                Salteadas.Add(otSaltRojoAfuera);
+            }
+        }
         r.Status = 200;
         r.Message = "Se consultaron las OT con exito";
         r.Data = Salteadas;
