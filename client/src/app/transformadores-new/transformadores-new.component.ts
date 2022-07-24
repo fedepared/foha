@@ -472,7 +472,7 @@ export class TransformadoresNewComponent implements OnInit {
         }
         else{
           let today = new Date().getTime();
-          let ended = data.etapa.filter(x=>(x.idTipoEtapa==32 && x.isEnded===true) && ((today - new Date(x.dateFin).getTime())/(1000*3600*24))>60);
+          let ended = data.etapa.filter(x=>(x.idTipoEtapa==32 && x.isEnded===true && x.idColor!=1034) && ((today - new Date(x.dateFin).getTime())/(1000*3600*24))>60);
           if(ended.length>0){
             return false;
           }
