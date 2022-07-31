@@ -631,7 +631,7 @@ namespace Foha.Controllers
         }
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
-        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7 || addTransformadoresDto.IdTipoTransfo == 8 || addTransformadoresDto.IdTipoTransfo == 9 ){
+        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7 ){
             addTransformadoresDto.RangoFin=1;
             addTransformadoresDto.RangoInicio=1;
             //if(addTransformadoresDto.OPe == null){
