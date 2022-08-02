@@ -604,9 +604,12 @@ namespace Foha.Controllers
     [HttpPost]
     public async Task<IActionResult> PostTransformadores([FromBody] AddTransformadoresDto addTransformadoresDto)
     {
+        Response<Exception> r = new Response<Exception>();
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            r.Message = "Se produjo un error.";
+            r.Status = 500;
+            return BadRequest(r);
         }
 
         if(addTransformadoresDto.Serie == null){
@@ -758,8 +761,6 @@ namespace Foha.Controllers
                             break;
                     }
                 }
-
-
                 todasLasEtapas.Add(etapa);
             }
         }
@@ -772,16 +773,20 @@ namespace Foha.Controllers
             // var etapaResponse = _mapper.Map<EtapaResponseDto>(saveEtapa);
 
         }
-
         try
         {
             await _context.SaveChangesAsync();
             AsignarFechaProdMes(addTransformadoresDto.Mes.Value, addTransformadoresDto.Anio.Value);
-            return Ok();
+            r.Status = 200;
+            r.Message = "Se agrego el transformador con exito.";
+            return Ok(r);
         }
         catch (Exception ex)
         {
-             return BadRequest(ex);
+            r.Data = ex;
+            r.Message = ex.Message;
+            r.Status = 500;
+             return BadRequest(r);
         }
 
     }
@@ -790,9 +795,12 @@ namespace Foha.Controllers
 
     public async Task<IActionResult> PostTransformadoresArr([FromBody] AddTransformadoresDto[] addTransformadoresDto){
 
+        Response<Exception> r = new Response<Exception>();
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            r.Message = "Se produjo un error.";
+            r.Status = 500;
+            return BadRequest(r);
         }
 
         int contSerie = 1;
@@ -816,7 +824,6 @@ namespace Foha.Controllers
         if(addTransformadoresDto[0].RangoInicio==null)
         {
             foreach(var i in addTransformadoresDto){
-
                     await PostTransformadores(i);
             }
         }
@@ -826,17 +833,17 @@ namespace Foha.Controllers
                 addTransformadoresDto[i].RangoInicio=addTransformadoresDto[i].RangoInicio + i;
                 await PostTransformadores(addTransformadoresDto[i]);
             }
+            
             // foreach (var item in addTransformadoresDto)
             // {
                 
             // }
         }
-
         AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
 
-        return Ok();
-
-
+        r.Message = "Se agrgaron los transformadores con exito.";
+        r.Status = 200;
+        return Ok(r);
     }
 
     [HttpPut("{id}")]
