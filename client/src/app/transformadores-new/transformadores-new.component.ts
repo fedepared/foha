@@ -1399,7 +1399,12 @@ interface ComboClientes{
           }
           console.log("ARREGLO TRANSFOR:",arregloTransfo);
           this.transformadoresService.addTransformadores(arregloTransfo).subscribe(res => {
+            this.openSnackBar("Agregando Transformadores","...");
             console.log(res);
+          },()=>{},
+          ()=>{
+            this.openSnackBar("Transformadores agregados!","Exito!");
+            this.dialogRefCli.close(true);
           });
           arregloTransfo=[];
         }
@@ -1408,11 +1413,13 @@ interface ComboClientes{
           this.transformadoresService.addTransformador(this.form.value).subscribe(
             (res) => {
               this.openSnackBar("Transformador agregado", "Exito!");
+              this.dialogRefCli.close(true);
             },
             err => {
               this.openSnackBar("No se ha agregado ningún transformador","Error!");
+              this.openSnackBar(`${err}`,"Error!")
               console.log(err);
-          })
+          },)
         }
     }
 

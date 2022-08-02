@@ -329,7 +329,7 @@
           </mat-menu>
           </td>
       </ng-container>
-      <ng-container  *ngFor="let column of displayedColumns2" matColumnDef="{{column}}" sticky="true" > 
+      <ng-container  *ngFor="let column of displayedColumns2" matColumnDef="{{column}}" sticky> 
           <th mat-header-cell *matHeaderCellDef style="text-align:center;border-bottom-color: black!important;border-bottom-width:2.5px!important;"  matTooltip={{tooltipTrafo(column)}} matTooltipPosition="above">
             {{encabezadosTrafo(column)}}
           </th>
