@@ -611,9 +611,12 @@ namespace Foha.Controllers
 
         if(addTransformadoresDto.Serie == null){
             addTransformadoresDto.Serie = 1;
-            if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
+            if(addTransformadoresDto.OTe!=null)
             {
-                addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
+                if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
+                {
+                    addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
+                }
             }
             
         }

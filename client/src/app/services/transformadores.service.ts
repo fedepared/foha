@@ -88,8 +88,8 @@ export class TransformadoresService {
 
   addTransformador(transformador: any): Observable<Transformadores> {
     return this.http.post<Transformadores>(this.apiUrl, transformador, httpOptions).pipe(
-      tap((transformadorRes: Transformadores) => console.log(`Transformador agregado con el id=${transformadorRes.idTransfo}`)),
-      catchError(this.handleError<Transformadores>('addTransformador'))
+      tap(() => console.log(`Transformador agregado`)),
+      catchError(this.handleError<any>('addTransformador'))
     );
   }
 
