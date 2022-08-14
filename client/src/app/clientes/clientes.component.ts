@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Cliente } from '../models/cliente';
 import { ClienteService } from '../services/cliente.service';
 import { AuthService } from '../services/auth.service';
@@ -13,6 +13,7 @@ import {
 } from "@angular/material/dialog";
 import { MensajesService } from '../services/mensajes.service';  // Nuestro proveedor de mensajes
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material';
 
 
 @Component({
@@ -28,11 +29,12 @@ export class ClientesComponent implements OnInit {
   isLoadingResults = true;
   idCliente:number;
 
-
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   constructor(private clienteService: ClienteService, private authService:AuthService, private router:Router,public dialog:MatDialog,private route:ActivatedRoute,private mensajesService: MensajesService) { }
 
   ngOnInit() {
     this.data=new MatTableDataSource();
+    this.data.sort = this.sort;
     this.getClientes();
   }
 

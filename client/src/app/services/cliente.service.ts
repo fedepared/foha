@@ -51,6 +51,14 @@ export class ClienteService {
     );
   }
 
+  deleteTransformador (id: number): Observable<IResponse<Cliente>|any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<IResponse<Cliente>|any>(url, httpOptions).pipe(
+      tap(_ => this.openSnackBar(`Cliente ${_.data.legajoCli} borrado`,"Exito!")),
+      catchError(this.handleError<IResponse<Cliente>>('delete Cliente'))
+    );
+  }
+
   openSnackBar(mensaje1,mensaje2)
   {
     this._snackBar.open(mensaje1,mensaje2,{
