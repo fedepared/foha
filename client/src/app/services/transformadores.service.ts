@@ -86,16 +86,16 @@ export class TransformadoresService {
   }
 
 
-  addTransformador(transformador: any): Observable<Transformadores> {
+  addTransformador(transformador: any): Observable<any> {
     return this.http.post<Transformadores>(this.apiUrl, transformador, httpOptions).pipe(
-      tap(() => console.log(`Transformador agregado`)),
+      tap((res:any) => console.log(`Transformador agregado`)),
       catchError(this.handleError<any>('addTransformador'))
     );
   }
 
-  addTransformadores(transformador: Transformadores[]): Observable<Transformadores[]>{
+  addTransformadores(transformador: Transformadores[]): Observable<any>{
     return this.http.post<Transformadores[]>(`${this.apiUrl}/PostTransformadoresArr`, transformador, httpOptions).pipe(
-      tap((transformadorRes: Transformadores[]) => this.openSnackBar(`Transformadores agregados`,'Exito!')),
+      tap((transformadorRes: any) => this.openSnackBar(`Transformadores agregados`,'Exito!')),
       catchError(this.handleError<Transformadores[]>('addTransformador'))
     );
   }

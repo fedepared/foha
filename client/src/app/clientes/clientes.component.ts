@@ -34,7 +34,6 @@ export class ClientesComponent implements OnInit {
   ngOnInit() {
     this.data=new MatTableDataSource();
     this.getClientes();
-    
   }
 
   getClientes(): void {
@@ -185,14 +184,7 @@ export class CourseDialog3Component{
   getClientes(){
     this.clienteService.getClientes().subscribe(res => {
       this.dataClientes = res.data;
-      if(this.dataClientes[(this.dataClientes.length)-1].legajoCli != 9999)
-      {
-        this.lastCli=this.dataClientes[(this.dataClientes.length)-1].legajoCli;
-      }
-      else{
-        this.lastCli=this.dataClientes[(this.dataClientes.length)-2].legajoCli;
-      }
-      
+      this.lastCli=Math.max.apply(Math,this.dataClientes.map((l)=>{return l.legajoCli}));
       
     }, err => {
       console.log(err);
