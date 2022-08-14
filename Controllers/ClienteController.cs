@@ -60,8 +60,7 @@ namespace Foha.Controllers
                 res.Data = cliente;
                 res.Status = 200;
                 return Ok(res);
-            }
-            
+            } 
         }
 
         // PUT: api/Cliente/5
@@ -161,26 +160,54 @@ namespace Foha.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente([FromRoute] int id)
         {
+            Response<ClienteResponseDto> r = new Response<ClienteResponseDto>();
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                r.Status = 500;
+                r.Message = "Datos incorrectos.";
+                return BadRequest(r);
             }
 
             var cliente = await _context.Cliente.FindAsync(id);
+
             if (cliente == null)
             {
-                return NotFound();
+                r.Status = 404;
+                r.Message = "No se encontro el cliente.";
+                return NotFound(r);
             }
 
-            _context.Cliente.Remove(cliente);
-            await _context.SaveChangesAsync();
+            ClienteResponseDto cli = new ClienteResponseDto();
+            cli.IdCliente = cliente.IdCliente;
+            cli.LegajoCli = cliente.LegajoCli.Value;
+            cli.NombreCli = cliente.NombreCli;
 
-            return Ok(cliente);
+            if(_context.Transformadores.Where(x => x.IdCliente == id).Count() > 0){
+                r.Status = 500;
+                r.Data = cli;
+                r.Message = "El cliente contiene transformadores asociados.";
+                return BadRequest(r);
+                
+            }
+
+            try{
+                _context.Cliente.Remove(cliente);
+                await _context.SaveChangesAsync();
+                r.Data = cli;
+                r.Status = 200;
+                r.Message = "Se borro el cliente exitosamente.";
+                return Ok(r);
+            }
+            catch(Exception e){
+                r.Status = 500;
+                r.Message = e.Message;
+                return BadRequest(r);
+            }
         }
 
         private bool ClienteExists(int id,string nombreCli)
         {
-            return _context.Cliente.Any(e => e.IdCliente == id || e.NombreCli.Equals(nombreCli));
+            return _context.Cliente.Any(e => e.LegajoCli == id || e.NombreCli.Equals(nombreCli));
         }
     }
 }
