@@ -226,7 +226,7 @@ namespace Foha.Controllers
 
         private bool EmpleadoExists(Empleado emp)
         {
-            return _context.Empleado.Any(e => e.IdEmpleado == emp.IdEmpleado || e.NombreEmp.Equals(emp.NombreEmp));
+            return _context.Empleado.Any(e => e.Legajo == emp.Legajo || e.NombreEmp.Equals(emp.NombreEmp));
         }
 
     }

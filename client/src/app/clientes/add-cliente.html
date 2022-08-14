@@ -2,10 +2,10 @@
 
 <mat-dialog-content style="height:100%;">
   <form [formGroup]="form">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" >
       <mat-label>Numero de Cliente</mat-label>
       
-      <input matInput
+      <input matInput      
       placeholder="Numero de Cliente"
       formControlName="legajoCli" [errorStateMatcher]="matcher" type="number">
       <mat-error *ngIf="!form.hasError('required')">
@@ -13,10 +13,10 @@
       </mat-error>
     </mat-form-field>
     <br>
-    <div>Ultimo nº de cliente: {{lastCli}}</div>
+    <div *ngIf="labelButton!=='Borrar'">  Ultimo nº de cliente: {{lastCli}}</div>
     <br>
     <br>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" >
         <mat-label>cliente</mat-label>
         <input matInput
                 placeholder="nombre cliente"

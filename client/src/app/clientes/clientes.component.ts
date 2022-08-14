@@ -93,6 +93,43 @@ export class ClientesComponent implements OnInit {
     })
   }
 
+  dialogDeleteCli(cli){
+    cli.titulo="Borrar Cliente";
+    cli.labelButton="Borrar";
+    this.getCliente(cli.idCliente);
+    this.dialog.open(CourseDialog3Component, { data:cli});
+    const dialogRef2 = this.dialog.open(CourseDialog3Component, { data:cli});
+    dialogRef2.afterClosed().subscribe(res=>{
+      if(res)
+      {
+        this.onDelete(res);
+      }
+      this.dialog.closeAll();
+    })
+
+  }
+
+  onDelete(form) {
+    console.log(form)
+    this.isLoadingResults = true;
+    this.clienteService.deleteCliente(form.idCliente).subscribe(
+      res => {
+        if(res!==undefined)
+        {
+          this.getClientes();
+        }
+        this.isLoadingResults = false;
+      },
+      err => {
+        console.log(err);
+        this.isLoadingResults = false;
+      },
+      ()=>{
+      }
+    );
+    
+  }
+
   onUpdateSubmit(form) {
     console.log(form)
     this.isLoadingResults = true;
@@ -171,16 +208,20 @@ export class CourseDialog3Component{
       this.idCliente=data.idCliente;
       this.nombreCli=data.nombreCli;
       this.legajoCli=data.legajoCli;
-    
-  }
 
-  ngOnInit() {
-    this.getClientes();
-    this.form = this.fb.group({
-      idCliente:[this.idCliente],
-      nombreCli:[this.nombreCli,[Validators.required]],
-      legajoCli:[this.legajoCli]
-    });
+      
+    }
+    
+    ngOnInit() {
+      this.getClientes();
+      this.form = this.fb.group({
+        idCliente:[{value:this.idCliente,disabled:(this.labelButton==='Borrar')}],
+        nombreCli:[this.nombreCli,[Validators.required]],
+        legajoCli:[this.legajoCli]
+      });
+      if(this.labelButton=='Borrar'){
+        this.form.disable()
+      }
   }
 
   getClientes(){
@@ -202,10 +243,15 @@ export class CourseDialog3Component{
     this.dialogRef.close(this.form.value);
   }
 
+  
+  
+
   close() {
     this.dialogRef.close();
   }
 }
+
+
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
