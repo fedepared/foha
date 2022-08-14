@@ -34,9 +34,8 @@ namespace Foha.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCliente()
         {
-
             var res = new Response<Cliente[]>();
-            var clientes =await _context.Cliente.ToArrayAsync();
+            var clientes =await _context.Cliente.Where(x => x.LegajoCli != 9999).OrderBy(x => x.NombreCli).ToArrayAsync();
             
             res.Data=clientes;
             res.Message="Ok";
