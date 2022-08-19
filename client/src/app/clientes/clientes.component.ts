@@ -215,7 +215,7 @@ export class CourseDialog3Component{
     ngOnInit() {
       this.getClientes();
       this.form = this.fb.group({
-        idCliente:[{value:this.idCliente,disabled:(this.labelButton==='Borrar')}],
+        idCliente:[{value:this.idCliente}],
         nombreCli:[this.nombreCli,[Validators.required]],
         legajoCli:[this.legajoCli]
       });
@@ -236,10 +236,9 @@ export class CourseDialog3Component{
   }
 
   save() {
-    if(this.labelButton=="Agregar")
-    {
-      this.form.controls['idCliente'].setValue(this.form.controls['legajoCli'].value);
-    }
+    
+    this.form.controls['idCliente'].setValue(this.form.controls['legajoCli'].value);
+    
     this.dialogRef.close(this.form.value);
   }
 
