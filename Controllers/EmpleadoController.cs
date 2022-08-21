@@ -154,10 +154,15 @@ namespace Foha.Controllers
                 return BadRequest(ModelState);
             }
 
+            int existentes = _context.Empleado.Where(x => x.IdEmpleado == addEmpleadoDto.IdEmpleado).Count();
+            
+            if(existentes > 0){
+                addEmpleadoDto.IdEmpleado = addEmpleadoDto.IdEmpleado + "-" + existentes;
+            }
+
             var res = new Response<EmpleadoResponseDto>();
             var preEmpleado = _mapper.Map<Empleado>(addEmpleadoDto);
-            
-            
+
             if(EmpleadoExists(preEmpleado)){
                 res.Message="Ya existe un usuario con el mismo nombre/legajo asignado";
                 res.Status=409;
