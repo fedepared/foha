@@ -1177,7 +1177,7 @@ namespace Foha.Controllers
 
 
         List<dynamic> trafosDynamic = new List<dynamic>();
-        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() };
+        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() + " Potencia Total: " + tfdto.Sum(x => x.Potencia) };
         trafosDynamic.Add(testobj);
         foreach(Transformadores t in tfdto){
             trafosDynamic.Add(t);
@@ -1324,9 +1324,10 @@ namespace Foha.Controllers
             foreach(var t in trafos)
             {
                 if(t.Anio != anioIni || t.Mes != mesIni){
+                    int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
                     anioIni = t.Anio;
                     mesIni = t.Mes;
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
@@ -1672,9 +1673,10 @@ namespace Foha.Controllers
             foreach(var t in trafos)
             {
                 if(t.Anio != anioIni || t.Mes != mesIni){
+                    int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
                     anioIni = t.Anio;
                     mesIni = t.Mes;
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
