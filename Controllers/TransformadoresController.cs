@@ -1319,14 +1319,15 @@ namespace Foha.Controllers
             trafos = trafos.OrderBy(x => x.Anio).ThenBy(x => x.Mes).ThenBy(x => x.Prioridad).ToList();
             var anioIni = trafos[0].Anio;
             var mesIni = trafos[0].Mes;
-            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()};
+            int potenciaTotalInicial = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
+            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial};
             trafosDynamic.Add(obj);
             foreach(var t in trafos)
             {
                 if(t.Anio != anioIni || t.Mes != mesIni){
-                    int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
                     anioIni = t.Anio;
                     mesIni = t.Mes;
+                    int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
                     obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
