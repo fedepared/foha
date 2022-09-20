@@ -132,6 +132,7 @@ namespace Foha.Controllers
             }else{
                 try
                 {
+                    preCliente.IdCliente = _context.Cliente.Max(x => x.IdCliente) + 1;
                     _repo.Add(preCliente);
                     var saveCliente = await _repo.SaveAsync(preCliente);
                     await _context.SaveChangesAsync();
