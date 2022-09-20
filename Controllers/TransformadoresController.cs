@@ -547,8 +547,7 @@ namespace Foha.Controllers
     {
         Response<dynamic> res = new Response<dynamic>();
         try{
-            var mY = _context.Transformadores.Where(x => x.Etapa.Any(z => z.IsEnded == null || z.IsEnded == false))
-                // .Include(x => x.Etapa)
+            var mY = _context.Transformadores //.Where(x => x.Etapa.Any(z => z.IsEnded == null || z.IsEnded == false))
                 .OrderByDescending(x=>x.Anio).ThenByDescending(x=>x.Mes).ToList()
                 .GroupBy(x=> new { x.Anio, x.Mes}, (key, group) => new{
                     Anio=key.Anio,
