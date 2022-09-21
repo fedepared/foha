@@ -36,6 +36,10 @@ export class ClientesComponent implements OnInit {
     this.data=new MatTableDataSource();
     this.data.sort = this.sort;
     this.getClientes();
+    this.data.filterPredicate = function(data, filter: string): boolean {
+      
+      return (String(data.legajoCli).toLowerCase().includes(filter) || data.nombreCli.toLowerCase().includes(filter));
+    };
   }
 
   getClientes(): void {
@@ -170,8 +174,11 @@ export class ClientesComponent implements OnInit {
     );
   }
 
+  
+
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;      
+    const filterValue = (event.target as HTMLInputElement).value;
+        
     this.data.filter = filterValue.trim().toLowerCase();
     if (this.data.paginator) {
       this.data.paginator.firstPage();
