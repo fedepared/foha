@@ -1940,7 +1940,7 @@ namespace Foha.Controllers
         [HttpGet("ChequearHorno")]
         public async Task<IActionResult> ChequearHorno(){
             Response<String> r = new Response<string>();
-            List<Etapa> etapasHorno = await _context.Etapa.AsNoTracking().Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030 && x.TiempoParc != "Finalizada" && (x.IsEnded == false || x.IsEnded == null)).Include(x => x.IdTipoEtapaNavigation).ToListAsync();
+            List<Etapa> etapasHorno = await _context.Etapa.AsNoTracking().Where(x => x.IdTipoEtapa == 20 && x.IdColor == 1030 && x.TiempoParc != "Finalizada" && (x.IsEnded == false || x.IsEnded == null)).Include(x => x.IdTipoEtapaNavigation).ToListAsync();//.Include(x => x.EtapaEmpleado)
             DateTime fechaActual = DateTime.Now;
             foreach(Etapa e in etapasHorno)
             {
