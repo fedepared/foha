@@ -611,14 +611,17 @@ namespace Foha.Controllers
             return BadRequest(r);
         }
 
-        if(addTransformadoresDto.Serie == null){
-            addTransformadoresDto.Serie = 1;
-            if(addTransformadoresDto.OTe != null){
-                if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
-                {
-                    addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
-                }
-            }   
+        if(addTransformadoresDto.IdCliente != 9999)
+        {
+            if(addTransformadoresDto.Serie == null){
+                addTransformadoresDto.Serie = 1;
+                if(addTransformadoresDto.OTe != null){
+                    if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
+                    {
+                        addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
+                    }
+                }   
+            }
         }
 
         if(addTransformadoresDto.IdTipoTransfo == 8){
@@ -800,7 +803,7 @@ namespace Foha.Controllers
         }
 
         int contSerie = 1;
-        if(addTransformadoresDto[0].IdCliente != 9999)
+        if(addTransformadoresDto[0].IdCliente != 9999 && addTransformadoresDto[0] != null)
         {
             if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Count() > 0)
             {
