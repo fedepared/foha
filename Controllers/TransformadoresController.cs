@@ -675,7 +675,6 @@ namespace Foha.Controllers
                         i.RangoFin=addTransformadoresDto.RangoInicio?? default(int);
                     }
                     addTransformadoresDto.RangoFin=addTransformadoresDto.RangoInicio?? default(int);
-
                 }
             }
         }
@@ -689,8 +688,6 @@ namespace Foha.Controllers
                 addTransformadoresDto.RangoInicio=1;
             }
         }
-
-
 
         var preTransformadores = _mapper.Map<Transformadores>(addTransformadoresDto);
         _repo.Add(preTransformadores);
@@ -803,13 +800,16 @@ namespace Foha.Controllers
         }
 
         int contSerie = 1;
-        if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Count() > 0)
+        if(addTransformadoresDto[0].IdCliente != 9999)
         {
-            contSerie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Max(x => x.Serie.GetValueOrDefault(0)) + 1;
-        }
-        foreach(AddTransformadoresDto dto in addTransformadoresDto){
-            dto.Serie = contSerie;
-            contSerie++;
+            if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Count() > 0)
+            {
+                contSerie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Max(x => x.Serie.GetValueOrDefault(0)) + 1;
+            }
+            foreach(AddTransformadoresDto dto in addTransformadoresDto){
+                dto.Serie = contSerie;
+                contSerie++;
+            }
         }
 
         int contOP = 0;
@@ -1170,7 +1170,7 @@ namespace Foha.Controllers
 
         foreach(Transformadores t in tfdto)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
 
@@ -1308,7 +1308,7 @@ namespace Foha.Controllers
         }
         foreach(Transformadores t in trafos)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
 
@@ -1659,7 +1659,7 @@ namespace Foha.Controllers
 
         foreach(Transformadores t in trafos)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
         if(trafos.Count()>0)
