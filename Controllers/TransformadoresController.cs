@@ -1216,7 +1216,7 @@ namespace Foha.Controllers
 
             foreach(var t in resultado)
             {
-                t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
+                t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 14).OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
             }
 
             List<dynamic> trafosDynamic = new List<dynamic>();
