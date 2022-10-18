@@ -611,14 +611,17 @@ namespace Foha.Controllers
             return BadRequest(r);
         }
 
-        if(addTransformadoresDto.Serie == null){
-            addTransformadoresDto.Serie = 1;
-            if(addTransformadoresDto.OTe != null){
-                if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
-                {
-                    addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
-                }
-            }   
+        if(addTransformadoresDto.IdCliente != 9999)
+        {
+            if(addTransformadoresDto.Serie == null){
+                addTransformadoresDto.Serie = 1;
+                if(addTransformadoresDto.OTe != null){
+                    if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
+                    {
+                        addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
+                    }
+                }   
+            }
         }
 
         if(addTransformadoresDto.IdTipoTransfo == 8){
@@ -675,7 +678,6 @@ namespace Foha.Controllers
                         i.RangoFin=addTransformadoresDto.RangoInicio?? default(int);
                     }
                     addTransformadoresDto.RangoFin=addTransformadoresDto.RangoInicio?? default(int);
-
                 }
             }
         }
@@ -689,8 +691,6 @@ namespace Foha.Controllers
                 addTransformadoresDto.RangoInicio=1;
             }
         }
-
-
 
         var preTransformadores = _mapper.Map<Transformadores>(addTransformadoresDto);
         _repo.Add(preTransformadores);
@@ -716,7 +716,7 @@ namespace Foha.Controllers
                     switch(TransformadoresResponse.IdTipoTransfo)
                     {
                         case 2: //Agregue de la 33 a la 37 que tampoco corresponden para este trafo
-                            if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32 && i.IdTipoEtapa!=33 && i.IdTipoEtapa!=34 && i.IdTipoEtapa!=35 && i.IdTipoEtapa!=36 && i.IdTipoEtapa!=37 && i.IdTipoEtapa!=44 )
+                            if(i.IdTipoEtapa!=1 && i.IdTipoEtapa!=15 && i.IdTipoEtapa!=17 && i.IdTipoEtapa!=18 && i.IdTipoEtapa!=19 && i.IdTipoEtapa!=29 && i.IdTipoEtapa!=30 && i.IdTipoEtapa!=31 && i.IdTipoEtapa!=32 && i.IdTipoEtapa!=33 && i.IdTipoEtapa!=34 && i.IdTipoEtapa!=35 && i.IdTipoEtapa!=36 && i.IdTipoEtapa!=37 && i.IdTipoEtapa!=44  && i.IdTipoEtapa != 45 )
                             {
                                 etapa.IdColor=1034;
                                 etapa.IsEnded = true;
@@ -737,22 +737,29 @@ namespace Foha.Controllers
                             }
                             break;
                         case 6:
-                            etapa.IdColor=1034;
-                            etapa.IsEnded = true;
+                            if(i.IdTipoEtapa != 45)
+                            {
+                                etapa.IdColor=1034;
+                                etapa.IsEnded = true;
+                            }
+                            
                             break;
                         case 7:
-                            etapa.IdColor=1034;
-                            etapa.IsEnded = true;
+                            if(i.IdTipoEtapa != 45)
+                            {
+                                etapa.IdColor=1034;
+                                etapa.IsEnded = true;
+                            }
                             break;
                         case 8:
-                            if(i.IdTipoEtapa != 29 && i.IdTipoEtapa != 30 && i.IdTipoEtapa != 31 && i.IdTipoEtapa != 32 && i.IdTipoEtapa != 44)
+                            if(i.IdTipoEtapa != 29 && i.IdTipoEtapa != 30 && i.IdTipoEtapa != 31 && i.IdTipoEtapa != 32 && i.IdTipoEtapa != 44 && i.IdTipoEtapa != 45)
                             {
                                 etapa.IdColor=1034;
                                 etapa.IsEnded = true;  
                             }
                             break;
                         case 9:
-                            if(i.IdTipoEtapa != 29 && i.IdTipoEtapa != 30 && i.IdTipoEtapa != 31 && i.IdTipoEtapa != 32 && i.IdTipoEtapa != 44)
+                            if(i.IdTipoEtapa != 29 && i.IdTipoEtapa != 30 && i.IdTipoEtapa != 31 && i.IdTipoEtapa != 32 && i.IdTipoEtapa != 44 && i.IdTipoEtapa != 45)
                             {
                                 etapa.IdColor=1034;
                                 etapa.IsEnded = true;
@@ -1172,7 +1179,7 @@ namespace Foha.Controllers
 
         foreach(Transformadores t in tfdto)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
 
@@ -1310,7 +1317,7 @@ namespace Foha.Controllers
         }
         foreach(Transformadores t in trafos)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
 
@@ -1661,7 +1668,7 @@ namespace Foha.Controllers
 
         foreach(Transformadores t in trafos)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37).ToList();//SACO REL TRA DE LA LISTA
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
         if(trafos.Count()>0)

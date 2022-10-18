@@ -1295,6 +1295,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("CH. \n CAR",44);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("APR",31);
+                    etapasPorSector.Add("PAGO",45);
                     etapasPorSector.Add("ENV",32);
                     break;
                 //encubado Enc
@@ -1370,7 +1371,7 @@ namespace Foha.Controllers
             DateTime desde = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.DesdeMili).UtcDateTime;
             DateTime hasta = DateTimeOffset.FromUnixTimeMilliseconds(etapaPorSectorDto.HastaMili).UtcDateTime;
             int?[] Sector = new int?[] { 1 };
-            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 30, 31, 32 };
+            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 30, 31, 45, 32 };
             switch(etapaPorSectorDto.IdSect){
                 case 1:
                     Sector = new int?[] { 1 };
@@ -1400,7 +1401,7 @@ namespace Foha.Controllers
                     Sector = new int?[] { 30, 31, 32, 44 };
                     break;
                 case 10:
-                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 };
                     break;
                 case 12:
                     Sector = new int?[] { 20, 28, 32 };
@@ -1547,7 +1548,8 @@ namespace Foha.Controllers
         public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int idTransfo){
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
-            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 44, 30, 31, 32 };
+            //fede saco el 14 para sacar ensamblaje y bobinas
+            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 44, 30, 31, 45, 32 };
             try{
                 List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == idTransfo)//Busco las etapas del trafo que me pide.
                                     .Include(x => x.IdTipoEtapaNavigation)
@@ -1556,7 +1558,7 @@ namespace Foha.Controllers
                                     .Include(x => x.EtapaEmpleado)
                                     .ThenInclude(x => x.IdEmpleadoNavigation)
                                     .ToListAsync();
-                etapas = etapas.OrderBy(x => newOrder.IndexOf(x.IdTipoEtapa.Value)).ToList();
+                etapas = etapas.Where(x=>x.IdTipoEtapa!=14).OrderBy(x => newOrder.IndexOf(x.IdTipoEtapa.Value)).ToList();
                 foreach(Etapa e in etapas)//Recorro las etapas y voy armando los ReportesDTO para devolver.
                 {
                     ReportesDTO reporte = new ReportesDTO();
@@ -1685,6 +1687,8 @@ namespace Foha.Controllers
                     return "CUBI";
                 case 44:
                     return "CH. CAR";
+                case 45:
+                    return "PAGO";
                 default:
                     return "";
             }
@@ -1699,14 +1703,14 @@ namespace Foha.Controllers
             DateTime FechaActual = DateTime.Now;
             foreach(Transformadores t in trafos)
             {   
-                Etapa ChapaCaracteristicas = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 44};
+                Etapa Pagos = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 45, DateIni = DateTime.Today};
                 if(t.Etapa.First(x => x.IdTipoEtapa == 32).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 32).IdColor == 10)
                 {
-                    ChapaCaracteristicas.IsEnded = true;
-                    ChapaCaracteristicas.IdColor = 10;
-                    ChapaCaracteristicas.DateFin = DateTime.Today;
+                    Pagos.IsEnded = true;
+                    Pagos.IdColor = 10;
+                    Pagos.DateFin = DateTime.Today;
                 }
-                _context.Etapa.Add(ChapaCaracteristicas);
+                _context.Etapa.Add(Pagos);
                 // DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.GetValueOrDefault();
                 // if(FechaFin != null ){
                 //     if((FechaActual - FechaFin).TotalDays >= 60)
