@@ -803,13 +803,16 @@ namespace Foha.Controllers
         }
 
         int contSerie = 1;
-        if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Count() > 0)
+        if(addTransformadoresDto[0].IdCliente != 9999 && addTransformadoresDto[0] != null)
         {
-            contSerie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Max(x => x.Serie.GetValueOrDefault(0)) + 1;
-        }
-        foreach(AddTransformadoresDto dto in addTransformadoresDto){
-            dto.Serie = contSerie;
-            contSerie++;
+            if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Count() > 0)
+            {
+                contSerie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto[0].OTe).Max(x => x.Serie.GetValueOrDefault(0)) + 1;
+            }
+            foreach(AddTransformadoresDto dto in addTransformadoresDto){
+                dto.Serie = contSerie;
+                contSerie++;
+            }
         }
 
         int contOP = 0;
@@ -839,7 +842,6 @@ namespace Foha.Controllers
             // }
         }
         AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
-
         r.Message = "Se agrgaron los transformadores con exito.";
         r.Status = 200;
         return Ok(r);
