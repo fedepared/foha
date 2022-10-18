@@ -35,8 +35,20 @@ namespace Foha.Controllers
         public async Task<IActionResult> GetCliente()
         {
             var res = new Response<Cliente[]>();
+            var clientes =await _context.Cliente.OrderBy(x => x.NombreCli).ToArrayAsync();
+            res.Data=clientes;
+            res.Message="Ok";
+            res.Status=200;
+            return Ok(res);
+        }
+
+        // GET: api/ClientesNoStock
+        
+        [HttpGet("getClientesNoStock")]
+        public async Task<IActionResult> GetClientesNoStock()
+        {
+            var res = new Response<Cliente[]>();
             var clientes =await _context.Cliente.Where(x => x.LegajoCli != 9999).OrderBy(x => x.NombreCli).ToArrayAsync();
-            
             res.Data=clientes;
             res.Message="Ok";
             res.Status=200;
