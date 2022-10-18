@@ -160,7 +160,7 @@ namespace Foha.Controllers
                     break;
               case 10:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo)
+                    .Where(x=>x.IdTransfo==idTransfo && x.IdTipoEtapa != 14)
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync(); 
@@ -1201,7 +1201,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("RF1",11);
                     etapasPorSector.Add("RF2",12);
                     etapasPorSector.Add("RF3",13);
-                    etapasPorSector.Add("ENS",14);  
+                    //etapasPorSector.Add("ENS",14);  
                     break;
               case 3:
                     etapasPorSector.Add("CUBA CYP",21);
@@ -1265,7 +1265,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("RF1",11);
                     etapasPorSector.Add("RF2",12);
                     etapasPorSector.Add("RF3",13);
-                    etapasPorSector.Add("ENS",14);
+                    //etapasPorSector.Add("ENS",14);
                     etapasPorSector.Add("PY CYP",15);
                     etapasPorSector.Add("PY SOL",16);
                     etapasPorSector.Add("PY ENV",17);
@@ -1703,13 +1703,13 @@ namespace Foha.Controllers
             DateTime FechaActual = DateTime.Now;
             foreach(Transformadores t in trafos)
             {   
-                Etapa Pagos = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 45, DateIni = DateTime.Today};
-                if(t.Etapa.First(x => x.IdTipoEtapa == 32).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 32).IdColor == 10)
-                {
-                    Pagos.IsEnded = true;
-                    Pagos.IdColor = 10;
-                    Pagos.DateFin = DateTime.Today;
-                }
+                Etapa Pagos = new Etapa(){IdTransfo = t.IdTransfo, IdTipoEtapa = 45};
+                // if(t.Etapa.First(x => x.IdTipoEtapa == 32).IsEnded == true || t.Etapa.First(x => x.IdTipoEtapa == 32).IdColor == 10)
+                // {
+                //     Pagos.IsEnded = true;
+                //     Pagos.IdColor = 10;
+                //     Pagos.DateFin = DateTime.Today;
+                // }
                 _context.Etapa.Add(Pagos);
                 // DateTime FechaFin = t.Etapa.First(x => x.IdTipoEtapa == 31).DateFin.GetValueOrDefault();
                 // if(FechaFin != null ){
