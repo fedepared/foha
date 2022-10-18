@@ -1548,7 +1548,8 @@ namespace Foha.Controllers
         public async Task<IActionResult> GetEtapasTrafoIndividual([FromRoute] int idTransfo){
             Response<List<ReportesDTO>> r = new Response<List<ReportesDTO>>();
             List<ReportesDTO> EtapasResponse = new List<ReportesDTO>();
-            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 44, 30, 31, 45, 32 };
+            //fede saco el 14 para sacar ensamblaje y bobinas
+            List<int> newOrder = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,14, 15, 16, 17, 33, 34, 18, 19, 35, 36, 37, 20, 21, 23, 43, 24, 25, 26, 27, 38, 39, 22, 40, 41, 42, 28, 29, 44, 30, 31, 45, 32 };
             try{
                 List<Etapa> etapas =  await _context.Etapa.Where(x =>  x.IdTransfo == idTransfo)//Busco las etapas del trafo que me pide.
                                     .Include(x => x.IdTipoEtapaNavigation)
@@ -1557,7 +1558,7 @@ namespace Foha.Controllers
                                     .Include(x => x.EtapaEmpleado)
                                     .ThenInclude(x => x.IdEmpleadoNavigation)
                                     .ToListAsync();
-                etapas = etapas.OrderBy(x => newOrder.IndexOf(x.IdTipoEtapa.Value)).ToList();
+                etapas = etapas.Where(x=>x.IdTipoEtapa!=14).OrderBy(x => newOrder.IndexOf(x.IdTipoEtapa.Value)).ToList();
                 foreach(Etapa e in etapas)//Recorro las etapas y voy armando los ReportesDTO para devolver.
                 {
                     ReportesDTO reporte = new ReportesDTO();
