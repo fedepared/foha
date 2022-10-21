@@ -46,7 +46,8 @@ export class RegisterComponent implements OnInit {
     {value: 1, viewValue: 'Admin'},
     {value: 2, viewValue: 'Operario'},
     {value: 3, viewValue: 'Encargado'},
-    {value: 4, viewValue: 'Vista'}
+    {value: 4, viewValue: 'Vista'},
+    {value: 5, viewValue: 'Cobranzas'},
   ];
 
 
@@ -86,7 +87,7 @@ export class RegisterComponent implements OnInit {
 
   onFormSubmit(form: any) {
     console.log(form.idTipoUs);
-    if(form.idTipoUs==1 || form.idTipoUs==4)
+    if(form.idTipoUs==1 || form.idTipoUs==4 || form.idTipoUs==5)
     {
       form.idSector=10;
     }
