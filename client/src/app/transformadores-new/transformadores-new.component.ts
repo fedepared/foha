@@ -20,8 +20,8 @@ import { EtapaService } from '../services/etapa.service';
 import { Etapa } from '../models/etapa';
 import { TipoEtapaService } from '../services/tipo-etapa.service';
 import {TipoEtapa} from '../models/tipoEtapa';
-import { Observable, forkJoin, timer } from 'rxjs';
-import { tap, take, mergeMap, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap, take } from 'rxjs/operators';
 import { TransformadoresEtapas } from '../models/transformadoresEtapas';
 import { Vista } from '../models/Vista';
 import { TipoTransfoService } from '../services/tipoTransfo';
@@ -34,8 +34,6 @@ import {map, startWith} from 'rxjs/operators';
 import * as jQuery from 'jquery';
 import { MatCheckboxChange, MatDatepickerInputEvent, MatPaginator } from '@angular/material';
 import { CourseDialog3Component } from '../clientes/clientes.component';
-import { Transform } from 'stream';
-import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { SelectionModel } from '@angular/cdk/collections';
 import moment from 'moment';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
@@ -43,8 +41,7 @@ import { IResponse } from '../models/iresponse';
 import { ExcelTimesService } from '../services/excel-times.service';
 import { VendedoresService } from '../services/vendedores.service';
 import { Vendedores } from '../models/vendedores'; 
-import { Constructor } from '@angular/cdk/table';
-import { isRegExp } from 'util';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -92,6 +89,53 @@ const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "ENV":32
 }
 
+const MAP_NOMBRE_ETAPA_PAGOS: { [tipoEtapa: string]: number} = {
+  "DOC":1,
+  "BT1":2,
+  "BT2":3,
+  "BT3":4,
+  "AT1":5,
+  "AT2":6,
+  "AT3":7,
+  "RG1":8,
+  "RG2":9,
+  "RG3":10,
+  "RF1":11,
+  "RF2":12,
+  "RF3":13,
+  // "ENS":14,
+  "PY CYP":15,
+  "PY SOL":16,
+  "PY ENV":17,
+  "CYP PAT":33,
+  "PAT ENV":34,
+  "NUC":18,
+  "MON":19,
+  "CON BT":35,
+  "CON AT":36,
+  "HOR":20,
+  "CUBA CYP":21,
+  "RAD \n PAN":23,
+  "CUBI":43,
+  "SOL \n CUBA":24,
+  "HERM":25,
+  "GRAN \n CUBA":26,
+  "PINT \n CUBA":27,
+  "ENV \n CUBA":38,
+  "CYP \n TAPA":39,
+  "SOL \n TAPA":22,
+  "GRAN \n TAPA":40,
+  "PINT \n TAPA":41,
+  "ENV \n TAPA":42,
+  "ENC":28,
+  "LAB":29,
+  "CH \n CAR":44,
+  "TERM":30,
+  "APR":31,
+  "PAGO":45,
+  "ENV":32
+}
+
 
 interface Mes {
   value: number;
@@ -103,11 +147,14 @@ interface Mes {
   selector: 'etapa-column-component3',
   template: `
   <ng-container *ngIf="etapa">
-    <div [style.height]="'40px'" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2.5px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '3px solid rgb(56,56,56)': '1px solid rgb(56,56,56)')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
+    <div [style.height]="'40px'" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2.5px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '3px solid rgb(56,56,56)': '1px solid rgb(56,56,56)')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' " style="text-align:center">
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
-      <span style="display:inline;margin:0;width:24px;height:24px;">
-        <button mat-icon-button *ngIf="idTipoUs!='4' && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
+      <span style="display:inline;margin:0;width:24px;height:24px;text-align:center">
+        <button mat-icon-button *ngIf="(idTipoUs!='4' && idTipoUs!='5' ) && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
+        <button mat-icon-button *ngIf="idTipoUs=='5' && etapa.idTipoEtapa==45" (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Pago"><mat-icon style="color:gray">request_quote</mat-icon></button>
+        
       </span>
+      <!-- <span>{{etapa.idTipoEtapa}}</span> -->
     </div>
   </ng-container>
     
@@ -193,11 +240,17 @@ export class AssignColorComponent2{
     this.coloresService.getColores()
     .subscribe(colores=>{
       this.coloresArr=colores;
-      let blanco:Colores={idColor:999999,codigoColor:"#ffffff",leyenda:"borrar referencia"}
-      this.coloresArr.push(blanco);
-      if(this.etapaSelected.isEnded==true)
+      if(localStorage.getItem("idTipoUs")!='5')
       {
-        this.coloresArr=this.coloresArr.filter(x=>x.idColor==9)
+        let blanco:Colores={idColor:999999,codigoColor:"#ffffff",leyenda:"borrar referencia"}
+        this.coloresArr.push(blanco);
+        if(this.etapaSelected.isEnded==true)
+        {
+          this.coloresArr=this.coloresArr.filter(x=>x.idColor==9);
+        }
+      }
+      else{
+        this.coloresArr=this.coloresArr.filter(x=>x.idColor==10);
       }
       this.data=new MatTableDataSource();
       this.data.data = this.coloresArr;
@@ -355,7 +408,9 @@ export class TransformadoresNewComponent implements OnInit {
   ]
   //esto es una forma cheta de obtener el array con los nombres de
   //las columnas que machean con el "nombreTipoEtapa".
-  etapasColumns: string[]= Object.keys(MAP_NOMBRE_ETAPA);
+
+  // etapasColumns: string[]=  Object.keys(MAP_NOMBRE_ETAPA_PAGOS);
+  etapasColumns: string[]= localStorage.getItem("idTipoUs") !== '5' ? Object.keys(MAP_NOMBRE_ETAPA) : Object.keys(MAP_NOMBRE_ETAPA_PAGOS);
 
   // TODAS las columnas
   allColumns: string[]= this.displayedColumns0.concat(this.displayedColumns1).concat(this.displayedColumns2).concat(this.etapasColumns);
@@ -655,7 +710,17 @@ export class TransformadoresNewComponent implements OnInit {
     {
       this.getTrafos();
     }
-    return t.etapa[i];
+
+    //Filtro si es de tipo cobranzas
+    if(localStorage.getItem("idTipoUs")=='5')
+    {
+      return t.etapa[i];
+    }  
+    else{
+      const a=t.etapa.filter(x=>x.idTipoEtapa!=45);
+      return a[i];
+
+    }
   }
 
   actualizar(evento:any){

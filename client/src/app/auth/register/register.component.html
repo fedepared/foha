@@ -39,7 +39,7 @@
             </mat-select>
         </mat-form-field>
         <br>
-        <mat-form-field *ngIf="selectedValue!=1 && selectedValue!=4" [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm.value)" appearance="outline">
+        <mat-form-field *ngIf="selectedValue!=1 && selectedValue!=4 && selectedValue!=5" [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm.value)" appearance="outline">
           <mat-label>Sector</mat-label>
             <mat-select [(ngModel)]="valorSector" formControlName="idSector" name="idSector">
               <mat-option *ngFor="let sectores of comboSectores" [value]="sectores.id">
