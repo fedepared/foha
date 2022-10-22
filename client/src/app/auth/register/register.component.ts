@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
     {value: 2, viewValue: 'Operario'},
     {value: 3, viewValue: 'Encargado'},
     {value: 4, viewValue: 'Vista'},
-    {value: 5, viewValue: 'Cobranzas'},
+    {value: 5, viewValue: 'Cobranza'},
   ];
 
 

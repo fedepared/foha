@@ -184,7 +184,7 @@
               <mat-label>Elija el mes</mat-label>
                 <mat-select [compareWith]="compareObjects" formControlName="month" multiple>
                   <mat-option *ngFor="let m of months"  [value]="m">
-                    {{m.mes}} de {{m.anio}} <strong> &Sigma;={{m.count}}</strong>
+                    {{m.mes}} de {{m.anio}} <strong>({{m.count}}) </strong>
                   </mat-option>
                   <!-- <mat-option #allSelected (click)="toggleAllSelection()"></mat-option> -->
                 </mat-select>
