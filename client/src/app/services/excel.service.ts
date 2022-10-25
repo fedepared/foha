@@ -111,7 +111,7 @@ export class ExcelService {
       'RF1',
       'RF2',
       'RF3',
-      'ENS',
+      // 'ENS',
       'PY CYP ',
       'PY SOL',
       'PY ENV',
@@ -188,7 +188,7 @@ export class ExcelService {
       {key:'bobinaRF1',width:11.5},
       {key:'bobinaRF2',width:11.5},
       {key:'bobinaRF3',width:11.5},
-      {key:'ensamblajeBobinas',width:11.5},
+      // {key:'ensamblajeBobinas',width:11.5},
       {key:'corteYPlegadoPYS',width:11.5},
       {key:'soldaduraPYS',width:11.5},
       {key:'envioPYS',width:11.5},
@@ -232,6 +232,7 @@ export class ExcelService {
     let row=9;
     data.forEach((e,i)=>{
       // console.log(e.idTransfo)
+      
       if((e.hasOwnProperty("group")))
       {
         let periodo=worksheet.addRow([`${e.group}`]);
@@ -281,61 +282,65 @@ export class ExcelService {
           bobinaRF1:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==11))),
           bobinaRF2:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==12))),
           bobinaRF3:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==13))),
-          ensamblajeBobinas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==14))),
+          // ensamblajeBobinas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==14))),
+          
+          //14
           corteYPlegadoPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==15))),
+          //15
           soldaduraPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==16))),
+          //16
           envioPYS:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==17))),
-          //18
+          //17
           cYPPatas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==33))),
-          //19
+          //18
           envioPatas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==34))),
-          //20
+          //19
           nucleo:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==18))),
-          //21
+          //20
           montaje:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==19))),
-          //22
+          //21
           conexBT:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==35))),
-          //23
+          //22
           conexAT:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==36))),
-          //24
+          //23
           horno:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==20))),
-          //25
+          //24
           cYPTapaCuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==21))),
-          //26
+          //25
           radiadoresOPaneles:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==23))),
-          //27
+          //26
           cubierta:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==43))),
-          //28
+          //27
           cuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==24))),
-          //29
+          //28
           tintasPenetrantes:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==25))),
-          //30
+          //29
           granallado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==26))),
-          //31
+          //30
           pintura:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==27))),
-          //32
+          //31
           envioCuba:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==38))),
-          //33
+          //32
           cYPTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==39))),
-          //34
+          //33
           tapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==22))),
-          //35
+          //34
           granalladoTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==40))),
-          //36
+          //35
           pinturaTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==41))),
-          //37
+          //36
           envioTapa:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==42))),
-          //38
+          //37
           encubado:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==28))),
-          //39
+          //38
           ensayosRef:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==29))),
-          //40
+          //39
           chapaDeCaracteristicas:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==44))),
-          //41
+          //40
           terminacion:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==30))),
-          //42
+          //41
           envioADeposito:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==31))),
-          //43
+          //42
           envioACliente:this.dateOrTime((e.etapa.find(z=>z.idTipoEtapa==32)))
         }).eachCell({includeEmpty: true},(cell,colNumber)=>{
 
@@ -369,85 +374,94 @@ export class ExcelService {
             if(cuentaCol<=56)
             {
               let cuent;
-              if(cuenta>17)
+              if(cuenta>13)
               {
                     switch(cuenta){
-                      case 18:
+                      case 14:
+                        cuent = 15
+                        break;
+                      case 15:
+                        cuent = 16
+                        break;
+                      case 16:
+                        cuent = 17
+                        break;
+                      case 17:
                         cuent = 33
                         break;
-                      case 19:
+                      case 18:
                         cuent = 34
                         break;
-                      case 20:
+                      case 19:
                         cuent = 18
                         break;
-                      case 21:
+                      case 20:
                         cuent = 19
                         break;
-                      case 22:
-                        cuent=35
+                      case 21:
+                        cuent = 35
                         break;
-                      case 23:
+                      case 22:
                         cuent=36
                         break;
-                      case 24:
+                      case 23:
                         cuent=20
                         break;
-                      case 25:
+                      case 24:
                         cuent=21
                         break;
-                      case 26:
+                      case 25:
                         cuent=23
                         break;
-                      case 27:
+                      case 26:
                         cuent=43
                         break;
-                      case 28:
+                      case 27:
                         cuent=24
                         break;
-                      case 29:
+                      case 28:
                         cuent=25
                         break;
-                      case 30:
+                      case 29:
                         cuent=26
                         break;
-                      case 31:
+                      case 30:
                         cuent=27
                         break;
-                      case 32:
+                      case 31:
                         cuent=38
                         break;
-                      case 33:
+                      case 32:
                         cuent=39
                         break;
-                      case 34:
+                      case 33:
                         cuent=22
                         break;
-                      case 35:
+                      case 34:
                         cuent=40
                         break;
-                      case 36:
+                      case 35:
                         cuent=41
                         break;
-                      case 37:
+                      case 36:
                         cuent=42
                         break;
-                      case 38:
+                      case 37:
                         cuent=28
                         break;
-                      case 39:
+                      case 38:
                         cuent=29
                         break;
-                      case 40:
+                      case 39:
                         cuent=44
                         break;
-                      case 41:
+                      case 40:
                         cuent=30
                         break;
-                      case 42:
+                      case 41:
                         cuent=31
                         break;
-                      case 43:
+                      case 42:
                         cuent=32
                         break;
                     }
@@ -455,7 +469,9 @@ export class ExcelService {
               else{
                 cuent=cuenta;
               }
-              if(cuent != 37){
+              if(cuent != 37 && cuent !=14){
+                // console.log(cuent);
+                // console.log(e.etapa.find(z=>z.idTipoEtapa==cuent));
                 if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
                 {
                   colorCortado=(e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation.codigoColor).replace('#','');
@@ -495,7 +511,6 @@ export class ExcelService {
   }
   
   dateOrTime(etapa) : Date | string{
-    
     if(etapa.dateFin==null)
     {
         if(etapa.idColor==9)
