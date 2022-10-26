@@ -109,7 +109,7 @@ export class ExcelTimesService {
       'RF1',
       'RF2',
       'RF3',
-      'ENS',
+      // 'ENS',
       'PY CYP ',
       'PY SOL',
       'PY ENV',
@@ -186,7 +186,7 @@ export class ExcelTimesService {
       {key:'bobinaRF1',width:11.5},
       {key:'bobinaRF2',width:11.5},
       {key:'bobinaRF3',width:11.5},
-      {key:'ensamblajeBobinas',width:11.5},
+      // {key:'ensamblajeBobinas',width:11.5},
       {key:'corteYPlegadoPYS',width:11.5},
       {key:'soldaduraPYS',width:11.5},
       {key:'envioPYS',width:11.5},
@@ -274,7 +274,7 @@ export class ExcelTimesService {
           bobinaRF1:this.time((e.etapa.find(z=>z.idTipoEtapa==11))),
           bobinaRF2:this.time((e.etapa.find(z=>z.idTipoEtapa==12))),
           bobinaRF3:this.time((e.etapa.find(z=>z.idTipoEtapa==13))),
-          ensamblajeBobinas:this.time((e.etapa.find(z=>z.idTipoEtapa==14))),
+          // ensamblajeBobinas:this.time((e.etapa.find(z=>z.idTipoEtapa==14))),
           corteYPlegadoPYS:this.time((e.etapa.find(z=>z.idTipoEtapa==15))),
           soldaduraPYS:this.time((e.etapa.find(z=>z.idTipoEtapa==16))),
           envioPYS:this.time((e.etapa.find(z=>z.idTipoEtapa==17))),
@@ -338,93 +338,184 @@ export class ExcelTimesService {
             if(cuentaCol<=56)
             {
               let cuent;
-              if(cuenta>17)
-              {
-                    switch(cuenta){
-                      case 18:
-                        cuent = 33
-                        break;
-                      case 19:
-                        cuent = 34
-                        break;
-                      case 20:
-                        cuent = 18
-                        break;
-                      case 21:
-                        cuent = 19
-                        break;
-                      case 22:
-                        cuent=35
-                        break;
-                      case 23:
-                        cuent=36
-                        break;
-                      case 24:
-                        cuent=20
-                        break;
-                      case 25:
-                        cuent=21
-                        break;
-                      case 26:
-                        cuent=23
-                        break;
-                      case 27:
-                        cuent=43
-                        break;
-                      case 28:
-                        cuent=24
-                        break;
-                      case 29:
-                        cuent=25
-                        break;
-                      case 30:
-                        cuent=26
-                        break;
-                      case 31:
-                        cuent=27
-                        break;
-                      case 32:
-                        cuent=38
-                        break;
-                      case 33:
-                        cuent=39
-                        break;
-                      case 34:
-                        cuent=22
-                        break;
-                      case 35:
-                        cuent=40
-                        break;
-                      case 36:
-                        cuent=41
-                        break;
-                      case 37:
-                        cuent=42
-                        break;
-                      case 38:
-                        cuent=28
-                        break;
-                      case 39:
-                        cuent=29
-                        break;
-                      case 40:
-                        cuent=44
-                        break;
-                      case 41:
-                        cuent=30
-                        break;
-                      case 42:
-                        cuent=31
-                        break;
-                      case 43:
-                        cuent=32
-                        break;
-                    }
+              // if(cuenta>17)
+              // {
+              //       switch(cuenta){
+              //         case 18:
+              //           cuent = 33
+              //           break;
+              //         case 19:
+              //           cuent = 34
+              //           break;
+              //         case 20:
+              //           cuent = 18
+              //           break;
+              //         case 21:
+              //           cuent = 19
+              //           break;
+              //         case 22:
+              //           cuent=35
+              //           break;
+              //         case 23:
+              //           cuent=36
+              //           break;
+              //         case 24:
+              //           cuent=20
+              //           break;
+              //         case 25:
+              //           cuent=21
+              //           break;
+              //         case 26:
+              //           cuent=23
+              //           break;
+              //         case 27:
+              //           cuent=43
+              //           break;
+              //         case 28:
+              //           cuent=24
+              //           break;
+              //         case 29:
+              //           cuent=25
+              //           break;
+              //         case 30:
+              //           cuent=26
+              //           break;
+              //         case 31:
+              //           cuent=27
+              //           break;
+              //         case 32:
+              //           cuent=38
+              //           break;
+              //         case 33:
+              //           cuent=39
+              //           break;
+              //         case 34:
+              //           cuent=22
+              //           break;
+              //         case 35:
+              //           cuent=40
+              //           break;
+              //         case 36:
+              //           cuent=41
+              //           break;
+              //         case 37:
+              //           cuent=42
+              //           break;
+              //         case 38:
+              //           cuent=28
+              //           break;
+              //         case 39:
+              //           cuent=29
+              //           break;
+              //         case 40:
+              //           cuent=44
+              //           break;
+              //         case 41:
+              //           cuent=30
+              //           break;
+              //         case 42:
+              //           cuent=31
+              //           break;
+              //         case 43:
+              //           cuent=32
+              //           break;
+              //       }
+              // }
+              if(cuenta>13){
+                switch(cuenta){
+                  case 14:
+                    cuent = 15
+                    break;
+                  case 15:
+                    cuent = 16
+                    break;
+                  case 16:
+                    cuent = 17
+                    break;
+                  case 17:
+                    cuent = 33
+                    break;
+                  case 18:
+                    cuent = 34
+                    break;
+                  case 19:
+                    cuent = 18
+                    break;
+                  case 20:
+                    cuent = 19
+                    break;
+                  case 21:
+                    cuent = 35
+                    break;
+                  case 22:
+                    cuent=36
+                    break;
+                  case 23:
+                    cuent=20
+                    break;
+                  case 24:
+                    cuent=21
+                    break;
+                  case 25:
+                    cuent=23
+                    break;
+                  case 26:
+                    cuent=43
+                    break;
+                  case 27:
+                    cuent=24
+                    break;
+                  case 28:
+                    cuent=25
+                    break;
+                  case 29:
+                    cuent=26
+                    break;
+                  case 30:
+                    cuent=27
+                    break;
+                  case 31:
+                    cuent=38
+                    break;
+                  case 32:
+                    cuent=39
+                    break;
+                  case 33:
+                    cuent=22
+                    break;
+                  case 34:
+                    cuent=40
+                    break;
+                  case 35:
+                    cuent=41
+                    break;
+                  case 36:
+                    cuent=42
+                    break;
+                  case 37:
+                    cuent=28
+                    break;
+                  case 38:
+                    cuent=29
+                    break;
+                  case 39:
+                    cuent=44
+                    break;
+                  case 40:
+                    cuent=30
+                    break;
+                  case 41:
+                    cuent=31
+                    break;
+                  case 42:
+                    cuent=32
+                    break;
+                }
               }
               else{
                 cuent=cuenta;
               }
-              if(cuent!=37)
+              if(cuent!=37 && cuent !=14)
               {
                 if((e.etapa.find(z=>z.idTipoEtapa==cuent).idColorNavigation)!==null)
                 {

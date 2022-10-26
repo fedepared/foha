@@ -1295,7 +1295,6 @@ namespace Foha.Controllers
                     etapasPorSector.Add("CH. \n CAR",44);
                     etapasPorSector.Add("TERM",30);
                     etapasPorSector.Add("APR",31);
-                    etapasPorSector.Add("PAGO",45);
                     etapasPorSector.Add("ENV",32);
                     break;
                 //encubado Enc

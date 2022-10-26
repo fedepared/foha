@@ -44,7 +44,7 @@ namespace Foha.Controllers
 
         // GET: api/ClientesNoStock
         
-        [HttpGet]
+        [HttpGet("getClientesNoStock")]
         public async Task<IActionResult> GetClientesNoStock()
         {
             var res = new Response<Cliente[]>();

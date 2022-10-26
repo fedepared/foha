@@ -849,7 +849,6 @@ namespace Foha.Controllers
             // }
         }
         AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
-
         r.Message = "Se agrgaron los transformadores con exito.";
         r.Status = 200;
         return Ok(r);
