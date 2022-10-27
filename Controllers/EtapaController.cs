@@ -783,11 +783,14 @@ namespace Foha.Controllers
         [HttpPut("{id}/stop")]
         public async Task<IActionResult> PutEtapaStop([FromRoute] int id, [FromBody] EditEtapaDto editEtapaDto)
         {
-            
+            Response<String> r = new Response<string>();
             var etapaAntes=_context.Etapa.AsNoTracking().First(x=>x.IdEtapa==id);
             if(etapaAntes.IdColor==editEtapaDto.IdColor)
             {
-                return Conflict("La etapa ya había sido finalizada, por favor actualice la vista");
+                r.Status = 500;
+                r.Data = "La etapa ya había sido finalizada, por favor actualice la vista";
+                r.Message = "La etapa ya había sido finalizada, por favor actualice la vista";
+                return Conflict(r);
             }
             
             editEtapaDto.DateIni=etapaAntes.DateIni;
@@ -798,8 +801,20 @@ namespace Foha.Controllers
             {
                 //Tiempo parcial 
                 TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
+                //TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
                 editEtapaDto.TiempoFin = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                
+                var listaCheck = new [] {2,3,4,5,6,7,8,9,10,11,12,13,24};
+                if (listaCheck.Contains(editEtapaDto.IdTipoEtapa.Value))
+                {
+                     TimeSpan tiempoEtapa = TimeSpan.Parse(editEtapaDto.TiempoFin);
+                     TimeSpan kb = new TimeSpan(0,30,0);
+                     if(TimeSpan.Compare(tiempoEtapa,kb) == -1){
+                        r.Status = 500;
+                        r.Data = "El tiempo de finalizacion de la etapa es muy bajo";
+                        r.Message = "El tiempo de finalizacion de la etapa es muy bajo";
+                        return Conflict(r);
+                     }
+                }
                 foreach(var a in editEtapaDto.EtapaEmpleado)
                 {
                     
@@ -826,6 +841,18 @@ namespace Foha.Controllers
                 TimeSpan suma = new TimeSpan();
                 suma =(TimeSpan.ParseExact(etapaAntes.TiempoParc != "Finalizada" ? etapaAntes.TiempoParc : "00:00:00:00","dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture)).Add(horasHombre);
                 editEtapaDto.TiempoFin=suma.ToString(@"dd\:hh\:mm\:ss");
+                var listaCheck = new [] {2,3,4,5,6,7,8,9,10,11,12,13,24};
+                if (listaCheck.Contains(editEtapaDto.IdTipoEtapa.Value))
+                {
+                     TimeSpan tiempoEtapa = TimeSpan.Parse(editEtapaDto.TiempoFin);
+                     TimeSpan kb = new TimeSpan(0,30,0);
+                     if(TimeSpan.Compare(tiempoEtapa,kb) == -1){
+                        r.Status = 500;
+                        r.Data = "El tiempo de finalizacion de la etapa es muy bajo";
+                        r.Message = "El tiempo de finalizacion de la etapa es muy bajo";
+                        return Conflict(r);
+                     }
+                }
                 foreach(var a in editEtapaDto.EtapaEmpleado)
                 {
                     var isEtapaEmpleadoAntes=_context.EtapaEmpleado.AsNoTracking().First(x=>x.IdEmpleado==a.IdEmpleado && x.IdEtapa==a.IdEtapa);
@@ -865,7 +892,19 @@ namespace Foha.Controllers
                 a.IsEnded=true;
                 a.TiempoFin=editEtapaDto.TiempoFin;
             }
-            return StatusCode(201,await _repo.SaveAsync(preEtapa));
+            try{
+                await _repo.SaveAsync(preEtapa);
+                r.Data = "Se finalizo el proceso con exito";
+                r.Message = "Se finalizo el proceso con exito";
+                r.Status = 201;
+                return Ok(r);
+            }
+            catch(Exception e){
+                r.Data = e.Message;
+                r.Message = e.Message;
+                r.Status = 500;
+                return Conflict(r);
+            }
         }
 
         [HttpPut("{id}/stopEtapaEspecial")]
@@ -1951,7 +1990,8 @@ namespace Foha.Controllers
                     e.DateFin = fechaActual;
                     e.IsEnded = true;
                     e.IdColor = 10;
-                    var editDTO = _mapper.Map<EditEtapaDto>(e);                  
+                    var editDTO = _mapper.Map<EditEtapaDto>(e);
+                    editDTO.EtapaEmpleado = _context.EtapaEmpleado.AsNoTracking().Where(x => x.IdEtapa == e.IdEtapa).ToList();                  
                     await PutEtapaStop(e.IdEtapa, editDTO);
                     //_context.Etapa.Update(e);
                 }
