@@ -785,7 +785,7 @@ namespace Foha.Controllers
         {
             Response<String> r = new Response<string>();
             var etapaAntes=_context.Etapa.AsNoTracking().First(x=>x.IdEtapa==id);
-            if(etapaAntes.IdColor==editEtapaDto.IdColor)
+            if(etapaAntes.IdColor==10)
             {
                 r.Status = 500;
                 r.Data = "La etapa ya había sido finalizada, por favor actualice la vista";
@@ -800,8 +800,8 @@ namespace Foha.Controllers
             if(etapaAntes.InicioProceso==null)
             {
                 //Tiempo parcial 
-                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
-                //TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
+                //TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
                 editEtapaDto.TiempoFin = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                 var listaCheck = new [] {2,3,4,5,6,7,8,9,10,11,12,13,24};
                 if (listaCheck.Contains(editEtapaDto.IdTipoEtapa.Value))
@@ -809,7 +809,7 @@ namespace Foha.Controllers
                      TimeSpan tiempoEtapa = TimeSpan.Parse(editEtapaDto.TiempoFin);
                      TimeSpan kb = new TimeSpan(0,30,0);
                      if(TimeSpan.Compare(tiempoEtapa,kb) == -1){
-                        r.Status = 500;
+                        r.Status = 409;
                         r.Data = "El tiempo de finalizacion de la etapa es muy bajo";
                         r.Message = "El tiempo de finalizacion de la etapa es muy bajo";
                         return Conflict(r);
@@ -896,7 +896,7 @@ namespace Foha.Controllers
                 await _repo.SaveAsync(preEtapa);
                 r.Data = "Se finalizo el proceso con exito";
                 r.Message = "Se finalizo el proceso con exito";
-                r.Status = 201;
+                r.Status = 200;
                 return Ok(r);
             }
             catch(Exception e){
