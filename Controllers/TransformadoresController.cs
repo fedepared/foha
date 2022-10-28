@@ -1714,13 +1714,13 @@ namespace Foha.Controllers
         int inicial = 0;
         List<int> otes = new List<int>();
         if(oTeDesde == 0 && oTeHasta == 0){
-            otes = _context.Transformadores.Where(x => x.OTe != null).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe > 12200).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
         }
         else if(oTeDesde > 0 && oTeHasta == 0){
-            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe >= oTeDesde).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe >= oTeDesde && x.OTe > 12200).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
         }
         else if(oTeDesde > 0 && oTeHasta > 0){
-            otes = _context.Transformadores.Where(x => x.OTe != null && (x.OTe >= oTeDesde && x.OTe <= oTeHasta)).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+            otes = _context.Transformadores.Where(x => x.OTe != null && (x.OTe >= oTeDesde && x.OTe <= oTeHasta) && x.OTe > 12200).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
         }
                 
         foreach(int ot in otes){
