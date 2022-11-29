@@ -1449,8 +1449,8 @@ interface ComboClientes{
         }
       }
       else{
-        this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.getFullYear());
-        this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.getMonth()+1);
+        this.form.controls['anio'].setValue(this.form.controls['fechaProd'].value.year());
+        this.form.controls['mes'].setValue(this.form.controls['fechaProd'].value.month()+1);
       }
         
         this.form.controls['prioridad'].setValue(1);
