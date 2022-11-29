@@ -800,8 +800,9 @@ namespace Foha.Controllers
             if(etapaAntes.InicioProceso==null)
             {
                 //Tiempo parcial 
-                //TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
-                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
+                //Para develop
+                // TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
                 editEtapaDto.TiempoFin = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                 var listaCheck = new [] {2,3,4,5,6,7,8,9,10,11,12,13,24};
                 if (listaCheck.Contains(editEtapaDto.IdTipoEtapa.Value))

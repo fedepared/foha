@@ -637,7 +637,7 @@ namespace Foha.Controllers
         }
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
-        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7 ){
+        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7){
             addTransformadoresDto.RangoFin=1;
             addTransformadoresDto.RangoInicio=1;
             //if(addTransformadoresDto.OPe == null){
@@ -782,7 +782,9 @@ namespace Foha.Controllers
         try
         {
             await _context.SaveChangesAsync();
-            AsignarFechaProdMes(addTransformadoresDto.Mes.Value, addTransformadoresDto.Anio.Value);
+            if(addTransformadoresDto.Mes.Value!=15){
+                AsignarFechaProdMes(addTransformadoresDto.Mes.Value, addTransformadoresDto.Anio.Value);
+            }
             r.Status = 200;
             r.Message = "Se agrego el transformador con exito.";
             return Ok(r);
@@ -1714,13 +1716,13 @@ namespace Foha.Controllers
         int inicial = 0;
         List<int> otes = new List<int>();
         if(oTeDesde == 0 && oTeHasta == 0){
-            otes = _context.Transformadores.Where(x => x.OTe != null).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe > 12200).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
         }
         else if(oTeDesde > 0 && oTeHasta == 0){
-            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe >= oTeDesde).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+            otes = _context.Transformadores.Where(x => x.OTe != null && x.OTe >= oTeDesde && x.OTe > 12200).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
         }
         else if(oTeDesde > 0 && oTeHasta > 0){
-            otes = _context.Transformadores.Where(x => x.OTe != null && (x.OTe >= oTeDesde && x.OTe <= oTeHasta)).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
+            otes = _context.Transformadores.Where(x => x.OTe != null && (x.OTe >= oTeDesde && x.OTe <= oTeHasta) && x.OTe > 12200).OrderBy(x => x.OTe).GroupBy(x => x.OTe).Select(x => x.FirstOrDefault().OTe.GetValueOrDefault()).ToList();
         }
                 
         foreach(int ot in otes){
