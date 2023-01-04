@@ -410,7 +410,7 @@ export class TransformadoresNewComponent implements OnInit {
   //las columnas que machean con el "nombreTipoEtapa".
 
   // etapasColumns: string[]=  Object.keys(MAP_NOMBRE_ETAPA_PAGOS);
-  etapasColumns: string[]= (localStorage.getItem("idTipoUs") !== '5' || localStorage.getItem("idTipoUs") !== '4') ? Object.keys(MAP_NOMBRE_ETAPA) : Object.keys(MAP_NOMBRE_ETAPA_PAGOS);
+  etapasColumns: string[]= (localStorage.getItem("idTipoUs") === '5' || localStorage.getItem("idTipoUs") === '4' || localStorage.getItem("idTipoUs")==='6') ? Object.keys(MAP_NOMBRE_ETAPA_PAGOS) : Object.keys(MAP_NOMBRE_ETAPA);
 
   // TODAS las columnas
   allColumns: string[]= this.displayedColumns0.concat(this.displayedColumns1).concat(this.displayedColumns2).concat(this.etapasColumns);
@@ -712,7 +712,7 @@ export class TransformadoresNewComponent implements OnInit {
     }
 
     //Filtro si es de tipo cobranzas
-    if(localStorage.getItem("idTipoUs")=='5' || localStorage.getItem("idTipoUs")=='4')
+    if(localStorage.getItem("idTipoUs")=='5' || localStorage.getItem("idTipoUs")=='4' || localStorage.getItem("idTipoUs")=='6')
     {
       return t.etapa[i];
     }  
