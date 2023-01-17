@@ -221,7 +221,14 @@ namespace Foha.Controllers
                     // etapasPorSector.Add("TAPA",22);
                     // etapasPorSector.Add("PINT",27);
                     break;
-
+                //SuperAdmin
+                case 26:
+                    etapa = await _context.Etapa
+                    .Where(x=>x.IdTransfo==idTransfo && x.IdTipoEtapa != 14)
+                    .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
+                    .Include(x=>x.IdColorNavigation)
+                    .ToListAsync(); 
+                    break;
             }
 
 
@@ -1378,6 +1385,54 @@ namespace Foha.Controllers
                     etapasPorSector.Add("PINT \n CUBA",27);
                     etapasPorSector.Add("PINT \n TAPA",41);
                     break;
+                //SuperAdmin
+                case 26:
+                    etapasPorSector.Add("DOC",1);
+                    etapasPorSector.Add("BT1",2);
+                    etapasPorSector.Add("BT2",3);
+                    etapasPorSector.Add("BT3",4);
+                    etapasPorSector.Add("AT1",5);
+                    etapasPorSector.Add("AT2",6);
+                    etapasPorSector.Add("AT3",7);
+                    etapasPorSector.Add("RG1",8);
+                    etapasPorSector.Add("RG2",9);
+                    etapasPorSector.Add("RG3",10);
+                    etapasPorSector.Add("RF1",11);
+                    etapasPorSector.Add("RF2",12);
+                    etapasPorSector.Add("RF3",13);
+                    //etapasPorSector.Add("ENS",14);
+                    etapasPorSector.Add("PY CYP",15);
+                    etapasPorSector.Add("PY SOL",16);
+                    etapasPorSector.Add("PY ENV",17);
+                    etapasPorSector.Add("CYP PAT",33);
+                    etapasPorSector.Add("PAT ENV",34);
+                    etapasPorSector.Add("NUC",18);
+                    etapasPorSector.Add("MON",19);
+                    etapasPorSector.Add("CON BT",35);
+                    etapasPorSector.Add("CON AT",36);
+                    etapasPorSector.Add("REL \n TRA",37);
+                    etapasPorSector.Add("HOR",20);
+                    etapasPorSector.Add("CUBA \n CYP",21);
+                    etapasPorSector.Add("RAD \n PAN",23);
+                    etapasPorSector.Add("CUBI",43);
+                    etapasPorSector.Add("SOL \n CUBA",24);
+                    etapasPorSector.Add("HERM",25);
+                    etapasPorSector.Add("GRAN \n CUBA",26);
+                    etapasPorSector.Add("PINT \n CUBA",27);
+                    etapasPorSector.Add("ENV \n CUBA",38);
+                    etapasPorSector.Add("CYP \n TAPA",39);
+                    etapasPorSector.Add("SOL \n TAPA",22);
+                    etapasPorSector.Add("GRAN \n TAPA",40);
+                    etapasPorSector.Add("PINT \n TAPA",41);
+                    etapasPorSector.Add("ENV \n TAPA",42);
+                    etapasPorSector.Add("ENC",28);
+                    etapasPorSector.Add("LAB",29);
+                    etapasPorSector.Add("CH. \n CAR",44);
+                    etapasPorSector.Add("TERM",30);
+                    etapasPorSector.Add("APR",31);
+                    etapasPorSector.Add("PAGO",45);
+                    etapasPorSector.Add("ENV",32);
+                    break;
             }
             return etapasPorSector;
         }
@@ -1454,6 +1509,9 @@ namespace Foha.Controllers
                 case 25:
                     Sector = new int?[] { 22,27 };
                     break;
+                case 26:
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 };
+                    break;
             }
             try{
                 if(etapaPorSectorDto.idEmp != "-1"){//Si el empleado es distinto de -1 busco solo ese empleado con el resto de los datos, como en la db es String tengo que compararlo asi.
@@ -1464,6 +1522,7 @@ namespace Foha.Controllers
                         EtapasEmp = await _context.EtapaEmpleado.Where(x => (x.IdEtapaNavigation.DateFin >= desde && x.IdEtapaNavigation.DateFin <= hasta) && x.IdEmpleadoNavigation.IdEmpleado == etapaPorSectorDto.idEmp)
                                                         .Include(x => x.IdEmpleadoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation)
+                                                        .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation).ThenInclude(x => x.IdTipoTransfoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTipoEtapaNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.EtapaEmpleado).ThenInclude(x => x.IdEmpleadoNavigation)
                                                         .ToListAsync();
@@ -1472,6 +1531,7 @@ namespace Foha.Controllers
                         EtapasEmp = await _context.EtapaEmpleado.Where(x => (x.IdEtapaNavigation.DateIni >= desde && x.IdEtapaNavigation.DateIni <= hasta) && x.IdEmpleadoNavigation.IdEmpleado == etapaPorSectorDto.idEmp)
                                                         .Include(x => x.IdEmpleadoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation)
+                                                        .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTransfoNavigation).ThenInclude(x => x.IdTipoTransfoNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.IdTipoEtapaNavigation)
                                                         .Include(x => x.IdEtapaNavigation).ThenInclude(x => x.EtapaEmpleado).ThenInclude(x => x.IdEmpleadoNavigation)
                                                         .ToListAsync();
@@ -1490,6 +1550,9 @@ namespace Foha.Controllers
                         reporte.FechaFin = e.IdEtapaNavigation.DateFin;
                         reporte.TiempoParc = e.TiempoParc;
                         reporte.Operarios = "";
+                        reporte.Observacion = e.IdEtapaNavigation.IdTransfoNavigation.Observaciones;
+                        reporte.Potencia = e.IdEtapaNavigation.IdTransfoNavigation.Potencia;
+                        reporte.TipoTrafo = e.IdEtapaNavigation.IdTransfoNavigation.IdTipoTransfoNavigation.NombreTipoTransfo;
                         foreach(EtapaEmpleado etapaEmp in e.IdEtapaNavigation.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
                         {
                             if(reporte.Operarios == "")
@@ -1509,6 +1572,7 @@ namespace Foha.Controllers
                         etapas = await _context.Etapa.Where(x => x.DateFin >= desde && x.DateFin <= hasta)
                                         .Include(x => x.IdTipoEtapaNavigation)
                                         .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.IdTransfoNavigation).ThenInclude(x => x.IdTipoTransfoNavigation)
                                         .Include(x => x.EtapaEmpleado)
                                         .ThenInclude(x => x.IdEmpleadoNavigation)
                                         .ToListAsync();                    
@@ -1517,6 +1581,7 @@ namespace Foha.Controllers
                         etapas = await _context.Etapa.Where(x => x.DateIni >= desde && x.DateIni <= hasta)
                                         .Include(x => x.IdTipoEtapaNavigation)
                                         .Include(x => x.IdTransfoNavigation)
+                                        .Include(x => x.IdTransfoNavigation).ThenInclude(x => x.IdTipoTransfoNavigation)
                                         .Include(x => x.EtapaEmpleado)
                                         .ThenInclude(x => x.IdEmpleadoNavigation)
                                         .ToListAsync();                    
@@ -1528,6 +1593,7 @@ namespace Foha.Controllers
                         etapas = await _context.Etapa.Where(x =>  (x.DateFin >= desde && x.DateFin <= hasta ) && Sector.Contains(x.IdTipoEtapa))
                                     .Include(x => x.IdTipoEtapaNavigation)
                                     .Include(x => x.IdTransfoNavigation)
+                                    .Include(x => x.IdTransfoNavigation).ThenInclude(x => x.IdTipoTransfoNavigation)
                                     .Include(x => x.EtapaEmpleado)
                                     .ThenInclude(x => x.IdEmpleadoNavigation)
                                     .ToListAsync();
@@ -1536,6 +1602,7 @@ namespace Foha.Controllers
                         etapas = await _context.Etapa.Where(x =>  (x.DateIni >= desde && x.DateIni <= hasta ) && Sector.Contains(x.IdTipoEtapa))
                                 .Include(x => x.IdTipoEtapaNavigation)
                                 .Include(x => x.IdTransfoNavigation)
+                                .Include(x => x.IdTransfoNavigation).ThenInclude(x => x.IdTipoTransfoNavigation)
                                 .Include(x => x.EtapaEmpleado)
                                 .ThenInclude(x => x.IdEmpleadoNavigation)
                                 .ToListAsync();
@@ -1555,6 +1622,9 @@ namespace Foha.Controllers
                     reporte.FechaFin = e.DateFin;
                     reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : e.TiempoFin;
                     reporte.Operarios = "";
+                    reporte.Observacion = e.IdTransfoNavigation.Observaciones;
+                    reporte.Potencia = e.IdTransfoNavigation.Potencia;
+                    reporte.TipoTrafo = e.IdTransfoNavigation.IdTipoTransfoNavigation.NombreTipoTransfo;
                     foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
                     {
                         if(reporte.Operarios == "")

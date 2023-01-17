@@ -935,7 +935,8 @@ namespace Foha.Controllers
         _repo.UpdateAll(listaTrafos);
         try{
             await _context.SaveChangesAsync();
-            res.Message="Transformadores agregados";
+            ChequearFechasProd();
+            res.Message="Orden Guardado Correctamente.";
             res.Status=200;
             return Ok(res);
         }
@@ -1781,6 +1782,33 @@ namespace Foha.Controllers
         r.Message = "Se consultaron las OT con exito";
         r.Data = Salteadas;
         return Ok(r);
+    }
+
+    private string ChequearFechasProd(){
+        List<Etapa> etapas = _context.Etapa.Where(x => (x.IdTipoEtapa == 17 || x.IdTipoEtapa == 34) && (x.IdColor == null || x.IdColor == 1047) && x.IdTransfoNavigation.FechaProd > DateTime.Today).Include(x => x.IdTransfoNavigation).ToList();
+        foreach(Etapa e in etapas){
+            if((e.IdTransfoNavigation.FechaProd.Value - DateTime.Today).Days >= 25 )
+            {
+                e.IdColor = 1047;
+            }
+            else
+            {
+                e.IdColor = null;
+            }
+            _context.Update(e);
+        }
+
+        try{
+            _context.SaveChanges();
+            return "Se chequearon las etapas correctamente";
+        }
+        catch(Exception e){
+            return e.Message;
+        }
+        
+        
+        
+        
     }
 
 

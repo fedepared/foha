@@ -12,6 +12,10 @@ namespace Foha.Dtos
         public DateTime? FechaFin { get; set; }
         public string TiempoParc { get; set; }
         public string Operarios { get; set; }
+        public int Potencia { get; set; }
+        public string TipoTrafo { get; set; }
+        public string Observacion { get; set; }
+
 
     }
 
