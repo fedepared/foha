@@ -1377,10 +1377,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("PINT \n CUBA",27);
                     etapasPorSector.Add("PINT \n TAPA",41);
                     break;
-
             }
-
-            
             return etapasPorSector;
         }
 
