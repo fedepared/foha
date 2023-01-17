@@ -529,32 +529,33 @@ export class RelojComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe((confirmado:Boolean)=>{
       if(confirmado){
-        
         this.proceso.isEnded=true;
         
         this.proceso.idColor=10;
-        console.log(this.proceso);
         this.etapaService.updateEtapaStop(this.proceso.idEtapa,this.proceso).subscribe(
           (res) => {
-
-            this.isLoadingResults = false;
+            console.log(res);
+            if(res.status==200){
+              this.proceso=null;
+              this.empleado=null;
+              this.comienzo=true;
+              this.isStop=false;
+              this.class=false;
+              this.isPause=false;
+              this.play=false;
+              this.openSnackBar('Proceso Finalizado!',5);
+              this.isLoadingResults = false;
+              this.procesoUpdated.emit(true);
+            }
           },
           err => {
             console.log(err);
+            this.proceso.isEnded=false;
             this.isLoadingResults = false;
           },
           ()=>{
-            this.procesoUpdated.emit(true);
           }
         );
-        this.proceso=null;
-        this.empleado=null;
-        this.comienzo=true;
-        this.isStop=false;
-        this.class=false;
-        this.isPause=false;
-        this.play=false;
-        this.openSnackBar('Proceso Finalizado!',5);
         
       }
       else{

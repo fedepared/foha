@@ -183,7 +183,6 @@ export class RelojMultipleComponent implements OnInit {
         })
       }
 
-
       setTimeout(()=>{
         let idColor=this.trafoProcessList[0].etapa[0].idColor;
         for(let i=1;i<this.trafoProcessList.length;i++)
@@ -202,6 +201,21 @@ export class RelojMultipleComponent implements OnInit {
           }
         }
       },3000)
+
+      const fieldSorter = (fields) => (a, b) => fields.map(o => {
+        let dir = 1;
+        if (o[0] === '-') { dir = -1; o=o.substring(1); }
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
+      }).reduce((p, n) => p ? p : n, 0);
+
+      // let sorted=[...new Set(this.selection.selected.sort(fieldSorter(['anio','mes','prioridad'])))];
+      
+      let sorted = [... new Set(this.trafoProcessList)];
+      sorted.sort(fieldSorter(['anio','mes','prioridad']))
+      // sorted.sort((a,b)=> (b.anio - a.anio || a.mes - b.mes || a.prioridad - b.prioridad ));
+
+      console.log(sorted);
+      this.trafoProcessList=sorted;
   }
 
   getTipoEtapas(){

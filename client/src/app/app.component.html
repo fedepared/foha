@@ -18,34 +18,34 @@
             <a mat-list-item *ngIf="idTipoUs!=='2'" (click)="sidenav.toggle()" routerLink="/trafos">
                 <img src="assets/logofohamaicoJPG.jpg"><span class="nav-caption">&nbsp;  Transformadores</span>
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/empleados">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'" (click)="sidenav.toggle()" routerLink="/empleados">
                 <mat-icon>assignment_ind</mat-icon> <span class="nav-caption">&nbsp;  Empleados</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/clientes">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'" (click)="sidenav.toggle()" routerLink="/clientes">
                 <mat-icon>assignment_ind</mat-icon> <span class="nav-caption">&nbsp;  Clientes</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='3'" (click)="sidenav.toggle()" routerLink="/procesos">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6' || idTipoUs=='3'" (click)="sidenav.toggle()" routerLink="/procesos">
                 <mat-icon>settings</mat-icon> <span class="nav-caption">&nbsp;  Procesos</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/variosProcesos">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'" (click)="sidenav.toggle()" routerLink="/variosProcesos">
                 <mat-icon>edit</mat-icon> <span class="nav-caption">&nbsp;  Modificar Procesos</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/prioridades">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'" (click)="sidenav.toggle()" routerLink="/prioridades">
                 <mat-icon>low_priority</mat-icon> <span class="nav-caption">&nbsp;  Priorizar Transformadores</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/referencias">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'" (click)="sidenav.toggle()" routerLink="/referencias">
                 <mat-icon>add_comment</mat-icon> <span class="nav-caption">&nbsp;  Referencias</span>   
             </a>
             <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reportes">
                 <mat-icon>insert_chart_outlined</mat-icon> <span class="nav-caption">&nbsp;  Reportes</span>   
             </a>
-            <a mat-list-item *ngIf="idTipoUs=='1'" (click)="sidenav.toggle()" routerLink="/switchTrafos">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'" (click)="sidenav.toggle()" routerLink="/switchTrafos">
                 <mat-icon>swap_horizontal_circle</mat-icon> <span class="nav-caption">&nbsp;  Switch Transformadores</span>   
             </a>
             <!-- <a mat-list-item *ngIf="idTipoUs=='4'" (click)="sidenav.toggle()" routerLink="/reporteEmpleados">
                 <mat-icon>supervised_user_circle</mat-icon> <span class="nav-caption">&nbsp;  Reportes Empleados</span>   
             </a> -->
-            <a mat-list-item *ngIf="idTipoUs=='1'">
+            <a mat-list-item *ngIf="idTipoUs=='1' || idTipoUs=='6'">
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>supervised_user_circle</mat-icon>Administración
                 </button>

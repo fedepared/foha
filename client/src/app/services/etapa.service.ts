@@ -171,7 +171,7 @@ export class EtapaService {
     )
   }
 
-  updateEtapaStop(id:number,etapa:Etapa):Observable<any>{
+  updateEtapaStop(id:number,etapa:Etapa):Observable<IResponse<any>>{
     const url = `${apiUrl}/${id}/stop`;
     return this.http.put(url,etapa,httpOptions).pipe(
       tap(_ =>console.log(`updated etapa id=${id}`)),
@@ -262,21 +262,20 @@ export class EtapaService {
 
   openSnackBar(mensaje1,mensaje2){
     this._snackBar.open(mensaje1,mensaje2,{
-      duration:3000
     })
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: HttpErrorResponse): Observable<T> => {
-
+      console.log(error);
       // TODO: send the error to remote logging infrastructure
-      this.openSnackBar(`${error.error}`,`${error.status}`) // log to console instead
+      this.openSnackBar(`${error.error.message}`,`${error.status}`) // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
+      this.log(`${operation} failed: ${error.error.message}`);
+      
       // Let the app keep running by returning an empty result.
-      return of(result as T);
+      return of(error.error as T);
     };
   }
 
