@@ -14,12 +14,12 @@ export class ExcelDailyReportService {
   constructor() { }
 
   generateDailyReport(selectedSector:Sectores,selectedEmpleado:Empleado,begin:Date,end,idColor,reporte:Reporte[]|any){
-    console.log(selectedSector)
-    console.log(selectedEmpleado)
-    console.log(typeof(begin))
-    console.log(end)
-    console.log(idColor)
-    console.log(reporte)
+    // console.log(selectedSector)
+    // console.log(selectedEmpleado)
+    // console.log(typeof(begin))
+    // console.log(end)
+    // console.log(idColor)
+    // console.log(reporte)
     let comienzo=begin.toLocaleDateString()
     let fin=end.toLocaleDateString()
 
@@ -32,33 +32,29 @@ export class ExcelDailyReportService {
     let worksheet = workbook.addWorksheet('Reporte Procesos',{properties:{defaultColWidth:21}});
     let titleRow = worksheet.addRow([title]);
 
-    
-    // Set font, size and style in title row.
-    titleRow.font = { name: 'Calibri', size: 20, bold: true, color:{argb: 'fbffff'} };
-    titleRow.alignment={horizontal:"center"};
-    titleRow.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"#538DD5"},bgColor:{ argb:"#538DD5"}};
-    
     worksheet.mergeCells('A1:G1');
-
+    worksheet.getCell('A1').font={name: 'Calibri', size: 20, bold: true, color:{argb: 'fbffff'} }
+    worksheet.getCell('A1').alignment={horizontal:"center"}
+    worksheet.getCell('A1').fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"#538DD5"},bgColor:{ argb:"#538DD5"}};
     // Set font, size in subtitle row.
     let subtitleRow = worksheet.addRow([subtitle]);
     
-    subtitleRow.font = { name: 'Calibri', size: 16, bold: true, color:{ argb: 'fbffff' } };
-    subtitleRow.alignment={horizontal:"center"};
-    subtitleRow.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"008080"},bgColor:{ argb:"008080"}};
     
-
     worksheet.mergeCells('A2:G2');
+    
+    worksheet.getCell('A2').font = { name: 'Calibri', size: 16, bold: true, color:{ argb: 'fbffff' } };
+    worksheet.getCell('A2').alignment={horizontal:"center"};
+    worksheet.getCell('A2').fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"008080"},bgColor:{ argb:"008080"}};
 
     // Set font, size in subtitle row.
     let rangeRow = worksheet.addRow([range]);
     
-    rangeRow.font = { name: 'Calibri', size: 14, bold: true, color:{ argb: 'fbffff' } };
-    rangeRow.alignment={horizontal:"center"};
-    rangeRow.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"a52a2a"},bgColor:{ argb:"a52a2a"}};
+    worksheet.mergeCells('A3:G3');
+    worksheet.getCell('A3').font = { name: 'Calibri', size: 14, bold: true, color:{ argb: 'fbffff' } };
+    worksheet.getCell('A3').alignment={horizontal:"center"};
+    worksheet.getCell('A3').fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"a52a2a"},bgColor:{ argb:"a52a2a"}};
     
 
-    worksheet.mergeCells('A3:G3');
 
 
      // Blank Row
@@ -79,9 +75,11 @@ export class ExcelDailyReportService {
 
     let startedOrEndedRow = worksheet.addRow([startedOrEnded]);
     
-    startedOrEndedRow.font = { name: 'Calibri', size: 14, bold: true, color:{ argb: 'fbffff' } };
-    startedOrEndedRow.alignment={horizontal:"left"};
-    startedOrEndedRow.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:(idColor==1030)?"1fa9e6":"92d050"},bgColor:{ argb:(idColor==1030)?"1fa9e6":"92d050"}};
+    worksheet.mergeCells('A8','L8');
+    
+    worksheet.getCell('A8').font = { name: 'Calibri', size: 14, bold: true, color:{ argb: 'fbffff' } };
+    worksheet.getCell('A8').alignment={horizontal:"left"};
+    worksheet.getCell('A8').fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:(idColor==1030)?"1fa9e6":"92d050"},bgColor:{ argb:(idColor==1030)?"1fa9e6":"92d050"}};
 
     let columnas=worksheet.getRow(9).values= [
       'OP',
@@ -133,8 +131,8 @@ export class ExcelDailyReportService {
         Rango:e.rango,
         OT: e.ote,
         Potencia:e.potencia,
-        Tipo:e.tipoTransfo,
-        Observaciones:e.observaciones,
+        Tipo:e.tipoTrafo,
+        Observaciones:e.observacion,
         Proceso:e.proceso,
         refProceso:e.refProceso,
         fechaIni:this.stringToDate(e.fechaIni),
