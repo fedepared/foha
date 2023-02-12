@@ -173,7 +173,7 @@ export class RelojMultipleComponent implements OnInit {
             this.trafoProcessList.push(res);
           }
         },()=>{},()=>{
-          if(this.trafoProcessList[0].etapa[0].idTipoEtapa==1 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==15 ||  this.trafoProcessList[0].etapa[0].idTipoEtapa==17 || this.trafoProcessList[0].etapa[0].idTipoEtapa==18 || this.trafoProcessList[0].etapa[0].idTipoEtapa==21 || this.trafoProcessList[0].etapa[0].idTipoEtapa==23 || this.trafoProcessList[0].etapa[0].idTipoEtapa==31 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==32 || this.trafoProcessList[0].etapa[0].idTipoEtapa==33 || this.trafoProcessList[0].etapa[0].idTipoEtapa==34 || this.trafoProcessList[0].etapa[0].idTipoEtapa==38 || this.trafoProcessList[0].etapa[0].idTipoEtapa==39 || this.trafoProcessList[0].etapa[0].idTipoEtapa==42)
+          if(this.trafoProcessList[0].etapa[0].idTipoEtapa==1 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==15 ||  this.trafoProcessList[0].etapa[0].idTipoEtapa==17 || this.trafoProcessList[0].etapa[0].idTipoEtapa==18 || this.trafoProcessList[0].etapa[0].idTipoEtapa==21 || this.trafoProcessList[0].etapa[0].idTipoEtapa==23 || this.trafoProcessList[0].etapa[0].idTipoEtapa==31 ||this.trafoProcessList[0].etapa[0].idTipoEtapa==32 || this.trafoProcessList[0].etapa[0].idTipoEtapa==33 || this.trafoProcessList[0].etapa[0].idTipoEtapa==34 || this.trafoProcessList[0].etapa[0].idTipoEtapa==38 || this.trafoProcessList[0].etapa[0].idTipoEtapa==39 || this.trafoProcessList[0].etapa[0].idTipoEtapa==42 || this.trafoProcessList[0].etapa[0].idTipoEtapa==44)
           {
             this.showButtons=true;
           }
