@@ -204,7 +204,7 @@ namespace Foha.Controllers
                 //granallado
                 case 24:
                     etapa = await _context.Etapa
-                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa==22 || x.IdTipoEtapa==24 || x.IdTipoEtapa==25 || x.IdTipoEtapa==26))
+                    .Where(x=>x.IdTransfo==idTransfo && (x.IdTipoEtapa==22 || x.IdTipoEtapa==24 || x.IdTipoEtapa==25 || x.IdTipoEtapa==26 || x.IdTipoEtapa==40))
                     .Include(x=>x.EtapaEmpleado).ThenInclude(x=>x.IdEmpleadoNavigation)
                     .Include(x=>x.IdColorNavigation)
                     .ToListAsync(); 
@@ -1376,6 +1376,7 @@ namespace Foha.Controllers
                     etapasPorSector.Add("SOL \n CUBA",24);//Pedido Lucas Solo Lectura
                     etapasPorSector.Add("HERM",25);
                     etapasPorSector.Add("GRAN \n CUBA",26);
+                    etapasPorSector.Add("GRAN \n TAPA",40);
                     break;
                 //pintura
                 case 25:
@@ -1504,7 +1505,7 @@ namespace Foha.Controllers
                     Sector = new int?[] { 16, 22, 24 };
                     break;
                 case 24:
-                    Sector = new int?[] { 25, 26 };
+                    Sector = new int?[] { 22, 24, 25, 26, 40};
                     break;
                 case 25:
                     Sector = new int?[] { 22,27 };
