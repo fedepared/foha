@@ -348,6 +348,14 @@ export class TransformadoresService {
     )
   }
 
+  ChequearFechasProdGet(){
+    return this.http.get<IResponse<any>>(`${this.apiUrl}/ChequearFechasProd`)
+    .pipe(
+      tap(_=>this.log('fetched Page Trafos')),
+      catchError(this.handleError('get By Page',[]))
+    )
+  }
+
   deleteTransformador (id: number): Observable<Transformadores> {
     const url = `${apiUrl}/${id}`;
     return this.http.delete<Transformadores>(url, httpOptions).pipe(

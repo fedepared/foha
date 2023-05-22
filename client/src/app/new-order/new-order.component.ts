@@ -233,6 +233,11 @@ export class NewOrderComponent implements OnInit {
         }
       });
     }
+    this.transformadoresService.ChequearFechasProdGet().subscribe((res)=>{
+      if(res){
+        this.openSnackBar(`${res.toString}`,"");
+      }
+    })
     this.openSnackBar("Orden Guardado!","Ok")
     this.getMonthYear();
   }

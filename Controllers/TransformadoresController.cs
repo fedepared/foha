@@ -1808,7 +1808,7 @@ namespace Foha.Controllers
     }
 
     [HttpGet("ChequearFechasProd")]
-    public async Task<IActionResult> ChequearFechasProdGet([FromRoute] int mes, [FromRoute] int anio){
+    public async Task<IActionResult> ChequearFechasProdGet(){
         Response<String> r = new Response<String>();
         try{
             ChequearFechasProd();
