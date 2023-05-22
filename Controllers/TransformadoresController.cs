@@ -935,7 +935,7 @@ namespace Foha.Controllers
         _repo.UpdateAll(listaTrafos);
         try{
             await _context.SaveChangesAsync();
-            ChequearFechasProd();
+            //ChequearFechasProd();
             res.Message="Orden Guardado Correctamente.";
             res.Status=200;
             return Ok(res);
@@ -1805,6 +1805,23 @@ namespace Foha.Controllers
         catch(Exception e){
             return e.Message;
         }    
+    }
+
+    [HttpGet("ChequearFechasProd")]
+    public async Task<IActionResult> ChequearFechasProdGet([FromRoute] int mes, [FromRoute] int anio){
+        Response<String> r = new Response<String>();
+        try{
+            ChequearFechasProd();
+            r.Message = "Se chequearon las etapas correctamente.";
+            r.Status = 200;
+            r.Data = "Se chequearon las etapas correctamente.";
+            return Ok(r);
+        }catch(Exception e){
+            r.Message = e.Message;
+            r.Data = e.Message;
+            r.Status = 500;
+            return Conflict(r);
+        }
     }
 }
 }
