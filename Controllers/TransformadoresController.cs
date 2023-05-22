@@ -1786,7 +1786,6 @@ namespace Foha.Controllers
 
     private string ChequearFechasProd(){
         List<Etapa> etapas = _context.Etapa.Where(x => (x.IdTipoEtapa == 17 || x.IdTipoEtapa == 34) && (x.IdColor == null || x.IdColor == 1047) && x.IdTransfoNavigation.FechaProd > DateTime.Today).OrderBy(x => x.IdTransfoNavigation.FechaProd).Include(x => x.IdTransfoNavigation).ToList();
-        Etapa test = etapas.Where(x => x.IdEtapa == 249542).First();
         foreach(Etapa e in etapas){
             if((e.IdTransfoNavigation.FechaProd.Value - DateTime.Today).Days <= 25 )
             {
