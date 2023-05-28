@@ -219,8 +219,8 @@ export class RelojMultipleComponent implements OnInit {
   }
 
   getTipoEtapas(){
-    this.tipoEtapaService.getTipoEtapas().subscribe(res => {
-      this.tipoEtapas = res;
+    this.tipoEtapaService.getTipoEtapaBySector(this.sector).subscribe(res => {
+      this.tipoEtapas = res.data;
     })
   }
 

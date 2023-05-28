@@ -5,6 +5,7 @@ import  {Transformadores} from '../models/transformadores';
 import { Observable, of} from 'rxjs';
 import { TipoEtapa } from '../models/tipoEtapa';
 import { environment } from 'src/environments/environment';
+import { IResponse } from '../models/iresponse';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -35,29 +36,14 @@ export class TipoEtapaService {
     )
   }
 
-
-  // addTransformador(transformador: any): Observable<Transformadores> {
-  //   return this.http.post<Transformadores>(this.apiUrl, transformador, httpOptions).pipe(
-  //     tap((transformadorRes: Transformadores) => console.log(`Transformador agregado con el id=${transformadorRes.idTransfo}`)),
-  //     catchError(this.handleError<Transformadores>('addTransformador'))
-  //   );
-  // }
-
-  // updateTransformador (id: number, transformador: any): Observable<any> {
-  //   const url = `${apiUrl}/${id}`;
-  //   return this.http.put(url, transformador, httpOptions).pipe(
-  //     tap(_ => console.log(`updated Transformador id=${id}`)),
-  //     catchError(this.handleError<any>('updateTranformador'))
-  //   );
-  // }
-
-  // deleteTransformador (id: number): Observable<Transformadores> {
-  //   const url = `${apiUrl}/${id}`;
-  //   return this.http.delete<Transformadores>(url, httpOptions).pipe(
-  //     tap(_ => console.log(`deleted Transformadores id=${id}`)),
-  //     catchError(this.handleError<Transformadores>('delete Transformadores'))
-  //   );
-  // }
+  getTipoEtapaBySector(idSector:number):Observable<IResponse<TipoEtapa[]>>{
+    const url=`${apiUrl}/getTipoEtapaBySector/${idSector}`;
+    return this.http.get<IResponse<TipoEtapa[]>>(url).pipe(
+      tap(_=>console.log(`fetched Etapas para el sector=${idSector}`)),
+      catchError(this.handleError<IResponse<TipoEtapa[]>>(`etapas del sector ${idSector}`))
+    )
+  }
+  
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

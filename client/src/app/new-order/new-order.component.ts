@@ -59,21 +59,21 @@ export class NewOrderComponent implements OnInit {
   transfoInterKeep=[];
   isfiltered:boolean=false;
 
-  
+
 
   constructor(private transformadoresService:TransformadoresService,private _snackBar: MatSnackBar,public dialog: MatDialog) { }
 
   ngOnInit(): void {
     // this.getOrden();
     this.getMonthYear()
-    
+
   }
 
   getMonthYear(){
     this.transformadoresService.getMonthYear().subscribe(res=>{
       this.mesesTrafo=res;
     })
-  }  
+  }
 
   toggle(item,event: MatCheckboxChange) {
     if (event.checked) {
@@ -101,7 +101,7 @@ export class NewOrderComponent implements OnInit {
 
 
 
- toggleAll(event: MatCheckboxChange) { 
+ toggleAll(event: MatCheckboxChange) {
 
    if ( event.checked ) {
       console.log(this.transfoInter);
@@ -156,7 +156,7 @@ export class NewOrderComponent implements OnInit {
   itemsRemoved(ev, list) {
     console.log(ev)
     this.events.push({text: `itemsRemoved from ${list}`, ev: JSON.stringify(ev)});
-    
+
   }
 
   itemsAdded(ev, list) {
@@ -167,7 +167,7 @@ export class NewOrderComponent implements OnInit {
   itemsUpdated(ev, list) {
     console.log(ev)
     this.events.push({text: `itemsUpdated in ${list}`, ev: JSON.stringify(ev)});
-    
+
   }
 
   selectionChanged(ev, list) {
@@ -197,7 +197,7 @@ export class NewOrderComponent implements OnInit {
     console.log(this.orderDefinitivo);
     for(let oD of this.orderDefinitivo)
     {
-      
+
       console.log("antes",oD.lista.map(({idTransfo,prioridad,oTe,oPe})=>({idTransfo,prioridad,oTe,oPe})));
       oD.lista.map((trafo,index)=>{
         trafo.anio = oD.anio;
@@ -221,22 +221,24 @@ export class NewOrderComponent implements OnInit {
       console.log("despues",oD.lista.map(({idTransfo,prioridad,oTe,oPe})=>({idTransfo,prioridad,oTe,oPe})));
       let month = this.mes.find((x)=>x.value==oD.mes)
       this.transformadoresService.newUpdateAllTrafos(oD.lista).subscribe(res =>{
-        
+        console.log("entro al updateAllTrafos");
         if(res.status == 200){
           this.openSnackBar(`Se actualizaron las prioridades del mes de ${month.viewValue} de ${oD.anio}`,"")
           this.transformadoresService.AsignarFechaProdMesGet(oD.mes,oD.anio).subscribe((re)=>{
+            console.log("entro al AsignarFechaProdMesGet");
             console.log(res);
             if(res.status==200){
               this.openSnackBar(`${res.message}`,"")
-            } 
+            }
           })
         }
       });
     }
     this.transformadoresService.ChequearFechasProdGet().subscribe((res)=>{
-      if(res){
-        this.openSnackBar(`${res.toString}`,"");
-      }
+      console.log("metodito");
+      // if(res){
+      //   this.openSnackBar(`${res.toString}`,"");
+      // }
     })
     this.openSnackBar("Orden Guardado!","Ok")
     this.getMonthYear();
@@ -263,7 +265,7 @@ export class AltaAnioMesReloaded {
   constructor(@Inject(MAT_DIALOG_DATA) public data,public dialogRef: MatDialogRef<AltaAnioMesReloaded>,) {
     this.mes=data.mes;
   }
-  
+
   ngOnInit(){
     // console.log(this.mes);
   }

@@ -151,7 +151,7 @@ interface Mes {
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
       <span style="display:inline;margin:0;width:24px;height:24px;text-align:center">
         <button mat-icon-button *ngIf="(idTipoUs!='4' && idTipoUs!='5' ) && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
-        <button mat-icon-button *ngIf="idTipoUs=='5' && etapa.idTipoEtapa==45" (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Pago"><mat-icon style="color:gray">request_quote</mat-icon></button>
+        <button mat-icon-button *ngIf="(idTipoUs=='5' || idTipoUs=='4') && etapa.idTipoEtapa==45" (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Pago"><mat-icon style="color:gray">request_quote</mat-icon></button>
         
       </span>
       <!-- <span>{{etapa.idTipoEtapa}}</span> -->
@@ -240,7 +240,7 @@ export class AssignColorComponent2{
     this.coloresService.getColores()
     .subscribe(colores=>{
       this.coloresArr=colores;
-      if(localStorage.getItem("idTipoUs")!='5')
+      if(localStorage.getItem("idTipoUs")!='5' && localStorage.getItem("idTipoUs")!='4')
       {
         let blanco:Colores={idColor:999999,codigoColor:"#ffffff",leyenda:"borrar referencia"}
         this.coloresArr.push(blanco);
@@ -250,7 +250,10 @@ export class AssignColorComponent2{
         }
       }
       else{
-        this.coloresArr=this.coloresArr.filter(x=>x.idColor==10);
+        
+        this.coloresArr=this.coloresArr.filter((x)=>{
+          return x.idColor==10 || x.idColor==1032 || x.idColor==1040;
+        });
       }
       this.data=new MatTableDataSource();
       this.data.data = this.coloresArr;
