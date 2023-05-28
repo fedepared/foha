@@ -37,7 +37,7 @@ export class TipoEtapaService {
   }
 
   getTipoEtapaBySector(idSector:number):Observable<IResponse<TipoEtapa[]>>{
-    const url=`${apiUrl}/getTipoEtapaBySector/${idSector}`;
+    const url=`${apiUrl}/tipoEtapaPorSector/${idSector}`;
     return this.http.get<IResponse<TipoEtapa[]>>(url).pipe(
       tap(_=>console.log(`fetched Etapas para el sector=${idSector}`)),
       catchError(this.handleError<IResponse<TipoEtapa[]>>(`etapas del sector ${idSector}`))
