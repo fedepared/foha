@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Foha.Models;
 using Foha.Dtos;
+using Foha.DTOs;
 using Foha.Repositories;
 using AutoMapper;
 
@@ -151,6 +152,69 @@ namespace Foha.Controllers
 
             return Ok(tipoEtapa);
         }
+
+        [HttpGet("tipoEtapaPorSector/{idSector}")]
+        public async Task<IActionResult> tipoEtapaPorSector([FromRoute] int idSector){
+            Response<List<TipoEtapa>> r = new Response<List<TipoEtapa>>();
+            List<TipoEtapa> allTipoEtapas = await _context.TipoEtapa.ToListAsync();
+            int?[] Sector = new int?[] { 1 };
+            switch(idSector){
+                case 1:
+                    Sector = new int?[] { 1 };
+                    break;
+                case 2:
+                    Sector = new int?[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+                    break;
+                case 3:
+                    Sector = new int?[] { 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 33, 34, 38, 39, 40, 41, 42, 43 };
+                    break;
+                case 4:
+                    Sector = new int?[] { 18 };
+                    break;
+                case 5:
+                    Sector = new int?[] { 19, 20, 35, 36 };
+                    break;
+                case 6:
+                    Sector = new int?[] { 20 };
+                    break;
+                case 7:
+                    Sector = new int?[] { 20, 28 };
+                    break;
+                case 8:
+                    Sector = new int?[] { 29, 37, 44 };
+                    break;
+                case 9:
+                    Sector = new int?[] { 30, 31, 32, 44 };
+                    break;
+                case 10:
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 };
+                    break;
+                case 12:
+                    Sector = new int?[] { 20, 28, 32 };
+                    break;
+                case 22:
+                    Sector = new int?[] { 15, 21 };
+                    break;
+                case 23:
+                    Sector = new int?[] { 16, 22, 24 };
+                    break;
+                case 24:
+                    Sector = new int?[] { 22, 24, 25, 26, 40};
+                    break;
+                case 25:
+                    Sector = new int?[] { 22,27 };
+                    break;
+                case 26:
+                    Sector = new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 };
+                    break;
+            }
+            List<TipoEtapa> etapasFiltradas = allTipoEtapas.Where(x => Sector.Contains(x.IdTipoEtapa)).ToList();
+            r.Status = 200;
+            r.Message = "Se realizo la consulta con exito.";
+            r.Data = etapasFiltradas;
+            return Ok(r);
+        }
+
 
         private bool TipoEtapaExists(int id)
         {
