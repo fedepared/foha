@@ -693,8 +693,6 @@ export class TransformadoresNewComponent implements OnInit {
       "CH \n CAR":"Chapa de características",
     }
     return et[etapa];
-
-   
   }
 
 
@@ -1919,7 +1917,7 @@ interface ComboClientes{
     tiempoFin:string;
     displayedColumns2:string[]=[
       'prioridad',
-      'oTe',
+      'oTe', 
       'nucleos',
       'radPan',
       'oPe',
@@ -2071,14 +2069,18 @@ interface ComboClientes{
     getColores(){
       this.coloresService.getColores().subscribe(res => {
         this.colores=res;
-        this.colores=this.colores.filter((x)=>{ return x.leyenda!=='iniciado' && x.leyenda!=='pausado'})
+        if(localStorage.getItem("idTipoUs")=='5' || localStorage.getItem("idTipoUs")=='4')
+        { 
+          this.colores=this.colores.filter((x)=>{
+            return x.idColor==10 || x.idColor==1032 || x.idColor==1040;
+          });
+        }
         let referenceNull:Colores = {
           idColor:100000,
           codigoColor:"#ffffff",
           leyenda:"Quitar referencia actual"
         };
-        this.colores.push(referenceNull)
-        console.log(this.colores)
+        this.colores.push(referenceNull);
       })
     }
 
@@ -2089,8 +2091,12 @@ interface ComboClientes{
     }
 
     getTipoEtapas(){
-      this.tipoEtapaService.getTipoEtapas().subscribe(res =>{
-        this.tipoEtapas=res;
+      let sector = localStorage.getItem("sector");
+      this.tipoEtapaService.getTipoEtapaBySector(parseInt(sector)).subscribe(res => {
+        if(localStorage.getItem("idTipoUs")=="4" || localStorage.getItem("idTipoUs") =="5"){
+          res.data=res.data.filter((x)=>{ return x.idTipoEtapa==45})
+        } 
+        this.tipoEtapas = res.data;
       })
     }
 
@@ -2124,6 +2130,61 @@ interface ComboClientes{
       // this.form.controls['mes'].setValue((event.value.month())+1);
       // this.form.controls['anio'].setValue(event.value.year());
 
+    }
+
+    nombreEtapas(etapa:string)
+    {
+      let et =
+      {
+        "DOC":"Documentación",
+        "BT1":"Bob BT",
+        "BT2":"Bob BT",
+        "BT3":"Bob BT",
+        "AT1":"Bob AT",
+        "AT2":"Bob AT",
+        "AT3":"Bob AT",
+        "RG1":"Bob RG",
+        "RG2":"Bob RG",
+        "RG3":"Bob RG",
+        "RF1":"Bob RF",
+        "RF2":"Bob RF",
+        "RF3":"Bob RF",
+        // "ENS":"Ensamblaje Bobinas",
+        "PY CYP":"C Y P PYS",
+        "PY SOL":"Soldadura Prensayugos",
+        "PY ENV":"Envio de PYS",
+        "NUC":"Nucleo",
+        "MON":"Montaje",
+        "HOR":"Horno",
+        "CUBA CYP":"C Y P Tapa-Cuba",
+        "SOL \n TAPA":"TAPA",
+        "RAD \n PAN":"Radiadores o Paneles",
+        "CUBA":"Cuba",
+        "HERM":"Hermeticidad",
+        "GRAN":"Granallado",
+        "PINT":"Pintura",
+        "ENC":"Encubado",
+        "LAB":"Ensayos(Ref)",
+        "TERM":"Terminacion",
+        "APR":"Aprobacion",
+        "ENV":"Envío a cliente",
+        "CYP PAT":"C Y P PATAS",
+        "PAT ENV":"ENVIO PATAS",
+        "CON BT":"CONEXION BT",
+        "CON AT":"CONEXION AT",
+        "REL \n TRA":"RELACION DE TRANSFORMACION",
+        "SOL \n CUBA":"SOLDADURA CUBA",
+        "GRAN \n CUBA":"GRANALLADO CUBA",
+        "PINT \n CUBA":"PINTURA CUBA",
+        "ENV \n CUBA":"ENVIO CUBA",
+        "CYP \n TAPA":"C Y P TAPA",
+        "GRAN \n TAPA":"GRANALLADO TAPA",
+        "PINT \n TAPA":"PINTURA TAPA",
+        "ENV \n TAPA":"ENVIO TAPA",
+        "CUBI":"CUBIERTA",
+        "CH \n CAR":"Chapa de características",
+      }
+      return et[etapa];
     }
 
     onFormSubmit(form: NgForm){

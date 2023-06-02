@@ -101,11 +101,11 @@ export class RelojMultipleComponent implements OnInit {
       case 14:
         return "Ensamblaje Bobinas";
       case 15:
-        return "C Y P PYS";
+        return "PY CYP";
       case 16:
-        return "Soldadura Prensayugos";
+        return "PY SOL";
       case 17:
-        return "Envio de PYS";
+        return "PY ENV";
       case 18:
         return "Nucleo";
       case 19:
@@ -113,27 +113,27 @@ export class RelojMultipleComponent implements OnInit {
       case 20:
         return "Horno";
       case 21:
-        return "C Y P Tapa-Cuba";
+        return "Cuba CYP";
       case 22:
-        return "TAPA";
+        return "SOL Tapa";
       case 23:
         return "Radiadores o Paneles";
       case 24:
-        return "Cuba";
+        return "SOL CUBA";
       case 25:
-        return "Tintas penetrantes";
+        return "Hermeticidad";
       case 26:
-        return "Granallado";
+        return "Gran Cuba";
       case 27:
-        return "Pintura";
+        return "Pint Cuba";
       case 28:
         return "Encubado";
       case 29:
-        return "Ensayos(Ref)";
+        return "Lab";
       case 30:
         return "Terminacion";
       case 31:
-        return "Envio a depósito";
+        return "Apr";
       case 32:
         return "Envío a cliente";
       case 33:
@@ -160,6 +160,8 @@ export class RelojMultipleComponent implements OnInit {
         return "Cubierta";
       case 44:
         return "Chapa de características";
+      case 45:
+        return "Pagos"
     }
   }
 
