@@ -87,6 +87,7 @@ export class VariosProcesosComponent implements OnInit {
 
   getTipoEtapas():void{
     this.tipoEtapaService.getTipoEtapas().subscribe(tipoEtapas=>{
+      console.log(tipoEtapas);
       this.dataTipoEtapa=tipoEtapas;
     })
   }
@@ -133,8 +134,10 @@ export class VariosProcesosComponent implements OnInit {
           42:"ENV \n TAPA",
           28:"ENC",
           29:"LAB",
+          44:"CH CAR",
           30:"TERM",
           31:"APR",
+          45:"PAGO",
           32:"ENV"
         }
         return etapa[idTipoEtapa]
