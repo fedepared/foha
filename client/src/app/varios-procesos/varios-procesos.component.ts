@@ -137,7 +137,6 @@ export class VariosProcesosComponent implements OnInit {
           44:"CH CAR",
           30:"TERM",
           31:"APR",
-          45:"PAGO",
           32:"ENV"
         }
         return etapa[idTipoEtapa]

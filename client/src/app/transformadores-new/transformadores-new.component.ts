@@ -209,6 +209,214 @@ export class EtapaColumnComponent3{
     })
   }
 
+  showButton(etapa:Etapa){
+    // switch (id){
+    //   case 1:
+    //         etapasPorSector.Add("DOC",1);
+    //         break;
+    //   case 2:
+    //         etapasPorSector.Add("BT1",2);
+    //         etapasPorSector.Add("BT2",3);
+    //         etapasPorSector.Add("BT3",4);
+    //         etapasPorSector.Add("AT1",5);
+    //         etapasPorSector.Add("AT2",6);
+    //         etapasPorSector.Add("AT3",7);
+    //         etapasPorSector.Add("RG1",8);
+    //         etapasPorSector.Add("RG2",9);
+    //         etapasPorSector.Add("RG3",10);
+    //         etapasPorSector.Add("RF1",11);
+    //         etapasPorSector.Add("RF2",12);
+    //         etapasPorSector.Add("RF3",13);
+    //         //etapasPorSector.Add("ENS",14);  
+    //         break;
+    //   case 3:
+    //         etapasPorSector.Add("CUBA CYP",21);
+    //         etapasPorSector.Add("RAD \n PAN",23);
+    //         etapasPorSector.Add("CUBI",43);
+    //         etapasPorSector.Add("SOL \n CUBA",24);
+    //         etapasPorSector.Add("HERM",25);
+    //         etapasPorSector.Add("GRAN \n CUBA",26);
+    //         etapasPorSector.Add("PINT \n CUBA",27);
+    //         etapasPorSector.Add("ENV \n CUBA",38);
+    //         etapasPorSector.Add("CYP \n TAPA",39);
+    //         etapasPorSector.Add("SOL \n TAPA",22);
+    //         etapasPorSector.Add("GRAN \n TAPA",40);
+    //         etapasPorSector.Add("PINT \n TAPA",41);
+    //         etapasPorSector.Add("ENV \n TAPA",42);
+    //         etapasPorSector.Add("PY CYP",15);
+    //         etapasPorSector.Add("PY SOL",16);
+    //         etapasPorSector.Add("PY ENV",17);
+    //         etapasPorSector.Add("CYP PAT",33);
+    //         etapasPorSector.Add("PAT ENV",34);
+    //         break;
+    //   case 4:
+    //         etapasPorSector.Add("NUC",18);
+    //         break;
+    //   case 5:
+    //         etapasPorSector.Add("MON",19);
+    //         etapasPorSector.Add("HOR",20);
+    //         etapasPorSector.Add("CON BT",35);
+    //         etapasPorSector.Add("CON AT",36);
+    //         break;
+    //   case 6:
+    //         etapasPorSector.Add("HOR",20);
+    //         break;
+    //   case 7:
+    //         etapasPorSector.Add("HOR",20);
+    //         etapasPorSector.Add("ENC",28);
+    //     break;
+    //   case 8:
+    //         etapasPorSector.Add("REL TRANSF",37);
+    //         etapasPorSector.Add("LAB",29);
+    //         etapasPorSector.Add("CH \n CAR",44);
+    //         etapasPorSector.Add("APR",31);
+    //         break;
+    //   case 9:                
+    //         etapasPorSector.Add("CH \n CAR",44);
+    //         etapasPorSector.Add("TERM",30);
+    //         etapasPorSector.Add("APR",31);
+    //         etapasPorSector.Add("ENV",32);
+    //         break;
+    //   case 10:
+    //         etapasPorSector.Add("DOC",1);
+    //         etapasPorSector.Add("BT1",2);
+    //         etapasPorSector.Add("BT2",3);
+    //         etapasPorSector.Add("BT3",4);
+    //         etapasPorSector.Add("AT1",5);
+    //         etapasPorSector.Add("AT2",6);
+    //         etapasPorSector.Add("AT3",7);
+    //         etapasPorSector.Add("RG1",8);
+    //         etapasPorSector.Add("RG2",9);
+    //         etapasPorSector.Add("RG3",10);
+    //         etapasPorSector.Add("RF1",11);
+    //         etapasPorSector.Add("RF2",12);
+    //         etapasPorSector.Add("RF3",13);
+    //         //etapasPorSector.Add("ENS",14);
+    //         etapasPorSector.Add("PY CYP",15);
+    //         etapasPorSector.Add("PY SOL",16);
+    //         etapasPorSector.Add("PY ENV",17);
+    //         etapasPorSector.Add("CYP PAT",33);
+    //         etapasPorSector.Add("PAT ENV",34);
+    //         etapasPorSector.Add("NUC",18);
+    //         etapasPorSector.Add("MON",19);
+    //         etapasPorSector.Add("CON BT",35);
+    //         etapasPorSector.Add("CON AT",36);
+    //         etapasPorSector.Add("REL \n TRA",37);
+    //         etapasPorSector.Add("HOR",20);
+    //         etapasPorSector.Add("CUBA \n CYP",21);
+    //         etapasPorSector.Add("RAD \n PAN",23);
+    //         etapasPorSector.Add("CUBI",43);
+    //         etapasPorSector.Add("SOL \n CUBA",24);
+    //         etapasPorSector.Add("HERM",25);
+    //         etapasPorSector.Add("GRAN \n CUBA",26);
+    //         etapasPorSector.Add("PINT \n CUBA",27);
+    //         etapasPorSector.Add("ENV \n CUBA",38);
+    //         etapasPorSector.Add("CYP \n TAPA",39);
+    //         etapasPorSector.Add("SOL \n TAPA",22);
+    //         etapasPorSector.Add("GRAN \n TAPA",40);
+    //         etapasPorSector.Add("PINT \n TAPA",41);
+    //         etapasPorSector.Add("ENV \n TAPA",42);
+    //         etapasPorSector.Add("ENC",28);
+    //         etapasPorSector.Add("LAB",29);
+    //         etapasPorSector.Add("CH. \n CAR",44);
+    //         etapasPorSector.Add("TERM",30);
+    //         etapasPorSector.Add("APR",31);
+    //         etapasPorSector.Add("ENV",32);
+    //         break;
+    //     //encubado Enc
+    //     case 12:
+    //         etapasPorSector.Add("HOR",20);
+    //         etapasPorSector.Add("ENC",28);
+    //         etapasPorSector.Add("ENV",32);
+    //         etapasPorSector.Add("LAB",29);
+    //         etapasPorSector.Add("TERM",30);
+    //         etapasPorSector.Add("APR",31);
+    //         break;
+
+    //     //caldereria enc 
+    //     case 21:
+    //         break;
+    //     //cyp
+    //     case 22:
+    //         etapasPorSector.Add("PY CYP",15);
+    //         etapasPorSector.Add("CYP PAT",33);
+    //         etapasPorSector.Add("CUBA CYP",21);
+    //         break;
+    //     //soldadura
+    //     case 23:
+    //         etapasPorSector.Add("CUBI",43);
+    //         etapasPorSector.Add("PY SOL",16);
+    //         etapasPorSector.Add("SOL \n TAPA",22);
+    //         etapasPorSector.Add("SOL \n CUBA",24);
+    //         break;
+    //     //granallado
+    //     case 24:
+    //         etapasPorSector.Add("SOL \n TAPA",22);//Pedido Lucas Solo Lectura
+    //         etapasPorSector.Add("SOL \n CUBA",24);//Pedido Lucas Solo Lectura
+    //         etapasPorSector.Add("HERM",25);
+    //         etapasPorSector.Add("GRAN \n CUBA",26);
+    //         etapasPorSector.Add("GRAN \n TAPA",40);
+    //         break;
+    //     //pintura
+    //     case 25:
+    //         // etapasPorSector.Add("SOL \n TAPA",22);
+    //         etapasPorSector.Add("GRAN \n CUBA",26);
+    //         etapasPorSector.Add("GRAN \n TAPA",40);
+    //         etapasPorSector.Add("PINT \n CUBA",27);
+    //         etapasPorSector.Add("PINT \n TAPA",41);
+    //         break;
+    //     //SuperAdmin
+    //     case 26:
+    //         etapasPorSector.Add("DOC",1);
+    //         etapasPorSector.Add("BT1",2);
+    //         etapasPorSector.Add("BT2",3);
+    //         etapasPorSector.Add("BT3",4);
+    //         etapasPorSector.Add("AT1",5);
+    //         etapasPorSector.Add("AT2",6);
+    //         etapasPorSector.Add("AT3",7);
+    //         etapasPorSector.Add("RG1",8);
+    //         etapasPorSector.Add("RG2",9);
+    //         etapasPorSector.Add("RG3",10);
+    //         etapasPorSector.Add("RF1",11);
+    //         etapasPorSector.Add("RF2",12);
+    //         etapasPorSector.Add("RF3",13);
+    //         //etapasPorSector.Add("ENS",14);
+    //         etapasPorSector.Add("PY CYP",15);
+    //         etapasPorSector.Add("PY SOL",16);
+    //         etapasPorSector.Add("PY ENV",17);
+    //         etapasPorSector.Add("CYP PAT",33);
+    //         etapasPorSector.Add("PAT ENV",34);
+    //         etapasPorSector.Add("NUC",18);
+    //         etapasPorSector.Add("MON",19);
+    //         etapasPorSector.Add("CON BT",35);
+    //         etapasPorSector.Add("CON AT",36);
+    //         etapasPorSector.Add("REL \n TRA",37);
+    //         etapasPorSector.Add("HOR",20);
+    //         etapasPorSector.Add("CUBA \n CYP",21);
+    //         etapasPorSector.Add("RAD \n PAN",23);
+    //         etapasPorSector.Add("CUBI",43);
+    //         etapasPorSector.Add("SOL \n CUBA",24);
+    //         etapasPorSector.Add("HERM",25);
+    //         etapasPorSector.Add("GRAN \n CUBA",26);
+    //         etapasPorSector.Add("PINT \n CUBA",27);
+    //         etapasPorSector.Add("ENV \n CUBA",38);
+    //         etapasPorSector.Add("CYP \n TAPA",39);
+    //         etapasPorSector.Add("SOL \n TAPA",22);
+    //         etapasPorSector.Add("GRAN \n TAPA",40);
+    //         etapasPorSector.Add("PINT \n TAPA",41);
+    //         etapasPorSector.Add("ENV \n TAPA",42);
+    //         etapasPorSector.Add("ENC",28);
+    //         etapasPorSector.Add("LAB",29);
+    //         etapasPorSector.Add("CH. \n CAR",44);
+    //         etapasPorSector.Add("TERM",30);
+    //         etapasPorSector.Add("APR",31);
+    //         etapasPorSector.Add("PAGO",45);
+    //         etapasPorSector.Add("ENV",32);
+    //         break;
+    // }
+  }
+
+
 
 }
 
