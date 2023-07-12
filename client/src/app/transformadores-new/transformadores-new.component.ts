@@ -150,7 +150,7 @@ interface Mes {
     <div [style.height]="'40px'" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2.5px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '3px solid rgb(56,56,56)': '1px solid rgb(56,56,56)')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' " style="text-align:center">
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
       <span style="display:inline;margin:0;width:24px;height:24px;text-align:center">
-        <button mat-icon-button *ngIf="(idTipoUs!='4' && idTipoUs!='5' ) && (etapa.dateIni==null || etapa.dateFin!==null) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
+        <button mat-icon-button *ngIf="idTipoUs=='6' || ( (idTipoUs!='4' && idTipoUs!='5' ) && (etapa.dateIni==null || etapa.dateFin!==null) && showButton(etapa.idTipoEtapa)) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
         <button mat-icon-button *ngIf="(idTipoUs=='5' || idTipoUs=='4') && etapa.idTipoEtapa==45" (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Pago"><mat-icon style="color:gray">request_quote</mat-icon></button>
         
       </span>
@@ -166,6 +166,7 @@ export class EtapaColumnComponent3{
   coloresArr:Colores[]=[];
   etapaSelected:Etapa;
   idTipoUs=null;
+  sector=null;
 
   @Input() etapa:Etapa; actualizar:Boolean;
   @Output() actualizado=new EventEmitter<Boolean>();
@@ -176,6 +177,7 @@ export class EtapaColumnComponent3{
 
   ngOnInit(){
     this.idTipoUs=localStorage.getItem("idTipoUs");
+    this.sector = parseInt(localStorage.getItem('sector'));
   }
 
   getColores(): void{
@@ -209,211 +211,235 @@ export class EtapaColumnComponent3{
     })
   }
 
-  showButton(etapa:Etapa){
-    // switch (id){
-    //   case 1:
-    //         etapasPorSector.Add("DOC",1);
-    //         break;
-    //   case 2:
-    //         etapasPorSector.Add("BT1",2);
-    //         etapasPorSector.Add("BT2",3);
-    //         etapasPorSector.Add("BT3",4);
-    //         etapasPorSector.Add("AT1",5);
-    //         etapasPorSector.Add("AT2",6);
-    //         etapasPorSector.Add("AT3",7);
-    //         etapasPorSector.Add("RG1",8);
-    //         etapasPorSector.Add("RG2",9);
-    //         etapasPorSector.Add("RG3",10);
-    //         etapasPorSector.Add("RF1",11);
-    //         etapasPorSector.Add("RF2",12);
-    //         etapasPorSector.Add("RF3",13);
-    //         //etapasPorSector.Add("ENS",14);  
-    //         break;
-    //   case 3:
-    //         etapasPorSector.Add("CUBA CYP",21);
-    //         etapasPorSector.Add("RAD \n PAN",23);
-    //         etapasPorSector.Add("CUBI",43);
-    //         etapasPorSector.Add("SOL \n CUBA",24);
-    //         etapasPorSector.Add("HERM",25);
-    //         etapasPorSector.Add("GRAN \n CUBA",26);
-    //         etapasPorSector.Add("PINT \n CUBA",27);
-    //         etapasPorSector.Add("ENV \n CUBA",38);
-    //         etapasPorSector.Add("CYP \n TAPA",39);
-    //         etapasPorSector.Add("SOL \n TAPA",22);
-    //         etapasPorSector.Add("GRAN \n TAPA",40);
-    //         etapasPorSector.Add("PINT \n TAPA",41);
-    //         etapasPorSector.Add("ENV \n TAPA",42);
-    //         etapasPorSector.Add("PY CYP",15);
-    //         etapasPorSector.Add("PY SOL",16);
-    //         etapasPorSector.Add("PY ENV",17);
-    //         etapasPorSector.Add("CYP PAT",33);
-    //         etapasPorSector.Add("PAT ENV",34);
-    //         break;
-    //   case 4:
-    //         etapasPorSector.Add("NUC",18);
-    //         break;
-    //   case 5:
-    //         etapasPorSector.Add("MON",19);
-    //         etapasPorSector.Add("HOR",20);
-    //         etapasPorSector.Add("CON BT",35);
-    //         etapasPorSector.Add("CON AT",36);
-    //         break;
-    //   case 6:
-    //         etapasPorSector.Add("HOR",20);
-    //         break;
-    //   case 7:
-    //         etapasPorSector.Add("HOR",20);
-    //         etapasPorSector.Add("ENC",28);
-    //     break;
-    //   case 8:
-    //         etapasPorSector.Add("REL TRANSF",37);
-    //         etapasPorSector.Add("LAB",29);
-    //         etapasPorSector.Add("CH \n CAR",44);
-    //         etapasPorSector.Add("APR",31);
-    //         break;
-    //   case 9:                
-    //         etapasPorSector.Add("CH \n CAR",44);
-    //         etapasPorSector.Add("TERM",30);
-    //         etapasPorSector.Add("APR",31);
-    //         etapasPorSector.Add("ENV",32);
-    //         break;
-    //   case 10:
-    //         etapasPorSector.Add("DOC",1);
-    //         etapasPorSector.Add("BT1",2);
-    //         etapasPorSector.Add("BT2",3);
-    //         etapasPorSector.Add("BT3",4);
-    //         etapasPorSector.Add("AT1",5);
-    //         etapasPorSector.Add("AT2",6);
-    //         etapasPorSector.Add("AT3",7);
-    //         etapasPorSector.Add("RG1",8);
-    //         etapasPorSector.Add("RG2",9);
-    //         etapasPorSector.Add("RG3",10);
-    //         etapasPorSector.Add("RF1",11);
-    //         etapasPorSector.Add("RF2",12);
-    //         etapasPorSector.Add("RF3",13);
-    //         //etapasPorSector.Add("ENS",14);
-    //         etapasPorSector.Add("PY CYP",15);
-    //         etapasPorSector.Add("PY SOL",16);
-    //         etapasPorSector.Add("PY ENV",17);
-    //         etapasPorSector.Add("CYP PAT",33);
-    //         etapasPorSector.Add("PAT ENV",34);
-    //         etapasPorSector.Add("NUC",18);
-    //         etapasPorSector.Add("MON",19);
-    //         etapasPorSector.Add("CON BT",35);
-    //         etapasPorSector.Add("CON AT",36);
-    //         etapasPorSector.Add("REL \n TRA",37);
-    //         etapasPorSector.Add("HOR",20);
-    //         etapasPorSector.Add("CUBA \n CYP",21);
-    //         etapasPorSector.Add("RAD \n PAN",23);
-    //         etapasPorSector.Add("CUBI",43);
-    //         etapasPorSector.Add("SOL \n CUBA",24);
-    //         etapasPorSector.Add("HERM",25);
-    //         etapasPorSector.Add("GRAN \n CUBA",26);
-    //         etapasPorSector.Add("PINT \n CUBA",27);
-    //         etapasPorSector.Add("ENV \n CUBA",38);
-    //         etapasPorSector.Add("CYP \n TAPA",39);
-    //         etapasPorSector.Add("SOL \n TAPA",22);
-    //         etapasPorSector.Add("GRAN \n TAPA",40);
-    //         etapasPorSector.Add("PINT \n TAPA",41);
-    //         etapasPorSector.Add("ENV \n TAPA",42);
-    //         etapasPorSector.Add("ENC",28);
-    //         etapasPorSector.Add("LAB",29);
-    //         etapasPorSector.Add("CH. \n CAR",44);
-    //         etapasPorSector.Add("TERM",30);
-    //         etapasPorSector.Add("APR",31);
-    //         etapasPorSector.Add("ENV",32);
-    //         break;
-    //     //encubado Enc
-    //     case 12:
-    //         etapasPorSector.Add("HOR",20);
-    //         etapasPorSector.Add("ENC",28);
-    //         etapasPorSector.Add("ENV",32);
-    //         etapasPorSector.Add("LAB",29);
-    //         etapasPorSector.Add("TERM",30);
-    //         etapasPorSector.Add("APR",31);
-    //         break;
+  showButton(idTipoEtapa:number):boolean{
+    
+    let arrayTipoEtapas=[];
+    switch (this.sector){
+      case 1:
+            arrayTipoEtapas=[1];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
 
-    //     //caldereria enc 
-    //     case 21:
-    //         break;
-    //     //cyp
-    //     case 22:
-    //         etapasPorSector.Add("PY CYP",15);
-    //         etapasPorSector.Add("CYP PAT",33);
-    //         etapasPorSector.Add("CUBA CYP",21);
-    //         break;
-    //     //soldadura
-    //     case 23:
-    //         etapasPorSector.Add("CUBI",43);
-    //         etapasPorSector.Add("PY SOL",16);
-    //         etapasPorSector.Add("SOL \n TAPA",22);
-    //         etapasPorSector.Add("SOL \n CUBA",24);
-    //         break;
-    //     //granallado
-    //     case 24:
-    //         etapasPorSector.Add("SOL \n TAPA",22);//Pedido Lucas Solo Lectura
-    //         etapasPorSector.Add("SOL \n CUBA",24);//Pedido Lucas Solo Lectura
-    //         etapasPorSector.Add("HERM",25);
-    //         etapasPorSector.Add("GRAN \n CUBA",26);
-    //         etapasPorSector.Add("GRAN \n TAPA",40);
-    //         break;
-    //     //pintura
-    //     case 25:
-    //         // etapasPorSector.Add("SOL \n TAPA",22);
-    //         etapasPorSector.Add("GRAN \n CUBA",26);
-    //         etapasPorSector.Add("GRAN \n TAPA",40);
-    //         etapasPorSector.Add("PINT \n CUBA",27);
-    //         etapasPorSector.Add("PINT \n TAPA",41);
-    //         break;
-    //     //SuperAdmin
-    //     case 26:
-    //         etapasPorSector.Add("DOC",1);
-    //         etapasPorSector.Add("BT1",2);
-    //         etapasPorSector.Add("BT2",3);
-    //         etapasPorSector.Add("BT3",4);
-    //         etapasPorSector.Add("AT1",5);
-    //         etapasPorSector.Add("AT2",6);
-    //         etapasPorSector.Add("AT3",7);
-    //         etapasPorSector.Add("RG1",8);
-    //         etapasPorSector.Add("RG2",9);
-    //         etapasPorSector.Add("RG3",10);
-    //         etapasPorSector.Add("RF1",11);
-    //         etapasPorSector.Add("RF2",12);
-    //         etapasPorSector.Add("RF3",13);
-    //         //etapasPorSector.Add("ENS",14);
-    //         etapasPorSector.Add("PY CYP",15);
-    //         etapasPorSector.Add("PY SOL",16);
-    //         etapasPorSector.Add("PY ENV",17);
-    //         etapasPorSector.Add("CYP PAT",33);
-    //         etapasPorSector.Add("PAT ENV",34);
-    //         etapasPorSector.Add("NUC",18);
-    //         etapasPorSector.Add("MON",19);
-    //         etapasPorSector.Add("CON BT",35);
-    //         etapasPorSector.Add("CON AT",36);
-    //         etapasPorSector.Add("REL \n TRA",37);
-    //         etapasPorSector.Add("HOR",20);
-    //         etapasPorSector.Add("CUBA \n CYP",21);
-    //         etapasPorSector.Add("RAD \n PAN",23);
-    //         etapasPorSector.Add("CUBI",43);
-    //         etapasPorSector.Add("SOL \n CUBA",24);
-    //         etapasPorSector.Add("HERM",25);
-    //         etapasPorSector.Add("GRAN \n CUBA",26);
-    //         etapasPorSector.Add("PINT \n CUBA",27);
-    //         etapasPorSector.Add("ENV \n CUBA",38);
-    //         etapasPorSector.Add("CYP \n TAPA",39);
-    //         etapasPorSector.Add("SOL \n TAPA",22);
-    //         etapasPorSector.Add("GRAN \n TAPA",40);
-    //         etapasPorSector.Add("PINT \n TAPA",41);
-    //         etapasPorSector.Add("ENV \n TAPA",42);
-    //         etapasPorSector.Add("ENC",28);
-    //         etapasPorSector.Add("LAB",29);
-    //         etapasPorSector.Add("CH. \n CAR",44);
-    //         etapasPorSector.Add("TERM",30);
-    //         etapasPorSector.Add("APR",31);
-    //         etapasPorSector.Add("PAGO",45);
-    //         etapasPorSector.Add("ENV",32);
-    //         break;
-    // }
+            // etapasPorSector.Add("DOC",1);
+      case 2:
+            arrayTipoEtapas=[2,3,4,5,6,7,8,9,10,11,12,13,14];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("BT1",2);
+            // etapasPorSector.Add("BT2",3);
+            // etapasPorSector.Add("BT3",4);
+            // etapasPorSector.Add("AT1",5);
+            // etapasPorSector.Add("AT2",6);
+            // etapasPorSector.Add("AT3",7);
+            // etapasPorSector.Add("RG1",8);
+            // etapasPorSector.Add("RG2",9);
+            // etapasPorSector.Add("RG3",10);
+            // etapasPorSector.Add("RF1",11);
+            // etapasPorSector.Add("RF2",12);
+            // etapasPorSector.Add("RF3",13);
+            //etapasPorSector.Add("ENS",14);  
+            break;
+      case 3:
+            arrayTipoEtapas=[21,23,43,24,25,26,27,38,39,22,40,41,42,15,16,17,33,34];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("CUBA CYP",21);
+            // etapasPorSector.Add("RAD \n PAN",23);
+            // etapasPorSector.Add("CUBI",43);
+            // etapasPorSector.Add("SOL \n CUBA",24);
+            // etapasPorSector.Add("HERM",25);
+            // etapasPorSector.Add("GRAN \n CUBA",26);
+            // etapasPorSector.Add("PINT \n CUBA",27);
+            // etapasPorSector.Add("ENV \n CUBA",38);
+            // etapasPorSector.Add("CYP \n TAPA",39);
+            // etapasPorSector.Add("SOL \n TAPA",22);
+            // etapasPorSector.Add("GRAN \n TAPA",40);
+            // etapasPorSector.Add("PINT \n TAPA",41);
+            // etapasPorSector.Add("ENV \n TAPA",42);
+            // etapasPorSector.Add("PY CYP",15);
+            // etapasPorSector.Add("PY SOL",16);
+            // etapasPorSector.Add("PY ENV",17);
+            // etapasPorSector.Add("CYP PAT",33);
+            // etapasPorSector.Add("PAT ENV",34);
+      case 4:
+            arrayTipoEtapas=[18];
+            // etapasPorSector.Add("NUC",18);
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+      case 5:
+            arrayTipoEtapas=[,19,20,35,36];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("MON",19);
+            // etapasPorSector.Add("HOR",20);
+            // etapasPorSector.Add("CON BT",35);
+            // etapasPorSector.Add("CON AT",36);
+      case 6:
+            arrayTipoEtapas=[20];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("HOR",20);
+      case 7:
+            arrayTipoEtapas=[20,28];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("HOR",20);
+            // etapasPorSector.Add("ENC",28);
+      case 8:
+            arrayTipoEtapas=[37,29,44,31];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("REL TRANSF",37);
+            // etapasPorSector.Add("LAB",29);
+            // etapasPorSector.Add("CH \n CAR",44);
+            // etapasPorSector.Add("APR",31);
+      case 9:                
+            arrayTipoEtapas=[44,30,31,32];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("CH \n CAR",44);
+            // etapasPorSector.Add("TERM",30);
+            // etapasPorSector.Add("APR",31);
+            // etapasPorSector.Add("ENV",32);
+      case 10:
+            arrayTipoEtapas=[1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,33,34,18,19,35,36,37,20,21,23,43,24,25,26,27,38,39,22,40,41,42,28,29,44,30,31,32];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("DOC",1);
+            // etapasPorSector.Add("BT1",2);
+            // etapasPorSector.Add("BT2",3);
+            // etapasPorSector.Add("BT3",4);
+            // etapasPorSector.Add("AT1",5);
+            // etapasPorSector.Add("AT2",6);
+            // etapasPorSector.Add("AT3",7);
+            // etapasPorSector.Add("RG1",8);
+            // etapasPorSector.Add("RG2",9);
+            // etapasPorSector.Add("RG3",10);
+            // etapasPorSector.Add("RF1",11);
+            // etapasPorSector.Add("RF2",12);
+            // etapasPorSector.Add("RF3",13);
+            //estabacomentada la siguiente linea
+            ////etapasPorSector.Add("ENS",14);
+            // etapasPorSector.Add("PY CYP",15);
+            // etapasPorSector.Add("PY SOL",16);
+            // etapasPorSector.Add("PY ENV",17);
+            // etapasPorSector.Add("CYP PAT",33);
+            // etapasPorSector.Add("PAT ENV",34);
+            // etapasPorSector.Add("NUC",18);
+            // etapasPorSector.Add("MON",19);
+            // etapasPorSector.Add("CON BT",35);
+            // etapasPorSector.Add("CON AT",36);
+            // etapasPorSector.Add("REL \n TRA",37);
+            // etapasPorSector.Add("HOR",20);
+            // etapasPorSector.Add("CUBA \n CYP",21);
+            // etapasPorSector.Add("RAD \n PAN",23);
+            // etapasPorSector.Add("CUBI",43);
+            // etapasPorSector.Add("SOL \n CUBA",24);
+            // etapasPorSector.Add("HERM",25);
+            // etapasPorSector.Add("GRAN \n CUBA",26);
+            // etapasPorSector.Add("PINT \n CUBA",27);
+            // etapasPorSector.Add("ENV \n CUBA",38);
+            // etapasPorSector.Add("CYP \n TAPA",39);
+            // etapasPorSector.Add("SOL \n TAPA",22);
+            // etapasPorSector.Add("GRAN \n TAPA",40);
+            // etapasPorSector.Add("PINT \n TAPA",41);
+            // etapasPorSector.Add("ENV \n TAPA",42);
+            // etapasPorSector.Add("ENC",28);
+            // etapasPorSector.Add("LAB",29);
+            // etapasPorSector.Add("CH. \n CAR",44);
+            // etapasPorSector.Add("TERM",30);
+            // etapasPorSector.Add("APR",31);
+            
+        //encubado Enc
+        case 12:
+            arrayTipoEtapas=[20,28,32,29,30,31];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("HOR",20);
+            // etapasPorSector.Add("ENC",28);
+            // etapasPorSector.Add("ENV",32);
+            // etapasPorSector.Add("LAB",29);
+            // etapasPorSector.Add("TERM",30);
+            // etapasPorSector.Add("APR",31);
+
+        //caldereria enc 
+        case 21:
+            break;
+        //cyp
+        case 22:
+            arrayTipoEtapas=[15,33,21];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("PY CYP",15);
+            // etapasPorSector.Add("CYP PAT",33);
+            // etapasPorSector.Add("CUBA CYP",21);
+        //soldadura
+        case 23:
+            arrayTipoEtapas=[43,16,22,24];
+            return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("CUBI",43);
+            // etapasPorSector.Add("PY SOL",16);
+            // etapasPorSector.Add("SOL \n TAPA",22);
+            // etapasPorSector.Add("SOL \n CUBA",24);
+        //granallado
+        case 24:
+          arrayTipoEtapas=[22,24,25,26,40];
+          return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            //etapasPorSector.Add("SOL \n TAPA",22);//Pedido Lucas Solo Lectura
+            //etapasPorSector.Add("SOL \n CUBA",24);//Pedido Lucas Solo Lectura
+            //etapasPorSector.Add("HERM",25);
+            //etapasPorSector.Add("GRAN \n CUBA",26);
+            //etapasPorSector.Add("GRAN \n TAPA",40);
+            
+        //pintura
+        case 25:
+          arrayTipoEtapas=[26,40,27,41];
+          return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("SOL \n TAPA",22);
+            // etapasPorSector.Add("GRAN \n CUBA",26);
+            // etapasPorSector.Add("GRAN \n TAPA",40);
+            // etapasPorSector.Add("PINT \n CUBA",27);
+            // etapasPorSector.Add("PINT \n TAPA",41);
+        //SuperAdmin
+        case 26:
+          arrayTipoEtapas=[1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,33,34,18,19,35,36,37,20,21,23,43,24,25,26,27,38,39,22,40,41,42,28,29,44,30,31,45,32];
+          return arrayTipoEtapas.some((x)=>x==idTipoEtapa);
+            // etapasPorSector.Add("DOC",1);
+            // etapasPorSector.Add("BT1",2);
+            // etapasPorSector.Add("BT2",3);
+            // etapasPorSector.Add("BT3",4);
+            // etapasPorSector.Add("AT1",5);
+            // etapasPorSector.Add("AT2",6);
+            // etapasPorSector.Add("AT3",7);
+            // etapasPorSector.Add("RG1",8);
+            // etapasPorSector.Add("RG2",9);
+            // etapasPorSector.Add("RG3",10);
+            // etapasPorSector.Add("RF1",11);
+            // etapasPorSector.Add("RF2",12);
+            // etapasPorSector.Add("RF3",13);
+            //linea de abajo comentada
+            ////etapasPorSector.Add("ENS",14);
+            // etapasPorSector.Add("PY CYP",15);
+            // etapasPorSector.Add("PY SOL",16);
+            // etapasPorSector.Add("PY ENV",17);
+            // etapasPorSector.Add("CYP PAT",33);
+            // etapasPorSector.Add("PAT ENV",34);
+            // etapasPorSector.Add("NUC",18);
+            // etapasPorSector.Add("MON",19);
+            // etapasPorSector.Add("CON BT",35);
+            // etapasPorSector.Add("CON AT",36);
+            // etapasPorSector.Add("REL \n TRA",37);
+            // etapasPorSector.Add("HOR",20);
+            // etapasPorSector.Add("CUBA \n CYP",21);
+            // etapasPorSector.Add("RAD \n PAN",23);
+            // etapasPorSector.Add("CUBI",43);
+            // etapasPorSector.Add("SOL \n CUBA",24);
+            // etapasPorSector.Add("HERM",25);
+            // etapasPorSector.Add("GRAN \n CUBA",26);
+            // etapasPorSector.Add("PINT \n CUBA",27);
+            // etapasPorSector.Add("ENV \n CUBA",38);
+            // etapasPorSector.Add("CYP \n TAPA",39);
+            // etapasPorSector.Add("SOL \n TAPA",22);
+            // etapasPorSector.Add("GRAN \n TAPA",40);
+            // etapasPorSector.Add("PINT \n TAPA",41);
+            // etapasPorSector.Add("ENV \n TAPA",42);
+            // etapasPorSector.Add("ENC",28);
+            // etapasPorSector.Add("LAB",29);
+            // etapasPorSector.Add("CH. \n CAR",44);
+            // etapasPorSector.Add("TERM",30);
+            // etapasPorSector.Add("APR",31);
+            // etapasPorSector.Add("PAGO",45);
+            // etapasPorSector.Add("ENV",32);
+            break;
+    }
   }
 
 
