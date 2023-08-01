@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace Foha.Models
@@ -25,6 +26,8 @@ namespace Foha.Models
         public int? IdColor { get; set; }
         public int? NumEtapa { get; set; }
         public DateTime? FechaPausa { get; set; }
+        public string UltimoUsuario { get; set; }
+        public DateTime? FechaUltimaModificacion { get; set; }
 
         public Colores IdColorNavigation { get; set; }
         public TipoEtapa IdTipoEtapaNavigation { get; set; }

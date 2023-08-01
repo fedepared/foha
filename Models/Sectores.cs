@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Foha.Models
 {
@@ -10,7 +12,7 @@ namespace Foha.Models
             Empleado = new HashSet<Empleado>();
             Usuario = new HashSet<Usuario>();
         }
-
+        [Key]
         public int IdSector { get; set; }
         public string NombreSector { get; set; }
 

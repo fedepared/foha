@@ -123,6 +123,10 @@ namespace Foha.Models
                     .HasColumnName("fechaPausa")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.FechaUltimaModificacion)
+                    .HasColumnName("fechaUltimaModificacion")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.Hora)
                     .HasColumnName("hora")
                     .HasMaxLength(10);
@@ -153,6 +157,11 @@ namespace Foha.Models
 
                 entity.Property(e => e.TiempoParc)
                     .HasColumnName("tiempoParc")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UltimoUsuario)
+                    .HasColumnName("ultimoUsuario")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

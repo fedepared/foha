@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Foha.Models
 {
     public partial class Usuario
     {
+        [Key]
         public int IdUser { get; set; }
         public string NombreUs { get; set; }
         public byte[] Pass { get; set; }

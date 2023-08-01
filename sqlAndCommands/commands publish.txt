@@ -1,4 +1,4 @@
 angular: ng build --prod --aot --build-optimizer --base-href=/sapPrueba/
 .net core: dotnet publish --configuration Release
 
-dotnet ef dbcontext scaffold "Server=.;Database=BookStore;Trusted_Connection=True;User Id=sa;Password=q;Integrated Security=false;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+dotnet ef dbcontext scaffold "Server=DESKTOP-4O7TAPT\CHRIS;Database=fohaIni;Trusted_Connection=True;Integrated Security=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models

@@ -15,6 +15,8 @@ using Foha.Repositories;
 using Foha.Dtos;
 using System.Text;
 using Foha.DTOs;
+using Microsoft.Net.Http.Headers;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Foha.Controllers
 {
@@ -304,6 +306,12 @@ namespace Foha.Controllers
                 return BadRequest(ModelState);
             }
 
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+
             // if (id != editEtapaDto.IdEtapa)
             // {
             //     return BadRequest();
@@ -343,9 +351,17 @@ namespace Foha.Controllers
         
             foreach (var item in editEtapaDto)
             {
+
                 //PROCESOS=ETAPAS
                 var etapaDelTrafoNuevo=_context.Etapa.First(x=>x.IdTransfo==Convert.ToInt16(item.Hora) && x.IdTipoEtapa==item.IdTipoEtapa);
                 etapaDelTrafoNuevo.IdTransfo=item.IdTransfo;
+                //Ultimo usuario y fecha de ultima modificacion
+                var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+                etapaDelTrafoNuevo.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+                etapaDelTrafoNuevo.FechaUltimaModificacion = DateTime.Now;
+                //Termina Ultimo usuario y fecha de ultima modificacion
                 var preEtapa = _mapper.Map<Etapa>(etapaDelTrafoNuevo);
                 _repo.Update(preEtapa);
                 await _repo.SaveAsync(preEtapa);
@@ -405,6 +421,13 @@ namespace Foha.Controllers
                 {    
                     var referencia = _context.Colores.Find(edit.IdRef);
                     var etapa=_context.Etapa.Where(x=>x.IdTransfo == trafo).FirstOrDefault(z=>z.IdTipoEtapa==tipoEtapa);
+                    //Ultimo usuario y fecha de ultima modificacion
+                    var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+                    etapa.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+                    etapa.FechaUltimaModificacion = DateTime.Now;
+                    //Termina Ultimo usuario y fecha de ultima modificacion
                     if(referencia != null)
                     {
                         if(referencia.Leyenda == "finalizado")
@@ -459,7 +482,13 @@ namespace Foha.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             var etapaDatosAnteriores=_context.Etapa.AsNoTracking().First(z=>z.IdEtapa==preEtapa.IdEtapa);
             
@@ -656,6 +685,13 @@ namespace Foha.Controllers
                 await _repo2.SaveAsync(preEtapaEmpleado);
             
             }
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             
             _repo.Update(preEtapa);
@@ -775,6 +811,13 @@ namespace Foha.Controllers
                 suma=TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
                 editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
             }
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
             try{
@@ -883,6 +926,14 @@ namespace Foha.Controllers
 
             editEtapaDto.TiempoParc="Finalizada";
             editEtapaDto.IsEnded=true;
+
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
             
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 
@@ -923,6 +974,14 @@ namespace Foha.Controllers
             {
                 return Conflict("La etapa ya había sido finalizada, por favor actualice la vista");
             }
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
+
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             preEtapa.TiempoParc="Finalizada";
             
@@ -1006,6 +1065,14 @@ namespace Foha.Controllers
                 suma=TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
                 editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
             }
+
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
 
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
@@ -1104,6 +1171,14 @@ namespace Foha.Controllers
 
             editEtapaDto.TiempoParc="Finalizada";
             editEtapaDto.IsEnded=true;
+
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
             
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 
@@ -1140,6 +1215,15 @@ namespace Foha.Controllers
             editEtapaDto.TiempoParc=editEtapaDto.TiempoFin;
             editEtapaDto.TiempoFin=null;
             editEtapaDto.IdColor=9;
+
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
+
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
             await _repo.SaveAsync(preEtapa);
@@ -1153,6 +1237,14 @@ namespace Foha.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            addEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            addEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
 
             var preEtapa = _mapper.Map<Etapa>(addEtapaDto);
             _repo.Add(preEtapa);
@@ -1678,6 +1770,8 @@ namespace Foha.Controllers
                     reporte.FechaFin = e.DateFin;
                     reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : (e.IdColor==null) ? "Sin Iniciar" :e.IdColorNavigation.Leyenda;
                     reporte.Operarios = "";
+                    reporte.ultimoUsuario = e.UltimoUsuario;
+                    reporte.fechaUltimaModificacion = e.FechaUltimaModificacion;
                     foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.
                     {
                         if(reporte.Operarios == "")
@@ -2059,6 +2153,10 @@ namespace Foha.Controllers
                     e.DateFin = fechaActual;
                     e.IsEnded = true;
                     e.IdColor = 10;
+                    //Ultimo usuario y fecha de ultima modificacion
+                    e.UltimoUsuario = "Sistema";
+                    e.FechaUltimaModificacion = DateTime.Now;
+                    //Termina Ultimo usuario y fecha de ultima modificacion
                     var editDTO = _mapper.Map<EditEtapaDto>(e);
                     editDTO.EtapaEmpleado = _context.EtapaEmpleado.AsNoTracking().Where(x => x.IdEtapa == e.IdEtapa).ToList();                  
                     await PutEtapaStop(e.IdEtapa, editDTO);
@@ -2134,6 +2232,14 @@ namespace Foha.Controllers
                 suma=TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
                 editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
             }
+
+            //Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
 
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);

@@ -15,7 +15,8 @@ namespace Foha.Dtos
         public string TiempoParc { get; set; }
         public string TiempoFin { get; set; }
         public int? IdTransfo { get; set; }
-        
+        public string UltimoUsuario { get; set; }
+        public DateTime? FechaUltimaModificacion { get; set; }
         public string Hora { get; set; }
         public DateTime? InicioProceso { get; set; }
         public int? IdColor { get; set; }

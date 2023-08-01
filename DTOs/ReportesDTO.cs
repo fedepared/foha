@@ -16,6 +16,9 @@ namespace Foha.Dtos
         public string TipoTrafo { get; set; }
         public string Observacion { get; set; }
 
+        public string ultimoUsuario { get; set; }     
+        public DateTime? fechaUltimaModificacion { get; set; }
+
 
     }
 
