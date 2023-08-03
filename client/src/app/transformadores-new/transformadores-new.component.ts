@@ -42,6 +42,7 @@ import { ExcelTimesService } from '../services/excel-times.service';
 import { VendedoresService } from '../services/vendedores.service';
 import { Vendedores } from '../models/vendedores'; 
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { style } from '@angular/animations';
 
 const MAP_NOMBRE_ETAPA: { [tipoEtapa: string]: number} = {
         "DOC":1,
@@ -2139,10 +2140,11 @@ interface ComboClientes{
 
   @Component({
     selector: "info-etapa-transformadores-new",
-    templateUrl: "info-etapa-transformadores-new.html"
+    templateUrl: "info-etapa-transformadores-new.html",
+    styles: ['table{ width:100%}']
   })
   export class ShowInfoNewComponent{
-    displayedColumns: string[] = ['proceso','refProceso','fechaIni','fechaFin','tiempo','Empleados'];
+    displayedColumns: string[] = ['proceso','refProceso','fechaIni','fechaFin','tiempo','Empleados','lastUserModif','dateLastModif'];
     dataEtapaPorTransfo:any[]=[];
     nombreEtapa:string;
     dateIni:Date;

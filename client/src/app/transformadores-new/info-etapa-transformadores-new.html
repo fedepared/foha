@@ -58,6 +58,16 @@
       <td mat-cell *matCellDef="let row">{{row.operarios}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="lastUserModif">
+      <th mat-header-cell *matHeaderCellDef class="tableHeader">UM</th>
+      <td mat-cell *matCellDef="let row">{{row.ultimoUsuario}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateLastModif">
+      <th mat-header-cell *matHeaderCellDef class="tableHeader">FUM</th>
+      <td mat-cell *matCellDef="let row">{{row.fechaUltimaModificacion}}</td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
