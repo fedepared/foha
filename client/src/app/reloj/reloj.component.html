@@ -55,10 +55,10 @@
         <button mat-raised-button  *ngIf="!showButtons" [disabled]="play==false" [ngClass]="{'disabledButton': play==false}" style="background-color:teal;color:white;" id="start" (click)="start()" >
             Inicio
         </button>
-        <button mat-raised-button  *ngIf="!showButtons" id="pause" style="background-color:yellow;" [disabled]="class==false" [ngClass]="{'disabledButton': class==false}" (click)="pause()" >
+        <button mat-raised-button  *ngIf="!showButtons" id="pause" [disabled]="class==false" style="background-color:yellow;"  [ngClass]="{'disabledButton': class==false}" (click)="pause()" >
             Pausa
         </button>
-        <button mat-raised-button *ngIf="!showButtons" id="stop" color="warn" [disabled]="isStop==false" [ngClass]="{'disabledButton': isStop==false}" (click)="stop()" >
+        <button mat-raised-button *ngIf="!showButtons" id="stop" [disabled]="isStop==false" color="warn"  [ngClass]="{'disabledButton': isStop==false}" (click)="stop()" >
             Fin
         </button>
         <button mat-raised-button *ngIf="showButtons" id="finalizar" style="background-color:teal;color:white" (click)="finalizar()" >

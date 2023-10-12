@@ -79,6 +79,11 @@ export class RelojComponent implements OnInit{
     {
       this.play=false;
     }
+    if(this.proceso.idColor==9)
+    {
+      this.class=false;
+      this.isStop=false;
+    }
 
     this.getTrafo(this.procesoElegido.idTransfo);
     this.getTipoEtapa(this.procesoElegido.idTipoEtapa);
@@ -349,122 +354,133 @@ export class RelojComponent implements OnInit{
 
   //TIMER EN SI
   finalizar(){
-    for (let b of this.arr)
+    if(this.arr[0].value==='')
     {
-      this.array.push(b.value);
-      console.log(this.array)
-    }
-    if(this.proceso && this.array.length>0)
-    {
-      
-      this.proceso.idColor=10;
-      this.proceso.isEnded=true;
-      this.proceso.tiempoParc="00:00:00:00";
-      this.proceso.tiempoFin="00:00:00:00";
-      this.proceso.dateIni=new Date();
-      this.proceso.dateFin=new Date();
-      this.proceso.numEtapa=this.numEtapa;
-      let empleadosProceso=new Array<Empleado>();
-
-      let preEtapaEmpleado=new Array<EtapaEmpleado>();
-      for (let a of this.array)
+      this.openSnackBar("debe elegir un empleado antes de finalizar el proceso",1500);
+    }else{
+      for (let b of this.arr)
       {
-        preEtapaEmpleado.push({idEmpleado:a.id,dateIni:this.proceso.dateIni,idEtapa:this.proceso.idEtapa,tiempoParc:"00:00:00:00"}) 
+        this.array.push(b.value);
+        console.log(this.array)
       }
-
-      this.proceso.etapaEmpleado=preEtapaEmpleado;
-
-      this.etapaService.stopEtapaEspecial(this.proceso.idEtapa,this.proceso).subscribe(
-      (res)=>{
-        console.log(res);
-      }
-      ,(err)=>{
-        console.log(err);
-      }
-      ,()=>{
-        this.openSnackBar("Etapa Finalizada",5);
-        this.procesoUpdated.emit(true);
-      }
+      if(this.proceso && this.array.length>0)
+      {
         
-        
-      )
+        this.proceso.idColor=10;
+        this.proceso.isEnded=true;
+        this.proceso.tiempoParc="00:00:00:00";
+        this.proceso.tiempoFin="00:00:00:00";
+        this.proceso.dateIni=new Date();
+        this.proceso.dateFin=new Date();
+        this.proceso.numEtapa=this.numEtapa;
+        let empleadosProceso=new Array<Empleado>();
+  
+        let preEtapaEmpleado=new Array<EtapaEmpleado>();
+        for (let a of this.array)
+        {
+          preEtapaEmpleado.push({idEmpleado:a.id,dateIni:this.proceso.dateIni,idEtapa:this.proceso.idEtapa,tiempoParc:"00:00:00:00"}) 
+        }
+  
+        this.proceso.etapaEmpleado=preEtapaEmpleado;
+  
+        this.etapaService.stopEtapaEspecial(this.proceso.idEtapa,this.proceso).subscribe(
+        (res)=>{
+          console.log(res);
+        }
+        ,(err)=>{
+          console.log(err);
+        }
+        ,()=>{
+          this.openSnackBar("Etapa Finalizada",5);
+          this.procesoUpdated.emit(true);
+        }
+          
+          
+        )
+      }
+      else{
+        this.openSnackBar("Debe elegir un proceso, un/os empleado/s",5);
+      }
+      this.array=[]
     }
-    else{
-      this.openSnackBar("Debe elegir un proceso, un/os empleado/s",5);
-    }
-    this.array=[]
+    
   }
 
   start(){
-    this.arrLength=this.arr.length;
-    for (let b of this.arr)
+    if(this.arr[0].value==='')
     {
-      this.array.push(b.value);
+      this.openSnackBar("debe elegir un empleado antes de finalizar el proceso",1500);
+    }else{
+      this.arrLength=this.arr.length;
+      for (let b of this.arr)
+      {
+        this.array.push(b.value);
+        console.log(this.array)
+      }
       console.log(this.array)
-    }
-    console.log(this.array)
-    
-    if(this.proceso && this.numEtapa && this.array.length>0)
-    {
-      let empezado:Boolean;
-      let fechaProcesoReiniciado=new Date();
-      this.play=false;
-      this.isPause=!this.isPause;
-      if(this.proceso.idTipoEtapa!=20)
-      {
-        this.isStop=true;
-      }
-      this.class=true;
-      this.openSnackBar("Proceso iniciado",2);
       
-      //Si el proceso está pausado
-      if(this.proceso.dateIni != null && this.proceso.dateFin == null)
+      if(this.proceso && this.numEtapa && this.array.length>0)
       {
-        empezado=true;
-        if(this.comienzo==true){
-          this.comienzo=false;
+        let empezado:Boolean;
+        let fechaProcesoReiniciado=new Date();
+        this.play=false;
+        this.isPause=!this.isPause;
+        if(this.proceso.idTipoEtapa!=20)
+        {
+          this.isStop=true;
         }
+        this.class=true;
+        this.openSnackBar("Proceso iniciado",2);
+        
+        //Si el proceso está pausado
+        if(this.proceso.dateIni != null && this.proceso.dateFin == null)
+        {
+          empezado=true;
+          if(this.comienzo==true){
+            this.comienzo=false;
+          }
+        }
+  
+        //Si el proceso se inicia por primera vez 
+        if(this.proceso.dateIni == null && this.proceso.dateFin == null)
+        {
+          empezado=false;
+          if(this.comienzo==true){
+            this.proceso.numEtapa=this.numEtapa;
+          }
+        }
+  
+  
+        let preEtapaEmpleado=new Array<EtapaEmpleado>();
+        for (let a of this.array)
+        {
+          preEtapaEmpleado.push({idEmpleado:a.id,dateIni:fechaProcesoReiniciado,idEtapa:this.proceso.idEtapa,tiempoParc:""}) 
+        }
+        this.proceso.etapaEmpleado=preEtapaEmpleado;
+        this.proceso.idColor=1030;
+        console.log(this.proceso);
+        this.etapaService.updateEtapaInicio(this.proceso.idEtapa,this.proceso).subscribe(
+          (res) => {
+  
+                this.isLoadingResults = false;
+          },
+          err => {
+            console.log(err);
+            this.isLoadingResults = false;
+          },
+          ()=>{
+            this.procesoUpdated.emit(true);
+          }
+        );
+        this.comienzo=false;
+  
       }
-
-      //Si el proceso se inicia por primera vez 
-      if(this.proceso.dateIni == null && this.proceso.dateFin == null)
+      else
       {
-        empezado=false;
-        if(this.comienzo==true){
-          this.proceso.numEtapa=this.numEtapa;
-        }
+        this.openSnackBar("Debe elegir un proceso, un/os empleado/s,y un número de referencia",5);
       }
-
-
-      let preEtapaEmpleado=new Array<EtapaEmpleado>();
-      for (let a of this.array)
-      {
-        preEtapaEmpleado.push({idEmpleado:a.id,dateIni:fechaProcesoReiniciado,idEtapa:this.proceso.idEtapa,tiempoParc:""}) 
-      }
-      this.proceso.etapaEmpleado=preEtapaEmpleado;
-      this.proceso.idColor=1030;
-      console.log(this.proceso);
-      this.etapaService.updateEtapaInicio(this.proceso.idEtapa,this.proceso).subscribe(
-        (res) => {
-
-              this.isLoadingResults = false;
-        },
-        err => {
-          console.log(err);
-          this.isLoadingResults = false;
-        },
-        ()=>{
-          this.procesoUpdated.emit(true);
-        }
-      );
-      this.comienzo=false;
-
+      this.array=[];
     }
-    else
-    {
-      this.openSnackBar("Debe elegir un proceso, un/os empleado/s,y un número de referencia",5);
-    }
-    this.array=[];
   }
 
   pause(){
@@ -513,9 +529,12 @@ export class RelojComponent implements OnInit{
   
 
   stop(){
-
-    this.openDialog();
-    this.processEnded=true;
+    if(this.arr.length==0){
+      this.openSnackBar("Debe elegir primero un empleado para finalizar un proceso",1500);
+    }else{
+      this.openDialog();
+      this.processEnded=true;
+    }
     
     
   }
