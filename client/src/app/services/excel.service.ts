@@ -659,7 +659,7 @@ export class ExcelService {
             iguales=false;
             otAnterior=oTe;
           }
-  
+          console.log(e.etapa);
           worksheet.addRow({
             prioridad:e.prioridad,
             oT:e.oTe,
