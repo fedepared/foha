@@ -1549,7 +1549,7 @@ interface ComboClientes{
         nombreTipoTransfo:[null],
         valueTransfo:[null],
         f:[null],
-        nucleos:[null],
+        nucleos:[null,[Validators.maxLength(3)]],
         fechaProd:[this.fechaProd],
         fechaPactada:[this.fechaPactada],
         rangoInicio:[null],
