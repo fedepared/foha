@@ -22,7 +22,7 @@ export class Etapa{
     numEtapa:number;
     idTransfoNavigation:Transformadores;
     hora:string;
-
+    observacion?:string;
 
 
 }

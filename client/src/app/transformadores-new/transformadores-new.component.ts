@@ -503,6 +503,7 @@ export class AssignColorComponent2{
 
     dialogConfig.data = {
         colorSelected:row,
+        observacion:"",
         titulo:"¿Desea asignar la siguiente referencia al proceso seleccionado?"
     };
     if(this.etapaSelected.isEnded==true)
@@ -513,15 +514,17 @@ export class AssignColorComponent2{
     const dialogRef = this.dialog.open(ConfirmAssignDialog, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if(data){
-        if(data.idColor!=9)
+        console.log(data);
+        if(data.colorSelected.idColor!=9)
         {
-          if(data.idColor==999999)
+          if(data.colorSelected.idColor==999999)
           {
             this.etapaSelected.idColor=null;
             this.etapaSelected.idColorNavigation=null;
           }
           else{
-            this.etapaSelected.idColor=data.idColor;
+            this.etapaSelected.idColor=data.colorSelected.idColor;
+            this.etapaSelected.observacion=data.observacion
           }
           this.etapaService.updateEtapa(this.etapaSelected.idEtapa,this.etapaSelected)
           .subscribe(res=>{
@@ -531,7 +534,6 @@ export class AssignColorComponent2{
           })
         }
         else{
-
           this.etapaService.updateReanudarEtapa(this.etapaSelected.idEtapa,this.etapaSelected)
           .subscribe(res=>{
               this.dialogRef.close(res);
@@ -561,18 +563,20 @@ export class AssignColorComponent2{
 export class ConfirmAssignDialog{
   colorSelected:Colores;
   titulo:"";
+  observacion:string;
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmAssignDialog>,public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data1
   ) {
-      this.colorSelected=data1.colorSelected
-      this.titulo=data1.titulo
+      this.colorSelected=data1.colorSelected;
+      this.observacion=data1.observacion;
+      this.titulo=data1.titulo;
 
     }
 
     save(){
-      this.dialogRef.close(this.colorSelected);
+      this.dialogRef.close({colorSelected:this.colorSelected,observacion:this.observacion});
     }
     onNoClick(){
       this.dialogRef.close();
@@ -1549,7 +1553,7 @@ interface ComboClientes{
         nombreTipoTransfo:[null],
         valueTransfo:[null],
         f:[null],
-        nucleos:[null,[Validators.maxLength(3)]],
+        nucleos:[null],
         fechaProd:[this.fechaProd],
         fechaPactada:[this.fechaPactada],
         rangoInicio:[null],
