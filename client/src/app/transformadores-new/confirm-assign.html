@@ -1,10 +1,11 @@
 <h1 mat-dialog-title>{{titulo}} </h1>
-<br>
 <div mat-dialog-content>
-    <input [style.background]="colorSelected.codigoColor" [disabled] style="border-radius:8px; margin-right:5px;width:80px;"/>
-    <span style="margin-left:14px;">Referencia: <strong>{{colorSelected.leyenda}}</strong></span>
-    <div>
-        <input  placeholder="observaciones" matInput [(ngModel)]="observacion"/>
+    <h4>Referencia:</h4>
+    <input [style.background]="colorSelected.codigoColor" [disabled]="true" style="border-radius:8px; margin-right:5px;width:80px;"/>
+    <span style="margin-left:14px;"> {{colorSelected.leyenda}}</span>
+    <div style="margin-top:20px">
+        <h4>Ingrese una observacion: </h4>
+        <input appearance="outline"  placeholder="observaciones" matInput [(ngModel)]="observacion" style="border-radius:5px; width:100%;height:40px;border:1px solid gray"/>
     </div>
 </div>
 <br>

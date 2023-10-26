@@ -79,7 +79,7 @@ export class RelojComponent implements OnInit{
     {
       this.play=false;
     }
-    if(this.proceso.idColor==9)
+    if(this.proceso.idColor==9 || this.proceso.idColor==null)
     {
       this.class=false;
       this.isStop=false;

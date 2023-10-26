@@ -151,7 +151,7 @@ interface Mes {
     <div [style.height]="'40px'" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2.5px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '3px solid rgb(56,56,56)': '1px solid rgb(56,56,56)')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' " style="text-align:center">
       <span style="padding-left:10px;" *ngIf="(etapa.tiempoParc)!='Finalizada' && (etapa.tiempoParc)!=null" ></span>
       <span style="display:inline;margin:0;width:24px;height:24px;text-align:center">
-        <button mat-icon-button *ngIf="idTipoUs=='6' || ( (idTipoUs!='4' && idTipoUs!='5' ) && (etapa.dateIni==null || etapa.dateFin!==null) && showButton(etapa.idTipoEtapa)) " (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Asignar referencia"><mat-icon>lens_blur</mat-icon></button>
+        <button mat-icon-button *ngIf="idTipoUs=='6' || ( (idTipoUs!='4' && idTipoUs!='5' ) && (etapa.dateIni==null || etapa.dateFin!==null) && showButton(etapa.idTipoEtapa)) " (click)=asignarRef(etapa) matTooltipPosition="above"  [matTooltip]="(etapa.observacion!=null) ? etapa.observacion:'No hay observacion'"><mat-icon>lens_blur</mat-icon></button>
         <button mat-icon-button *ngIf="(idTipoUs=='5' || idTipoUs=='4') && etapa.idTipoEtapa==45" (click)=asignarRef(etapa) matTooltipPosition="above"  matTooltip="Pago"><mat-icon style="color:gray">request_quote</mat-icon></button>
         
       </span>
@@ -1277,8 +1277,6 @@ export class TransformadoresNewComponent implements OnInit {
 
       applyApiFilter(){
         if(
-
-
           (this.form.get('oTeDesde').value || this.form.get('oTeHasta').value) ||
           (this.form.get('oPeDesde').value || this.form.get('oPeHasta').value) ||
           (this.form.get('rangoInicioDesde').value || this.form.get('rangoInicioHasta').value) ||
@@ -1445,6 +1443,21 @@ export class TransformadoresNewComponent implements OnInit {
         }
 
       }
+
+      formIsNull():boolean{
+        let counter:number=0;
+        let keys = Object.keys(this.form.value);
+
+        keys.forEach(control=>{
+          if(this.form.controls[control].value==null || this.form.controls[control].value==''){
+            counter++;
+          }
+        })
+        if(counter==keys.length && this.historics==false) return true
+        else return false;
+      }
+
+
 
 
 

@@ -207,7 +207,7 @@
             <button  mat-icon-button (click)="clean()" color="primary" aria-label="Example icon button with a delete icon">
               <mat-icon>backspace</mat-icon>
             </button>
-            <button  mat-icon-button (click)="applyApiFilter()" color="primary" aria-label="Example icon button with a delete icon">
+            <button  mat-icon-button (click)="applyApiFilter()" [disabled]="formIsNull()" color="primary" aria-label="Example icon button with a delete icon">
               <mat-icon>search</mat-icon>
             </button>
           </fieldset>
