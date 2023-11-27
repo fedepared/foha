@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace Foha.Models
 {
@@ -11,7 +9,7 @@ namespace Foha.Models
         {
             Etapa = new HashSet<Etapa>();
         }
-        [Key]
+
         public int IdTransfo { get; set; }
         public int OPe { get; set; }
         public int? OTe { get; set; }

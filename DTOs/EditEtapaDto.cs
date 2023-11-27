@@ -24,6 +24,8 @@ namespace Foha.Dtos
 
         public DateTime? FechaPausa { get; set; }
 
+        public string Observacion { get; set; }
+
         
         // public Colores IdColorNavigation { get; set; }
         // public TipoEtapa IdTipoEtapaNavigation { get; set; }

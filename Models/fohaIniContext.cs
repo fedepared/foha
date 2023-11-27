@@ -150,6 +150,11 @@ namespace Foha.Models
 
                 entity.Property(e => e.NumEtapa).HasColumnName("numEtapa");
 
+                entity.Property(e => e.Observacion)
+                    .HasColumnName("observacion")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.TiempoFin)
                     .HasColumnName("tiempoFin")
                     .HasMaxLength(50)
@@ -325,7 +330,7 @@ namespace Foha.Models
 
                 entity.Property(e => e.Nucleos)
                     .HasColumnName("nucleos")
-                    .HasMaxLength(1)
+                    .HasMaxLength(3)
                     .IsUnicode(false);
 
                 entity.Property(e => e.OPe).HasColumnName("oPe");

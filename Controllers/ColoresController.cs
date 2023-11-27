@@ -30,7 +30,7 @@ namespace Foha.Controllers
         [HttpGet]
         public IEnumerable<Colores> GetColores()
         {
-            return _context.Colores;
+            return _context.Colores.Where(x => x.IdColor != 1069);
         }
 
         // GET: api/Colores/5

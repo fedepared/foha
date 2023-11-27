@@ -306,6 +306,7 @@ namespace Foha.Controllers
                 return BadRequest(ModelState);
             }
 
+
             var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
             var handler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = handler.ReadJwtToken(accessToken);
@@ -317,7 +318,10 @@ namespace Foha.Controllers
             //     return BadRequest();
             // }
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
-            if(preEtapa.IdColor != null && preEtapa.IdColor == 10){
+            if(preEtapa.IdColor == null){
+                preEtapa.IdColor = 1069;
+            }
+            else if(preEtapa.IdColor != null && preEtapa.IdColor == 10){
                 preEtapa.DateFin = DateTime.Now;
                 preEtapa.DateIni = DateTime.Now;
                 preEtapa.IsEnded = true;
@@ -652,7 +656,11 @@ namespace Foha.Controllers
             
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
-                
+                int etapasEmpleadosIniciadas = _context.EtapaEmpleado.Include(x => x.IdEtapaNavigation).Count(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030);
+                if(_context.EtapaEmpleado.Include(x => x.IdEtapaNavigation).Count(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030) > 0)
+                {
+                    return StatusCode(500, "El empleado ya tiene un proceso iniciado");
+                }
                 //Busco si el empleado ya había trabajado en el proceso
                 var findEtapaEmpleado=_context.EtapaEmpleado.AsNoTracking().Any(z=>z.IdEmpleado==a.IdEmpleado && z.IdEtapa==a.IdEtapa);
                 a.DateIni=editEtapaDto.DateIni;
@@ -1768,7 +1776,7 @@ namespace Foha.Controllers
                     reporte.RefProceso = e.NumEtapa;
                     reporte.FechaIni = e.DateIni;
                     reporte.FechaFin = e.DateFin;
-                    reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : (e.IdColor==null) ? "Sin Iniciar" :e.IdColorNavigation.Leyenda;
+                    reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : (e.IdColor==null || e.IdColor == 1069) ? "Sin Iniciar" : e.IdColorNavigation.Leyenda;
                     reporte.Operarios = "";
                     reporte.ultimoUsuario = e.UltimoUsuario;
                     reporte.fechaUltimaModificacion = e.FechaUltimaModificacion;

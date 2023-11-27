@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace Foha.Models
 {
@@ -11,7 +9,7 @@ namespace Foha.Models
         {
             EtapaEmpleado = new HashSet<EtapaEmpleado>();
         }
-        [Key]
+
         public int IdEtapa { get; set; }
         public int? IdTipoEtapa { get; set; }
         public DateTime? DateIni { get; set; }
@@ -28,6 +26,7 @@ namespace Foha.Models
         public DateTime? FechaPausa { get; set; }
         public string UltimoUsuario { get; set; }
         public DateTime? FechaUltimaModificacion { get; set; }
+        public string Observacion { get; set; }
 
         public Colores IdColorNavigation { get; set; }
         public TipoEtapa IdTipoEtapaNavigation { get; set; }
