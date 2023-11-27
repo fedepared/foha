@@ -656,10 +656,10 @@ namespace Foha.Controllers
             
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
-                int etapasEmpleadosIniciadas = _context.EtapaEmpleado.Include(x => x.IdEtapaNavigation).Count(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030);
                 if(_context.EtapaEmpleado.Include(x => x.IdEtapaNavigation).Count(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030) > 0)
                 {
-                    return StatusCode(500, "El empleado ya tiene un proceso iniciado");
+                    string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
+                    return StatusCode(500, "El empleado " + nombreEmp + "ya tiene un proceso iniciado");
                 }
                 //Busco si el empleado ya había trabajado en el proceso
                 var findEtapaEmpleado=_context.EtapaEmpleado.AsNoTracking().Any(z=>z.IdEmpleado==a.IdEmpleado && z.IdEtapa==a.IdEtapa);
