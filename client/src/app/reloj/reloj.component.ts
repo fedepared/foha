@@ -461,7 +461,7 @@ export class RelojComponent implements OnInit{
         console.log(this.proceso);
         this.etapaService.updateEtapaInicio(this.proceso.idEtapa,this.proceso).subscribe(
           (res) => {
-  
+                console.log(res);
                 this.isLoadingResults = false;
           },
           err => {
