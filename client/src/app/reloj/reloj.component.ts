@@ -466,7 +466,15 @@ export class RelojComponent implements OnInit{
           },
           err => {
             console.log(err);
+            this.openSnackBar(err.error,1.5);
             this.isLoadingResults = false;
+            this.array=[];
+            this.play=!this.play;
+            this.isPause=!this.isPause;
+            this.isStop=!this.isStop;
+            this.class=!this.class;
+            this.proceso.etapaEmpleado=[];
+
           },
           ()=>{
             this.procesoUpdated.emit(true);
