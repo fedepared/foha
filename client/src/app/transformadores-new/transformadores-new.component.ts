@@ -524,8 +524,8 @@ export class AssignColorComponent2{
           }
           else{
             this.etapaSelected.idColor=data.colorSelected.idColor;
-            this.etapaSelected.observacion=data.observacion
           }
+          this.etapaSelected.observacion=data.observacion
           this.etapaService.updateEtapa(this.etapaSelected.idEtapa,this.etapaSelected)
           .subscribe(res=>{
               this.dialogRef.close(res);
