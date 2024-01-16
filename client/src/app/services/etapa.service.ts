@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { catchError, tap, map } from "rxjs/operators";
 import { Etapa } from "../models/etapa";
-import { Observable, of } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from "@angular/material";
 import { Transformadores } from "../models/transformadores";
@@ -159,7 +159,15 @@ export class EtapaService {
     const url = `${apiUrl}/${id}/start`;
     return this.http.put(url,etapa,httpOptions).pipe(
       tap(_ =>console.log(`updated etapa id=${id}`)),
-      catchError(this.handleError<any>("updateEtapa"))
+      // catchError(this.handleError<any>("updateEtapa"))
+      catchError((err) => {
+        console.log('error caught in service')
+        console.error(err);
+
+        //Handle the error here
+
+        return throwError(err);    //Rethrow it back to component
+      })
     )
   }
 
@@ -262,6 +270,7 @@ export class EtapaService {
 
   openSnackBar(mensaje1,mensaje2){
     this._snackBar.open(mensaje1,mensaje2,{
+      duration:2000,
     })
   }
 
