@@ -666,7 +666,7 @@ namespace Foha.Controllers
                 if( EtapasIniciadas.Count() > 0)
                 {
                     string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
-                    string mensaje = "El empleado " + nombreEmp + " tiene las siguientes etapas: \n ";
+                    string mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
                     foreach(EtapaEmpleado e in EtapasIniciadas)
                     {
                         mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
