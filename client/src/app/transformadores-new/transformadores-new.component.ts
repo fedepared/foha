@@ -511,6 +511,7 @@ export class AssignColorComponent2{
       dialogConfig.data.titulo="¡Este proceso se encuentra finalizado! ¿Desea reanudar el proceso?"
     }
     dialogConfig.width= '400px';
+    dialogConfig.height = '600px';
     const dialogRef = this.dialog.open(ConfirmAssignDialog, dialogConfig);
     dialogRef.afterClosed().subscribe(data => {
       if(data){
