@@ -657,25 +657,25 @@ namespace Foha.Controllers
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
                 // List<EtapaEmpleado> EtapasIniciadas = _context.EtapaEmpleado
-                                                      .Where(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030)
-                                                      .Include(x => x.IdEtapaNavigation)
-                                                      .Include(x => x.IdEtapaNavigation.IdTransfoNavigation)
-                                                      .Include(x => x.IdEtapaNavigation.IdTipoEtapaNavigation)
-                                                      .Include(x => x.IdEmpleadoNavigation)
-                                                      .ToList();
-                if( EtapasIniciadas.Count() > 0)
+                //                                       .Where(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030)
+                //                                       .Include(x => x.IdEtapaNavigation)
+                //                                       .Include(x => x.IdEtapaNavigation.IdTransfoNavigation)
+                //                                       .Include(x => x.IdEtapaNavigation.IdTipoEtapaNavigation)
+                //                                       .Include(x => x.IdEmpleadoNavigation)
+                //                                       .ToList();
+                //if( EtapasIniciadas.Count() > 0)
                 // {
                 //     string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
                 //     string mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
-                    foreach(EtapaEmpleado e in EtapasIniciadas)
-                    {
-                        mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
-                                          + " - OT: " + e.IdEtapaNavigation.IdTransfoNavigation.OTe
-                                          + " - OP: " + e.IdEtapaNavigation.IdTransfoNavigation.OPe
-                                          + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
-                                          + " - Fecha de Inicio: " + e.DateIni.ToString() + "\n";
-                    }
-                    return StatusCode(500, mensaje);
+                  //  foreach(EtapaEmpleado e in EtapasIniciadas)
+                    //{
+                      //  mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
+                        //                  + " - OT: " + e.IdEtapaNavigation.IdTransfoNavigation.OTe
+                          //                + " - OP: " + e.IdEtapaNavigation.IdTransfoNavigation.OPe
+                            //              + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
+                              //            + " - Fecha de Inicio: " + e.DateIni.ToString() + "\n";
+                    //}
+                    //return StatusCode(500, mensaje);
                 // }
                 //Busco si el empleado ya había trabajado en el proceso
                 var findEtapaEmpleado=_context.EtapaEmpleado.AsNoTracking().Any(z=>z.IdEmpleado==a.IdEmpleado && z.IdEtapa==a.IdEtapa);
