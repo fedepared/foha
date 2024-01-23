@@ -2258,6 +2258,7 @@ interface ComboClientes{
     tipoEtapa=new FormControl();
     idVendedor:number;
     vendedores : Vendedores[];
+    etapaObs:string;
 
     options: any[] = [
       {value: '0', viewValue: 'editar datos de cabecera'},
@@ -2503,7 +2504,8 @@ interface ComboClientes{
         let obj ={
           ArrayTrafo:arrayTrafos,
           IdTipoEtapa:this.tipoEtapa.value,
-          IdRef:this.colorSelected
+          IdRef:this.colorSelected,
+          observacion:this.etapaObs
         }
         this.dialogRef.close(obj)
       }

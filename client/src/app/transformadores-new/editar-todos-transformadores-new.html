@@ -170,7 +170,13 @@
                 </mat-select>
             </mat-form-field>   
         </mat-grid-tile>
-        <mat-grid-tile [colspan]="2">
+        <mat-grid-tile [colspan]="1">
+            <mat-form-field appearance="outline">
+                <mat-label>Observacion</mat-label>
+                <input matInput [(ngModel)]="etapaObs"/>
+            </mat-form-field>   
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
             <mat-form-field appearance="outline" *ngIf="colorSelected" style="width:100%;">
                 <mat-label>Elija los procesos a marcar</mat-label>
                 <mat-select [formControl]="tipoEtapa" multiple>

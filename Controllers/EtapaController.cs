@@ -431,6 +431,7 @@ namespace Foha.Controllers
                     var jwtSecurityToken = handler.ReadJwtToken(accessToken);
                     etapa.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
                     etapa.FechaUltimaModificacion = DateTime.Now;
+                    etapa.Observacion = edit.Observacion;
                     //Termina Ultimo usuario y fecha de ultima modificacion
                     if(referencia != null)
                     {
