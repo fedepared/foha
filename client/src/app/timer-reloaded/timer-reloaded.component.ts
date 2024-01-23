@@ -32,7 +32,7 @@ interface Mes {
   <ng-container *ngIf="etapa">
     <div style="height:61px; line-height:61px" [style.border-left]="(etapa.idTipoEtapa==2 || etapa.idTipoEtapa==5 || etapa.idTipoEtapa==8 || etapa.idTipoEtapa==11|| etapa.idTipoEtapa==14) ? '2px solid rgba(56,56,56,0.60)' : ((etapa.idTipoEtapa==1) ? '2.5px solid rgb(56,56,56)': '0')" [style.background-color] = "etapa.idColorNavigation ? etapa.idColorNavigation.codigoColor : 'white'" [matTooltip]="etapa.idColorNavigation ? etapa.idColorNavigation.leyenda : '' ">
       <span *ngIf="etapa.dateIni" (click)=select(etapa)>{{etapa.numEtapa}}</span>
-      <button mat-icon-button style="float:right;" *ngIf="condition(etapa)" (click)=select(etapa)><mat-icon>lens_blur</mat-icon></button>
+      <button mat-icon-button *ngIf="condition(etapa)" (click)=select(etapa)><mat-icon>lens_blur</mat-icon></button>
     </div>
   </ng-container>
   `,
@@ -671,6 +671,10 @@ export class TimerReloadedComponent implements OnInit {
 
       }
 
+  }
+
+  getEvent(event){
+    this.ngZone.onMicrotaskEmpty.pipe(take(5)).subscribe(() => {this.matTable.updateStickyColumnStyles();})
   }
 
   function(event){
