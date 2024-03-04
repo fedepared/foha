@@ -60,7 +60,7 @@ export class EtapaColumnComponent2{
     if(!etapa.dateIni && etapa.idColor!=10){
       if(this.sector == 9)
       {
-        if(etapa.idTipoEtapa==31 || etapa.idTipoEtapa==44){
+        if(etapa.idTipoEtapa==31 || etapa.idTipoEtapa==44 || etapa.idTipoEtapa == 32){
           return false;
         }
         else{
