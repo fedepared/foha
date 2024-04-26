@@ -54,12 +54,12 @@ export class ExcelService {
     const title = 'AVANCE DE LA PRODUCCION';    
     //Create workbook and worksheet
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Avance de la producción',{properties:{defaultColWidth:21}});
+    let worksheet = workbook.addWorksheet('Avance de la producción',{properties:{defaultColWidth:22}});
     let titleRow = worksheet.addRow([title]);
     
     
     
-    idTipoUs==='6' ? worksheet.mergeCells(1,1,2,55): worksheet.mergeCells(1,1,2,54);
+    idTipoUs==='6' ? worksheet.mergeCells(1,1,2,57): worksheet.mergeCells(1,1,2,56);
     
     // Set font, size and style in title row.
     worksheet.getCell('A1').font = { name: 'Calibri', size: 20, bold: true };
@@ -88,8 +88,10 @@ export class ExcelService {
 
     if(idTipoUs==='6'){
       let columnas=worksheet.getRow(6).values = [
+        'MES',
         'PRI',
         'OT',
+        'SER',
         'N',
         'OP',
         'RNG',
@@ -147,8 +149,10 @@ export class ExcelService {
       ];  
     }else{
       let columnas=worksheet.getRow(6).values = [
+        'MES',
         'PRI',
         'OT',
+        'SER',
         'N',
         'OP',
         'RNG',
@@ -229,8 +233,10 @@ export class ExcelService {
     if(idTipoUs==='6'){
       
       worksheet.columns = [
+        {key:'mes',width:6},
         {key:'prioridad',width:6},
         {key:'oT',width:6},
+        {key:'serie',width:4},
         {key:'n',width:3},
         {key:'oP',width:6},
         {key:'rango',width:6},
@@ -288,8 +294,10 @@ export class ExcelService {
         ]
     }else{
       worksheet.columns = [
+        {key:'mes',width:6},
         {key:'prioridad',width:6},
         {key:'oT',width:6},
+        {key:'serie',width:4},
         {key:'n',width:3},
         {key:'oP',width:6},
         {key:'rango',width:6},
@@ -352,24 +360,28 @@ export class ExcelService {
     worksheet.addRow([" "]);
     let iguales=false;
     let otAnterior=0;
-    let row=9;
+    let row=8;
+    let monthYear='';
     if(idTipoUs==='6'){
       data.forEach((e,i)=>{
         // console.log(e.idTransfo)
         
         if((e.hasOwnProperty("group")))
         {
-          let periodo=worksheet.addRow([`${e.group}`]);
-          worksheet.mergeCells(periodo.number,1,periodo.number,55);
-          let cell=worksheet.getCell(`A${periodo.number}`);
-          cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
-          cell.font={name: 'Calibri', size: 11, bold: true};
-          cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
+          row--;
+          let array = e.group.toString().split(' ');
+          monthYear = this.monthStringToMonthNumber(array[0]) + '/' + array[2];
+          // let periodo=worksheet.addRow([`${e.group}`]);
+          // worksheet.mergeCells(periodo.number,1,periodo.number,55);
+          // let cell=worksheet.getCell(`A${periodo.number}`);
+          // cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
+          // cell.font={name: 'Calibri', size: 11, bold: true};
+          // cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
           
         }
         else{
           let cuenta=0;
-          let cuentaCol=13;
+          let cuentaCol=15;
           let fot:Date=this.fopToDate(e.fechaPactada);
           let oTe=e.oTe
           
@@ -383,8 +395,10 @@ export class ExcelService {
           }
   
           worksheet.addRow({
+            mes:monthYear,
             prioridad:e.prioridad,
             oT:e.oTe,
+            serie:e.serie,
             n:(e.nucleos!=null) ? e.nucleos : '',
             oP:e.oPe,
             rango:e.rangoInicio,
@@ -475,7 +489,7 @@ export class ExcelService {
             let colorCortado;
             
   
-            if(colNumber==11){
+            if(colNumber==13){
               if(cell!=null && fot!=null)
               {
                 let fop:Date=this.fopToDate(cell);
@@ -499,7 +513,7 @@ export class ExcelService {
             {
               cuentaCol++;
               cuenta++;
-              if(cuentaCol<=56)
+              if(cuentaCol<=58)
               {
                 let cuent;
                 if(cuenta>13)
@@ -636,21 +650,24 @@ export class ExcelService {
         
         if((e.hasOwnProperty("group")))
         {
-          let periodo=worksheet.addRow([`${e.group}`]);
+          row--;
+          let array = e.group.toString().split(' ');
+          monthYear = this.monthStringToMonthNumber(array[0]) + '/'+ array[2];
+          // let periodo=worksheet.addRow([`${e.group}`]);
 
-          worksheet.mergeCells(periodo.number,1,periodo.number,54)
-          let cell=worksheet.getCell(`A${periodo.number}`);
-          cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
-          cell.font={name: 'Calibri', size: 11, bold: true};
-          cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
+          // worksheet.mergeCells(periodo.number,1,periodo.number,54)
+          // let cell=worksheet.getCell(`A${periodo.number}`);
+          // cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
+          // cell.font={name: 'Calibri', size: 11, bold: true};
+          // cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
           
         }
         else{
           let cuenta=0;
-          let cuentaCol=13;
+          let cuentaCol=15;
           let fot:Date=this.fopToDate(e.fechaPactada);
           let oTe=e.oTe
-          
+        
           //son del mismo grupo
           if(oTe==otAnterior){
             iguales=true;
@@ -661,8 +678,10 @@ export class ExcelService {
           }
           console.log(e.etapa);
           worksheet.addRow({
+            mes:monthYear,
             prioridad:e.prioridad,
             oT:e.oTe,
+            serie:e.serie,
             n:(e.nucleos!=null) ? e.nucleos : '',
             oP:e.oPe,
             rango:e.rangoInicio,
@@ -751,7 +770,7 @@ export class ExcelService {
             let colorCortado;
             
   
-            if(colNumber==11){
+            if(colNumber==13){
               if(cell!=null && fot!=null)
               {
                 let fop:Date=this.fopToDate(cell);
@@ -775,7 +794,7 @@ export class ExcelService {
             {
               cuentaCol++;
               cuenta++;
-              if(cuentaCol<=56)
+              if(cuentaCol<=58)
               {
                 let cuent;
                 if(cuenta>13)
@@ -964,6 +983,37 @@ export class ExcelService {
 
   dateFormat(date:string):Date{
     return new Date(date.split('T')[0]);
+  }
+
+  monthStringToMonthNumber(month:string){
+    switch(month){
+      case 'Enero': 
+        return '01';
+      case 'Febrero': 
+        return '02';
+      case 'Marzo':
+        return '03';
+      case 'Abril':
+        return '04';
+      case 'Mayo':
+        return '05';
+      case 'Junio':
+        return '06';
+      case 'Julio':
+        return '07';
+      case 'Agosto':
+        return '08';
+      case 'Septiembre':
+        return '09';
+      case 'Octubre':
+        return '10';
+      case 'Noviembre':
+        return '11';
+      case 'Diciembre':
+        return '12';
+      default:
+        return month;
+    }
   }
 
   tiempoParcToDate(date:string):Date | any{

@@ -52,10 +52,10 @@ export class ExcelTimesService {
     const title = 'AVANCE DE LA PRODUCCION';    
     //Create workbook and worksheet
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Avance de la producción',{properties:{defaultColWidth:21}});
+    let worksheet = workbook.addWorksheet('Avance de la producción',{properties:{defaultColWidth:22}});
     let titleRow = worksheet.addRow([title]);
     
-    idTipoUs==='6' ? worksheet.mergeCells(1,1,2,55): worksheet.mergeCells(1,1,2,54);
+    idTipoUs==='6' ? worksheet.mergeCells(1,1,2,57): worksheet.mergeCells(1,1,2,56);
     
     // Set font, size and style in title row.
     const header = worksheet.getCell('A1');
@@ -81,67 +81,9 @@ export class ExcelTimesService {
     actualizado.font={name: 'Calibri', size: 14, bold: true}
     worksheet.mergeCells(`A${actualizado.number}:I${actualizado.number}`);
     
-    // if(idTipoUs==='6'){
-    // let columnas=worksheet.getRow(6).values = [
-    //   'PRI',
-    //   'OT',
-    //   'N',
-    //   'OP',
-    //   'RNG',
-    //   'LOTE',
-    //   'POT',
-    //   'FOT',
-    //   'CLIENTE',
-    //   'VENDEDOR',
-    //   'FPR',
-    //   'OBS',
-    //   'DOC',
-    //   'BT1',
-    //   'BT2',
-    //   'BT3',
-    //   'AT1',
-    //   'AT2',
-    //   'AT3',
-    //   'RG1',
-    //   'RG2',
-    //   'RG3',
-    //   'RF1',
-    //   'RF2',
-    //   'RF3',
-    //   // 'ENS',
-    //   'PY CYP ',
-    //   'PY SOL',
-    //   'PY ENV',
-    //   'PATAS CYP',
-    //   'PATAS ENV',
-    //   'NUC',
-    //   'MON',
-    //   'CONEX BT',
-    //   'CONEX AT',
-    //   'HOR',
-    //   'CUBA CYP',
-    //   'RAD/PAN',
-    //   'CUBIERTA',
-    //   'SOLD. CUBA',
-    //   'HERMETICIDAD',
-    //   'GRAN. CUBA',
-    //   'PINT. CUBA',
-    //   'ENV. CUBA',
-    //   'TAPA CYP',
-    //   'SOLD. TAPA',
-    //   'GRAN. TAPA',
-    //   'PINT. TAPA',
-    //   'ENV. TAPA',
-    //   'ENC',
-    //   'LAB',
-    //   'CH CAR',
-    //   'TERM',
-    //   'DEP',
-    //   'ENV'
-    // ];
-
     if(idTipoUs==='6'){
       let columnas=worksheet.getRow(6).values = [
+        'MES',
         'PRI',
         'OT',
         'N',
@@ -201,6 +143,7 @@ export class ExcelTimesService {
       ];  
     }else{
       let columnas=worksheet.getRow(6).values = [
+        'MES',
         'PRI',
         'OT',
         'N',
@@ -277,68 +220,11 @@ export class ExcelTimesService {
     
     
     worksheet.pageSetup={fitToPage:true};
-
-    // worksheet.columns = [
-    //   {key:'prioridad',width:6},
-    //   {key:'oT',width:6},
-    //   {key:'n',width:3},
-    //   {key:'oP',width:6},
-    //   {key:'rango',width:6},
-    //   {key:'lote',width:5},
-    //   {key:'potencia',width:8},
-    //   {key:'fot',width:11},
-    //   {key:'cliente',width:11},
-    //   {key:'vendedor',width:11},
-    //   {key:'fpr',width:11},
-    //   {key:'observaciones',width:11},
-    //   {key:'documentacion',width:11.5},
-    //   {key:'bobinaBT1',width:11.5},
-    //   {key:'bobinaBT2',width:11.5},
-    //   {key:'bobinaBT3',width:11.5},
-    //   {key:'bobinaAT1',width:11.5},
-    //   {key:'bobinaAT2',width:11.5},
-    //   {key:'bobinaAT3',width:11.5},
-    //   {key:'bobinaRG1',width:11.5},
-    //   {key:'bobinaRG2',width:11.5},
-    //   {key:'bobinaRG3',width:11.5},
-    //   {key:'bobinaRF1',width:11.5},
-    //   {key:'bobinaRF2',width:11.5},
-    //   {key:'bobinaRF3',width:11.5},
-    //   // {key:'ensamblajeBobinas',width:11.5},
-    //   {key:'corteYPlegadoPYS',width:11.5},
-    //   {key:'soldaduraPYS',width:11.5},
-    //   {key:'envioPYS',width:11.5},
-    //   {key:'cYPPatas',width:11.5},
-    //   {key:'envioPatas',width:11.5},
-    //   {key:'nucleo',width:11.5},
-    //   {key:'montaje',width:11.5},
-    //   {key:'conexBT',width:11.5},
-    //   {key:'conexAT',width:11.5},
-    //   {key:'horno',width:11.5},
-    //   {key:'cYPTapaCuba',width:11.5},
-    //   {key:'radiadoresOPaneles',width:11.5},
-    //   {key:'cubierta',width:11.5},
-    //   {key:'cuba',width:11.5},
-    //   {key:'tintasPenetrantes',width:11.5},
-    //   {key:'granallado',width:11.5},
-    //   {key:'pintura',width:11.5},
-    //   {key:'envioCuba',width:11.5},
-    //   {key:'cYPTapa',width:11.5},
-    //   {key:'tapa',width:11.5},
-    //   {key:'granalladoTapa',width:11.5},
-    //   {key:'pinturaTapa',width:11.5},
-    //   {key:'envioTapa',width:11.5},
-    //   {key:'encubado',width:11.5},
-    //   {key:'ensayosRef',width:11.5},
-    //   {key:'ChapaDeCaracteristicas',width:11.5},
-    //   {key:'terminacion',width:11.5},
-    //   {key:'envioADeposito',width:11.5},
-    //   {key:'envioACliente',width:11.5},
-    //   ]
     
     if(idTipoUs==='6'){
       
       worksheet.columns = [
+        {key:'mes',width:6},
         {key:'prioridad',width:6},
         {key:'oT',width:6},
         {key:'n',width:3},
@@ -398,6 +284,7 @@ export class ExcelTimesService {
         ]
     }else{
       worksheet.columns = [
+        {key:'mes',width:6},
         {key:'prioridad',width:6},
         {key:'oT',width:6},
         {key:'n',width:3},
@@ -461,26 +348,25 @@ export class ExcelTimesService {
     worksheet.addRow([" "]);
     let iguales=false;
     let otAnterior=0;
-    let row=9;
+    let row=8;
+    let monthYear='';
     if(idTipoUs==='6'){
       data.forEach((e,i)=>{
         if((e.hasOwnProperty("group")))
         {
+          row--;
+          let array = e.group.toString().split(' ');
+          monthYear = this.monthStringToMonthNumber(array[0]) + '/' + array[2];
           // let periodo=worksheet.addRow([`${e.group}`]);
-          
-          // periodo.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
-          // periodo.font={name: 'Calibri', size: 11, bold: true};
-          // periodo.border={top: { style: 'thin' },bottom:{style:'thin'}};
-          let periodo=worksheet.addRow([`${e.group}`]);
-          worksheet.mergeCells(periodo.number,1,periodo.number,55);
-          let cell=worksheet.getCell(`A${periodo.number}`);
-          cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
-          cell.font={name: 'Calibri', size: 11, bold: true};
-          cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
+          // worksheet.mergeCells(periodo.number,1,periodo.number,55);
+          // let cell=worksheet.getCell(`A${periodo.number}`);
+          // cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
+          // cell.font={name: 'Calibri', size: 11, bold: true};
+          // cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
         }
         else{
           let cuenta=0;
-          let cuentaCol=13;
+          let cuentaCol=15;
           let fot:Date|string=this.fopToDate(e.fechaPactada);
           let oTe=e.oTe
           //son del mismo grupo
@@ -492,6 +378,7 @@ export class ExcelTimesService {
             otAnterior=oTe;
           }
           worksheet.addRow({
+            mes:monthYear,
             prioridad:e.prioridad,
             oT:e.oTe,
             n:(e.nucleos!=null) ? e.nucleos : '',
@@ -553,7 +440,7 @@ export class ExcelTimesService {
             let colorCortado;
             
   
-            if(colNumber==11){
+            if(colNumber==13){
               if(cell!=null && fot!=null)
               {
                 let fop:Date|string=this.fopToDate(cell);
@@ -579,7 +466,7 @@ export class ExcelTimesService {
             {
               cuentaCol++;
               cuenta++;
-              if(cuentaCol<=56)
+              if(cuentaCol<=58)
               {
                 let cuent;
                 if(cuenta>13){
@@ -711,22 +598,20 @@ export class ExcelTimesService {
       data.forEach((e,i)=>{
         if((e.hasOwnProperty("group")))
         {
-          // let periodo=worksheet.addRow([`${e.group}`]);
-          
-          // periodo.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
-          // periodo.font={name: 'Calibri', size: 11, bold: true};
-          // periodo.border={top: { style: 'thin' },bottom:{style:'thin'}};
-          let periodo=worksheet.addRow([`${e.group}`]);
+            row--;
+            let array = e.group.toString().split(' ');
+            monthYear = this.monthStringToMonthNumber(array[0]) + '/'+ array[2];
+            // let periodo=worksheet.addRow([`${e.group}`]);
 
-            worksheet.mergeCells(periodo.number,1,periodo.number,54)
-            let cell=worksheet.getCell(`A${periodo.number}`);
-            cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
-            cell.font={name: 'Calibri', size: 11, bold: true};
-            cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
+            // worksheet.mergeCells(periodo.number,1,periodo.number,54)
+            // let cell=worksheet.getCell(`A${periodo.number}`);
+            // cell.fill={type: 'pattern',pattern: 'solid',fgColor:{ argb:"f79646"},bgColor:{ argb:"f79646"}};
+            // cell.font={name: 'Calibri', size: 11, bold: true};
+            // cell.border={top: { style: 'thin' },bottom:{style:'thin'},right:{style:'thin'},left:{style:'thin'}};
         }
         else{
           let cuenta=0;
-          let cuentaCol=13;
+          let cuentaCol=15;
           let fot:Date|string=this.fopToDate(e.fechaPactada);
           let oTe=e.oTe
           //son del mismo grupo
@@ -738,6 +623,7 @@ export class ExcelTimesService {
             otAnterior=oTe;
           }
           worksheet.addRow({
+            mes:monthYear,
             prioridad:e.prioridad,
             oT:e.oTe,
             n:(e.nucleos!=null) ? e.nucleos : '',
@@ -798,7 +684,7 @@ export class ExcelTimesService {
             let colorCortado;
             
 
-            if(colNumber==11){
+            if(colNumber==13){
               if(cell!=null && fot!=null)
               {
                 let fop:Date|string=this.fopToDate(cell);
@@ -824,7 +710,7 @@ export class ExcelTimesService {
             {
               cuentaCol++;
               cuenta++;
-              if(cuentaCol<=56)
+              if(cuentaCol<=58)
               {
                 let cuent;
                 if(cuenta>13){
@@ -992,6 +878,37 @@ export class ExcelTimesService {
       }
 
     
+  }
+
+  monthStringToMonthNumber(month:string){
+    switch(month){
+      case 'Enero': 
+        return '01';
+      case 'Febrero': 
+        return '02';
+      case 'Marzo':
+        return '03';
+      case 'Abril':
+        return '04';
+      case 'Mayo':
+        return '05';
+      case 'Junio':
+        return '06';
+      case 'Julio':
+        return '07';
+      case 'Agosto':
+        return '08';
+      case 'Septiembre':
+        return '09';
+      case 'Octubre':
+        return '10';
+      case 'Noviembre':
+        return '11';
+      case 'Diciembre':
+        return '12';
+      default:
+        return month;
+    }
   }
 
   stringToDate(fot) : Date | string{

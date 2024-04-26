@@ -1675,7 +1675,7 @@ namespace Foha.Controllers
                         {
                             if(reporte.Operarios == "")
                             {
-                                reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                                reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp+" Leg: "+etapaEmp.IdEmpleadoNavigation.Legajo;
                             }
                             else{
                                 reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
@@ -1747,7 +1747,7 @@ namespace Foha.Controllers
                     {
                         if(reporte.Operarios == "")
                         {
-                            reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                            reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp+" Leg: "+etapaEmp.IdEmpleadoNavigation.Legajo;
                         }
                         else{
                             reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
