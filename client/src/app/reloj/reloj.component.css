@@ -151,3 +151,9 @@ tr.mat-row:active {
   text-align:center;
 }
  
+/*estilo para el snackbar*/
+::ng-deep .success-snackbar {
+  overflow-y: scroll;
+  white-space: pre-wrap;
+  max-width:40vw;
+}
