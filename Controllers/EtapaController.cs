@@ -2270,6 +2270,38 @@ namespace Foha.Controllers
             await _repo.SaveAsync(preEtapa);
         }
 
-        
+        private bool AcomodarLote(int mes, int anio){
+            List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
+            List<Transformadores> trafosSeguidos = new List<Transformadores>();
+            int lote = 0;
+            int OpAnterior = 0;
+            foreach(Transformadores tr in trafos){    
+                if(tr.OPe == OpAnterior || OpAnterior == 0){
+                    lote++;
+                    trafosSeguidos.Add(tr);
+                    if(OpAnterior == 0){
+                        OpAnterior = tr.OPe;
+                    }
+                }
+                else{                   
+                    foreach(Transformadores trafoseg in trafosSeguidos){
+                        trafoseg.Lote = lote;
+                        _context.Update(trafoseg);
+                    }
+                    trafosSeguidos.Clear();
+                    lote = 1;
+                    OpAnterior = tr.OPe;
+                    trafosSeguidos.Add(tr);
+                }
+                try{
+                    _context.SaveChanges();
+                }
+                catch(Exception ex){
+                    throw ex;
+                }
+            }
+            return false;
+        }
+
     }
 }
