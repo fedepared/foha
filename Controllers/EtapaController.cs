@@ -621,7 +621,7 @@ namespace Foha.Controllers
         [HttpPut("{id}/start")]
         public async Task<IActionResult> PutEtapaInicio([FromRoute] int id, [FromBody] EditEtapaDto editEtapaDto)
         {
-
+            string mensaje = "Se inicio el proceso con exito.";
             var etapaAnterior=_context.Etapa.AsNoTracking().First(x=>x.IdEtapa==id);
             if(etapaAnterior.IdColor==editEtapaDto.IdColor)
             {
@@ -667,7 +667,7 @@ namespace Foha.Controllers
                 if( EtapasIniciadas.Count() > 0)
                 {
                     string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
-                    string mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
+                    mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
                    foreach(EtapaEmpleado e in EtapasIniciadas)
                     {
                        mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
@@ -676,7 +676,7 @@ namespace Foha.Controllers
                                          + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
                                          + " - Fecha de Inicio: " + e.DateIni.ToString() + "\n";
                     }
-                    return StatusCode(500, mensaje);
+                    //return StatusCode(500, mensaje);
                 }
                 //Busco si el empleado ya había trabajado en el proceso
                 var findEtapaEmpleado=_context.EtapaEmpleado.AsNoTracking().Any(z=>z.IdEmpleado==a.IdEmpleado && z.IdEtapa==a.IdEtapa);
@@ -721,9 +721,9 @@ namespace Foha.Controllers
             
             _repo.Update(preEtapa);
 
+            await _repo.SaveAsync(preEtapa);
 
-
-            return StatusCode(201,await _repo.SaveAsync(preEtapa));
+            return StatusCode(201, mensaje);
         }
 
         //Pausa
@@ -2271,6 +2271,7 @@ namespace Foha.Controllers
             await _repo.SaveAsync(preEtapa);
         }
 
-        
+       
+
     }
 }
