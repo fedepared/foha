@@ -463,6 +463,9 @@ export class RelojComponent implements OnInit{
           (res) => {
                 console.log(res);
                 this.isLoadingResults = false;
+                this._snackBar.open(res,"Advertencia",{
+                  panelClass: ['success-snackbar']
+                })
           },
           err => {
             console.log(err);
