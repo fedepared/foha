@@ -782,6 +782,7 @@ namespace Foha.Controllers
         try
         {
             await _context.SaveChangesAsync();
+            AcomodarLote(addTransformadoresDto.Mes.Value, addTransformadoresDto.Anio.Value);
             if(addTransformadoresDto.Mes.Value!=15){
                 AsignarFechaProdMes(addTransformadoresDto.Mes.Value, addTransformadoresDto.Anio.Value);
             }
@@ -851,6 +852,8 @@ namespace Foha.Controllers
             // }
         }
         AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
+        AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
+
         r.Message = "Se agrgaron los transformadores con exito.";
         r.Status = 200;
         return Ok(r);
@@ -935,6 +938,7 @@ namespace Foha.Controllers
         _repo.UpdateAll(listaTrafos);
         try{
             await _context.SaveChangesAsync();
+            AcomodarLote(trafos[0].Mes.Value, trafos[0].Anio.Value);
             //ChequearFechasProd();
             res.Message="Orden Guardado Correctamente.";
             res.Status=200;
@@ -1904,6 +1908,38 @@ namespace Foha.Controllers
             r.Status = 500;
             return Conflict(r);
         }
+    }
+    private bool AcomodarLote(int mes, int anio){
+        List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
+        List<Transformadores> trafosSeguidos = new List<Transformadores>();
+        int lote = 0;
+        int OpAnterior = 0;
+        foreach(Transformadores tr in trafos){    
+            if(tr.OPe == OpAnterior || OpAnterior == 0){
+                lote++;
+                trafosSeguidos.Add(tr);
+                if(OpAnterior == 0){
+                    OpAnterior = tr.OPe;
+                }
+            }
+            else{                   
+                foreach(Transformadores trafoseg in trafosSeguidos){
+                    trafoseg.Lote = lote;
+                    _context.Update(trafoseg);
+                }
+                trafosSeguidos.Clear();
+                lote = 1;
+                OpAnterior = tr.OPe;
+                trafosSeguidos.Add(tr);
+            }
+            try{
+                _context.SaveChanges();
+            }
+            catch(Exception ex){
+                throw ex;
+            }
+        }
+        return false;
     }
 }
 }
