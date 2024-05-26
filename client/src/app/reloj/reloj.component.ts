@@ -67,6 +67,9 @@ export class RelojComponent implements OnInit{
   processEnded=false;
   arrLength:number;
 
+  //Mensaje de etapas comenzadas
+  message:string="";
+
   constructor(private empleadoService:EmpleadoService,private transformadoresService:TransformadoresService,private _snackBar: MatSnackBar,private etapaService:EtapaService,private tipoEtapaService:TipoEtapaService,public dialog:MatDialog,private authService:AuthService) { }
 
 
@@ -461,11 +464,12 @@ export class RelojComponent implements OnInit{
         console.log(this.proceso);
         this.etapaService.updateEtapaInicio(this.proceso.idEtapa,this.proceso).subscribe(
           (res) => {
-                console.log(res);
+                if(res.includes("El empleado")){
+                  this.message = res;
+
+                }
                 this.isLoadingResults = false;
-                this._snackBar.open(res,"Advertencia",{
-                  panelClass: ['success-snackbar']
-                })
+                
           },
           err => {
             console.log(err);

@@ -622,6 +622,7 @@ namespace Foha.Controllers
         public async Task<IActionResult> PutEtapaInicio([FromRoute] int id, [FromBody] EditEtapaDto editEtapaDto)
         {
             string mensaje = "Se inicio el proceso con exito.";
+            string mensajeEtapasIniciadas="";
             var etapaAnterior=_context.Etapa.AsNoTracking().First(x=>x.IdEtapa==id);
             if(etapaAnterior.IdColor==editEtapaDto.IdColor)
             {
@@ -667,10 +668,10 @@ namespace Foha.Controllers
                 if( EtapasIniciadas.Count() > 0)
                 {
                     string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
-                    mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
+                    mensajeEtapasIniciadas += "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
                    foreach(EtapaEmpleado e in EtapasIniciadas)
                     {
-                       mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
+                       mensajeEtapasIniciadas = mensajeEtapasIniciadas + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
                                          + " - OT: " + e.IdEtapaNavigation.IdTransfoNavigation.OTe
                                          + " - OP: " + e.IdEtapaNavigation.IdTransfoNavigation.OPe
                                          + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
@@ -723,7 +724,7 @@ namespace Foha.Controllers
 
             await _repo.SaveAsync(preEtapa);
 
-            return StatusCode(201, mensaje);
+            return mensajeEtapasIniciadas.Equals("") ? StatusCode(201, mensaje) : StatusCode(201,mensajeEtapasIniciadas);
         }
 
         //Pausa
