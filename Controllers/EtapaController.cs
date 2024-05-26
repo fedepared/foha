@@ -1678,7 +1678,7 @@ namespace Foha.Controllers
                                 reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp+" Leg: "+etapaEmp.IdEmpleadoNavigation.Legajo;
                             }
                             else{
-                                reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                                reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp+" Leg: "+etapaEmp.IdEmpleadoNavigation.Legajo;
                             }
                         }
                         EtapasResponse.Add(reporte);//Agrego el DTO a la lista
@@ -1750,7 +1750,7 @@ namespace Foha.Controllers
                             reporte.Operarios = etapaEmp.IdEmpleadoNavigation.NombreEmp+" Leg: "+etapaEmp.IdEmpleadoNavigation.Legajo;
                         }
                         else{
-                            reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp;
+                            reporte.Operarios = reporte.Operarios + ", " + etapaEmp.IdEmpleadoNavigation.NombreEmp+" Leg: "+etapaEmp.IdEmpleadoNavigation.Legajo;
                         }
                     }
                     EtapasResponse.Add(reporte);//Agrego el DTO a la lista
