@@ -656,26 +656,30 @@ namespace Foha.Controllers
             
             foreach(var a in editEtapaDto.EtapaEmpleado)
             {
-                List<EtapaEmpleado> EtapasIniciadas = _context.EtapaEmpleado
-                                                      .Where(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030)
-                                                      .Include(x => x.IdEtapaNavigation)
-                                                      .Include(x => x.IdEtapaNavigation.IdTransfoNavigation)
-                                                      .Include(x => x.IdEtapaNavigation.IdTipoEtapaNavigation)
-                                                      .Include(x => x.IdEmpleadoNavigation)
-                                                      .ToList();
-                if( EtapasIniciadas.Count() > 0)
+                int?[] TipoEtapaFitrada = new int?[] {2,3,4,5,6,7,8,9,10,11,12,13,22,24,43};
+                if(TipoEtapaFitrada.Contains(editEtapaDto.IdTipoEtapa))
                 {
-                    string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
-                    mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
-                    foreach(EtapaEmpleado e in EtapasIniciadas)
+                    List<EtapaEmpleado> EtapasIniciadas = _context.EtapaEmpleado
+                                                        .Where(x => x.IdEmpleado == a.IdEmpleado && x.IdEtapaNavigation.IdColor == 1030)
+                                                        .Include(x => x.IdEtapaNavigation)
+                                                        .Include(x => x.IdEtapaNavigation.IdTransfoNavigation)
+                                                        .Include(x => x.IdEtapaNavigation.IdTipoEtapaNavigation)
+                                                        .Include(x => x.IdEmpleadoNavigation)
+                                                        .ToList();
+                    if( EtapasIniciadas.Count() > 0)
                     {
-                        mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
-                                          + " - OT: " + e.IdEtapaNavigation.IdTransfoNavigation.OTe
-                                          + " - OP: " + e.IdEtapaNavigation.IdTransfoNavigation.OPe
-                                          + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
-                                          + " - Fecha de Inicio: " + e.DateIni.ToString() + "\n";
+                        string nombreEmp = _context.Empleado.Where(x => x.IdEmpleado == a.IdEmpleado).First().NombreEmp;
+                        mensaje = "El empleado " + nombreEmp + " tiene los siguientes procesos iniciados: \n ";
+                        foreach(EtapaEmpleado e in EtapasIniciadas)
+                        {
+                            mensaje = mensaje + "Proceso: " + e.IdEtapaNavigation.IdTipoEtapaNavigation.Abrev
+                                            + " - OT: " + e.IdEtapaNavigation.IdTransfoNavigation.OTe
+                                            + " - OP: " + e.IdEtapaNavigation.IdTransfoNavigation.OPe
+                                            + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
+                                            + " - Fecha de Inicio: " + e.DateIni.ToString() + "\n";
+                        }
+                        //return StatusCode(500, mensaje);
                     }
-                    //return StatusCode(500, mensaje);
                 }
                 //Busco si el empleado ya había trabajado en el proceso
                 var findEtapaEmpleado=_context.EtapaEmpleado.AsNoTracking().Any(z=>z.IdEmpleado==a.IdEmpleado && z.IdEtapa==a.IdEtapa);
@@ -2270,7 +2274,27 @@ namespace Foha.Controllers
             await _repo.SaveAsync(preEtapa);
         }
 
-       
+        [HttpGet("PausarIniciadasViejas")]
+        public async Task<ActionResult> PausarIniciadasViejas()
+        {
+            DateTime FechaLimite = DateTime.Today.AddDays(-30);
+            try{
+                List<Etapa> EtapasIniciadas = _context.Etapa.Where(x => x.IdColor == 1030 && x.DateIni <= FechaLimite).ToList();
+                int contador = 0;
+                foreach(Etapa e in EtapasIniciadas){
+                    e.IdColor = 9;
+                    e.FechaPausa = DateTime.Now;
+                    var editDTO = _mapper.Map<EditEtapaDto>(e);      
+                    await PutEtapaPausa(e.IdEtapa, editDTO); 
+                    contador++;
+                }
+                return Ok("Se pausaron" + contador + "Procesos");
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
 
+        } 
     }
 }

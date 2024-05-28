@@ -1932,14 +1932,23 @@ namespace Foha.Controllers
                 OpAnterior = tr.OPe;
                 trafosSeguidos.Add(tr);
             }
-            try{
-                _context.SaveChanges();
-            }
-            catch(Exception ex){
-                throw ex;
-            }
+        }
+        foreach(Transformadores trafoseg in trafosSeguidos)
+        {
+            trafoseg.Lote = lote;
+            _context.Update(trafoseg);
+        }
+        try
+        {
+            _context.SaveChanges();
+        }
+        catch(Exception ex)
+        {
+            throw ex;
         }
         return false;
     }
+
+    
 }
 }
