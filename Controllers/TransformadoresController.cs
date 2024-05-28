@@ -1913,13 +1913,13 @@ namespace Foha.Controllers
         List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
         List<Transformadores> trafosSeguidos = new List<Transformadores>();
         int lote = 0;
-        int OpAnterior = 0;
+        int OtAnterior = 0;
         foreach(Transformadores tr in trafos){    
-            if(tr.OPe == OpAnterior || OpAnterior == 0){
+            if(tr.OTe == OtAnterior || OtAnterior == 0){
                 lote++;
                 trafosSeguidos.Add(tr);
-                if(OpAnterior == 0){
-                    OpAnterior = tr.OPe;
+                if(OtAnterior == 0){
+                    OtAnterior = tr.OTe.Value;
                 }
             }
             else{                   
@@ -1929,7 +1929,7 @@ namespace Foha.Controllers
                 }
                 trafosSeguidos.Clear();
                 lote = 1;
-                OpAnterior = tr.OPe;
+                OtAnterior = tr.OTe.Value;
                 trafosSeguidos.Add(tr);
             }
         }
