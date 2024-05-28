@@ -9,5 +9,7 @@ namespace Foha.Dtos
 
         public int[] IdTipoEtapa {get; set;}
         public int IdRef {get; set;}
+
+        public string Observacion {get;set;}
     }
 }

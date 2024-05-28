@@ -1421,7 +1421,7 @@ namespace Foha.Controllers
         }
         foreach(Transformadores t in trafos)
         {
-            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
+            t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
 

@@ -33,6 +33,30 @@
             </mat-form-field>
           </fieldset>
           <fieldset>
+            <legend>Serie</legend>
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Desde</mat-label>
+              <input 
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="serieDesde"
+                    
+              >
+            </mat-form-field>
+  
+            <mat-form-field class="search__form_field" appearance="outline">
+              <mat-label>Hasta</mat-label>
+              <input 
+              
+              (keydown.enter)="function($event)"
+                    matInput
+                    formControlName="serieHasta"
+                    
+              >
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
             <legend>OP</legend>
             <mat-form-field class="search__form_field" appearance="outline">
               <mat-label>Desde</mat-label>
@@ -98,30 +122,6 @@
               (keydown.enter)="function($event)"
                     matInput
                     formControlName="potenciaHasta"
-                    
-              >
-            </mat-form-field>
-          </fieldset>
-          <fieldset>
-            <legend>Serie</legend>
-            <mat-form-field class="search__form_field" appearance="outline">
-              <mat-label>Desde</mat-label>
-              <input 
-              
-              (keydown.enter)="function($event)"
-                    matInput
-                    formControlName="serieDesde"
-                    
-              >
-            </mat-form-field>
-  
-            <mat-form-field class="search__form_field" appearance="outline">
-              <mat-label>Hasta</mat-label>
-              <input 
-              
-              (keydown.enter)="function($event)"
-                    matInput
-                    formControlName="serieHasta"
                     
               >
             </mat-form-field>

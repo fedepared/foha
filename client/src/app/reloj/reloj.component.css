@@ -151,3 +151,21 @@ tr.mat-row:active {
   text-align:center;
 }
  
+/*estilo para el snackbar*/
+.message {
+  white-space: pre-wrap;
+  max-width: 45vw;
+  background-color: #ffff51;
+  color: slategray;
+  padding: 2ch;
+  font-weight: 500;
+  border-radius: 30px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.popupMessage{
+  position:absolute;
+  z-index: 1000;
+  width:100%;
+}
