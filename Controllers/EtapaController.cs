@@ -2298,21 +2298,30 @@ namespace Foha.Controllers
                         await PutEtapaStop(e.IdEtapa, editDTO);
                     }
                     else if(e.DateIni.Value.Year < 2023){
-                        e.TiempoParc = e.DateIni.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                        var editDTO = _mapper.Map<EditEtapaDto>(e);
-                        await PutEtapaPausa(e.IdEtapa, editDTO); 
+                        if(e.TiempoFin != null){
+                            e.TiempoParc = e.DateFin.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                            var editDTO = _mapper.Map<EditEtapaDto>(e);
+                            await PutEtapaStop(e.IdEtapa, editDTO); 
+                        }
+                        else{
+                            e.TiempoParc = e.DateIni.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                            var editDTO = _mapper.Map<EditEtapaDto>(e);
+                            await PutEtapaPausa(e.IdEtapa, editDTO); 
+                        }
                     }
                     else{
                         if(e.TiempoParc == null){
                             if(e.DateFin != null){
                                 e.TiempoParc = e.DateFin.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                                var editDTO = _mapper.Map<EditEtapaDto>(e);
+                                await PutEtapaStop(e.IdEtapa, editDTO);
                             }
                             else{
                                 e.TiempoParc = e.DateIni.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
+                                var editDTO = _mapper.Map<EditEtapaDto>(e);
+                                await PutEtapaPausa(e.IdEtapa, editDTO);
                             }
                         }
-                        var editDTO = _mapper.Map<EditEtapaDto>(e);
-                        await PutEtapaPausa(e.IdEtapa, editDTO);
                     }
                     contador++;
                 }
@@ -2322,7 +2331,6 @@ namespace Foha.Controllers
             {
                 throw e;
             }
-
         } 
     }
 }
