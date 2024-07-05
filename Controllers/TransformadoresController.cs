@@ -260,12 +260,12 @@ namespace Foha.Controllers
     {
             var pageQuantity=pageNumber * 80;
             DateTime month = DateTime.Now;
-            var resultado2=_context.Transformadores
+            var resultado2= await _context.Transformadores
             .Include(x=>x.IdClienteNavigation)
             .Include(x=>x.IdVendedorNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             // .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
-            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).OrderBy(x=>x.Prioridad).ToList();
+            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).OrderBy(x=>x.Prioridad).ToListAsync();
 
             //A preguntar, condición de filtrado de los procesos terminados (en esta línea filtra los procesos que tienen una de las últimas dos etapas finalizadas) (FUNCA)
             //resultado2 = resultado2.Where(x=> x.Etapa.Where(z => z.IdTipoEtapa == 32).First().IsEnded!=true).ToList();
@@ -294,13 +294,13 @@ namespace Foha.Controllers
             DateTime month = DateTime.Now;
 
 
-            var resultado= _context.Transformadores
+            var resultado= await _context.Transformadores
             .Include(z=>z.IdClienteNavigation)
             .Include(x=>x.Etapa).ThenInclude(x=>x.IdColorNavigation)
             .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
             // .Where(trafo => trafo.Etapa.All(x=>x.IsEnded!=true))
             // .OrderByDescending(g=>g.Anio).ThenBy(g=>g.Mes).Take(pageQuantity).ToList();
-            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToList();
+            .Where(x=>x.Mes == month.Month && x.Anio==month.Year).ToListAsync();
 
             // OrderTrafoDto order = new OrderTrafoDto();
             // order.Id="Bla bla bla";
