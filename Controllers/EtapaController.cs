@@ -847,15 +847,15 @@ namespace Foha.Controllers
                 suma=TimeSpan.ParseExact(etapaAntes.TiempoParc,"dd\\:hh\\:mm\\:ss",CultureInfo.InvariantCulture).Add(horasHombre);
                 editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
             }
-            //Ultimo usuario y fecha de ultima modificacion
-            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
-            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
-            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
-            editEtapaDto.UltimoUsuario = "Christian";
-            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
-            //Termina Ultimo usuario y fecha de ultima modificacion
+            // //Ultimo usuario y fecha de ultima modificacion
+            // var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            // var handler = new JwtSecurityTokenHandler();
+            // var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            // editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            // editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            // editEtapaDto.UltimoUsuario = "Christian";
+            // editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            // //Termina Ultimo usuario y fecha de ultima modificacion
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
             try{
@@ -883,6 +883,12 @@ namespace Foha.Controllers
             
             editEtapaDto.DateIni=etapaAntes.DateIni;
             editEtapaDto.DateFin=DateTime.Now;
+            if(etapaAntes.TiempoParc == null && etapaAntes.DateFin != null){
+                etapaAntes.TiempoParc = etapaAntes.DateFin.Value.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+            }
+            else if(etapaAntes.TiempoParc == null && etapaAntes.DateFin == null){
+                etapaAntes.TiempoParc = etapaAntes.DateIni.Value.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+            }
 
             //chequeo si es el primer comienzo
             if(etapaAntes.InicioProceso==null)
@@ -965,13 +971,13 @@ namespace Foha.Controllers
             editEtapaDto.TiempoParc="Finalizada";
             editEtapaDto.IsEnded=true;
 
-            //Ultimo usuario y fecha de ultima modificacion
-            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
-            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
-            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
-            //Termina Ultimo usuario y fecha de ultima modificacion
+            // //Ultimo usuario y fecha de ultima modificacion
+            // var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            // var handler = new JwtSecurityTokenHandler();
+            // var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            // editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            // editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            // //Termina Ultimo usuario y fecha de ultima modificacion
             
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 
@@ -2310,17 +2316,19 @@ namespace Foha.Controllers
                         }
                     }
                     else{
-                        if(e.TiempoParc == null){
-                            if(e.DateFin != null){
-                                e.TiempoParc = e.DateFin.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                                var editDTO = _mapper.Map<EditEtapaDto>(e);
-                                await PutEtapaStop(e.IdEtapa, editDTO);
+                        if(e.DateFin != null){
+                            if(e.TiempoParc == null){
+                                e.TiempoParc = e.DateFin.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);    
                             }
-                            else{
+                            var editDTO = _mapper.Map<EditEtapaDto>(e);
+                            await PutEtapaStop(e.IdEtapa, editDTO);
+                        }
+                        else{
+                            if(e.TiempoParc == null){
                                 e.TiempoParc = e.DateIni.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
-                                var editDTO = _mapper.Map<EditEtapaDto>(e);
-                                await PutEtapaPausa(e.IdEtapa, editDTO);
                             }
+                            var editDTO = _mapper.Map<EditEtapaDto>(e);
+                            await PutEtapaPausa(e.IdEtapa, editDTO);
                         }
                     }
                     contador++;
