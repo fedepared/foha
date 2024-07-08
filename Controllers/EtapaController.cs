@@ -636,7 +636,13 @@ namespace Foha.Controllers
                 if(etapaHorno.IsEnded == false || etapaHorno.IsEnded == null){
                     etapaHorno.IdColor = 9;
                     etapaHorno.FechaPausa = DateTime.Now;
-                    var editDTO = _mapper.Map<EditEtapaDto>(etapaHorno);      
+                    var editDTO = _mapper.Map<EditEtapaDto>(etapaHorno); 
+                    if(editDTO.TiempoParc == null && editDTO.DateIni == null){
+                        editDTO.TiempoParc = DateTime.Now.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+                    }     
+                    else if( editDTO.TiempoParc == null && editDTO.DateIni != null){
+                        editDTO.TiempoParc = editDTO.DateIni.Value.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+                    }
                     await PutEtapaPausa(etapaHorno.IdEtapa, editDTO);                
                 }
             }
@@ -746,7 +752,12 @@ namespace Foha.Controllers
                 etapaAntes.TiempoParc = etapaAntes.DateFin.Value.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
             }
             else if(etapaAntes.TiempoParc == null && etapaAntes.DateFin == null){
-                etapaAntes.TiempoParc = etapaAntes.DateIni.Value.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+                if(etapaAntes.DateIni != null){
+                    etapaAntes.TiempoParc = etapaAntes.DateIni.Value.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+                }
+                else{
+                    etapaAntes.TiempoParc = DateTime.Now.ToString(@"M/d/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
+                }
             }
             //chequeo si es el primer comienzo
             if(etapaAntes.InicioProceso==null)
@@ -2288,7 +2299,8 @@ namespace Foha.Controllers
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
             await _repo.SaveAsync(preEtapa);
-        }        
+        } 
+
         [HttpGet("PausarIniciadasViejas")]
         public async Task<ActionResult> PausarIniciadasViejas()
         {
