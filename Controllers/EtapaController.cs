@@ -2306,8 +2306,9 @@ namespace Foha.Controllers
         {
             DateTime FechaLimite = DateTime.Today.AddDays(-30);
             try{
-                List<Etapa> EtapasIniciadas = _context.Etapa.AsNoTracking().Where(x => x.IdColor == 1030 && x.DateIni <= FechaLimite).ToList();
-                int contador = 0;
+                List<Etapa> EtapasIniciadas = _context.Etapa.AsNoTracking().Where(x => x.IdColor == 1030 && x.DateIni <= FechaLimite).Include(x => x.IdTipoEtapaNavigation).ToList();
+                //List<int> lista = new List<int>();
+                string lista = "";
                 foreach(Etapa e in EtapasIniciadas){
                     e.IdColor = 9;
                     e.FechaPausa = DateTime.Now;
@@ -2320,11 +2321,19 @@ namespace Foha.Controllers
                             e.TiempoParc = e.DateFin.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                             var editDTO = _mapper.Map<EditEtapaDto>(e);
                             await PutEtapaStop(e.IdEtapa, editDTO); 
+                            if(lista == ""){
+                                lista = "Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Finalizada";
+                            }
+                            lista = lista + " // Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Finalizada";
                         }
                         else{
                             e.TiempoParc = e.DateIni.Value.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                             var editDTO = _mapper.Map<EditEtapaDto>(e);
                             await PutEtapaPausa(e.IdEtapa, editDTO); 
+                            if(lista == ""){
+                                lista = "Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Pausada";
+                            }
+                            lista = lista + " // Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Pausada";
                         }
                     }
                     else{
@@ -2334,6 +2343,10 @@ namespace Foha.Controllers
                             }
                             var editDTO = _mapper.Map<EditEtapaDto>(e);
                             await PutEtapaStop(e.IdEtapa, editDTO);
+                            if(lista == ""){
+                                lista = "Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Finalizada";
+                            }
+                            lista = lista + " // Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Finalizada";
                         }
                         else{
                             if(e.TiempoParc == null){
@@ -2341,11 +2354,14 @@ namespace Foha.Controllers
                             }
                             var editDTO = _mapper.Map<EditEtapaDto>(e);
                             await PutEtapaPausa(e.IdEtapa, editDTO);
+                            if(lista == ""){
+                                lista = "Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Pausada";
+                            }
+                            lista = lista + " // Trafo: " + e.IdTransfo + " Proceso: " + e.IdEtapa + " Tipo: " + e.IdTipoEtapaNavigation.Abrev + " - Pausada";
                         }
                     }
-                    contador++;
                 }
-                return Ok("Se pausaron " + contador + " Procesos");
+                return Ok(lista);
             }
             catch(Exception e)
             {
