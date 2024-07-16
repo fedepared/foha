@@ -113,7 +113,7 @@ namespace Foha.Controllers
                 return BadRequest(res);
             }
 
-            if (id != editEmpleadoDto.IdEmpleado)
+            if (id != editEmpleadoDto.IdEmpleado.Trim())
             {
                 res.Data = editEmpleadoDto;
                 res.Message="Los datos son incorrectos";
