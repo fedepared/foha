@@ -352,6 +352,7 @@ export class ExcelTimesService {
     worksheet.addRow([" "]);
     let iguales=false;
     let otAnterior=0;
+    let loteAnterior=0;
     let row=8;
     let monthYear='';
     if(idTipoUs==='6'){
@@ -372,14 +373,16 @@ export class ExcelTimesService {
           let cuenta=0;
           let cuentaCol=15;
           let fot:Date|string=this.fopToDate(e.fechaPactada);
-          let oTe=e.oTe
+          let oTe=e.oTe;
+          let lote=e.lote;
           //son del mismo grupo
-          if(oTe==otAnterior){
+          if(oTe==otAnterior && lote==loteAnterior){
             iguales=true;
           }
           else{
             iguales=false;
             otAnterior=oTe;
+            loteAnterior=lote;
           }
           worksheet.addRow({
             mes:monthYear,
@@ -618,14 +621,16 @@ export class ExcelTimesService {
           let cuenta=0;
           let cuentaCol=15;
           let fot:Date|string=this.fopToDate(e.fechaPactada);
-          let oTe=e.oTe
+          let oTe=e.oTe;
+          let lote=e.lote;
           //son del mismo grupo
-          if(oTe==otAnterior){
+          if(oTe==otAnterior && lote==loteAnterior){
             iguales=true;
           }
           else{
             iguales=false;
             otAnterior=oTe;
+            loteAnterior=lote;
           }
           worksheet.addRow({
             mes:monthYear,
