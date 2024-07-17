@@ -83,6 +83,15 @@ export class EtapaService {
     )
   }
 
+  getPausarIniciadasViejas(){
+    const url = `${apiUrl}/PausarIniciadasViejas`;
+    return this.http.get<IResponse<any[]>>(url)
+    .pipe(
+      tap(_=>console.log('fetched iniciadas Viejas')),
+      catchError(this.handleError<IResponse<any[]>>('Chequeo de horno'))
+    )
+  }
+
 
   addEtapa(etapa: any): Observable<Etapa> {
     return this.http
