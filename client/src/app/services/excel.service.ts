@@ -360,6 +360,7 @@ export class ExcelService {
     worksheet.addRow([" "]);
     let iguales=false;
     let otAnterior=0;
+    let loteAnterior=0;
     let row=8;
     let monthYear;
     let month;
@@ -391,15 +392,16 @@ export class ExcelService {
           let cuenta=0;
           let cuentaCol=15;
           let fot:Date=this.fopToDate(e.fechaPactada);
-          let oTe=e.oTe
-          
+          let oTe=e.oTe;
+          let lote = e.lote;
           //son del mismo grupo
-          if(oTe==otAnterior){
+          if(oTe==otAnterior && lote==loteAnterior ){
             iguales=true;
           }
           else{
             iguales=false;
             otAnterior=oTe;
+            loteAnterior=lote;
           }
   
           worksheet.addRow({
@@ -680,15 +682,17 @@ export class ExcelService {
           let cuenta=0;
           let cuentaCol=15;
           let fot:Date=this.fopToDate(e.fechaPactada);
-          let oTe=e.oTe
+          let oTe=e.oTe;
+          let lote=e.lote;
         
           //son del mismo grupo
-          if(oTe==otAnterior){
+          if(oTe==otAnterior && lote==loteAnterior){
             iguales=true;
           }
           else{
             iguales=false;
             otAnterior=oTe;
+            loteAnterior=lote;
           }
           console.log(e.etapa);
           worksheet.addRow({

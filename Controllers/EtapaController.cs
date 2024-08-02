@@ -859,13 +859,13 @@ namespace Foha.Controllers
                 editEtapaDto.TiempoParc=suma.ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
             }
             // //Ultimo usuario y fecha de ultima modificacion
-            // var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-            // var handler = new JwtSecurityTokenHandler();
-            // var jwtSecurityToken = handler.ReadJwtToken(accessToken);
-            // editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
-            // editEtapaDto.FechaUltimaModificacion = DateTime.Now;
-            // editEtapaDto.UltimoUsuario = "Christian";
-            // editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            editEtapaDto.UltimoUsuario = "Christian";
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
             // //Termina Ultimo usuario y fecha de ultima modificacion
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
             _repo.Update(preEtapa);
@@ -983,12 +983,12 @@ namespace Foha.Controllers
             editEtapaDto.IsEnded=true;
 
             // //Ultimo usuario y fecha de ultima modificacion
-            // var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-            // var handler = new JwtSecurityTokenHandler();
-            // var jwtSecurityToken = handler.ReadJwtToken(accessToken);
-            // editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
-            // editEtapaDto.FechaUltimaModificacion = DateTime.Now;
-            // //Termina Ultimo usuario y fecha de ultima modificacion
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+            editEtapaDto.UltimoUsuario = jwtSecurityToken.Claims.ElementAt(1).Value;
+            editEtapaDto.FechaUltimaModificacion = DateTime.Now;
+            //Termina Ultimo usuario y fecha de ultima modificacion
             
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 

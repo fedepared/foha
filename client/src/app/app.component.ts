@@ -10,6 +10,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { MensajesService } from './services/mensajes.service';
 import { TokenInterceptor } from './interceptors/token.interceptors';
 import { async } from 'rxjs/internal/scheduler/async';
+import { EtapaService } from './services/etapa.service';
 
 export let browserRefresh = false;
 
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
 
 mobileQuery: MediaQueryList;
 private _mobileQueryListener: () => void;
-constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private router: Router,private matIconRegistry: MatIconRegistry,sanitizer: DomSanitizer,private authService:AuthService,private mensajesService:MensajesService) {
+constructor(changeDetectorRef: ChangeDetectorRef,private etapaService:EtapaService, media: MediaMatcher,private router: Router,private matIconRegistry: MatIconRegistry,sanitizer: DomSanitizer,private authService:AuthService,private mensajesService:MensajesService) {
   this.mobileQuery = media.matchMedia('(max-width: 600px)');
   this._mobileQueryListener = () => changeDetectorRef.detectChanges();
   this.mobileQuery.addListener(this._mobileQueryListener);
@@ -79,7 +80,11 @@ ngOnDestroy(): void {
   
 }
 
-
+pausaIniciadasViejas(){
+  this.etapaService.getPausarIniciadasViejas().subscribe(res=>{
+    console.log(res);
+  })
+}
 
 logout() {
   this.authService.logout();
