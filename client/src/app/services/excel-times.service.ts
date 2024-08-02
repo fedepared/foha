@@ -353,14 +353,21 @@ export class ExcelTimesService {
     let iguales=false;
     let otAnterior=0;
     let row=8;
-    let monthYear='';
+    let monthYear;
+    let month;
     if(idTipoUs==='6'){
       data.forEach((e,i)=>{
         if((e.hasOwnProperty("group")))
         {
           row--;
           let array = e.group.toString().split(' ');
-          monthYear = this.monthStringToMonthNumber(array[0]) + '/' + array[2];
+          month = this.monthStringToMonthNumber(array[0]);
+
+          if (typeof(month) === "string"){
+            monthYear = month + '/' + array[2];
+          }else{
+            monthYear = new Date(array[2],month-1,1);
+          }
           // let periodo=worksheet.addRow([`${e.group}`]);
           // worksheet.mergeCells(periodo.number,1,periodo.number,55);
           // let cell=worksheet.getCell(`A${periodo.number}`);
@@ -605,7 +612,13 @@ export class ExcelTimesService {
         {
             row--;
             let array = e.group.toString().split(' ');
-            monthYear = this.monthStringToMonthNumber(array[0]) + '/'+ array[2];
+            month = this.monthStringToMonthNumber(array[0]);
+
+            if (typeof(month) === "string"){
+              monthYear = month + '/' + array[2];
+            }else{
+              monthYear = new Date(array[2],month-1,1);
+            }
             // let periodo=worksheet.addRow([`${e.group}`]);
 
             // worksheet.mergeCells(periodo.number,1,periodo.number,54)
@@ -889,29 +902,29 @@ export class ExcelTimesService {
   monthStringToMonthNumber(month:string){
     switch(month){
       case 'Enero': 
-        return '01';
+        return 1;
       case 'Febrero': 
-        return '02';
+        return 2;
       case 'Marzo':
-        return '03';
+        return 3;
       case 'Abril':
-        return '04';
+        return 4;
       case 'Mayo':
-        return '05';
+        return 5;
       case 'Junio':
-        return '06';
+        return 6;
       case 'Julio':
-        return '07';
+        return 7;
       case 'Agosto':
-        return '08';
+        return 8;
       case 'Septiembre':
-        return '09';
+        return 9;
       case 'Octubre':
-        return '10';
+        return 10;
       case 'Noviembre':
-        return '11';
+        return 11;
       case 'Diciembre':
-        return '12';
+        return 12;
       default:
         return month;
     }
