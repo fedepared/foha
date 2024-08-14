@@ -1192,7 +1192,7 @@ namespace Foha.Controllers
 
 
         List<dynamic> trafosDynamic = new List<dynamic>();
-        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() + " Potencia Total: " + tfdto.Sum(x => x.Potencia) };
+        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() + " Potencia Total: " + tfdto.Sum(x => x.Potencia) + " Potencia Promedio: " + (tfdto.Sum(x => x.Potencia) / tfdto.Count())};
         trafosDynamic.Add(testobj);
         foreach(Transformadores t in tfdto){
             trafosDynamic.Add(t);
@@ -1335,7 +1335,7 @@ namespace Foha.Controllers
             var anioIni = trafos[0].Anio;
             var mesIni = trafos[0].Mes;
             int potenciaTotalInicial = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial};
+            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial+ " Potencia Promedio: " + (potenciaTotalInicial / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
             trafosDynamic.Add(obj);
             foreach(var t in trafos)
             {
@@ -1343,7 +1343,7 @@ namespace Foha.Controllers
                     anioIni = t.Anio;
                     mesIni = t.Mes;
                     int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
@@ -1432,7 +1432,7 @@ namespace Foha.Controllers
             var anioIni = trafos[0].Anio;
             var mesIni = trafos[0].Mes;
             int potenciaTotalInicial = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial};
+            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial+ " Potencia Promedio: " + (potenciaTotalInicial / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
             trafosDynamic.Add(obj);
             foreach(var t in trafos)
             {
@@ -1440,7 +1440,7 @@ namespace Foha.Controllers
                     anioIni = t.Anio;
                     mesIni = t.Mes;
                     int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()) + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
@@ -1774,7 +1774,7 @@ namespace Foha.Controllers
                     int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
                     anioIni = t.Anio;
                     mesIni = t.Mes;
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
