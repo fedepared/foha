@@ -852,7 +852,7 @@ namespace Foha.Controllers
             // }
         }
         AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
-        AsignarFechaProdMes(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
+        AcomodarLote(addTransformadoresDto[0].Mes.Value, addTransformadoresDto[0].Anio.Value);
 
         r.Message = "Se agrgaron los transformadores con exito.";
         r.Status = 200;
@@ -938,6 +938,7 @@ namespace Foha.Controllers
         _repo.UpdateAll(listaTrafos);
         try{
             await _context.SaveChangesAsync();
+            AsignarFechaProdMes(trafos[0].Mes.Value, trafos[0].Anio.Value);
             AcomodarLote(trafos[0].Mes.Value, trafos[0].Anio.Value);
             //ChequearFechasProd();
             res.Message="Orden Guardado Correctamente.";
@@ -1946,7 +1947,7 @@ namespace Foha.Controllers
         {
             throw ex;
         }
-        return false;
+        return true;
     }
 
     
