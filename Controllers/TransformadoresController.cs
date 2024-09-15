@@ -611,18 +611,20 @@ namespace Foha.Controllers
             return BadRequest(r);
         }
 
-        if(addTransformadoresDto.IdCliente != 9999)
-        {
-            if(addTransformadoresDto.Serie == null){
-                addTransformadoresDto.Serie = 1;
-                if(addTransformadoresDto.OTe != null){
-                    if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
-                    {
-                        addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
-                    }
-                }   
-            }
-        }
+        // if(addTransformadoresDto.IdCliente != 9999)
+        // {
+        //     if(addTransformadoresDto.Serie == null){
+        //         addTransformadoresDto.Serie = 1;
+        //         if(addTransformadoresDto.OTe != null){
+        //             if(_context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Count() > 0)
+        //             {
+        //                 addTransformadoresDto.Serie = _context.Transformadores.Where(x => x.OTe == addTransformadoresDto.OTe).Max(x => x.Serie.Value) + 1;
+        //             }
+        //         }   
+        //     }
+        // }
+
+        addTransformadoresDto.Serie = null;
 
         if(addTransformadoresDto.IdTipoTransfo == 8){
             addTransformadoresDto.Mes = 15;
@@ -634,6 +636,10 @@ namespace Foha.Controllers
 
         if(_context.Transformadores.Any(x=>addTransformadoresDto.Mes == x.Mes && addTransformadoresDto.Anio==x.Anio)){
             addTransformadoresDto.Prioridad = _context.Transformadores.Where(x=>x.Mes == addTransformadoresDto.Mes && x.Anio==addTransformadoresDto.Anio).Max(z=>z.Prioridad)+1;
+        }
+        
+        if(addTransformadoresDto.OTe == null){
+            addTransformadoresDto.OTe = -1;
         }
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
@@ -1915,32 +1921,32 @@ namespace Foha.Controllers
         List<Transformadores> trafosSeguidos = new List<Transformadores>();
         int lote = 0;
         int OtAnterior = 0;
-        foreach(Transformadores tr in trafos){    
-            if(tr.OTe == OtAnterior || OtAnterior == 0){
-                lote++;
-                trafosSeguidos.Add(tr);
-                if(OtAnterior == 0){
-                    OtAnterior = tr.OTe.Value;
-                }
-            }
-            else{                   
-                foreach(Transformadores trafoseg in trafosSeguidos){
-                    trafoseg.Lote = lote;
-                    _context.Update(trafoseg);
-                }
-                trafosSeguidos.Clear();
-                lote = 1;
-                OtAnterior = tr.OTe.Value;
-                trafosSeguidos.Add(tr);
-            }
-        }
-        foreach(Transformadores trafoseg in trafosSeguidos)
-        {
-            trafoseg.Lote = lote;
-            _context.Update(trafoseg);
-        }
         try
         {
+            foreach(Transformadores tr in trafos){    
+                if(tr.OTe == OtAnterior || OtAnterior == 0){
+                    lote++;
+                    trafosSeguidos.Add(tr);
+                    if(OtAnterior == 0){
+                        OtAnterior = tr.OTe.Value;
+                    }
+                }
+                else{                   
+                    foreach(Transformadores trafoseg in trafosSeguidos){
+                        trafoseg.Lote = lote;
+                        _context.Update(trafoseg);
+                    }
+                    trafosSeguidos.Clear();
+                    lote = 1;
+                    OtAnterior = tr.OTe.Value;
+                    trafosSeguidos.Add(tr);
+                }
+            }
+            foreach(Transformadores trafoseg in trafosSeguidos)
+            {
+                trafoseg.Lote = lote;
+                _context.Update(trafoseg);
+            }
             _context.SaveChanges();
         }
         catch(Exception ex)
@@ -1950,6 +1956,25 @@ namespace Foha.Controllers
         return true;
     }
 
-    
+    [HttpGet("BlanquearSeries")]
+    public async Task<IActionResult> BlanquearSeries()//TESTEAR
+    {
+        try{
+            List<Transformadores> trafos = (from Transformadores t in _context.Transformadores
+                                            join Etapa e in _context.Etapa on t.IdTransfo equals e.IdTransfo
+                                            where (e.IdTipoEtapa == 29 && e.IdColor != 10) && (e.IdTipoEtapa == 32 && e.IdColor != 10)
+                                            select t).ToList();
+                                            
+            foreach(Transformadores t in trafos){
+                t.Serie = null;
+                _context.Update(t);
+            }
+            _context.SaveChanges();
+            return Ok();
+        }catch(Exception ex){
+            return BadRequest(ex);
+        }
+    }    
+
 }
 }

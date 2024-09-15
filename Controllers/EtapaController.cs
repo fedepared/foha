@@ -904,10 +904,10 @@ namespace Foha.Controllers
             //chequeo si es el primer comienzo
             if(etapaAntes.InicioProceso==null)
             {
-                //Tiempo parcial 
-                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
+                // //Tiempo parcial 
+                // TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture));
                 //Para develop
-                // TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
+                TimeSpan preEtapaTiempoParc = (DateTime.Now - DateTime.ParseExact(etapaAntes.TiempoParc, "dd/M/yyyy H:mm:ss", CultureInfo.InvariantCulture));
                 editEtapaDto.TiempoFin = preEtapaTiempoParc.Multiply(editEtapaDto.EtapaEmpleado.Count()).ToString(@"dd\:hh\:mm\:ss",CultureInfo.InvariantCulture);
                 var listaCheck = new [] {2,3,4,5,6,7,8,9,10,11,12,13,24};
                 if (listaCheck.Contains(editEtapaDto.IdTipoEtapa.Value))
@@ -981,6 +981,11 @@ namespace Foha.Controllers
 
             editEtapaDto.TiempoParc="Finalizada";
             editEtapaDto.IsEnded=true;
+            if(editEtapaDto.IdTipoEtapa == 29){
+                Transformadores trafo = _context.Transformadores.Where(x => x.IdTransfo == editEtapaDto.IdTransfo).First();
+                trafo.Serie = editEtapaDto.NumEtapa;
+                _context.Update(trafo);
+            }
 
             // //Ultimo usuario y fecha de ultima modificacion
             var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
@@ -993,6 +998,7 @@ namespace Foha.Controllers
             var preEtapa = _mapper.Map<Etapa>(editEtapaDto);
 
             _repo.Update(preEtapa);
+            _context.SaveChanges();
 
             // if(editEtapaDto.IdTipoEtapa == 29){
             //     Transformadores trafo = _context.Etapa.Where(x => x.IdEtapa == editEtapaDto.IdEtapa).Include(x => x.IdTransfoNavigation).First().IdTransfoNavigation;
