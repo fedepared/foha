@@ -638,9 +638,6 @@ namespace Foha.Controllers
             addTransformadoresDto.Prioridad = _context.Transformadores.Where(x=>x.Mes == addTransformadoresDto.Mes && x.Anio==addTransformadoresDto.Anio).Max(z=>z.Prioridad)+1;
         }
         
-        if(addTransformadoresDto.OTe == null){
-            addTransformadoresDto.OTe = -1;
-        }
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
         if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7){
@@ -1630,33 +1627,35 @@ namespace Foha.Controllers
     }
 
     private void AsignarFechaProdMes(int mes, int anio){
-        Response<String> r = new Response<string>();
-        List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
-        int dias = DateTime.DaysInMonth(anio, mes);
-        List<DateTime> fechas = new List<DateTime>();
-        for (int i = 1; i <= dias; i++)
-        {
-            fechas.Add(new DateTime(anio, mes, i));
-        }
-        fechas = fechas.Where(d => d.DayOfWeek > DayOfWeek.Sunday & d.DayOfWeek < DayOfWeek.Saturday).ToList();
-        int DiasLaborales = fechas.Count();
-        double maxDiario = Math.Round((double)trafos.Count() / (double)DiasLaborales);
-        int Contador = 0;
-        int ContadorFecha = 0;
-        foreach(Transformadores t in trafos){
-            t.FechaProd = fechas[ContadorFecha];
-            _context.Transformadores.Update(t);
-            Contador++;
-            if(Contador == maxDiario)
+        if(mes >= 1 && mes <= 12){
+            Response<String> r = new Response<string>();
+            List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
+            int dias = DateTime.DaysInMonth(anio, mes);
+            List<DateTime> fechas = new List<DateTime>();
+            for (int i = 1; i <= dias; i++)
             {
-                Contador = 0;
-                if(ContadorFecha < DiasLaborales -1)
-                {
-                    ContadorFecha++;
-                }
+                fechas.Add(new DateTime(anio, mes, i));
             }
-        }       
-        _context.SaveChanges();
+            fechas = fechas.Where(d => d.DayOfWeek > DayOfWeek.Sunday & d.DayOfWeek < DayOfWeek.Saturday).ToList();
+            int DiasLaborales = fechas.Count();
+            double maxDiario = Math.Round((double)trafos.Count() / (double)DiasLaborales);
+            int Contador = 0;
+            int ContadorFecha = 0;
+            foreach(Transformadores t in trafos){
+                t.FechaProd = fechas[ContadorFecha];
+                _context.Transformadores.Update(t);
+                Contador++;
+                if(Contador == maxDiario)
+                {
+                    Contador = 0;
+                    if(ContadorFecha < DiasLaborales -1)
+                    {
+                        ContadorFecha++;
+                    }
+                }
+            }       
+            _context.SaveChanges();
+        }
     }
 
     [HttpGet("AsignarFechaProdMesGet/{mes}/{anio}")]
@@ -1918,33 +1917,62 @@ namespace Foha.Controllers
     }
     private bool AcomodarLote(int mes, int anio){
         List<Transformadores> trafos = _context.Transformadores.Where(x => x.Mes == mes && x.Anio == anio).OrderBy(x => x.Prioridad).ToList();
-        List<Transformadores> trafosSeguidos = new List<Transformadores>();
-        int lote = 0;
+        List<Transformadores> trafosSeguidosOT = new List<Transformadores>();
+        List<Transformadores> trafosSeguidosOP = new List<Transformadores>();
+        List<Transformadores> trafosOT = trafos.Where(x => x.OTe != null).OrderBy(x => x.Prioridad).ToList();
+        List<Transformadores> trafosOP = trafos.Where(x => x.OTe == null).OrderBy(x => x.Prioridad).ToList();
+        int loteOT = 0;
+        int loteOP = 0;
         int OtAnterior = 0;
+        int OpAnterior = 0;
         try
         {
-            foreach(Transformadores tr in trafos){    
+            foreach(Transformadores tr in trafosOT){    
                 if(tr.OTe == OtAnterior || OtAnterior == 0){
-                    lote++;
-                    trafosSeguidos.Add(tr);
+                    loteOT++;
+                    trafosSeguidosOT.Add(tr);
                     if(OtAnterior == 0){
                         OtAnterior = tr.OTe.Value;
                     }
                 }
                 else{                   
-                    foreach(Transformadores trafoseg in trafosSeguidos){
-                        trafoseg.Lote = lote;
+                    foreach(Transformadores trafoseg in trafosSeguidosOT){
+                        trafoseg.Lote = loteOT;
                         _context.Update(trafoseg);
                     }
-                    trafosSeguidos.Clear();
-                    lote = 1;
+                    trafosSeguidosOT.Clear();
+                    loteOT = 1;
                     OtAnterior = tr.OTe.Value;
-                    trafosSeguidos.Add(tr);
+                    trafosSeguidosOT.Add(tr);
                 }
             }
-            foreach(Transformadores trafoseg in trafosSeguidos)
+            foreach(Transformadores tr in trafosOP){    
+                if(tr.OPe == OpAnterior || OpAnterior == 0){
+                    loteOP++;
+                    trafosSeguidosOP.Add(tr);
+                    if(OpAnterior == 0){
+                        OpAnterior = tr.OPe;
+                    }
+                }
+                else{                   
+                    foreach(Transformadores trafoseg in trafosSeguidosOP){
+                        trafoseg.Lote = loteOP;
+                        _context.Update(trafoseg);
+                    }
+                    trafosSeguidosOP.Clear();
+                    loteOP = 1;
+                    OpAnterior = tr.OPe;
+                    trafosSeguidosOP.Add(tr);
+                }
+            }
+            foreach(Transformadores trafoseg in trafosSeguidosOT)
             {
-                trafoseg.Lote = lote;
+                trafoseg.Lote = loteOT;
+                _context.Update(trafoseg);
+            }
+            foreach(Transformadores trafoseg in trafosSeguidosOP)
+            {
+                trafoseg.Lote = loteOP;
                 _context.Update(trafoseg);
             }
             _context.SaveChanges();
