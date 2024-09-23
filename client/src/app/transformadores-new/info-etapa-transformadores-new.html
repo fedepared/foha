@@ -52,6 +52,11 @@
       <td mat-cell *matCellDef="let row">{{row.tiempoParc}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="observacion">
+      <th mat-header-cell *matHeaderCellDef class="tableHeader">Observacion</th>
+      <td mat-cell *matCellDef="let row">{{row.observacion}}</td>
+    </ng-container>
+
     
     <ng-container matColumnDef="Empleados">
       <th mat-header-cell *matHeaderCellDef class="tableHeader">Operarios</th>

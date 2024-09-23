@@ -40,6 +40,7 @@ export class RelojComponent implements OnInit{
 
   proceso:Etapa;
   numEtapa:number=0;
+  observacion:string="";
   selectedProceso:Boolean=false;
   dataEmpleados:Empleado[]=[];
   comboEmpleados:ComboEmpleado[];
@@ -91,6 +92,7 @@ export class RelojComponent implements OnInit{
     this.getTrafo(this.procesoElegido.idTransfo);
     this.getTipoEtapa(this.procesoElegido.idTipoEtapa);
     this.numEtapa=this.proceso.numEtapa;
+    this.observacion=this.proceso.observacion
     if(this.proceso.idTipoEtapa==1 ||this.proceso.idTipoEtapa==15 ||  this.proceso.idTipoEtapa==17 || this.proceso.idTipoEtapa==18 || this.proceso.idTipoEtapa==21 || this.proceso.idTipoEtapa==23 || this.proceso.idTipoEtapa==31 ||this.proceso.idTipoEtapa==32 || this.proceso.idTipoEtapa==33 || this.proceso.idTipoEtapa==34 || this.proceso.idTipoEtapa==38 || this.proceso.idTipoEtapa==39 || this.proceso.idTipoEtapa==42 || this.proceso.idTipoEtapa==44)
     {
       this.showButtons=true;
@@ -255,6 +257,10 @@ export class RelojComponent implements OnInit{
     this.numEtapa=evento.target.value;
   }
 
+  setObservacion(evento){
+    this.observacion=evento.target.value;
+  }
+
   getTrafo(id){
     this.transformadoresService.getTransformador(id)
     .subscribe(trafo =>{
@@ -376,6 +382,7 @@ export class RelojComponent implements OnInit{
         this.proceso.dateIni=new Date();
         this.proceso.dateFin=new Date();
         this.proceso.numEtapa=this.numEtapa;
+        this.proceso.observacion=this.observacion
         let empleadosProceso=new Array<Empleado>();
   
         let preEtapaEmpleado=new Array<EtapaEmpleado>();
@@ -450,6 +457,7 @@ export class RelojComponent implements OnInit{
           empezado=false;
           if(this.comienzo==true){
             this.proceso.numEtapa=this.numEtapa;
+            this.proceso.observacion=this.observacion;
           }
         }
   

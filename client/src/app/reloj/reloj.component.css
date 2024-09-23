@@ -111,7 +111,7 @@ tr.mat-row:active {
     width:145px;
   }
 
-  #encabezado{
+  .encabezado{
     background-color: white;
     color: steelblue;
     width: 100%;

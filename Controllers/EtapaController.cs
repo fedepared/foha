@@ -1831,6 +1831,7 @@ namespace Foha.Controllers
                     reporte.FechaFin = e.DateFin;
                     reporte.TiempoParc = (e.IdColor==9) ? e.TiempoParc : (e.IdColor==1030) ? "Iniciado" : (e.IdColor == 10) ? e.TiempoFin : (e.IdColor==null || e.IdColor == 1069) ? "Sin Iniciar" : e.IdColorNavigation.Leyenda;
                     reporte.Operarios = "";
+                    reporte.Observacion = e.Observacion;
                     reporte.ultimoUsuario = e.UltimoUsuario;
                     reporte.fechaUltimaModificacion = e.FechaUltimaModificacion;
                     foreach(EtapaEmpleado etapaEmp in e.EtapaEmpleado)// Como puede tener mas de 1 empleado hago un foreach y voy concatenando los nombres.

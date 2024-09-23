@@ -17,11 +17,11 @@
         </p>
     </div>
     <br>
-    <mat-card style="width:80vw;">
+    <mat-card style="width:90vw;">
         
         
         <div>
-            <h3 id="encabezado">Transformador elegido:</h3>
+            <h3 class="encabezado">Transformador elegido:</h3>
             <button mat-button style="background-color:steelblue;color:white;">OT:{{trafoAssigned.oTe}}</button>
             <button mat-button style="background-color:steelblue;color:white;">OP:{{trafoAssigned.oPe}}</button>
             <button mat-button style="background-color:steelblue;color:white;">Rango: {{trafoAssigned.rangoInicio}}</button>
@@ -29,10 +29,10 @@
             <button mat-button style="background-color:steelblue;color:white;">Cliente: {{trafoAssigned.nombreCli}}</button>
         </div>
         <mat-card-content>
-            <h3 id="encabezado">Proceso:</h3>
+            <h3 class="encabezado">Proceso:</h3>
             <button mat-button style="background-color:steelblue;color:white;">{{encabezadosEtapas(tipoEtapaSelected)}}</button>
             <br>
-            <h4 id="encabezado">Nº de referencia:</h4>
+            <h4 class="encabezado">Nº de referencia:</h4>
             <span *ngIf="numEtapa!=0">
                 <button mat-raised-button style="background-color:steelblue;color:white">
                     {{numEtapa}}
@@ -40,7 +40,18 @@
             </span>
             <span *ngIf="numEtapa==0 || numEtapa==null">
                 <button mat-raised-button color="warn">
-                    Sin nº de referencia
+                    Sin nº
+                </button>
+            </span>
+            <h4 class="encabezado">Observacion:</h4>
+            <span>
+                <button mat-raised-button style="background-color:steelblue;color:white">
+                    {{observacion}}
+                </button>
+            </span>
+            <span *ngIf="observacion=='' || observacion==null">
+                <button mat-raised-button color="secondary">
+                    Sin observacion
                 </button>
             </span>
             <div>últimos empleados asignados:</div>
@@ -54,11 +65,27 @@
 
     <br>
     <br>
-    <mat-grid-list cols="2" rowHeight="100px">
+    <mat-grid-list cols="2" rowHeight="100px" style="width:90vw!important;">
         <mat-grid-tile colspan="1">
             <mat-form-field id="ref" appearance="outline">
                 <mat-label>Nº de referencia para el proceso elegido</mat-label>
                 <input matInput placeholder="Referencia" (change)="numeroEtapa($event)" [(ngModel)]="numEtapa" type="number">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+            <mat-form-field id="ref" appearance="outline">
+                <mat-label>Observaciones</mat-label>
+                <input matInput placeholder="Observacion" (change)="setObservacion($event)" [(ngModel)]="observacion" type="text">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+            <mat-form-field *ngFor="let f of arr;let i=index" id="nuevoEmpleado" appearance="outline">
+                <mat-label>Empleado {{i+1}}</mat-label>
+                    <mat-select [(value)]="arr[i].value" (selectionChange)="change(arr[i],i)">
+                        <mat-option *ngFor="let g of comboEmpleados" [value]="g">
+                            {{g.value}}
+                        </mat-option>
+                </mat-select>
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile colspan="1">
@@ -79,16 +106,6 @@
                     <mat-icon>group_add</mat-icon>
                 </button>
             </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="1">
-            <mat-form-field *ngFor="let f of arr;let i=index" id="nuevoEmpleado" appearance="outline">
-                <mat-label>Empleado {{i+1}}</mat-label>
-                    <mat-select [(value)]="arr[i].value" (selectionChange)="change(arr[i],i)">
-                        <mat-option *ngFor="let g of comboEmpleados" [value]="g">
-                            {{g.value}}
-                        </mat-option>
-                </mat-select>
-            </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list> 
     <br>

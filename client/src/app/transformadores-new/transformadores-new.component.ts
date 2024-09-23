@@ -2162,7 +2162,7 @@ interface ComboClientes{
     styles: ['table{ width:100%}']
   })
   export class ShowInfoNewComponent{
-    displayedColumns: string[] = ['proceso','refProceso','fechaIni','fechaFin','tiempo','Empleados','lastUserModif','dateLastModif'];
+    displayedColumns: string[] = ['proceso','refProceso','fechaIni','fechaFin','tiempo','observacion','Empleados','lastUserModif','dateLastModif'];
     dataEtapaPorTransfo:any[]=[];
     nombreEtapa:string;
     dateIni:Date;
