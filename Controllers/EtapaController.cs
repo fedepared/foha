@@ -686,7 +686,7 @@ namespace Foha.Controllers
                                             + " - Rango: " + e.IdEtapaNavigation.IdTransfoNavigation.RangoInicio
                                             + " - Fecha de Inicio: " + e.DateIni.ToString() + "\n";
                         }
-                        //return StatusCode(500, mensaje);
+                        return StatusCode(201, mensajeEtapasIniciadas);
                     }
                 }
                 //Busco si el empleado ya había trabajado en el proceso
