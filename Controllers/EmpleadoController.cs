@@ -121,9 +121,9 @@ namespace Foha.Controllers
                 return BadRequest(res);
             }
 
-            if(_context.Empleado.Any(x=>x.IdEmpleado==editEmpleadoDto.Legajo && !x.NombreEmp.Equals(editEmpleadoDto.NombreEmp)))
+            if(_context.Empleado.Any(x=> (x.Legajo == editEmpleadoDto.Legajo || x.NombreEmp.Equals(editEmpleadoDto.NombreEmp)) && x.IdEmpleado != editEmpleadoDto.IdEmpleado))
             {
-                res.Message="Ya existe un empleado con ese legajo asignado";
+                res.Message="Ya existe un empleado con ese legajo asignado, o con el mismo nombre";
                 res.Status= 409;
                 return BadRequest(res);
             }

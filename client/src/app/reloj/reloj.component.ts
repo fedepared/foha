@@ -474,7 +474,13 @@ export class RelojComponent implements OnInit{
           (res) => {
                 if(res.includes("El empleado")){
                   this.message = res;
-
+                  this.isLoadingResults = false;
+                  this.array=[];
+                  this.play=!this.play;
+                  this.isPause=!this.isPause;
+                  this.isStop=!this.isStop;
+                  this.class=!this.class;
+                  this.proceso.etapaEmpleado=[];
                 }
                 this.isLoadingResults = false;
                 
