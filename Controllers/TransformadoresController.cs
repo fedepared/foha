@@ -208,6 +208,10 @@ namespace Foha.Controllers
             };
             i=0;
         }
+        
+        if(transfo.IdTipoTransfo==11){
+            resultadoAnterior=resultado.ToList();
+        }
         return resultadoAnterior;
 
     }
@@ -626,21 +630,28 @@ namespace Foha.Controllers
 
         addTransformadoresDto.Serie = null;
 
-        if(addTransformadoresDto.IdTipoTransfo == 8){
-            addTransformadoresDto.Mes = 15;
-        }
+            if (addTransformadoresDto.IdTipoTransfo == 8)
+            {
+                addTransformadoresDto.Mes = 15;
+            }
 
-        if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6 && addTransformadoresDto.IdTipoTransfo!=7 && addTransformadoresDto.IdTipoTransfo!=8 && addTransformadoresDto.IdTipoTransfo!=9){
+        //antes de reparaciones de potencia
+        // if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6 && addTransformadoresDto.IdTipoTransfo!=7 && addTransformadoresDto.IdTipoTransfo!=8 && addTransformadoresDto.IdTipoTransfo!=9){
+        if(addTransformadoresDto.OPe == 0 && addTransformadoresDto.IdTipoTransfo!=6 && addTransformadoresDto.IdTipoTransfo!=7 && addTransformadoresDto.IdTipoTransfo!=8 && addTransformadoresDto.IdTipoTransfo!=9 && addTransformadoresDto.IdTipoTransfo!=11){
             addTransformadoresDto.OPe = _context.Transformadores.Max(x => x.OPe) + 1;
         }
 
-        if(_context.Transformadores.Any(x=>addTransformadoresDto.Mes == x.Mes && addTransformadoresDto.Anio==x.Anio)){
-            addTransformadoresDto.Prioridad = _context.Transformadores.Where(x=>x.Mes == addTransformadoresDto.Mes && x.Anio==addTransformadoresDto.Anio).Max(z=>z.Prioridad)+1;
-        }
+            if (_context.Transformadores.Any(x => addTransformadoresDto.Mes == x.Mes && addTransformadoresDto.Anio == x.Anio))
+            {
+                addTransformadoresDto.Prioridad = _context.Transformadores.Where(x => x.Mes == addTransformadoresDto.Mes && x.Anio == addTransformadoresDto.Anio).Max(z => z.Prioridad) + 1;
+            }
         
 
         //addTransformadoresDto.Prioridad=_context.Transformadores.Max(x=>x.Prioridad).Where(x=>x.mes == addTransformadoresDto.mes && x.anio==addTransformadoresDto.anio)+1;
-        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7){
+        
+        //antes de reparaciones de potencia
+        //if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7)
+        if(addTransformadoresDto.IdTipoTransfo == 6 || addTransformadoresDto.IdTipoTransfo == 7 || addTransformadoresDto.IdTipoTransfo == 11){
             addTransformadoresDto.RangoFin=1;
             addTransformadoresDto.RangoInicio=1;
             //if(addTransformadoresDto.OPe == null){
@@ -768,6 +779,14 @@ namespace Foha.Controllers
                                 etapa.IsEnded = true;
                             }
                             break;
+                        //despues de reparaciones de potencia
+                        case 11:
+                            if(i.IdTipoEtapa != 45)
+                            {
+                                etapa.IdColor=1034;
+                                etapa.IsEnded = true;
+                            }
+                        break;
                     }
                 }
                 todasLasEtapas.Add(etapa);

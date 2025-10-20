@@ -270,10 +270,12 @@ namespace Foha.Models
 
                 entity.Property(e => e.IdTipoTransfo).HasColumnName("idTipoTransfo");
 
+                //antes de reparaciones de potencia
+                //.HasMaxLength(20)
                 entity.Property(e => e.NombreTipoTransfo)
                     .IsRequired()
                     .HasColumnName("nombreTipoTransfo")
-                    .HasMaxLength(20)
+                    .HasMaxLength(25)
                     .IsUnicode(false);
             });
 
