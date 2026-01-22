@@ -1206,16 +1206,27 @@ namespace Foha.Controllers
         .OrderBy(x=>x.Prioridad)
         .ToListAsync();
 
+        var acumuladorProcesosFinalizados = 0;
+        var acumuladorProcesosGrisados = 0;
+        var acumuladorProcesosTotales = 0;
+        var porcentajeAvance = 0.0;
 
         foreach(Transformadores t in tfdto)
         {
             t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
+            acumuladorProcesosFinalizados += t.Etapa.Count(x=>x.IdColor == 10);
+            acumuladorProcesosGrisados += t.Etapa.Count(x=>x.IdColor == 1034);
+            acumuladorProcesosTotales += t.Etapa.Count();
         }
+
+        porcentajeAvance = Math.Round((acumuladorProcesosFinalizados - (double)acumuladorProcesosGrisados)  / acumuladorProcesosTotales, 2);
+        porcentajeAvance = porcentajeAvance * 100;
 
 
         List<dynamic> trafosDynamic = new List<dynamic>();
-        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() + " Potencia Total: " + tfdto.Sum(x => x.Potencia) + " Potencia Promedio: " + (tfdto.Sum(x => x.Potencia) / tfdto.Count())};
+
+        var testobj = new {group = this.AsignarMes(month)+ " de "+ year+ " Tot: "+tfdto.Count() + " Potencia Total: " + tfdto.Sum(x => x.Potencia) + " Potencia Promedio: " + (tfdto.Sum(x => x.Potencia) / tfdto.Count()) + " Porc de avance: "+porcentajeAvance+"%"};
         trafosDynamic.Add(testobj);
         foreach(Transformadores t in tfdto){
             trafosDynamic.Add(t);
@@ -1345,11 +1356,13 @@ namespace Foha.Controllers
                     .Include(f=>f.Etapa).ThenInclude(x=>x.EtapaEmpleado)
                     .Include(g=>g.Etapa).ThenInclude(x=>x.IdTipoEtapaNavigation).Distinct().ToList();
         }
+        
         foreach(Transformadores t in trafos)
         {
             t.Etapa = t.Etapa.Where(x => x.IdTipoEtapa != 37 && x.IdTipoEtapa != 14).ToList();//SACO REL TRA DE LA LISTA Y ENSAMBLAJE DE BOBINAS
             t.Etapa = t.Etapa.OrderBy(x => x.IdTipoEtapaNavigation.Orden).ToList();
         }
+        
 
         if(trafos.Count()>0)
         {
@@ -1360,13 +1373,15 @@ namespace Foha.Controllers
             int potenciaTotalInicial = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
             var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial+ " Potencia Promedio: " + (potenciaTotalInicial / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
             trafosDynamic.Add(obj);
+
+            
             foreach(var t in trafos)
             {
                 if(t.Anio != anioIni || t.Mes != mesIni){
                     anioIni = t.Anio;
                     mesIni = t.Mes;
                     int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count())};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
