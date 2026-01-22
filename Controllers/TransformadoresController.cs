@@ -1220,7 +1220,7 @@ namespace Foha.Controllers
             acumuladorProcesosTotales += t.Etapa.Count();
         }
 
-        porcentajeAvance = Math.Round((acumuladorProcesosFinalizados - (double)acumuladorProcesosGrisados)  / acumuladorProcesosTotales, 2);
+        porcentajeAvance = Math.Round(acumuladorProcesosFinalizados/(acumuladorProcesosTotales - (double)acumuladorProcesosGrisados), 2);
         porcentajeAvance = porcentajeAvance * 100;
 
 
@@ -1371,7 +1371,11 @@ namespace Foha.Controllers
             var anioIni = trafos[0].Anio;
             var mesIni = trafos[0].Mes;
             int potenciaTotalInicial = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial+ " Potencia Promedio: " + (potenciaTotalInicial / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )};
+            var acumuladorProcesosFinalizados = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).SelectMany(y => y.Etapa).Count(x=>x.IdColor == 10);
+            var acumuladorProcesosGrisados = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).SelectMany(y => y.Etapa).Count(x=>x.IdColor == 1034);
+            var acumuladorProcesosTotales = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).SelectMany(y => y.Etapa).Count();
+            var porcentajeAvance = Math.Round(acumuladorProcesosFinalizados/(acumuladorProcesosTotales - (double)acumuladorProcesosGrisados), 2) *100;
+            var obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count()+ " Potencia Total: " + potenciaTotalInicial+ " Potencia Promedio: " + (potenciaTotalInicial / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() )+  " Porc de avance: "+porcentajeAvance+"%"};
             trafosDynamic.Add(obj);
 
             
@@ -1381,7 +1385,11 @@ namespace Foha.Controllers
                     anioIni = t.Anio;
                     mesIni = t.Mes;
                     int potenciaTotal = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Sum(x => x.Potencia);
-                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count())};
+                    acumuladorProcesosFinalizados = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).SelectMany(y => y.Etapa).Count(x=>x.IdColor == 10);
+                    acumuladorProcesosGrisados = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).SelectMany(y => y.Etapa).Count(x=>x.IdColor == 1034);
+                    acumuladorProcesosTotales = trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).SelectMany(y => y.Etapa).Count();
+                    porcentajeAvance = Math.Round(acumuladorProcesosFinalizados/(acumuladorProcesosTotales - (double)acumuladorProcesosGrisados), 2) *100;
+                    obj = new {group = this.AsignarMes(mesIni)+ " de "+ anioIni + " Tot: "+trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count() + " Potencia Total: " + potenciaTotal + " Potencia Promedio: " + (potenciaTotal / trafos.Where(x => x.Anio == anioIni && x.Mes == mesIni).Count())+  " Porc de avance: "+porcentajeAvance+"%"};
                     trafosDynamic.Add(obj);
                     trafosDynamic.Add(t);
                 }
