@@ -126,7 +126,7 @@
           <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"></tr>
     </table>
   </div>
-  <mat-paginator style="display:flex;" (page)="getEvent($event)" [pageSizeOptions]="[100, 200, 300]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [length]="calculator()" style="display:flex;" (page)="getEvent($event)" [pageSizeOptions]="[100, 200, 300]" showFirstLastButtons></mat-paginator>
   <div align="end" id="top" style="z-index:1000">
     <button mat-icon-button style="color:white;background-color:teal;" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" *ngIf="selection.selected.length>0">
       <mat-icon>checklist</mat-icon>

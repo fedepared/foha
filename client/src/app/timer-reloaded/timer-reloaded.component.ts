@@ -705,4 +705,13 @@ export class TimerReloadedComponent implements OnInit {
     })
   }
 
+  calculator():number{
+    let counter = 0;
+    this.dataGetTrafos.data.forEach(t=>{
+      if(t.hasOwnProperty("group"))
+        counter++;
+    })
+    return this.dataGetTrafos.data.length-counter;
+   }
+
 }
